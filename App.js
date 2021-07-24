@@ -5,7 +5,7 @@
  * @format
  * @flow strict-local
  */
-
+import 'react-native-gesture-handler';
 import React from 'react';
 import type {Node} from 'react';
 import {
@@ -25,6 +25,16 @@ import {
   LearnMoreLinks,
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
+
+import { NavigationContainer } from '@react-navigation/native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createStackNavigator } from '@react-navigation/stack';
+
+import Homepage from './pages/HomePage';
+import Account from './pages/Account';
+import Tours from './pages/Tours';
+import TourGuides from './pages/TourGuides';
+import Messages from './pages/Messages';
 
 const Section = ({children, title}): Node => {
   const isDarkMode = useColorScheme() === 'dark';
@@ -52,41 +62,24 @@ const Section = ({children, title}): Node => {
   );
 };
 
+const Stack = createStackNavigator();
+const Tab = createBottomTabNavigator();
+
 const App: () => Node = () => {
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
-
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.js</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View>
-      </ScrollView>
-    </SafeAreaView>
+    <NavigationContainer>
+      {/* <Stack.Navigator initialRouteName="Home">
+        <Stack.Screen name="Home" component={Homepage} />
+        <Stack.Screen name="Profile" component={Profile} />
+      </Stack.Navigator> */}
+      <Tab.Navigator>
+        <Tab.Screen name="Tours" component={Tours}/>
+        <Tab.Screen name="Tour Guides" component={TourGuides}/>
+        <Tab.Screen name="Home" component={Homepage} />
+        <Tab.Screen name="Messages" component={Messages}/>
+        <Tab.Screen name="Account" component={Account} />
+      </Tab.Navigator>
+    </NavigationContainer>
   );
 };
 
