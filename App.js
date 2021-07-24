@@ -29,6 +29,7 @@ import {
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import Homepage from './pages/HomePage';
 import Account from './pages/Account';
@@ -72,7 +73,32 @@ const App: () => Node = () => {
         <Stack.Screen name="Home" component={Homepage} />
         <Stack.Screen name="Profile" component={Profile} />
       </Stack.Navigator> */}
-      <Tab.Navigator>
+      <Tab.Navigator
+        screenOptions={({ route }) => ({
+          tabBarIcon: ({ focused, color, size }) => {
+            let iconName;
+
+            if (route.name === 'Home') {
+              iconName = focused ? 'home' : 'home-outline';
+            } else if (route.name === 'Account') {
+              iconName = focused ? 'person' : 'person-outline';
+            } else if (route.name === 'Tours') {
+              iconName = focused ? 'map' : 'map-outline';
+            } else if (route.name === 'Messages') {
+              iconName = focused ? 'chatbox' : 'chatbox-outline';
+            } else if (route.name === 'Tour Guides') {
+              iconName = focused ? 'search' : 'search-outline';
+            }
+
+            // You can return any component that you like here!
+            return <Ionicons name={iconName} size={size} color={color} />;
+          },
+        })}
+        tabBarOptions={{
+          activeTintColor: 'blue',
+          inactiveTintColor: 'gray',
+        }}
+      >
         <Tab.Screen name="Tours" component={Tours}/>
         <Tab.Screen name="Tour Guides" component={TourGuides}/>
         <Tab.Screen name="Home" component={Homepage} />
