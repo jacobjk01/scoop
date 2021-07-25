@@ -80,14 +80,10 @@ const App: () => Node = () => {
 
             if (route.name === 'Home') {
               iconName = focused ? 'home' : 'home-outline';
-            } else if (route.name === 'Account') {
-              iconName = focused ? 'person' : 'person-outline';
             } else if (route.name === 'Tours') {
               iconName = focused ? 'map' : 'map-outline';
             } else if (route.name === 'Messages') {
               iconName = focused ? 'chatbox' : 'chatbox-outline';
-            } else if (route.name === 'Tour Guides') {
-              iconName = focused ? 'search' : 'search-outline';
             }
 
             // You can return any component that you like here!
@@ -95,15 +91,13 @@ const App: () => Node = () => {
           },
         })}
         tabBarOptions={{
-          activeTintColor: 'blue',
-          inactiveTintColor: 'gray',
+          activeTintColor: '#3D68CC',
+          inactiveTintColor: '#656565',
         }}
       >
         <Tab.Screen name="Tours" component={Tours}/>
-        <Tab.Screen name="Tour Guides" component={TourGuides}/>
         <Tab.Screen name="Home" component={Homepage} />
         <Tab.Screen name="Messages" component={Messages}/>
-        <Tab.Screen name="Account" component={Account} />
       </Tab.Navigator>
     </NavigationContainer>
   );
