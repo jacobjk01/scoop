@@ -31,39 +31,15 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-import Homepage from './pages/HomePage';
-import Account from './pages/Account';
-import Tours from './pages/Tours';
-import TourGuides from './pages/TourGuides';
-import Messages from './pages/Messages';
+import HomePage from './components/HomePage';
+import Account from './components/Account';
+import Tours from './components/Tours';
+import TourGuides from './components/TourGuides';
+import Messages from './components/Messages';
+import TourGuideProfile from './components/TourGuideProfile';
+import TourInfo from './components/TourInfo';
 
-const Section = ({children, title}): Node => {
-  const isDarkMode = useColorScheme() === 'dark';
-  return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
-  );
-};
-
-const Stack = createStackNavigator();
+const HomeStack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
 const App: () => Node = () => {
@@ -94,32 +70,22 @@ const App: () => Node = () => {
           activeTintColor: '#3D68CC',
           inactiveTintColor: '#656565',
         }}
+        initialRouteName='HomeScreen'
       >
         <Tab.Screen name="Tours" component={Tours}/>
-        <Tab.Screen name="Home" component={Homepage} />
+        <Tab.Screen name="Home">
+          {() => (
+            <HomeStack.Navigator>
+              <HomeStack.Screen name="HomeScreen" component={HomePage} options={{title: 'Home'}} />
+              <HomeStack.Screen name="TourGuideProfile" component={TourGuideProfile}/>
+              <HomeStack.Screen name="TourInfo" component={TourInfo}/>
+            </HomeStack.Navigator>
+          )}
+        </Tab.Screen>
         <Tab.Screen name="Messages" component={Messages}/>
       </Tab.Navigator>
     </NavigationContainer>
   );
 };
-
-const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-});
 
 export default App;

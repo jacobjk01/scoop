@@ -6,7 +6,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
-const Tours = () => {
+const TourInfo = ({navigation}) => {
     const [ tourimages, setImages ] = useState([
         {name: 'Santa Monica', src: require('../images/SantaMonica.png')}, 
         {name: 'Westwood Tour', src: require('../images/Westwood_village.png')}
@@ -20,56 +20,11 @@ const Tours = () => {
     return(
         <SafeAreaView>
             <ScrollView style={{paddingRight: 20, paddingLeft: 20, height: "100%"}}>
-                <Text style={styles.titleText}>Explore around UCLA!</Text>
+                <Text style={styles.titleText}>Tour Info</Text>
                 <View style={{marginTop: 30}}>
                     <TextInput style={styles.input} placeholder={'Search'}></TextInput>
                     <Ionicons style={styles.searchicon} name={'search-outline'} size={25} color={'#656565'} />
                 </View>
-                <Text style={styles.sectionText}>Category</Text>
-                <View style={{width: '100%', flexDirection: 'column', marginTop: 10}}>
-                    <View style={{flexDirection: 'row'}}>
-                        <TouchableOpacity style={styles.recommendationbuttonleft}>
-                            <View>
-                                <Text style={styles.recommendationTitle}>UCLA Picks</Text>
-                            </View>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={styles.recommendationbuttonright}>
-                            <View>
-                                <Text style={styles.recommendationTitle}>Outdoor Activities</Text>
-                            </View>
-                        </TouchableOpacity>
-                    </View>
-                    <View style={{flexDirection: 'row', marginTop: 15}}>
-                        <TouchableOpacity style={styles.recommendationbuttonleft}>
-                            <View>
-                                <Text style={styles.recommendationTitle}>Sightseeing</Text>
-                            </View>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={styles.recommendationbuttonright}>
-                            <View>
-                                <Text style={styles.recommendationTitle}>Bussin Food</Text>
-                            </View>
-                        </TouchableOpacity>
-                    </View>
-                </View>
-                <View style={{marginTop: 30}}>
-                    <Text style={{marginLeft: 10, fontSize: 20, fontWeight: '700'}}>Popular Tours</Text>
-                    <TouchableOpacity style={{position: 'absolute', right: 10, top: 3}}>
-                        <View>
-                            <Text style={{color: '#3D68CC'}}>View All ></Text>
-                        </View>
-                    </TouchableOpacity>
-                </View>
-                <FlatList style={{marginTop: 10}} horizontal={true} data={tourimages} renderItem={renderTourImage}/>
-                <View style={{marginTop: 30}}>
-                    <Text style={{marginLeft: 10, fontSize: 20, fontWeight: '700'}}>Tour Guides</Text>
-                    <TouchableOpacity style={{position: 'absolute', right: 10, top: 3}}>
-                        <View>
-                            <Text style={{color: '#3D68CC'}}>View All ></Text>
-                        </View>
-                    </TouchableOpacity>
-                </View>
-                <FlatList style={{marginTop: 10, marginBottom: 30}} horizontal={true} data={guideimages} renderItem={renderGuideImage}/>
             </ScrollView>
         </SafeAreaView>
     )
@@ -102,9 +57,9 @@ const styles = StyleSheet.create({
         fontFamily: "Helvetica"
     },
     titleText: {
-        fontSize: 30,
+        fontSize: 24,
         fontWeight: '600',
-        marginTop: 10
+        marginTop: 50
     },
     sectionText: {
         fontSize: 20,
@@ -193,4 +148,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default Tours;
+export default TourInfo;
