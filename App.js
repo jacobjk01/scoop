@@ -38,7 +38,7 @@ import TourGuides from './components/TourGuides';
 import Messages from './components/Messages';
 import TourGuideProfile from './components/TourGuideProfile';
 import TourInfo from './components/TourInfo';
-import HomeStack from './components/HomeStack';
+import HomeStack from './components/navigation/HomeStack';
 
 const Tab = createBottomTabNavigator();
 

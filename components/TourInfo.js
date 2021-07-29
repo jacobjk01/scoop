@@ -7,50 +7,18 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
 const TourInfo = ({navigation}) => {
-    const [ tourimages, setImages ] = useState([
-        {name: 'Santa Monica', src: require('../images/SantaMonica.png')}, 
-        {name: 'Westwood Tour', src: require('../images/Westwood_village.png')}
-    ]);
-
-    const [ guideimages, setGuideImages ] = useState([
-        {name: 'Natalie', year: 'Junior', major: 'Psychobiology', src: require('../images/natalie.png')},
-        {name: 'Trevor', year: 'Senior', major: 'Marketing', src: require('../images/trevor.png')},
-        {name: 'Brittany', year: 'Junior', major: 'Mechanical Eng.', src: require('../images/brittany.png')},
-    ]);
     return(
         <SafeAreaView>
             <ScrollView style={{paddingRight: 20, paddingLeft: 20, height: "100%"}}>
                 <Text style={styles.titleText}>Tour Info</Text>
-                <View style={{marginTop: 30}}>
-                    <TextInput style={styles.input} placeholder={'Search'}></TextInput>
-                    <Ionicons style={styles.searchicon} name={'search-outline'} size={25} color={'#656565'} />
-                </View>
+                <TouchableOpacity onPress={() => navigation.navigate('Booking')}
+                style={{flex: 1, alignSelf: "center", height: 20, backgroundColor: '#3D68CC'}}>
+                    <Text>Book Now</Text>
+                </TouchableOpacity>
             </ScrollView>
         </SafeAreaView>
     )
   }
-
-const renderTourImage = ({item}) => {
-    return (
-        <TouchableOpacity>
-            <ImageBackground style={styles.listTourImage} imageStyle={{borderRadius: 10}} source={item.src}>
-                <LinearGradient colors={['transparent', 'black']} style={styles.linearGradTour}/>
-            </ImageBackground> 
-            <Text style={styles.tourText}>{item.name}</Text>
-        </TouchableOpacity>
-    )
-}
-
-const renderGuideImage = ({item}) => {
-    return (
-        <TouchableOpacity>
-            <ImageBackground style={styles.listGuideImage} imageStyle={{borderRadius: 10}} source={item.src}>
-                <LinearGradient colors={['transparent', 'black']} style={styles.linearGradGuide}/>
-            </ImageBackground>
-            <Text style={styles.guideText}>{item.name}, {item.year}, {item.major}</Text>
-        </TouchableOpacity>
-    )
-}
 
 const styles = StyleSheet.create({
     baseText: {
