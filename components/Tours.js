@@ -25,77 +25,11 @@ const Tours = () => {
                     <TextInput style={styles.input} placeholder={'Search'}></TextInput>
                     <Ionicons style={styles.searchicon} name={'search-outline'} size={25} color={'#656565'} />
                 </View>
-                <Text style={styles.sectionText}>Category</Text>
-                <View style={{width: '100%', flexDirection: 'column', marginTop: 10}}>
-                    <View style={{flexDirection: 'row'}}>
-                        <TouchableOpacity style={styles.recommendationbuttonleft}>
-                            <View>
-                                <Text style={styles.recommendationTitle}>UCLA Picks</Text>
-                            </View>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={styles.recommendationbuttonright}>
-                            <View>
-                                <Text style={styles.recommendationTitle}>Outdoor Activities</Text>
-                            </View>
-                        </TouchableOpacity>
-                    </View>
-                    <View style={{flexDirection: 'row', marginTop: 15}}>
-                        <TouchableOpacity style={styles.recommendationbuttonleft}>
-                            <View>
-                                <Text style={styles.recommendationTitle}>Sightseeing</Text>
-                            </View>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={styles.recommendationbuttonright}>
-                            <View>
-                                <Text style={styles.recommendationTitle}>Bussin Food</Text>
-                            </View>
-                        </TouchableOpacity>
-                    </View>
-                </View>
-                <View style={{marginTop: 30}}>
-                    <Text style={{marginLeft: 10, fontSize: 20, fontWeight: '700'}}>Popular Tours</Text>
-                    <TouchableOpacity style={{position: 'absolute', right: 10, top: 3}}>
-                        <View>
-                            <Text style={{color: '#3D68CC'}}>View All ></Text>
-                        </View>
-                    </TouchableOpacity>
-                </View>
-                <FlatList style={{marginTop: 10}} horizontal={true} data={tourimages} renderItem={renderTourImage}/>
-                <View style={{marginTop: 30}}>
-                    <Text style={{marginLeft: 10, fontSize: 20, fontWeight: '700'}}>Tour Guides</Text>
-                    <TouchableOpacity style={{position: 'absolute', right: 10, top: 3}}>
-                        <View>
-                            <Text style={{color: '#3D68CC'}}>View All ></Text>
-                        </View>
-                    </TouchableOpacity>
-                </View>
-                <FlatList style={{marginTop: 10, marginBottom: 30}} horizontal={true} data={guideimages} renderItem={renderGuideImage}/>
+                
             </ScrollView>
         </SafeAreaView>
     )
   }
-
-const renderTourImage = ({item}) => {
-    return (
-        <TouchableOpacity>
-            <ImageBackground style={styles.listTourImage} imageStyle={{borderRadius: 10}} source={item.src}>
-                <LinearGradient colors={['transparent', 'black']} style={styles.linearGradTour}/>
-            </ImageBackground> 
-            <Text style={styles.tourText}>{item.name}</Text>
-        </TouchableOpacity>
-    )
-}
-
-const renderGuideImage = ({item}) => {
-    return (
-        <TouchableOpacity>
-            <ImageBackground style={styles.listGuideImage} imageStyle={{borderRadius: 10}} source={item.src}>
-                <LinearGradient colors={['transparent', 'black']} style={styles.linearGradGuide}/>
-            </ImageBackground>
-            <Text style={styles.guideText}>{item.name}, {item.year}, {item.major}</Text>
-        </TouchableOpacity>
-    )
-}
 
 const styles = StyleSheet.create({
     baseText: {

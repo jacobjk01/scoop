@@ -16,6 +16,7 @@ import {
   Text,
   useColorScheme,
   View,
+  Button
 } from 'react-native';
 
 import {
@@ -28,7 +29,6 @@ import {
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { createStackNavigator } from '@react-navigation/stack';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import HomePage from './components/HomePage';
@@ -38,8 +38,8 @@ import TourGuides from './components/TourGuides';
 import Messages from './components/Messages';
 import TourGuideProfile from './components/TourGuideProfile';
 import TourInfo from './components/TourInfo';
+import HomeStack from './components/HomeStack';
 
-const HomeStack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
 const App: () => Node = () => {
@@ -58,8 +58,8 @@ const App: () => Node = () => {
               iconName = focused ? 'home' : 'home-outline';
             } else if (route.name === 'Tours') {
               iconName = focused ? 'map' : 'map-outline';
-            } else if (route.name === 'Messages') {
-              iconName = focused ? 'chatbox' : 'chatbox-outline';
+            } else if (route.name === 'Account') {
+              iconName = focused ? 'person' : 'person-outline';
             }
 
             // You can return any component that you like here!
@@ -72,17 +72,9 @@ const App: () => Node = () => {
         }}
         initialRouteName='HomeScreen'
       >
+        <Tab.Screen name="Home" component={HomeStack}/>
         <Tab.Screen name="Tours" component={Tours}/>
-        <Tab.Screen name="Home">
-          {() => (
-            <HomeStack.Navigator>
-              <HomeStack.Screen name="HomeScreen" component={HomePage} options={{title: 'Home'}} />
-              <HomeStack.Screen name="TourGuideProfile" component={TourGuideProfile}/>
-              <HomeStack.Screen name="TourInfo" component={TourInfo}/>
-            </HomeStack.Navigator>
-          )}
-        </Tab.Screen>
-        <Tab.Screen name="Messages" component={Messages}/>
+        <Tab.Screen name="Account" component={Account}/>
       </Tab.Navigator>
     </NavigationContainer>
   );
