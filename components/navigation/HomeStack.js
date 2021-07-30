@@ -27,7 +27,7 @@ const HomeStack = ({navigation}) => {
                 )
                 }} />
             <HomeStack.Screen name="TourGuideProfile" component={TourGuideProfile}/>
-            <HomeStack.Screen name="TourInfo" component={TourInfo}/>
+            <HomeStack.Screen name="TourInfo" component={TourInfo} options={{headerTitle: 'Tour Info'}}/>
             <HomeStack.Screen name="Messages" component={Messages}/>
             <HomeStack.Screen name="Booking" component={Booking}/>
             <HomeStack.Screen name="Checkout" component={Checkout}/>

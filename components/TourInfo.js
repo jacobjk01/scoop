@@ -7,14 +7,35 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
 const TourInfo = ({navigation}) => {
+
+    const [ positiony, setpositiony ] = useState(0);
+
+    const handleScroll = async(event) => {
+        positiony = event.nativeEvent.contentOffset.y
+    }
+    
     return(
         <SafeAreaView>
-            <ScrollView style={{paddingRight: 20, paddingLeft: 20, height: "100%"}}>
-                <Text style={styles.titleText}>Tour Info</Text>
+            <ScrollView style={{height: "100%"}} onScroll={handleScroll}
+            alwaysBounceHorizontal={false} bounces={false} stickyHeaderIndices={[0]}>
+                <View style={styles.headerView}>
+                    <ImageBackground style={styles.imageHeader} source={require('../images/Westwood_village.png')}>
+                        <LinearGradient colors={['transparent', 'black']} style={styles.linearGradTour}/>
+                        <View style={styles.imageOverlay}>
+                            <Text style={styles.titleText}>Westwood Tour</Text>
+                            <Text style={styles.detailText}>60 min | Max 6 people | person</Text>
+                            <Text style={styles.subText}> $8 per person</Text>
+                            <Text style={styles.summaryText}>Get to know the neighborhood: where to grocery shop, where the best hangout places are, 
+                            and where to grab a bit with your fellow hungry bruins.</Text>
+                        </View>
+                    </ImageBackground> 
+                </View>
+                
                 <TouchableOpacity onPress={() => navigation.navigate('Booking')}
                 style={{flex: 1, alignSelf: "center", height: 20, backgroundColor: '#3D68CC'}}>
                     <Text>Book Now</Text>
                 </TouchableOpacity>
+                <View style={{height: 1000}}></View>
             </ScrollView>
         </SafeAreaView>
     )
@@ -25,89 +46,49 @@ const styles = StyleSheet.create({
         fontFamily: "Helvetica"
     },
     titleText: {
-        fontSize: 24,
+        fontSize: 32,
         fontWeight: '600',
-        marginTop: 50
+        color: "white"
     },
-    sectionText: {
+    detailText: {
+        fontSize: 14,
+        fontWeight: '200',
+        color: "white"
+    },
+    subText: {
         fontSize: 20,
-        fontWeight: '700',
-        marginTop: 30,
-        marginLeft: 10
+        fontWeight: '400',
+        color: "white",
+        marginTop: 20,
+        marginBottom: 20
     },
-    input: {
-        alignSelf: 'center',
-        backgroundColor: 'white',
-        height: 50,
-        width: "100%",
-        // borderWidth: 1,
-        // borderColor: '#656565',
-        borderRadius: 7,
-        paddingLeft: 20
-    },
-    searchicon: {
-        position: 'absolute',
-        right: 10,
-        top: 11
-    },
-    recommendationbuttonleft: {
-        flex: 1,
-        backgroundColor: "#3154A5",
-        borderRadius: 7,
-        height: 100,
-        marginRight: 15
-    }, 
-    recommendationbuttonright: {
-        flex: 1,
-        backgroundColor: "#3154A5",
-        borderRadius: 7,
-        height: 100,
-    },
-    recommendationTitle: {
-        marginTop: 15,
-        marginLeft: 15,
-        color: 'white',
-        fontWeight: '600',
-        fontSize: 16
-    },
-    listTourImage: {
-        marginRight: 15,
-        width: 200,
-        height: 300
-    },
-    listGuideImage: {
-        marginRight: 10,
-        width: 120,
-        height: 120
-    },
-    tourText: {
-        width: 200,
-        fontWeight: '600',
+    summaryText: {
         fontSize: 18,
-        color: 'white',
-        position: 'absolute',
-        bottom: 50,
-        left: 20
+        fontWeight: '200',
+        color: "white",
+        marginBottom: 30
     },
-    guideText: {
-        width: 120,
+    headerView: {
+        width: '100%',
+        minHeight: 300,
+        maxHeight: 600,
+        borderTopLeftRadius: 0,
+        borderTopRightRadius: 0
+    },
+    imageHeader: {
+        width: '100%',
+        height: 600,
+        borderTopLeftRadius: 0,
+        borderTopRightRadius: 0
+    },
+    imageOverlay: {
         position: 'absolute',
-        bottom: 10,
-        left: 10,
-        color: 'white'
+        bottom: 0,
+        paddingLeft: 25
     },
     linearGradTour: {
         position: 'absolute',
         top: 150,
-        bottom: 0,
-        left: 0,
-        right: 0,
-        backgroundColor: 'transparent',
-        borderRadius: 10
-    },
-    linearGradGuide: {
-        position: 'absolute',
-        top: 60,
         bottom: 0,
         left: 0,
         right: 0,

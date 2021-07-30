@@ -45,10 +45,6 @@ const Tab = createBottomTabNavigator();
 const App: () => Node = () => {
   return (
     <NavigationContainer>
-      {/* <Stack.Navigator initialRouteName="Home">
-        <Stack.Screen name="Home" component={Homepage} />
-        <Stack.Screen name="Profile" component={Profile} />
-      </Stack.Navigator> */}
       <Tab.Navigator
         screenOptions={({ route }) => ({
           tabBarIcon: ({ focused, color, size }) => {
