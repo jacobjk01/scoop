@@ -12,4 +12,3 @@ Before doing these steps, make sure that you can run the app in this tutorial us
  4. Assuming you want to run the iOS simulator, `cd ios && pod install && cd ../`
  5. `npx react-native start`
  6. In another terminal, `npx react-native run-ios`. 
-``
