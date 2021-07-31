@@ -1,12 +1,40 @@
 import React from 'react';
-import {View, Text} from 'react-native';
+import {View, ScrollView, SafeAreaView, Text} from 'react-native';
 
 function Messages() {
     return(
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      <SafeAreaView style={{ flex: 1}}>
         <Text>Messages Screen</Text>
-        <Text>Jon was here</Text>
-      </View>
+        <ScrollView>
+          <Text>I scoll</Text>
+          <Text>I scoll</Text>
+          <Text>I scoll</Text>
+          <Text>I scoll</Text>
+          <Text>I scoll</Text>
+          <Text>I scoll</Text>
+          <Text>I scoll</Text>
+          <Text>I scoll</Text>
+          <Text>I scoll</Text>
+          <Text>I scoll</Text>
+          <Text>I scoll</Text>
+          <Text>I scoll</Text>
+          <Text>I scoll</Text>
+          <Text>I scoll</Text>
+          <Text>I scoll</Text>
+          <Text>I scoll</Text>
+          <Text>I scoll</Text>
+          <Text>I scoll</Text>
+          <Text>I scoll</Text>
+          <Text>I scoll</Text>
+          <Text>I scoll</Text>
+          <Text>I scoll</Text>
+          <Text>I scoll</Text>
+          <Text>I scoll</Text>
+          <Text>I scoll</Text>
+          <Text>I scoll</Text>
+          <Text>I scoll</Text>
+        </ScrollView>
+      </SafeAreaView>
     )
   }
 

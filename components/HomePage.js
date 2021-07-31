@@ -3,6 +3,8 @@ import {View, Text, SafeAreaView, ScrollView, StyleSheet, TextInput, TouchableOp
 import { withSafeAreaInsets } from 'react-native-safe-area-context';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import LinearGradient from 'react-native-linear-gradient';
+import colors from '../config/colors';
+import { color } from 'react-native-reanimated';
 
 const HomePage = ({navigation}) => {
 
@@ -55,7 +57,7 @@ const HomePage = ({navigation}) => {
                   <Text style={{marginLeft: 10, fontSize: 20, fontWeight: '700'}}>Popular Tours</Text>
                   <TouchableOpacity onPress={() => navigation.navigate('Tours')} style={{position: 'absolute', right: 10, top: 3}}>
                       <View>
-                          <Text style={{color: '#3D68CC'}}>View All ></Text>
+                          <Text style={{color: '#3D68CC'}}>View All &gt;</Text>
                       </View>
                   </TouchableOpacity>
               </View>
@@ -71,7 +73,7 @@ const HomePage = ({navigation}) => {
                   <Text style={{marginLeft: 10, fontSize: 20, fontWeight: '700'}}>Tour Guides</Text>
                   <TouchableOpacity style={{position: 'absolute', right: 10, top: 3}}>
                       <View>
-                          <Text style={{color: '#3D68CC'}}>View All ></Text>
+                          <Text style={{color: '#3D68CC'}}>View All &gt;</Text>
                       </View>
                   </TouchableOpacity>
               </View>
@@ -106,7 +108,7 @@ const styles = StyleSheet.create({
     },
     input: {
         alignSelf: 'center',
-        backgroundColor: 'white',
+        backgroundColor: colors.white,
         height: 50,
         width: "100%",
         // borderWidth: 1,
@@ -121,21 +123,21 @@ const styles = StyleSheet.create({
     },
     recommendationbuttonleft: {
         flex: 1,
-        backgroundColor: "#3154A5",
+        backgroundColor: colors.primary,
         borderRadius: 7,
         height: 100,
         marginRight: 15
     }, 
     recommendationbuttonright: {
         flex: 1,
-        backgroundColor: "#3154A5",
+        backgroundColor: colors.primary,
         borderRadius: 7,
         height: 100,
     },
     recommendationTitle: {
         marginTop: 15,
         marginLeft: 15,
-        color: 'white',
+        color: colors.white,
         fontWeight: '600',
         fontSize: 16
     },
@@ -153,7 +155,7 @@ const styles = StyleSheet.create({
         width: 200,
         fontWeight: '600',
         fontSize: 18,
-        color: 'white',
+        color: colors.white,
         position: 'absolute',
         bottom: 50,
         left: 20
@@ -163,7 +165,7 @@ const styles = StyleSheet.create({
         position: 'absolute',
         bottom: 10,
         left: 10,
-        color: 'white'
+        color: colors.white
     },
     linearGradTour: {
         position: 'absolute',
