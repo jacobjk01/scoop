@@ -4,7 +4,7 @@ import colors from '../config/colors';
 import BackButton from '../components/BackButton';
 import TourGuidesMsgSection from '../components/TourGuidesMsgSection';
 import tourGuides from '../data/tourGuides';
-
+import TourGuidesLastMsg from '../components/TourGuidesLastMsg';
 function Messages(props) {
   
 
@@ -12,26 +12,17 @@ function Messages(props) {
     <SafeAreaView style={styles.container}>
       
       <View style={styles.title}>
-        <Text style={{color: colors.white, fontFamily: "Helvetica", fontSize: 20}}>Messages Screen</Text>
+        <Text style={{color: colors.white, fontFamily: "Helvetica", fontSize: 20}}>Message</Text>
       </View>
       {/* <BackButton /> */}
       <View style={styles.body}>
-        <TourGuidesMsgSection tourGuides={tourGuides}/>
+        <View style={[styles.bottomLine]}>
+          <TourGuidesMsgSection tourGuides={tourGuides}/>
+        </View>
+        <ScrollView style={[styles.body]}>
+          <TourGuidesLastMsg tourGuides={tourGuides}/>
+        </ScrollView>
       </View>
-      <ScrollView style={styles.body}>
-        <Text>
-          HERERE
-        </Text>
-        <Text>
-          HERERE
-        </Text>
-        <Text>
-          HERERE
-        </Text>
-        <Text>
-          HERERE
-        </Text>
-      </ScrollView>
     </SafeAreaView>
   )
 }
@@ -39,15 +30,26 @@ function Messages(props) {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: colors.primary,
-    height: "100%"
+    height: "100%",
+    
   },
   title: {
     alignItems: "center",
     justifyContent: "center",
-    height: 100
+    height: 50,
+    
   },
   body: {
-    backgroundColor: colors.white
+    backgroundColor: colors.white,
+    marginTop: 20,
+    padding: 20,
+    height: '100%'
+    
+  },
+  bottomLine: {
+    paddingBottom: 20,
+    borderBottomColor: colors.grayDark,
+    borderBottomWidth: 1,
   }
 })
 
