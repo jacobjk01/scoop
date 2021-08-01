@@ -3,13 +3,11 @@ import {View, ScrollView, SafeAreaView, Text, StyleSheet} from 'react-native';
 import colors from '../config/colors';
 import BackButton from '../components/BackButton';
 import TourGuidesMsgSection from '../components/TourGuidesMsgSection';
-import data from '../data';
+import tourGuides from '../data/tourGuides';
 
 function Messages(props) {
   
-  const tourGuidesMsgSectionList = data.map(tourGuide => {
-    return <TourGuidesMsgSection text={tourGuide.name}/>
-  });
+
   return(
     <SafeAreaView style={styles.container}>
       
@@ -17,8 +15,22 @@ function Messages(props) {
         <Text style={{color: colors.white, fontFamily: "Helvetica", fontSize: 20}}>Messages Screen</Text>
       </View>
       {/* <BackButton /> */}
+      <View style={styles.body}>
+        <TourGuidesMsgSection tourGuides={tourGuides}/>
+      </View>
       <ScrollView style={styles.body}>
-        {tourGuidesMsgSectionList}
+        <Text>
+          HERERE
+        </Text>
+        <Text>
+          HERERE
+        </Text>
+        <Text>
+          HERERE
+        </Text>
+        <Text>
+          HERERE
+        </Text>
       </ScrollView>
     </SafeAreaView>
   )
@@ -27,6 +39,7 @@ function Messages(props) {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: colors.primary,
+    height: "100%"
   },
   title: {
     alignItems: "center",
@@ -34,7 +47,7 @@ const styles = StyleSheet.create({
     height: 100
   },
   body: {
-    backgroundColor: colors.grayLight
+    backgroundColor: colors.white
   }
 })
 
