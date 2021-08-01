@@ -4,6 +4,7 @@ A touring app.
 ## Folder structure
  - Screens/Pages/Shells should go in the in the `screens` folder
  - JSX that is smaller than `screens` should go in the `components` folder
+ - `data.js` is for the dumb data. This will make is easier to transfer to a backend.
 
 
 ## building and running
