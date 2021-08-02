@@ -1,6 +1,7 @@
 import React from 'react'
-import { Text, FlatList, View, StyleSheet, TouchableOpacity, LinearGradient, ImageBackground } from 'react-native'
+import { Text, FlatList, View, StyleSheet, TouchableOpacity, LinearGradient, ImageBackground, Image } from 'react-native'
 import colors from '../config/colors'
+import PictureIcon from './PictureIcon'
 export default function TourGuidesMsgSection({tourGuides}) {
     return (
         <View>
@@ -8,8 +9,7 @@ export default function TourGuidesMsgSection({tourGuides}) {
             <FlatList style={{marginTop: 10}} horizontal={true} 
                 data={tourGuides} renderItem={({item}) => {                     
                     return <View style={[styles.container, ]}>
-                        <ImageBackground style={styles.listGuideImage} imageStyle={{borderRadius: 100}} source={(item.picture)}>
-                        </ImageBackground>
+                        <PictureIcon source={item.picture} size={60}/>
                         <Text style={[styles.guideText]}>{item.name}</Text>
                     </View>  
                 }
@@ -27,10 +27,6 @@ const styles = StyleSheet.create({
         paddingRight: 10,
         paddingTop: 10,
         paddingBottom: 10,
-    },
-    listGuideImage: {
-        width: 60,
-        height: 60
     },
     linearGradGuide: {
         position: 'absolute',
