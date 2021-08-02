@@ -38,6 +38,7 @@ import TourGuides from './screens/TourGuides';
 import Messages from './screens/Messages';
 import TourGuideProfile from './screens/TourGuideProfile';
 import TourInfo from './screens/TourInfo';
+import Conversation from './screens/Conversation';
 
 const HomeStack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -82,7 +83,14 @@ const App: () => Node = () => {
             </HomeStack.Navigator>
           )}
         </Tab.Screen>
-        <Tab.Screen name="Messages" component={Messages}/>
+        <Tab.Screen name="Messages">
+          {() => (
+            <HomeStack.Navigator>
+              <HomeStack.Screen name="Message" component={Messages} options={{title: 'Messages'}}/>
+              <HomeStack.Screen name="Conversation" component={Conversation}/> 
+            </HomeStack.Navigator>
+          )}
+        </Tab.Screen>
       </Tab.Navigator>
     </NavigationContainer>
   );

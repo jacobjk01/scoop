@@ -1,11 +1,11 @@
 import React from 'react';
-import {Text, View, StyleSheet} from 'react-native'
+import {Text, View, StyleSheet, TouchableOpacity} from 'react-native'
 import colors from '../config/colors';
 import PictureIcon from './PictureIcon';
 function TourGuidesLastMsg(props) {
-    const {tourGuides} = props;
+    const {tourGuides, navigation} = props;
     const TourGuides = tourGuides.map(guide => {
-        return <LastMsg guide={guide}/>
+        return <LastMsg guide={guide} navigation={navigation}/>
     })
     return (
         <View>
@@ -16,23 +16,25 @@ function TourGuidesLastMsg(props) {
 }
 
 function LastMsg(props) {
-    const {guide} = props;
-    return <View style={styles.lastMessage}>
-        <View style={styles.left}>
-            <PictureIcon  source={guide.picture} size={60}/>
+    const {guide, navigation} = props;
+    return <TouchableOpacity onPress={() => navigation.navigate('Conversation')}>
+        <View style={styles.lastMessage}>
+            <View style={styles.left}>
+                <PictureIcon  source={guide.picture} size={60}/>
+            </View>
+            <View style={[styles.middle]}>
+                <NameTourText guide = {guide}/>
+                <Text style={{color: colors.grayMed}} numberOfLines={1}>
+                        {guide.lastMessage}
+                </Text>
+            </View>
+            <View style={styles.right}>
+                <Text style={{color: colors.grayMed}} >
+                    {guide.date}
+                </Text>
+            </View>
         </View>
-        <View style={[styles.middle]}>
-            <NameTourText guide = {guide}/>
-            <Text style={{color: colors.grayMed}} numberOfLines={1}>
-                    {guide.lastMessage}
-            </Text>
-        </View>
-        <View style={styles.right}>
-            <Text style={{color: colors.grayMed}} >
-                {guide.date}
-            </Text>
-        </View>
-    </View>
+    </TouchableOpacity> 
 }
 
 function NameTourText(props) {
