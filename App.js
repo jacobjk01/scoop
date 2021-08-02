@@ -31,13 +31,8 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-import HomePage from './components/HomePage';
-import Account from './components/Account';
-import Tours from './components/Tours';
-import TourGuides from './components/TourGuides';
-import Messages from './components/Messages';
-import TourGuideProfile from './components/TourGuideProfile';
-import TourInfo from './components/TourInfo';
+import Account from './screens/Account';
+import Tours from './screens/Tours';
 import HomeStack from './components/navigation/HomeStack';
 
 const Tab = createBottomTabNavigator();

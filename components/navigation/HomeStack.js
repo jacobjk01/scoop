@@ -4,13 +4,13 @@ import { Icon } from 'react-native-elements';
 import { createStackNavigator } from '@react-navigation/stack';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-import HomePage from '../HomePage';
-import TourGuideProfile from '../TourGuideProfile';
-import TourInfo from '../TourInfo';
-import Messages from '../Messages';
+import HomePage from '../../screens/HomePage';
+import TourGuideProfile from '../../screens/TourGuideProfile';
+import TourInfo from '../../screens/TourInfo';
+import Messages from '../../screens/Messages';
 import { TouchableOpacity } from 'react-native';
-import Booking from '../Booking';
-import Checkout from '../Checkout';
+import Booking from '../../screens/Booking';
+import Checkout from '../../screens/Checkout';
 
 const HomeStack = ({navigation}) => {
     const HomeStack = createStackNavigator();

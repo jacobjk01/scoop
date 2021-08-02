@@ -1,45 +1,80 @@
-import React, {useState} from 'react';
-import {View, Text, SafeAreaView, ScrollView, StyleSheet, TextInput, TouchableOpacity, FlatList, Image, ImageBackground} from 'react-native';
+import React, {Component, useState} from 'react';
+import {View, Text, SafeAreaView, ScrollView, StyleSheet, 
+    TextInput, TouchableOpacity, FlatList, Image, ImageBackground,
+    Dimensions} 
+    from 'react-native';
 import { withSafeAreaInsets } from 'react-native-safe-area-context';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import LinearGradient from 'react-native-linear-gradient';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import Animated from 'react-native-reanimated';
 
-const TourInfo = ({navigation}) => {
+class TourInfo extends Component {
+    constructor(props) {
+        super(props)
 
-    const [ positiony, setpositiony ] = useState(0);
+             
 
-    const handleScroll = async(event) => {
-        positiony = event.nativeEvent.contentOffset.y
+        this.state={
+            scrollY: new Animated.Value(0)
+        }
     }
+
+    // getHeaderHeight = () => {
+    //     const {scrollY} = this.state;
+    //     const HEADER_MAX_HEIGHT = 600;
+    //     const HEADER_MIN_HEIGHT = 200;
+    //     const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT-HEADER_MIN_HEIGHT;  
+    //     const SCREEN_HEIGHT = Dimensions.get('window').height; 
+    //     return scrollY.interpolate({
+    //         inputRange: [0, HEADER_SCROLL_DISTANCE],
+    //         outputRange: [SCREEN_HEIGHT-HEADER_MAX_HEIGHT, SCREEN_HEIGHT-HEADER_MIN_HEIGHT],
+    //         extrapolate: 'clamp',
+    //     });
+    // };
     
-    return(
-        <SafeAreaView>
-            <ScrollView style={{height: "100%"}} onScroll={handleScroll}
-            alwaysBounceHorizontal={false} bounces={false} stickyHeaderIndices={[0]}>
-                <View style={styles.headerView}>
-                    <ImageBackground style={styles.imageHeader} source={require('../images/Westwood_village.png')}>
-                        <LinearGradient colors={['transparent', 'black']} style={styles.linearGradTour}/>
-                        <View style={styles.imageOverlay}>
-                            <Text style={styles.titleText}>Westwood Tour</Text>
-                            <Text style={styles.detailText}>60 min | Max 6 people | person</Text>
-                            <Text style={styles.subText}> $8 per person</Text>
-                            <Text style={styles.summaryText}>Get to know the neighborhood: where to grocery shop, where the best hangout places are, 
-                            and where to grab a bit with your fellow hungry bruins.</Text>
-                        </View>
-                    </ImageBackground> 
-                </View>
-                
-                <TouchableOpacity onPress={() => navigation.navigate('Booking')}
-                style={{flex: 1, alignSelf: "center", height: 20, backgroundColor: '#3D68CC'}}>
-                    <Text>Book Now</Text>
-                </TouchableOpacity>
-                <View style={{height: 1000}}></View>
-            </ScrollView>
-        </SafeAreaView>
-    )
-  }
+    render() {
+        console.log('render')
+        
+
+        //const headerHeight = this.getHeaderHeight()
+        //console.log(headerHeight)
+        console.log(this.state.scrollY)
+        return(
+            <SafeAreaView>
+                <ScrollView style={{height: "100%"}} 
+                scrollEventThrottle = {16}
+                 onScroll={(event) => {
+                     this.setState({scrollY: event.nativeEvent.contentOffset.y})
+                     console.log(this.state.scrollY)
+                 }}
+                 stickyHeaderIndices = {this.state.scrollY > 350 ? [0] : []}
+                 >
+                    <View style={this.state.scrollY > 350 ? styles.smallHeaderView : styles.headerView}>
+                        <ImageBackground style={styles.imageHeader} source={require('../images/Westwood_village.png')}>
+                            <LinearGradient colors={['transparent', 'black']} style={styles.linearGradTour}/>
+                            <View style={styles.imageOverlay}>
+                                <Text style={styles.titleText}>Westwood Tour</Text>
+                                <Text style={styles.detailText}>60 min | Max 6 people | person</Text>
+                                <Text style={styles.subText}> $8 per person</Text>
+                                <Text style={styles.summaryText}>Get to know the neighborhood: where to grocery shop, where the best hangout places are, 
+                                and where to grab a bite with your fellow hungry bruins.</Text>
+                            </View>
+                        </ImageBackground> 
+                    </View>
+                    
+                    <TouchableOpacity onPress={() => navigation.navigate('Booking')}
+                    style={{flex: 1, alignSelf: "center", height: 20, backgroundColor: '#3D68CC'}}>
+                        <Text>Book Now</Text>
+                    </TouchableOpacity>
+                    <View style={{height: 1000}}></View>
+                </ScrollView>
+            </SafeAreaView>
+        )
+    }
+}
+    
 
 const styles = StyleSheet.create({
     baseText: {
@@ -70,10 +105,13 @@ const styles = StyleSheet.create({
     },
     headerView: {
         width: '100%',
-        minHeight: 300,
-        maxHeight: 600,
         borderTopLeftRadius: 0,
         borderTopRightRadius: 0
+    },
+    smallHeaderView: {
+        width: '100%',
+        marginTop: -400,
+        overflow: 'hidden'
     },
     imageHeader: {
         width: '100%',

@@ -1,4 +1,4 @@
-import React, {Component, useState} from 'react';
+import React, {useState} from 'react';
 import {View, Text, SafeAreaView, ScrollView, StyleSheet, TextInput, TouchableOpacity, FlatList, Image, ImageBackground} from 'react-native';
 import { withSafeAreaInsets } from 'react-native-safe-area-context';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -6,29 +6,21 @@ import LinearGradient from 'react-native-linear-gradient';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
-const Tours = () => {
-    const [ tourimages, setImages ] = useState([
-        {name: 'Santa Monica', src: require('../images/SantaMonica.png')}, 
-        {name: 'Westwood Tour', src: require('../images/Westwood_village.png')}
-    ]);
 
-    const [ guideimages, setGuideImages ] = useState([
-        {name: 'Natalie', year: 'Junior', major: 'Psychobiology', src: require('../images/natalie.png')},
-        {name: 'Trevor', year: 'Senior', major: 'Marketing', src: require('../images/trevor.png')},
-        {name: 'Brittany', year: 'Junior', major: 'Mechanical Eng.', src: require('../images/brittany.png')},
-    ]);
+const Tours = () => {
     return(
         <SafeAreaView>
-            <ScrollView style={{paddingRight: 20, paddingLeft: 20, height: "100%"}}>
+            <ScrollView 
+            style={{paddingRight: 20, paddingLeft: 20, height: "100%"}}>
                 <Text style={styles.titleText}>Tours Page</Text>
                 <View style={{marginTop: 30}}>
                     <TextInput style={styles.input} placeholder={'Search'}></TextInput>
                     <Ionicons style={styles.searchicon} name={'search-outline'} size={25} color={'#656565'} />
                 </View>
-                
             </ScrollView>
         </SafeAreaView>
     )
+    
   }
 
 const styles = StyleSheet.create({
