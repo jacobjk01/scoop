@@ -19,7 +19,9 @@ function Messages(props) {
         <View style={[styles.bottomLine]}>
           <TourGuidesMsgSection tourGuides={tourGuides}/>
         </View>
-        <ScrollView style={[styles.body]}>
+        
+        <ScrollView>
+          <Text style={[{color: colors.black, fontFamily: "Helvetica", fontSize: 18, fontWeight: 'bold', paddingTop: 20, paddingBottom: 20}]}>Messages</Text>
           <TourGuidesLastMsg tourGuides={tourGuides}/>
         </ScrollView>
       </View>
@@ -37,7 +39,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     height: 50,
-    
+
   },
   body: {
     backgroundColor: colors.white,
