@@ -61,7 +61,8 @@ const TourGuideProfile = ({navigation, route}) => {
           paddingLeft: 20,
           height: '100%',
           backgroundColor: 'white',
-          borderRadius: 20,
+          borderTopLeftRadius: 20,
+          borderTopRightRadius: 20,
         }}>
         <SafeAreaView>
           {renderGuideImage({item})}
