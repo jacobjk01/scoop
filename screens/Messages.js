@@ -11,9 +11,9 @@ function Messages(props) {
   return(
     <SafeAreaView style={styles.container}>
       
-      <View style={styles.title}>
+      {/* <View style={styles.title}>
         <Text style={{color: colors.white, fontFamily: "Helvetica", fontSize: 20}}>Your Messages</Text>
-      </View>
+      </View> */}
       {/* <BackButton /> */}
       <View style={styles.body}>
         <View style={[styles.bottomLine]}>
@@ -43,7 +43,6 @@ const styles = StyleSheet.create({
   },
   body: {
     backgroundColor: colors.white,
-    marginTop: 20,
     padding: 20,
     height: '100%'
     

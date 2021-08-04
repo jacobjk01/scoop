@@ -39,6 +39,7 @@ import Messages from './screens/Messages';
 import TourGuideProfile from './screens/TourGuideProfile';
 import TourInfo from './screens/TourInfo';
 import Conversation from './screens/Conversation';
+import colors from './config/colors';
 
 const HomeStack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -86,7 +87,15 @@ const App: () => Node = () => {
         <Tab.Screen name="Messages">
           {() => (
             <HomeStack.Navigator>
-              <HomeStack.Screen name="Message" component={Messages} options={{title: 'Messages'}}/>
+              <HomeStack.Screen name="Message" component={Messages} options={
+                {
+                  title: 'Your Messages',
+                  headerStyle: {
+                    backgroundColor:colors.primary,
+                    color: colors.white,
+                  },
+                  headerTintColor: '#fff'
+                }}/>
               <HomeStack.Screen name="Conversation" component={Conversation}/> 
             </HomeStack.Navigator>
           )}
