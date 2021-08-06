@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Text, View, StyleSheet, TextInput} from 'react-native'
+import {Text, View, StyleSheet, TextInput, TouchableOpacity} from 'react-native'
 import InvertibleScrollView from 'react-native-invertible-scroll-view';
 import colors from '../config/colors';
 import Ionicons from 'react-native-vector-icons/Ionicons'
@@ -8,12 +8,14 @@ function Conversation(props) {
     let {conversation} = props.route.params;
     //if conversation is null, change it to [] so conversation.length doesn't error
     conversation = conversation ? conversation : [];
+    const [text, setText] = useState('');
+    const [conv, setConv] = useState(conversation);
     const Messages = []
     
-    const [text, setText] = useState('');
+    
 
-    for (let i = 0; i < conversation.length; i++) {
-        let {message, isYou} = conversation[i];
+    for (let i = 0; i < conv.length; i++) {
+        let {message, isYou} = conv[i];
         Messages.unshift(Textbox({
             key: i,
             message,
@@ -37,8 +39,18 @@ function Conversation(props) {
                 <TextInput 
                     style={styles.input}
                     onChangeText={text => setText(text)}
+                    value={text}
                 />
-                <Ionicons name='send' size={25} color={colors.primary} style={styles.send}/>
+                <TouchableOpacity onPress={() => {
+                    // adds a new message to the conversation
+                    setConv([...conv, {
+                        message: text,
+                        isYou: true
+                    }])
+                    setText('')
+                }}>
+                    <Ionicons name='send' size={25} color={colors.primary} style={styles.send}/>
+                </TouchableOpacity>
             </View>
         </View>
     );
