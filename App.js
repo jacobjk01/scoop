@@ -79,22 +79,6 @@ const App: () => Node = () => {
         <Tab.Screen name="Home" component={HomeStack}/>
         <Tab.Screen name="Tours" component={Tours}/>
         <Tab.Screen name="Account" component={Account}/>
-        {/* <Tab.Screen name="Messages">
-          {() => (
-            <MessageStack.Navigator>
-              <MessageStack.Screen name="Message" component={Messages} options={
-                {
-                  title: 'Your Messages',
-                  headerStyle: {
-                    backgroundColor:colors.primary,
-                    color: colors.white,
-                  },
-                  headerTintColor: '#fff'
-                }}/>
-              <MessageStack.Screen name="Conversation" component={Conversation}/> 
-            </MessageStack.Navigator>
-          )}
-        </Tab.Screen> */}
       </Tab.Navigator>
     </NavigationContainer>
   );
