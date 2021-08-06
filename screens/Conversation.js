@@ -43,13 +43,15 @@ function Conversation(props) {
                     placeholder='Type a message'
                 />
                 <TouchableOpacity onPress={() => {
-                    // adds a new message to the conversation
-                    setConv([...conv, {
-                        message: text,
-                        isYou: true
-                    }])
-                    //causes update in dom and textinput clears because of this
-                    setText('')
+                    if (text.trim()) { //white space rule
+                        // adds a new message to the conversation
+                        setConv([...conv, {
+                            message: text,
+                            isYou: true
+                        }])
+                        //causes update in dom and textinput clears because of this
+                        setText('')
+                    }
                 }}>
                     <Ionicons name='send' size={25} color={colors.primary} style={styles.send}/>
                 </TouchableOpacity>
