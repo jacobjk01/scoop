@@ -40,6 +40,7 @@ function Conversation(props) {
                     style={styles.input}
                     onChangeText={text => setText(text)}
                     value={text}
+                    placeholder='Type a message'
                 />
                 <TouchableOpacity onPress={() => {
                     // adds a new message to the conversation
