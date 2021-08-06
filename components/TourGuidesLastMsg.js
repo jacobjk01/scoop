@@ -17,7 +17,7 @@ function TourGuidesLastMsg(props) {
 
 function LastMsg(props) {
     const {guide, navigation} = props;
-    return <TouchableOpacity onPress={() => navigation.navigate('Conversation')}>
+    return <TouchableOpacity onPress={() => navigation.navigate('Conversation', guide)}>
         <View style={styles.lastMessage}>
             <View style={styles.left}>
                 <PictureIcon  source={guide.picture} size={60}/>
