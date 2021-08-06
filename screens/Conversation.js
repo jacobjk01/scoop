@@ -47,6 +47,7 @@ function Conversation(props) {
                         message: text,
                         isYou: true
                     }])
+                    //causes update in dom and textinput clears because of this
                     setText('')
                 }}>
                     <Ionicons name='send' size={25} color={colors.primary} style={styles.send}/>
