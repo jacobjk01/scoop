@@ -29,20 +29,24 @@ import {
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createStackNavigator } from '@react-navigation/stack';
+
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-import HomePage from './components/HomePage';
-import Account from './components/Account';
-import Tours from './components/Tours';
-import TourGuides from './components/TourGuides';
-import Messages from './components/Messages';
-import TourGuideProfile from './components/TourGuideProfile';
-import TourInfo from './components/TourInfo';
-import HomeStack from './components/HomeStack';
+import Account from './screens/Account';
+import Tours from './screens/Tours';
+import TourGuides from './screens/TourGuides';
+import Messages from './screens/Messages';
+import TourGuideProfile from './screens/TourGuideProfile';
+import TourInfo from './screens/TourInfo';
+import HomeStack from './stack/HomeStack';
+import Conversation from './screens/Conversation';
+import colors from './config/colors';
 
 const Tab = createBottomTabNavigator();
 
 const App: () => Node = () => {
+  const MessageStack = createStackNavigator();
   return (
     <NavigationContainer>
       {/* <Stack.Navigator initialRouteName="Home">
@@ -75,6 +79,22 @@ const App: () => Node = () => {
         <Tab.Screen name="Home" component={HomeStack}/>
         <Tab.Screen name="Tours" component={Tours}/>
         <Tab.Screen name="Account" component={Account}/>
+        {/* <Tab.Screen name="Messages">
+          {() => (
+            <MessageStack.Navigator>
+              <MessageStack.Screen name="Message" component={Messages} options={
+                {
+                  title: 'Your Messages',
+                  headerStyle: {
+                    backgroundColor:colors.primary,
+                    color: colors.white,
+                  },
+                  headerTintColor: '#fff'
+                }}/>
+              <MessageStack.Screen name="Conversation" component={Conversation}/> 
+            </MessageStack.Navigator>
+          )}
+        </Tab.Screen> */}
       </Tab.Navigator>
     </NavigationContainer>
   );
