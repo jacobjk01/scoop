@@ -59,7 +59,7 @@ const App: () => Node = () => {
         })}
         tabBarOptions={{
           activeTintColor: '#3D68CC',
-          inactiveTintColor: '#656565',
+          inactiveTintColor: '#3D68CC',
         }}
         initialRouteName='HomeScreen'
       >
