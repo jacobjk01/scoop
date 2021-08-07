@@ -6,12 +6,11 @@ import {View, Text, SafeAreaView, ScrollView, Button, StyleSheet,
 import { withSafeAreaInsets } from 'react-native-safe-area-context';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import LinearGradient from 'react-native-linear-gradient';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
+
 //import Animated, { Value } from 'react-native-reanimated';
 
 import StickyParallaxHeader from 'react-native-sticky-parallax-header';
-import { black } from '../config/colors';
+import { black, white } from '../config/colors';
 
 const { event, ValueXY } = Animated;
 class TourInfo extends Component {
@@ -50,11 +49,6 @@ class TourInfo extends Component {
             outputRange: [120, 70],
             extrapolate: 'clamp',
         });
-        const buttonOpacity = this.scrollY.y.interpolate({
-            inputRange: [startTextFade, finishTextFade],
-            outputRange: [0, 1],
-            extrapolate: 'clamp',
-        });
         return(
             <View style={{backgroundColor: "#d92726", flex: 1}}>
                 <ImageBackground style={styles.imageHeader} source={require('../images/Westwood_village.png')}>
@@ -68,13 +62,6 @@ class TourInfo extends Component {
                             Get to know the neighborhood: where to grocery shop, where the best hangout places are, 
                             and where to grab a bite with your fellow hungry bruins.
                             </Animated.Text>
-                        <Animated.View style={{flexDirection: "row", position: "absolute", bottom: 20, left: 25, opacity: buttonOpacity}}>
-                            <TouchableOpacity style={{backgroundColor: "white"}}>
-                                <ImageBackground style={{width: 50, height: 50}} imageStyle={{borderRadius: 10}}></ImageBackground> 
-                            </TouchableOpacity>
-                            <Button title="Message">Message</Button>
-                            <Button title="Book Now">Book Now</Button>
-                        </Animated.View>
                 </ImageBackground>
             </View>
         )
@@ -86,9 +73,33 @@ class TourInfo extends Component {
         )
     }
 
-    renderReviews() {
+    renderContent() {
+        const navigation = this.props.navigation;
+        const scrollPosition = (x) => x;
+        const [startTextFade, finishTextFade] = [
+            scrollPosition(30),
+            scrollPosition(200),
+          ];
+        const buttonOpacity = this.scrollY.y.interpolate({
+            inputRange: [startTextFade, finishTextFade],
+            outputRange: [0, 1],
+            extrapolate: 'clamp',
+        });
         return(
             <View style={{marginTop: 400}}>
+                <Animated.View style={{flexDirection: "row", position: "absolute", 
+                top: -90, left: 25, opacity: buttonOpacity, alignItems: "center", zIndex: 10}}>
+                    <TouchableOpacity style={{backgroundColor: "white", marginRight: 10, borderRadius: 40}}>
+                        <ImageBackground style={{width: 50, height: 50}} imageStyle={{borderRadius: 40}} source={require('../images/brittany.png')}
+                        ></ImageBackground> 
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.whiteButton} title="Message">
+                        <Text style={{color: "#41479B"}}>Message</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.whiteButton} onPress={() => navigation.navigate('Booking')}>
+                        <Text style={{color: "#41479B"}}>Book Now</Text>
+                    </TouchableOpacity>
+                </Animated.View>
                 {this.state.reviews.map((item) => 
                     <View style={styles.reviewCard}>
                         <Text>{item.stars} stars</Text>
@@ -102,68 +113,35 @@ class TourInfo extends Component {
     }
 
     render() {
+        const navigation = this.props.navigation;
         return(
-            <StickyParallaxHeader
-                foreground={this.renderForeground()}
-                header={this.renderHeader()}
-                parallaxHeight={200}
-                headerHeight={0}
-                deviceWidth={Dimensions.get('window').width}
-                headerSize={() => {}}
-                onEndReached={() => {}}
-                scrollEvent={event(
-                    [{ nativeEvent: { contentOffset: { y: this.scrollY.y } } }],
-                    { useNativeDriver: false }
-                )}
-                tabs={[
-                    {
-                        title: ' ',
-                        content: this.renderReviews()
-                    }
-                ]}
-            >
-                
-            </StickyParallaxHeader>
-            
-            // <SafeAreaView>
-                
-            //     {/* <Animated.ScrollView style={{height: "100%"}} 
-            //     overScrollMode={'never'}
-            //     scrollEventThrottle = {16}
-            //      onScroll={Animated.event([{
-            //          nativeEvent: {contentOffset: {y: this.state.scrollY}},
-            //      }], {
-            //         listener: (event) => {
-            //         },
-            //         useNativeDriver: false,
-            //      })}>
-            //         <Animated.View style={{height: headerHeight}}>
-            //             <ImageBackground style={styles.imageHeader} source={require('../images/Westwood_village.png')}>
-            //                 <LinearGradient colors={['transparent', 'black']} style={styles.linearGradTour}/>
-            //                 <View style={styles.imageOverlay}>
-            //                     <Text style={styles.titleText}>Westwood Tour</Text>
-            //                     <Text style={styles.detailText}>60 min | Max 6 people | person</Text>
-            //                     <Text style={styles.subText}> $8 per person</Text>
-            //                     <Text style={styles.summaryText}>Get to know the neighborhood: where to grocery shop, where the best hangout places are, 
-            //                     and where to grab a bite with your fellow hungry bruins.</Text>
-            //                 </View>
-            //             </ImageBackground> 
-            //         </Animated.View>
+            <React.Fragment>
+               <StickyParallaxHeader
+                    foreground={this.renderForeground()}
+                    header={this.renderHeader()}
+                    parallaxHeight={200}
+                    headerHeight={0}
+                    deviceWidth={Dimensions.get('window').width}
+                    headerSize={() => {}}
+                    onEndReached={() => {}}
+                    scrollEvent={event(
+                        [{ nativeEvent: { contentOffset: { y: this.scrollY.y } } }],
+                        { useNativeDriver: false }
+                    )}
+                    tabs={[
+                        {
+                            title: ' ',
+                            content: this.renderContent()
+                        }
+                    ]}
+                >
                     
-            //         <TouchableOpacity onPress={() => navigation.navigate('Booking')}
-            //         style={{flex: 1, alignSelf: "center", height: 20, backgroundColor: '#3D68CC'}}>
-            //             <Text>Book Now</Text>
-            //         </TouchableOpacity>
-            //         {this.state.reviews.map((item) => 
-            //             <View style={styles.reviewCard}>
-            //                 <Text>{item.stars} stars</Text>
-            //                 <Text style={{marginTop: 5, fontSize: 14, color: "#9B9BA7", fontStyle: 'italic'}}>{item.tourName} - {item.year}</Text>
-            //                 <Text style={{marginTop: 5}}>{item.comment}</Text>
-            //             </View>
-            //         )}
-                        
-            //     </Animated.ScrollView> */}
-            // </SafeAreaView>
+                </StickyParallaxHeader> 
+                <TouchableOpacity style={styles.backIcon} onPress={() => navigation.navigate('HomeScreen')}>
+                    <Ionicons name='chevron-back-outline' size={20} color={white} />
+                </TouchableOpacity>
+            </React.Fragment>
+            
         )
     }
 }
@@ -209,7 +187,8 @@ const styles = StyleSheet.create({
         width: '100%',
         height: 600,
         borderTopLeftRadius: 0,
-        borderTopRightRadius: 0
+        borderTopRightRadius: 0,
+        zIndex: -10
     },
     imageOverlay: {
         position: 'absolute',
@@ -236,6 +215,30 @@ const styles = StyleSheet.create({
         shadowOffset: {width: 1, height: 1},
         shadowOpacity: 0.8,
         shadowRadius: 2
+    },
+    whiteButton: {
+        backgroundColor: white,
+        borderRadius: 10,
+        color: '#41479B',
+        alignItems: 'center',
+        justifyContent: 'center',
+        height: 30,
+        paddingLeft: 10,
+        paddingRight: 10,
+        marginRight: 10
+    },
+    backIcon: {
+        backgroundColor: '#3154A5',
+        borderRadius: 10,
+        borderColor: white,
+        borderWidth: 1,
+        position: 'absolute',
+        left: 20,
+        top: 40,
+        width: 40,
+        height: 40,
+        alignItems: 'center',
+        justifyContent: 'center'
     }
 });
 
