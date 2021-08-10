@@ -3,19 +3,41 @@ import {View, Text, SafeAreaView, ScrollView, StyleSheet, TextInput, TouchableOp
 import { black, white } from '../config/colors';
 
 import { Calendar } from 'react-native-calendars';
-
+import moment from 'moment';
 
 const Booking = ({navigation}) => {
     const [ visitorCount, setVisitorCount ] = useState(0);
     const [ selected, setSelected ] = useState('2021-08-09');
-
+    const [ times, setTimes ] = useState([Date(), Date(), Date()]);
+    const [ selectedTime, setSelectedTime ] = useState(0);
+    const [ selectedMeet, setSelectedMeet ] = useState(0);
+//new Array(times.length).fill(false)
     const onDayPress = (day) => {
         setSelected(day.dateString)
     }
 
+    const timeSelect = (index) => {
+        if (selectedTime == index) {
+            return(
+                <TouchableOpacity style={{backgroundColor: "#3154A5", borderColor: "#3154A5", 
+                borderWidth: 2, borderRadius: 10, padding: 10, marginRight: 10, marginLeft: 10}}>
+                    <Text style={{color: "white"}}>{moment(times[index]).format("LT")}</Text>
+                </TouchableOpacity>
+            )
+        } else {
+            return(
+                <TouchableOpacity style={{backgroundColor: white, borderColor: "#3154A5", 
+                borderWidth: 2, borderRadius: 10, padding: 10, marginRight: 10, marginLeft: 10}}
+                onPress={() => setSelectedTime(index)}>
+                    <Text style={{color: "#3154A5"}}>{moment(times[index]).format("LT")}</Text>
+                </TouchableOpacity>
+            )
+        }
+    }
+
     return(
         <SafeAreaView>
-            <ScrollView style={{height: "100%"}}>
+            <ScrollView overScrollMode="never" style={{height: "100%"}}>
                 <View style={{height: 100, flex: 1, position: 'relative'}}>
                     <ImageBackground style={styles.imageHeader} source={require('../images/Westwood_village.png')}>
                         <View style={styles.shader}></View>
@@ -35,7 +57,7 @@ const Booking = ({navigation}) => {
                         <Text style={{color: white, alignSelf: 'center'}}>+</Text>
                     </TouchableOpacity>
                 </View>
-                <View style={{flex: 1, height: 400, backgroundColor: white, marginTop: 10}}>
+                <View style={[styles.backCard, {height: 400}]}>
                     <Text style={styles.sectionText}>Select Date</Text>
                     <Calendar
                         // minDate={'2012-05-10'}
@@ -70,22 +92,46 @@ const Booking = ({navigation}) => {
                             }
                           }}
                     >
-                        
                     </Calendar>
                 </View>
-                <View style={{flex: 1, height: 100, backgroundColor: white, marginTop: 10}}>
+                <View style={[styles.backCard, {height: 180}]}>
                     <Text style={styles.sectionText}>Select Time</Text>
+                    <View style={styles.timeView}>
+                        {[...Array(times.length).keys()].map((index) =>  
+                            timeSelect(index)
+                        )}
+                    </View>
                 </View>
-                <View style={{flex: 1, height: 100, backgroundColor: white, marginTop: 10}}>
+                <View style={[styles.backCard, {height: 330, paddingLeft: 30, paddingRight: 30}]}>
                     <Text style={styles.sectionText}>Meeting Point</Text>
+                    <View style={{flexDirection: "row", marginTop: 20}}>
+                        <TouchableOpacity style={styles.circle} onPress={() => setSelectedMeet(0)}>
+                            <View style={[styles.innerCircle, {backgroundColor: selectedMeet==0?"#3154A5":"white"}]}></View>
+                        </TouchableOpacity>
+                        <Text style={{marginLeft: 10}}>Recommended:</Text>
+                        <Text style={{marginLeft: 10}}>Bruin Bear Statue</Text>
+                    </View>
+                    <View style={{height: 90, backgroundColor: "grey", marginTop: 5}}></View>
+                    <View style={{flexDirection: "row", marginTop: 10}}>
+                        <TouchableOpacity style={styles.circle} onPress={() => setSelectedMeet(1)}>
+                            <View style={[styles.innerCircle, {backgroundColor: selectedMeet==1?"#3154A5":"white"}]}></View>
+                        </TouchableOpacity>
+                        <Text style={{marginLeft: 10}}>Recommended:</Text>
+                        <Text style={{marginLeft: 10}}>Bruin Bear Statue</Text>
+                    </View>
+                    <View style={{height: 90, backgroundColor: "grey", marginTop: 5}}></View>
                 </View>
-                <View style={{flex: 1, height: 200, backgroundColor: white, marginTop: 10}}>
-                    <Text style={styles.sectionText}>Additional Requirements</Text>    
+                <View style={[styles.backCard, {height: 250, paddingLeft: 30, paddingRight: 30, paddingBottom: 30}]}>
+                    <Text style={styles.sectionText}>Additional Requirements</Text>
+                    <View style={{flex: 1, borderColor: "#9B9BA7", borderRadius: 10, borderWidth: 2, marginTop: 20}}>
+
+                    </View>
                 </View>
-                <TouchableOpacity onPress={() => navigation.navigate('Checkout')}
-                style={{flex: 1, alignSelf: "center", height: 20, backgroundColor: '#3D68CC'}}>
-                    <Text>Checkout</Text>
-                </TouchableOpacity>
+                <View style={{flex: 1, height: 100, backgroundColor: white, marginTop: 10, justifyContent: 'center', padding: 20}}>
+                    <TouchableOpacity style={styles.continue} onPress={() => navigation.navigate("Checkout")}>
+                        <Text style={{alignSelf: "center", color: white, fontWeight: '600'}}>Continue</Text>
+                    </TouchableOpacity>
+                </View>
             </ScrollView>
         </SafeAreaView>
     )
@@ -172,6 +218,50 @@ const styles = StyleSheet.create({
         top: 15,
         backgroundColor: '#3154A5',
         borderRadius: 4
+    },
+    backCard: {
+        flex: 1,
+        backgroundColor: white, 
+        marginTop: 10, 
+        borderRadius: 10, 
+        marginLeft: 5, 
+        marginRight: 5,
+        shadowColor: "#c3c3c3",
+        shadowOffset: {width: 1, height: 1},
+        shadowOpacity: 0.8,
+        shadowRadius: 2
+    },
+    timeView: {
+        flex: 3,
+        flexWrap: "wrap",
+        flexDirection: "row",
+        marginTop: 10,
+        justifyContent: 'center'
+    },
+    circle: {
+        width: 20,
+        height: 20,
+        borderWidth: 1,
+        borderColor: "#9B9BA7",
+        borderRadius: 50,
+        justifyContent: 'center',
+        alignContent: 'center'
+    },
+    innerCircle: {
+        width: 13,
+        height: 13,
+        borderRadius: 50,
+        alignSelf: 'center'
+    },
+    continue: {
+        backgroundColor: "#3154A5",
+        height: 50,
+        justifyContent: 'center',
+        borderRadius: 10,
+        shadowColor: "#adadad",
+        shadowOffset: {width: 2, height: 2},
+        shadowOpacity: 0.8,
+        shadowRadius: 3
     }
 })
 
