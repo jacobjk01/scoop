@@ -1,8 +1,12 @@
 import React, { useState }from 'react';
-import {View, Text, SafeAreaView, ScrollView, StyleSheet, TextInput, TouchableOpacity, FlatList, Image, ImageBackground, Touchable} from 'react-native';
+import {View, Text, SafeAreaView, ScrollView, StyleSheet, 
+    TouchableOpacity, Image, ImageBackground, Modal} from 'react-native';
 import { black, white } from '../config/colors';
 
+import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
+import { Marker } from 'react-native-maps';
 import { Calendar } from 'react-native-calendars';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import moment from 'moment';
 
 const Booking = ({navigation}) => {
@@ -11,7 +15,7 @@ const Booking = ({navigation}) => {
     const [ times, setTimes ] = useState([Date(), Date(), Date()]);
     const [ selectedTime, setSelectedTime ] = useState(0);
     const [ selectedMeet, setSelectedMeet ] = useState(0);
-//new Array(times.length).fill(false)
+    const [ modalVisible, setModalVisible ] = useState(false);
     const onDayPress = (day) => {
         setSelected(day.dateString)
     }
@@ -37,6 +41,35 @@ const Booking = ({navigation}) => {
 
     return(
         <SafeAreaView>
+            <Modal
+                animationType="slide"
+                visible={modalVisible}
+                onRequestClose={() => {
+                    setModalVisible(!modalVisible);
+                }}
+            >
+                <MapView
+                    style={{flex: 1}}
+                    provider={PROVIDER_GOOGLE}
+                    showsUserLocation
+                    initialRegion = {{
+                        latitude: 34.07106828093279, 
+                        longitude: -118.444993904947,
+                        latitudeDelta: 0.0050,
+                        longitudeDelta: 0.0011,
+                    }}
+                >
+                    <TouchableOpacity style={styles.backIcon} onPress={() => setModalVisible(false)}>
+                        <Ionicons name='chevron-back-outline' size={20} color={white} />
+                    </TouchableOpacity>
+                    <Marker
+                        key={0}
+                        coordinate={{latitude: 34.07106828093279, longitude: -118.444993904947}}
+                        title="Bruin Bear"
+                        description="hello"
+                    />
+                </MapView>
+            </Modal>
             <ScrollView overScrollMode="never" style={{height: "100%"}}>
                 <View style={{height: 100, flex: 1, position: 'relative'}}>
                     <ImageBackground style={styles.imageHeader} source={require('../images/Westwood_village.png')}>
@@ -108,18 +141,18 @@ const Booking = ({navigation}) => {
                         <TouchableOpacity style={styles.circle} onPress={() => setSelectedMeet(0)}>
                             <View style={[styles.innerCircle, {backgroundColor: selectedMeet==0?"#3154A5":"white"}]}></View>
                         </TouchableOpacity>
-                        <Text style={{marginLeft: 10}}>Recommended:</Text>
-                        <Text style={{marginLeft: 10}}>Bruin Bear Statue</Text>
+                        <Text style={{marginLeft: 10, marginTop: 2}}>Recommended:</Text>
+                        <Text style={{marginLeft: 10, marginTop: 2}}>Bruin Bear Statue</Text>
                     </View>
                     <View style={{height: 90, backgroundColor: "grey", marginTop: 5}}></View>
                     <View style={{flexDirection: "row", marginTop: 10}}>
                         <TouchableOpacity style={styles.circle} onPress={() => setSelectedMeet(1)}>
                             <View style={[styles.innerCircle, {backgroundColor: selectedMeet==1?"#3154A5":"white"}]}></View>
                         </TouchableOpacity>
-                        <Text style={{marginLeft: 10}}>Recommended:</Text>
-                        <Text style={{marginLeft: 10}}>Bruin Bear Statue</Text>
+                        <Text style={{marginLeft: 10, marginTop: 2}}>Select:</Text>
                     </View>
-                    <View style={{height: 90, backgroundColor: "grey", marginTop: 5}}></View>
+                    <TouchableOpacity style={{height: 90, backgroundColor: "grey", marginTop: 5}}
+                    onPress={() => setModalVisible(true)}></TouchableOpacity>
                 </View>
                 <View style={[styles.backCard, {height: 250, paddingLeft: 30, paddingRight: 30, paddingBottom: 30}]}>
                     <Text style={styles.sectionText}>Additional Requirements</Text>
@@ -262,6 +295,19 @@ const styles = StyleSheet.create({
         shadowOffset: {width: 2, height: 2},
         shadowOpacity: 0.8,
         shadowRadius: 3
+    },
+    backIcon: {
+        backgroundColor: '#3154A5',
+        borderRadius: 10,
+        borderColor: white,
+        borderWidth: 1,
+        position: 'absolute',
+        left: 20,
+        top: 40,
+        width: 40,
+        height: 40,
+        alignItems: 'center',
+        justifyContent: 'center'
     }
 })
 
