@@ -1,4 +1,4 @@
-import React, { useState }from 'react';
+import React, { Component }from 'react';
 import {View, Text, SafeAreaView, ScrollView, StyleSheet, 
     TouchableOpacity, Image, ImageBackground, Modal} from 'react-native';
 import { black, white } from '../config/colors';
@@ -9,165 +9,311 @@ import { Calendar } from 'react-native-calendars';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import moment from 'moment';
 
-const Booking = ({navigation}) => {
-    const [ visitorCount, setVisitorCount ] = useState(0);
-    const [ selected, setSelected ] = useState('2021-08-09');
-    const [ times, setTimes ] = useState([Date(), Date(), Date()]);
-    const [ selectedTime, setSelectedTime ] = useState(0);
-    const [ selectedMeet, setSelectedMeet ] = useState(0);
-    const [ modalVisible, setModalVisible ] = useState(false);
-    const onDayPress = (day) => {
-        setSelected(day.dateString)
+class Booking extends Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            visitorCount: 0,
+            selected: '2021-08-09',
+            times: [Date(), Date(), Date(), Date()],
+            selectedTime: 0,
+            selectedMeet: 0,
+            modalVisible: false,
+            region: {
+                latitude: 34.06938658533915, 
+                longitude: -118.44459559768438,
+                latitudeDelta: 0.0050,
+                longitudeDelta: 0.0011,
+            },
+        };
     }
 
-    const timeSelect = (index) => {
-        if (selectedTime == index) {
+    setVisitorCount(count) {
+        this.setState({
+            visitorCount: count
+        })
+    }
+
+    setSelected(date) {
+        this.setState({
+            selected: date
+        })
+    }
+
+    setSelectedTime(time) {
+        this.setState({
+            selectedTime: time
+        })
+    }
+
+    setSelectedMeet(meet) {
+        this.setState({
+            selectedMeet: meet
+        })
+    }
+
+    openModal() {
+        this.setState({
+            modalVisible: true,
+            selectedMeet: 1
+        })
+    }
+
+    closeModal() {
+        this.setState({
+            modalVisible: false
+        })
+        this.takeSnapshot()
+    }
+
+    onDayPress (day) {
+        this.setSelected(day.dateString)
+    }
+
+    timeSelect (index) {
+        if (this.state.selectedTime == index) {
             return(
                 <TouchableOpacity style={{backgroundColor: "#3154A5", borderColor: "#3154A5", 
-                borderWidth: 2, borderRadius: 10, padding: 10, marginRight: 10, marginLeft: 10}}>
-                    <Text style={{color: "white"}}>{moment(times[index]).format("LT")}</Text>
+                borderWidth: 2, borderRadius: 10, padding: 10, marginRight: 10, marginLeft: 10, marginBottom: 10}}>
+                    <Text style={{color: "white"}}>{moment(this.state.times[index]).format("LT")}</Text>
                 </TouchableOpacity>
             )
         } else {
             return(
                 <TouchableOpacity style={{backgroundColor: white, borderColor: "#3154A5", 
-                borderWidth: 2, borderRadius: 10, padding: 10, marginRight: 10, marginLeft: 10}}
-                onPress={() => setSelectedTime(index)}>
-                    <Text style={{color: "#3154A5"}}>{moment(times[index]).format("LT")}</Text>
+                borderWidth: 2, borderRadius: 10, padding: 10, marginRight: 10, marginLeft: 10, marginBottom: 10}}
+                onPress={() => this.setSelectedTime(index)}>
+                    <Text style={{color: "#3154A5"}}>{moment(this.state.times[index]).format("LT")}</Text>
                 </TouchableOpacity>
             )
         }
     }
 
-    return(
-        <SafeAreaView>
-            <Modal
-                animationType="slide"
-                visible={modalVisible}
-                onRequestClose={() => {
-                    setModalVisible(!modalVisible);
-                }}
-            >
-                <MapView
-                    style={{flex: 1}}
-                    provider={PROVIDER_GOOGLE}
-                    showsUserLocation
-                    initialRegion = {{
-                        latitude: 34.07106828093279, 
-                        longitude: -118.444993904947,
-                        latitudeDelta: 0.0050,
-                        longitudeDelta: 0.0011,
+    onRegionChange = (region) => {
+        this.setState({
+            region
+            // region: {
+            //     latitude: region.latitude - 0.00059, //error correction
+            //     longitude: region.longitude + 0.00099,
+            //     latitudeDelta: 0.0050,
+            //     longitudeDelta: 0.0011,
+            // }
+        })
+        console.log(this.state.region)
+    }
+
+    takeDefaultSnapshot() {
+        // 'takeSnapshot' takes a config object with the
+        // following options
+        const snapshot = this.map.takeSnapshot({
+            width: 320,      // optional, when omitted the view-width is used
+            height: 90,     // optional, when omitted the view-height is used
+            region: {
+                latitude: 34.07106828093279, 
+                longitude: -118.444993904947,
+                latitudeDelta: 0.0050,
+                longitudeDelta: 0.0011,
+            },    // iOS only, optional region to render
+            format: 'jpg',   // image formats: 'png', 'jpg' (default: 'png')
+            quality: 0.8,    // image quality: 0..1 (only relevant for jpg, default: 1)
+            result: 'file'   // result types: 'file', 'base64' (default: 'file')
+          });
+          snapshot.then((uri) => {
+            return(uri);
+          });
+    }
+
+    takeSnapshot () {
+        // 'takeSnapshot' takes a config object with the
+        // following options
+        const snapshot = this.map.takeSnapshot({
+          width: 320,      // optional, when omitted the view-width is used
+          height: 90,     // optional, when omitted the view-height is used
+          region: this.state.region,    // iOS only, optional region to render
+          format: 'jpg',   // image formats: 'png', 'jpg' (default: 'png')
+          quality: 0.8,    // image quality: 0..1 (only relevant for jpg, default: 1)
+          result: 'file'   // result types: 'file', 'base64' (default: 'file')
+        });
+        snapshot.then((uri) => {
+          this.setState({ customSnapshot: uri });
+        });
+        console.log(this.state.customSnapshot)
+      }
+
+    render() {
+        return(
+            <SafeAreaView>
+                <Modal
+                    animationType="slide"
+                    visible={this.state.modalVisible}
+                    onRequestClose={() => {
+                        this.closeModal.bind(this);
                     }}
                 >
-                    <TouchableOpacity style={styles.backIcon} onPress={() => setModalVisible(false)}>
+                    <MapView
+                        ref={map => { this.map = map }}
+                        style={{flex: 1, justifyContent: "center"}}
+                        provider={PROVIDER_GOOGLE}
+                        showsUserLocation
+                        initialRegion = {this.state.region}
+                        onRegionChangeComplete = {this.onRegionChange}
+                    >
+                        {/* <Marker
+                            key={0}
+                            coordinate={{latitude: 34.07106828093279, longitude: -118.444993904947}}
+                            title="Bruin Bear"
+                            description="Recommended Meeting Point"
+                        /> */}
+                    </MapView>
+                    <TouchableOpacity style={styles.backIcon} onPress={() => this.closeModal()}>
                         <Ionicons name='chevron-back-outline' size={20} color={white} />
                     </TouchableOpacity>
-                    <Marker
-                        key={0}
-                        coordinate={{latitude: 34.07106828093279, longitude: -118.444993904947}}
-                        title="Bruin Bear"
-                        description="hello"
-                    />
-                </MapView>
-            </Modal>
-            <ScrollView overScrollMode="never" style={{height: "100%"}}>
-                <View style={{height: 100, flex: 1, position: 'relative'}}>
-                    <ImageBackground style={styles.imageHeader} source={require('../images/Westwood_village.png')}>
-                        <View style={styles.shader}></View>
-                        <Text style={styles.titleText}>Westwood Tour</Text>
-                        <Text style={styles.tourGuideText}>Tour Guide: Brittany</Text>
-                        <ImageBackground style={styles.tourGuideProfile} imageStyle={{borderRadius: 40}} source={require('../images/brittany.png')}
+                    <View pointerEvents='none' style={{position: "absolute", left: 0, right: 0, top: 0, bottom: 0, justifyContent: 'center', alignItems: 'center'}}>
+                        <ImageBackground style={{width: 25, height: 40}} source={require('../images/marker.png')}
                         ></ImageBackground> 
-                    </ImageBackground> 
-                </View>
-                <View style={{flex: 1, height: 50, backgroundColor: white, position: 'relative'}}>
-                    <Text style={{marginLeft: 20, marginTop: 15, fontWeight: '600'}}>Visitors</Text>
-                    <TouchableOpacity style={styles.minus} onPress={() => setVisitorCount(visitorCount-1)}>
-                        <Text style={{color: white, alignSelf: 'center'}}>-</Text>
-                    </TouchableOpacity>
-                    <Text style={styles.number}>{visitorCount}</Text>
-                    <TouchableOpacity style={styles.plus} onPress={() => setVisitorCount(visitorCount+1)}>
-                        <Text style={{color: white, alignSelf: 'center'}}>+</Text>
-                    </TouchableOpacity>
-                </View>
-                <View style={[styles.backCard, {height: 400}]}>
-                    <Text style={styles.sectionText}>Select Date</Text>
-                    <Calendar
-                        // minDate={'2012-05-10'}
-                        // maxDate={'2012-05-30'}
-                        onDayPress={onDayPress}
-                        // Month format in calendar title. Formatting values: http://arshaw.com/xdate/#Formatting
-                        monthFormat={'MMM yyyy'}
-                        // If firstDay=1 week starts from Monday. Note that dayNames and dayNamesShort should still start from Sunday
-                        firstDay={1}
-                        // Handler which gets executed when press arrow icon left. It receive a callback can go back month
-                        onPressArrowLeft={subtractMonth => subtractMonth()}
-                        // Handler which gets executed when press arrow icon right. It receive a callback can go next month
-                        onPressArrowRight={addMonth => addMonth()}
-                        // Disable all touch events for disabled days. can be override with disableTouchEvent in markedDates
-                        disableAllTouchEventsForDisabledDays={true}
-                        // Enable the option to swipe between months. Default = false
-                        enableSwipeMonths={true}
-                        
-                        theme={{
-                            arrowColor: "#3154A5",
-                            todayTextColor: "#3D68CC",
-                            monthTextColor: "#3154A5",
-                            textMonthFontWeight: "600",
-                        }}
-
-                        markedDates={{
-                            [selected]: {
-                              selected: true,
-                              disableTouchEvent: true,
-                              selectedColor: '#3154A5',
-                              selectedTextColor: 'white'
-                            }
-                          }}
-                    >
-                    </Calendar>
-                </View>
-                <View style={[styles.backCard, {height: 180}]}>
-                    <Text style={styles.sectionText}>Select Time</Text>
-                    <View style={styles.timeView}>
-                        {[...Array(times.length).keys()].map((index) =>  
-                            timeSelect(index)
-                        )}
                     </View>
-                </View>
-                <View style={[styles.backCard, {height: 330, paddingLeft: 30, paddingRight: 30}]}>
-                    <Text style={styles.sectionText}>Meeting Point</Text>
-                    <View style={{flexDirection: "row", marginTop: 20}}>
-                        <TouchableOpacity style={styles.circle} onPress={() => setSelectedMeet(0)}>
-                            <View style={[styles.innerCircle, {backgroundColor: selectedMeet==0?"#3154A5":"white"}]}></View>
+                    
+                </Modal>
+                <ScrollView overScrollMode="never" style={{height: "100%"}}>
+                    <View style={{height: 100, flex: 1, position: 'relative'}}>
+                        <ImageBackground style={styles.imageHeader} source={require('../images/Westwood_village.png')}>
+                            <View style={styles.shader}></View>
+                            <Text style={styles.titleText}>Westwood Tour</Text>
+                            <Text style={styles.tourGuideText}>Tour Guide: Brittany</Text>
+                            <ImageBackground style={styles.tourGuideProfile} imageStyle={{borderRadius: 40}} source={require('../images/brittany.png')}
+                            ></ImageBackground> 
+                        </ImageBackground> 
+                    </View>
+                    <View style={{flex: 1, height: 50, backgroundColor: white, position: 'relative'}}>
+                        <Text style={{marginLeft: 20, marginTop: 15, fontWeight: '600'}}>Visitors</Text>
+                        <TouchableOpacity style={styles.minus} onPress={() => this.setVisitorCount(this.state.visitorCount-1)}>
+                            <Text style={{color: white, alignSelf: 'center'}}>-</Text>
                         </TouchableOpacity>
-                        <Text style={{marginLeft: 10, marginTop: 2}}>Recommended:</Text>
-                        <Text style={{marginLeft: 10, marginTop: 2}}>Bruin Bear Statue</Text>
-                    </View>
-                    <View style={{height: 90, backgroundColor: "grey", marginTop: 5}}></View>
-                    <View style={{flexDirection: "row", marginTop: 10}}>
-                        <TouchableOpacity style={styles.circle} onPress={() => setSelectedMeet(1)}>
-                            <View style={[styles.innerCircle, {backgroundColor: selectedMeet==1?"#3154A5":"white"}]}></View>
+                        <Text style={styles.number}>{this.state.visitorCount}</Text>
+                        <TouchableOpacity style={styles.plus} onPress={() => this.setVisitorCount(this.state.visitorCount+1)}>
+                            <Text style={{color: white, alignSelf: 'center'}}>+</Text>
                         </TouchableOpacity>
-                        <Text style={{marginLeft: 10, marginTop: 2}}>Select:</Text>
                     </View>
-                    <TouchableOpacity style={{height: 90, backgroundColor: "grey", marginTop: 5}}
-                    onPress={() => setModalVisible(true)}></TouchableOpacity>
-                </View>
-                <View style={[styles.backCard, {height: 250, paddingLeft: 30, paddingRight: 30, paddingBottom: 30}]}>
-                    <Text style={styles.sectionText}>Additional Requirements</Text>
-                    <View style={{flex: 1, borderColor: "#9B9BA7", borderRadius: 10, borderWidth: 2, marginTop: 20}}>
-
+                    <View style={[styles.backCard, {height: 410}]}>
+                        <Text style={styles.sectionText}>Select Date</Text>
+                        <Calendar
+                            // minDate={'2012-05-10'}
+                            // maxDate={'2012-05-30'}
+                            onDayPress={this.onDayPress.bind(this)}
+                            // Month format in calendar title. Formatting values: http://arshaw.com/xdate/#Formatting
+                            monthFormat={'MMM yyyy'}
+                            // If firstDay=1 week starts from Monday. Note that dayNames and dayNamesShort should still start from Sunday
+                            firstDay={1}
+                            // Handler which gets executed when press arrow icon left. It receive a callback can go back month
+                            onPressArrowLeft={subtractMonth => subtractMonth()}
+                            // Handler which gets executed when press arrow icon right. It receive a callback can go next month
+                            onPressArrowRight={addMonth => addMonth()}
+                            // Disable all touch events for disabled days. can be override with disableTouchEvent in markedDates
+                            disableAllTouchEventsForDisabledDays={true}
+                            // Enable the option to swipe between months. Default = false
+                            enableSwipeMonths={true}
+                            
+                            theme={{
+                                arrowColor: "#3154A5",
+                                todayTextColor: "#3D68CC",
+                                monthTextColor: "#3154A5",
+                                textMonthFontWeight: "600",
+                            }}
+    
+                            markedDates={{
+                                [this.state.selected]: {
+                                  selected: true,
+                                  disableTouchEvent: true,
+                                  selectedColor: '#3154A5',
+                                  selectedTextColor: 'white'
+                                }
+                              }}
+                        >
+                        </Calendar>
                     </View>
-                </View>
-                <View style={{flex: 1, height: 100, backgroundColor: white, marginTop: 10, justifyContent: 'center', padding: 20}}>
-                    <TouchableOpacity style={styles.continue} onPress={() => navigation.navigate("Checkout")}>
-                        <Text style={{alignSelf: "center", color: white, fontWeight: '600'}}>Continue</Text>
-                    </TouchableOpacity>
-                </View>
-            </ScrollView>
-        </SafeAreaView>
-    )
+                    <View style={[styles.backCard, {height: 165}]}>
+                        <Text style={styles.sectionText}>Select Time</Text>
+                        <View style={styles.timeView}>
+                            {[...Array(this.state.times.length).keys()].map((index) =>  
+                                this.timeSelect(index)
+                            )}
+                        </View>
+                    </View>
+                    <View style={[styles.backCard, {height: 340, paddingLeft: 30, paddingRight: 30}]}>
+                        <Text style={styles.sectionText}>Meeting Point</Text>
+                        <View style={{flexDirection: "row", marginTop: 20}}>
+                            <TouchableOpacity style={styles.circle} onPress={() => this.setSelectedMeet(0)}>
+                                <View style={[styles.innerCircle, {backgroundColor: this.state.selectedMeet==0?"#3154A5":"white"}]}></View>
+                            </TouchableOpacity>
+                            <Text style={{marginLeft: 10, marginTop: 2}}>Recommended:</Text>
+                            <Text style={{marginLeft: 10, marginTop: 2}}>Bruin Bear Statue</Text>
+                        </View>
+                        <View pointerEvents="none" style={{height: 90, backgroundColor: "grey", marginTop: 5}}>
+                            <MapView
+                                style={{flex: 1}}
+                                provider={PROVIDER_GOOGLE}
+                                initialRegion = {{
+                                    latitude: 34.07106828093279, 
+                                    longitude: -118.444993904947,
+                                    latitudeDelta: 0.0015,
+                                    longitudeDelta: 0.0020,
+                                }}
+                            >
+                                <Marker
+                                    key={1}
+                                    coordinate={{latitude: 34.07106828093279, longitude: -118.444993904947}}
+                                    title="Bruin Statue"
+                                    description="Recommended Meeting Point"
+                                />
+                            </MapView>
+                            <Text style={{color: "#EA4336", position: 'absolute', top: 10, left: 175, fontWeight: '500'}}>Bruin Bear</Text>
+                        </View>
+                        <View style={{flexDirection: "row", marginTop: 25}}>
+                            <TouchableOpacity style={styles.circle} onPress={() => this.setSelectedMeet(1)}>
+                                <View style={[styles.innerCircle, {backgroundColor: this.state.selectedMeet==1?"#3154A5":"white"}]}></View>
+                            </TouchableOpacity>
+                            <Text style={{marginLeft: 10, marginTop: 2}}>Select:</Text>
+                        </View>
+                        <TouchableOpacity style={{height: 90, backgroundColor: "grey", marginTop: 5}}
+                        onPress={() => this.openModal()}>
+                            <MapView pointerEvents="none"
+                                style={{flex: 1}}
+                                provider={PROVIDER_GOOGLE}
+                                region = {{
+                                    latitude: this.state.region.latitude, 
+                                    longitude: this.state.region.longitude,
+                                    latitudeDelta: 0.0015,
+                                    longitudeDelta: 0.0020,
+                                }}
+                            >
+                                <Marker
+                                    key={2}
+                                    coordinate={{latitude: this.state.region.latitude, longitude: this.state.region.longitude}}
+                                    title="Bruin Statue"
+                                    description="Recommended Meeting Point"
+                                />
+                            </MapView>
+                            <View style={[styles.shader, {height: 90, opacity: 0.5}]}></View>
+                            <Text style={{color: 'white', fontWeight: '700', fontSize: 18, position: 'absolute', top: 35, left: 100}}>Tap to Choose</Text>
+                        </TouchableOpacity>
+                    </View>
+                    <View style={[styles.backCard, {paddingLeft: 30, paddingRight: 30, paddingBottom: 30}]}>
+                        <Text style={styles.sectionText}>Additional Requirements</Text>
+                        <View style={{flex: 1, borderColor: "#9B9BA7", borderRadius: 10, borderWidth: 2, marginTop: 20, padding: 20, alignItems: 'center', justifyContent: 'center'}}>
+                            <Text>None</Text>
+                        </View>
+                    </View>
+                    <View style={{flex: 1, height: 100, backgroundColor: white, marginTop: 10, justifyContent: 'center', padding: 20}}>
+                        <TouchableOpacity style={styles.continue} onPress={() => this.props.navigation.navigate("Checkout")}>
+                            <Text style={{alignSelf: "center", color: white, fontWeight: '600'}}>Continue</Text>
+                        </TouchableOpacity>
+                    </View>
+                </ScrollView>
+            </SafeAreaView>
+        )
+    }
+    
 }
 
 const styles = StyleSheet.create({
