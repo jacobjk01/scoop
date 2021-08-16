@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import SeeMore from 'react-native-see-more-inline';
+//import SeeMore from 'react-native-see-more-inline';
 import {
   View,
   Text,
@@ -111,11 +111,11 @@ const TourGuideProfile = ({navigation, route}) => {
         </Text>
 
         <Text style={{marginTop: 5}}></Text>
-        <SeeMore numberOfLines={5} style={styles.baseText}>
+        {/* <SeeMore numberOfLines={5} style={styles.baseText}>
           {
             'Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description '
           }
-        </SeeMore>
+        </SeeMore> */}
         <View style={styles.divider2} />
         <Text style={{marginTop: 30, fontSize: 20, fontWeight: '700'}}>
           {'Languages:'}
