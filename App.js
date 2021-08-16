@@ -36,11 +36,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import Account from './screens/Account';
 import Checkout from './screens/Checkout';
 import Tours from './screens/Tours';
-import TourGuides from './screens/TourGuides';
-import Messages from './screens/Messages';
-import TourGuideProfile from './screens/TourGuideProfile';
-import TourInfo from './screens/TourInfo';
-import HomeStack from './stack/HomeStack';
+import HomeStack from './components/navigation/HomeStack';
 import Conversation from './screens/Conversation';
 import colors from './config/colors';
 
@@ -50,10 +46,6 @@ const App: () => Node = () => {
   const MessageStack = createStackNavigator();
   return (
     <NavigationContainer>
-      {/* <Stack.Navigator initialRouteName="Home">
-        <Stack.Screen name="Home" component={Homepage} />
-        <Stack.Screen name="Profile" component={Profile} />
-      </Stack.Navigator> */}
       <Tab.Navigator
         screenOptions={({route}) => ({
           tabBarIcon: ({focused, color, size}) => {
@@ -73,7 +65,7 @@ const App: () => Node = () => {
         })}
         tabBarOptions={{
           activeTintColor: '#3D68CC',
-          inactiveTintColor: '#656565',
+          inactiveTintColor: '#3D68CC',
         }}
         initialRouteName="HomeScreen">
         <Tab.Screen name="Home" component={HomeStack} />
