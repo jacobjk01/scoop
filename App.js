@@ -16,7 +16,7 @@ import {
   Text,
   useColorScheme,
   View,
-  Button
+  Button,
 } from 'react-native';
 
 import {
@@ -27,13 +27,14 @@ import {
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 
-import { NavigationContainer } from '@react-navigation/native';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { createStackNavigator } from '@react-navigation/stack';
+import {NavigationContainer} from '@react-navigation/native';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {createStackNavigator} from '@react-navigation/stack';
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import Account from './screens/Account';
+import Checkout from './screens/Checkout';
 import Tours from './screens/Tours';
 import TourGuides from './screens/TourGuides';
 import Messages from './screens/Messages';
@@ -54,8 +55,8 @@ const App: () => Node = () => {
         <Stack.Screen name="Profile" component={Profile} />
       </Stack.Navigator> */}
       <Tab.Navigator
-        screenOptions={({ route }) => ({
-          tabBarIcon: ({ focused, color, size }) => {
+        screenOptions={({route}) => ({
+          tabBarIcon: ({focused, color, size}) => {
             let iconName;
 
             if (route.name === 'Home') {
@@ -74,11 +75,10 @@ const App: () => Node = () => {
           activeTintColor: '#3D68CC',
           inactiveTintColor: '#656565',
         }}
-        initialRouteName='HomeScreen'
-      >
-        <Tab.Screen name="Home" component={HomeStack}/>
-        <Tab.Screen name="Tours" component={Tours}/>
-        <Tab.Screen name="Account" component={Account}/>
+        initialRouteName="HomeScreen">
+        <Tab.Screen name="Home" component={HomeStack} />
+        <Tab.Screen name="Tours" component={Tours} />
+        <Tab.Screen name="Account" component={Account} />
       </Tab.Navigator>
     </NavigationContainer>
   );
