@@ -1,132 +1,302 @@
-import React, {useState} from 'react';
-import {View, Text, SafeAreaView, ScrollView, StyleSheet, TextInput, TouchableOpacity, FlatList, Image, ImageBackground} from 'react-native';
+import React, {Component, useState} from 'react';
+import {View, Text, SafeAreaView, ScrollView, Button, StyleSheet, 
+    TextInput, TouchableOpacity, FlatList, Image, ImageBackground,
+    Dimensions, Animated} 
+    from 'react-native';
 import { withSafeAreaInsets } from 'react-native-safe-area-context';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import LinearGradient from 'react-native-linear-gradient';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
 
-const TourInfo = ({navigation}) => {
-    const [ tourimages, setImages ] = useState([
-        {name: 'Santa Monica', src: require('../images/SantaMonica.png')}, 
-        {name: 'Westwood Tour', src: require('../images/Westwood_village.png')}
-    ]);
+import StickyParallaxHeader from 'react-native-sticky-parallax-header';
+import { black, white } from '../config/colors';
 
-    const [ guideimages, setGuideImages ] = useState([
-        {name: 'Natalie', year: 'Junior', major: 'Psychobiology', src: require('../images/natalie.png')},
-        {name: 'Trevor', year: 'Senior', major: 'Marketing', src: require('../images/trevor.png')},
-        {name: 'Brittany', year: 'Junior', major: 'Mechanical Eng.', src: require('../images/brittany.png')},
-    ]);
-    return(
-        <SafeAreaView>
-            <ScrollView style={{paddingRight: 20, paddingLeft: 20, height: "100%"}}>
-                <Text style={styles.titleText}>Tour Info</Text>
-                <View style={{marginTop: 30}}>
-                    <TextInput style={styles.input} placeholder={'Search'}></TextInput>
-                    <Ionicons style={styles.searchicon} name={'search-outline'} size={25} color={'#656565'} />
-                </View>
-            </ScrollView>
-        </SafeAreaView>
-    )
-  }
+const { event, ValueXY } = Animated;
+class TourInfo extends Component {
+    constructor(props) {
+        super(props)
 
-const renderTourImage = ({item}) => {
-    return (
-        <TouchableOpacity>
-            <ImageBackground style={styles.listTourImage} imageStyle={{borderRadius: 10}} source={item.src}>
-                <LinearGradient colors={['transparent', 'black']} style={styles.linearGradTour}/>
-            </ImageBackground> 
-            <Text style={styles.tourText}>{item.name}</Text>
-        </TouchableOpacity>
-    )
+        this.state={
+            
+            reviews: [
+                {stars: 4.8, tourName: "Westwood Tour", year: "Incoming Freshman", comment: "Brittany was really helpful!! She showed me where the students get groceries from and hangout in Westwood. She also shared a lot of interesting stories as we visit each places, highly recommend incoming freshman who want to familiarize themselves with the area sign up!! "},
+                {stars: 4.3, tourName: "Westwood Tour", year: "Incoming Junior", comment: "Being a sophomore, I kinda know what Westwood is like already; however, Brittany was able to show me interesting places I’ve never discovered!"},
+            ]
+        }
+        this.scrollY = new ValueXY();
+    }
+
+    componentDidMount() {
+        this.scrollY.addListener(({ value }) => (this._value = value))
+      }
+
+      
+    
+    renderForeground() {
+        const scrollPosition = (x) => x;
+        const [startTextFade, finishTextFade] = [
+            scrollPosition(30),
+            scrollPosition(200),
+          ];
+        const textOpacity = this.scrollY.y.interpolate({
+            inputRange: [startTextFade, finishTextFade],
+            outputRange: [1, 0],
+            extrapolate: 'clamp',
+        });
+        const openSpace = this.scrollY.y.interpolate({
+            inputRange: [startTextFade, finishTextFade],
+            outputRange: [120, 70],
+            extrapolate: 'clamp',
+        });
+        return(
+            <View style={{backgroundColor: "#d92726", flex: 1, borderRadius: 10}}>
+                <ImageBackground style={styles.imageHeader} source={require('../images/Westwood_village.png')}>
+                    <LinearGradient colors={['transparent', 'black']} style={styles.linearGradTour}/>
+                        <Animated.View style={[styles.imageOverlay, {paddingBottom: openSpace}]}>
+                            <Text style={styles.titleText}>Westwood Tour</Text>
+                            <Text style={styles.detailText}>60 min | Max 6 people | person</Text>
+                            <Text style={styles.subText}> $8 per person</Text>
+                        </Animated.View>
+                        <Animated.Text style={[styles.summaryText, {opacity: textOpacity, position: "absolute", bottom: 0, left: 25, flex: 1, paddingRight: 20}]}>
+                            Get to know the neighborhood: where to grocery shop, where the best hangout places are, 
+                            and where to grab a bite with your fellow hungry bruins.
+                            </Animated.Text>
+                </ImageBackground>
+            </View>
+        )
+    }
+
+    renderHeader() {
+        return(
+            <View style={{flex: 1, backgroundColor: "white", alignItems: "center"}}></View>
+        )
+    }
+
+    renderStars(count) {
+        let fullstars = Math.floor(count);
+        var decimal = Math.ceil(10 * (count - Math.floor(count)));
+        console.log(decimal)
+        let emptystars = Math.floor(5 - count - 0.1);
+        return(
+            <View style={{flexDirection: "row"}}>
+                {Array.from(Array(fullstars).keys()).map(() => {
+                    return (
+                        <Image 
+                            style={{width: 16, height: 16, marginRight: 4}}
+                            source={require('../images/stars/filledstar.png')}
+                        />
+                    )
+                })}
+                
+                {this.renderPartialStar(decimal)}
+                {Array.from(Array(emptystars).keys()).map(() => {
+                    return (
+                        <Image 
+                            style={{width: 16, height: 16, marginRight: 4}}
+                            source={require('../images/stars/star0.png')}
+                        />
+                    )
+                })}
+            </View>
+        )
+    }
+
+    renderPartialStar(decimal) {
+        switch(decimal) {
+            case 0:
+                return (
+                    <Image 
+                        style={{width: 16, height: 16, marginRight: 4}}
+                        source={require('../images/stars/star0.png')}
+                    />
+                )
+            case 1:
+                return (
+                    <Image 
+                        style={{width: 16, height: 16, marginRight: 4}}
+                        source={require('../images/stars/star1.png')}
+                    />
+                )
+            case 2:
+                return (
+                    <Image 
+                        style={{width: 16, height: 16, marginRight: 4}}
+                        source={require('../images/stars/star2.png')}
+                    />
+                )
+            case 3:
+                return (
+                    <Image 
+                        style={{width: 16, height: 16, marginRight: 4}}
+                        source={require('../images/stars/star3.png')}
+                    />
+                )
+            case 4:
+                return (
+                    <Image 
+                        style={{width: 16, height: 16, marginRight: 4}}
+                        source={require('../images/stars/star4.png')}
+                    />
+                )
+            case 5:
+                return (
+                    <Image 
+                        style={{width: 16, height: 16, marginRight: 4}}
+                        source={require('../images/stars/star5.png')}
+                    />
+                )
+            case 6:
+                return (
+                    <Image 
+                        style={{width: 16, height: 16, marginRight: 4}}
+                        source={require('../images/stars/star6.png')}
+                    />
+                )
+            case 7:
+                return (
+                    <Image 
+                        style={{width: 16, height: 16, marginRight: 4}}
+                        source={require('../images/stars/star7.png')}
+                    />
+                )
+            case 8:
+                return (
+                    <Image 
+                        style={{width: 16, height: 16, marginRight: 4}}
+                        source={require('../images/stars/star8.png')}
+                    />
+                )
+            case 9:
+                return (
+                    <Image 
+                        style={{width: 16, height: 16, marginRight: 4}}
+                        source={require('../images/stars/star9.png')}
+                    />
+                )
+        }
+    }
+
+    renderContent() {
+        const navigation = this.props.navigation;
+        const scrollPosition = (x) => x;
+        const [startTextFade, finishTextFade] = [
+            scrollPosition(30),
+            scrollPosition(200),
+          ];
+        const buttonOpacity = this.scrollY.y.interpolate({
+            inputRange: [startTextFade, finishTextFade],
+            outputRange: [0, 1],
+            extrapolate: 'clamp',
+        });
+        return(
+            <View style={{marginTop: 500}}>
+                <Animated.View style={{flexDirection: "row", position: "absolute", 
+                top: -90, left: 25, opacity: buttonOpacity, alignItems: "center", zIndex: 10}}>
+                    <TouchableOpacity style={{backgroundColor: "white", marginRight: 10, borderRadius: 40}}>
+                        <ImageBackground style={{width: 50, height: 50}} imageStyle={{borderRadius: 40}} source={require('../images/brittany.png')}
+                        ></ImageBackground> 
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.whiteButton} title="Message">
+                        <Text style={{color: "#41479B"}}>Message</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.whiteButton} onPress={() => navigation.navigate('Booking')}>
+                        <Text style={{color: "#41479B"}}>Book Now</Text>
+                    </TouchableOpacity>
+                </Animated.View>
+                {this.state.reviews.map((item) => 
+                    <View style={styles.reviewCard}>
+                        {this.renderStars(item.stars)}
+                        <Text style={{marginTop: 5, fontSize: 14, color: "#9B9BA7", fontStyle: 'italic'}}>{item.tourName} - {item.year}</Text>
+                        <Text style={{marginTop: 5}}>{item.comment}</Text>
+                    </View>
+                )}
+            </View>
+            
+        )
+    }
+
+    render() {
+        const navigation = this.props.navigation;
+        return(
+            <React.Fragment>
+               <StickyParallaxHeader
+                    foreground={this.renderForeground()}
+                    header={this.renderHeader()}
+                    parallaxHeight={100}
+                    headerHeight={0}
+                    deviceWidth={Dimensions.get('window').width}
+                    headerSize={() => {}}
+                    onEndReached={() => {}}
+                    scrollEvent={event(
+                        [{ nativeEvent: { contentOffset: { y: this.scrollY.y } } }],
+                        { useNativeDriver: false }
+                    )}
+                    tabs={[
+                        {
+                            title: ' ',
+                            content: this.renderContent()
+                        }
+                    ]}
+                >
+                    
+                </StickyParallaxHeader> 
+                <TouchableOpacity style={styles.backIcon} onPress={() => navigation.navigate('HomeScreen')}>
+                    <Ionicons name='chevron-back-outline' size={20} color={white} />
+                </TouchableOpacity>
+            </React.Fragment>
+            
+        )
+    }
 }
-
-const renderGuideImage = ({item}) => {
-    return (
-        <TouchableOpacity>
-            <ImageBackground style={styles.listGuideImage} imageStyle={{borderRadius: 10}} source={item.src}>
-                <LinearGradient colors={['transparent', 'black']} style={styles.linearGradGuide}/>
-            </ImageBackground>
-            <Text style={styles.guideText}>{item.name}, {item.year}, {item.major}</Text>
-        </TouchableOpacity>
-    )
-}
+    
 
 const styles = StyleSheet.create({
     baseText: {
         fontFamily: "Helvetica"
     },
     titleText: {
-        fontSize: 24,
+        fontSize: 32,
         fontWeight: '600',
-        marginTop: 50
+        color: "white"
     },
-    sectionText: {
+    detailText: {
+        fontSize: 14,
+        fontWeight: '200',
+        color: "white"
+    },
+    subText: {
         fontSize: 20,
-        fontWeight: '700',
-        marginTop: 30,
-        marginLeft: 10
+        fontWeight: '400',
+        color: "white",
+        marginTop: 20,
+        marginBottom: 20
     },
-    input: {
-        alignSelf: 'center',
-        backgroundColor: 'white',
-        height: 50,
-        width: "100%",
-        // borderWidth: 1,
-        // borderColor: '#656565',
-        borderRadius: 7,
-        paddingLeft: 20
-    },
-    searchicon: {
-        position: 'absolute',
-        right: 10,
-        top: 11
-    },
-    recommendationbuttonleft: {
-        flex: 1,
-        backgroundColor: "#3154A5",
-        borderRadius: 7,
-        height: 100,
-        marginRight: 15
-    }, 
-    recommendationbuttonright: {
-        flex: 1,
-        backgroundColor: "#3154A5",
-        borderRadius: 7,
-        height: 100,
-    },
-    recommendationTitle: {
-        marginTop: 15,
-        marginLeft: 15,
-        color: 'white',
-        fontWeight: '600',
-        fontSize: 16
-    },
-    listTourImage: {
-        marginRight: 15,
-        width: 200,
-        height: 300
-    },
-    listGuideImage: {
-        marginRight: 10,
-        width: 120,
-        height: 120
-    },
-    tourText: {
-        width: 200,
-        fontWeight: '600',
+    summaryText: {
         fontSize: 18,
-        color: 'white',
-        position: 'absolute',
-        bottom: 50,
-        left: 20
+        fontWeight: '200',
+        color: "white",
+        marginBottom: 30
     },
-    guideText: {
-        width: 120,
+    headerView: {
+        width: '100%',
+        borderTopLeftRadius: 0,
+        borderTopRightRadius: 0
+    },
+    smallHeaderView: {
+        width: '100%',
+        height: 200
+    },
+    imageHeader: {
+        width: '100%',
+        height: 600,
+        borderTopLeftRadius: 0,
+        borderTopRightRadius: 0,
+        borderRadius: 10,
+        zIndex: -10
+    },
+    imageOverlay: {
         position: 'absolute',
-        bottom: 10,
-        left: 10,
-        color: 'white'
+        bottom: 0,
+        paddingLeft: 25
     },
     linearGradTour: {
         position: 'absolute',
@@ -137,14 +307,41 @@ const styles = StyleSheet.create({
         backgroundColor: 'transparent',
         borderRadius: 10
     },
-    linearGradGuide: {
+    reviewCard: {
+        width: "90%",
+        backgroundColor: "white",
+        alignSelf: "center",
+        padding: 20,
+        marginBottom: 20,
+        borderRadius: 10,
+        shadowColor: "#000000",
+        shadowOffset: {width: 1, height: 1},
+        shadowOpacity: 0.2,
+        shadowRadius: 5,
+    },
+    whiteButton: {
+        backgroundColor: white,
+        borderRadius: 10,
+        color: '#41479B',
+        alignItems: 'center',
+        justifyContent: 'center',
+        height: 30,
+        paddingLeft: 10,
+        paddingRight: 10,
+        marginRight: 10
+    },
+    backIcon: {
+        backgroundColor: '#3154A5',
+        borderRadius: 10,
+        borderColor: white,
+        borderWidth: 1,
         position: 'absolute',
-        top: 60,
-        bottom: 0,
-        left: 0,
-        right: 0,
-        backgroundColor: 'transparent',
-        borderRadius: 10
+        left: 20,
+        top: 40,
+        width: 40,
+        height: 40,
+        alignItems: 'center',
+        justifyContent: 'center'
     }
 });
 
