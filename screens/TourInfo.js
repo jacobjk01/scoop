@@ -7,8 +7,6 @@ import { withSafeAreaInsets } from 'react-native-safe-area-context';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import LinearGradient from 'react-native-linear-gradient';
 
-//import Animated, { Value } from 'react-native-reanimated';
-
 import StickyParallaxHeader from 'react-native-sticky-parallax-header';
 import { black, white } from '../config/colors';
 
@@ -22,7 +20,6 @@ class TourInfo extends Component {
             reviews: [
                 {stars: 4.8, tourName: "Westwood Tour", year: "Incoming Freshman", comment: "Brittany was really helpful!! She showed me where the students get groceries from and hangout in Westwood. She also shared a lot of interesting stories as we visit each places, highly recommend incoming freshman who want to familiarize themselves with the area sign up!! "},
                 {stars: 4.3, tourName: "Westwood Tour", year: "Incoming Junior", comment: "Being a sophomore, I kinda know what Westwood is like already; however, Brittany was able to show me interesting places I’ve never discovered!"},
-                {stars: 2.6, tourName: "Westwood Tour", year: "Incoming Junior", comment: "Very valuable tour for incoming freshmen. I was able to quickly familiarize myself with the neighborhood with her help. "}
             ]
         }
         this.scrollY = new ValueXY();
@@ -191,7 +188,7 @@ class TourInfo extends Component {
             extrapolate: 'clamp',
         });
         return(
-            <View style={{marginTop: 400}}>
+            <View style={{marginTop: 500}}>
                 <Animated.View style={{flexDirection: "row", position: "absolute", 
                 top: -90, left: 25, opacity: buttonOpacity, alignItems: "center", zIndex: 10}}>
                     <TouchableOpacity style={{backgroundColor: "white", marginRight: 10, borderRadius: 40}}>
@@ -224,7 +221,7 @@ class TourInfo extends Component {
                <StickyParallaxHeader
                     foreground={this.renderForeground()}
                     header={this.renderHeader()}
-                    parallaxHeight={200}
+                    parallaxHeight={100}
                     headerHeight={0}
                     deviceWidth={Dimensions.get('window').width}
                     headerSize={() => {}}
