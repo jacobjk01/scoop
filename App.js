@@ -35,11 +35,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import Account from './screens/Account';
 import Tours from './screens/Tours';
-import TourGuides from './screens/TourGuides';
-import Messages from './screens/Messages';
-import TourGuideProfile from './screens/TourGuideProfile';
-import TourInfo from './screens/TourInfo';
-import HomeStack from './stack/HomeStack';
+import HomeStack from './components/navigation/HomeStack';
 import Conversation from './screens/Conversation';
 import colors from './config/colors';
 

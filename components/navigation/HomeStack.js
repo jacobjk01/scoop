@@ -29,7 +29,7 @@ const HomeStack = ({navigation}) => {
                 )
                 }} />
             <HomeStack.Screen name="TourGuideProfile" component={TourGuideProfile}/>
-            <HomeStack.Screen name="TourInfo" component={TourInfo} options={{headerShown: false , headerTitle: 'Tour Info'}}/>
+            <HomeStack.Screen name="TourInfo" component={TourInfo} options={{headerShown: false}}/>
             <HomeStack.Screen name="Messages" component={Messages}/>
             <HomeStack.Screen name="Booking" component={Booking}
                 options={({ navigation }) => ({
