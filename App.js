@@ -49,10 +49,6 @@ const App: () => Node = () => {
   const MessageStack = createStackNavigator();
   return (
     <NavigationContainer>
-      {/* <Stack.Navigator initialRouteName="Home">
-        <Stack.Screen name="Home" component={Homepage} />
-        <Stack.Screen name="Profile" component={Profile} />
-      </Stack.Navigator> */}
       <Tab.Navigator
         screenOptions={({ route }) => ({
           tabBarIcon: ({ focused, color, size }) => {
@@ -72,7 +68,7 @@ const App: () => Node = () => {
         })}
         tabBarOptions={{
           activeTintColor: '#3D68CC',
-          inactiveTintColor: '#656565',
+          inactiveTintColor: '#3D68CC',
         }}
         initialRouteName='HomeScreen'
       >
