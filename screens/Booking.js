@@ -159,12 +159,6 @@ class Booking extends Component {
                         initialRegion = {this.state.region}
                         onRegionChangeComplete = {this.onRegionChange}
                     >
-                        {/* <Marker
-                            key={0}
-                            coordinate={{latitude: 34.07106828093279, longitude: -118.444993904947}}
-                            title="Bruin Bear"
-                            description="Recommended Meeting Point"
-                        /> */}
                     </MapView>
                     <TouchableOpacity style={styles.backIcon} onPress={() => this.closeModal()}>
                         <Ionicons name='chevron-back-outline' size={20} color={white} />
@@ -173,7 +167,6 @@ class Booking extends Component {
                         <ImageBackground style={{width: 25, height: 40}} source={require('../images/marker.png')}
                         ></ImageBackground> 
                     </View>
-                    
                 </Modal>
                 <ScrollView overScrollMode="never" style={{height: "100%"}}>
                     <View style={{height: 100, flex: 1, position: 'relative'}}>
@@ -185,18 +178,21 @@ class Booking extends Component {
                             ></ImageBackground> 
                         </ImageBackground> 
                     </View>
-                    <View style={{flex: 1, height: 50, backgroundColor: white, position: 'relative'}}>
-                        <Text style={{marginLeft: 20, marginTop: 15, fontWeight: '600'}}>Visitors</Text>
-                        <TouchableOpacity style={styles.minus} onPress={() => this.setVisitorCount(this.state.visitorCount-1)}>
-                            <Text style={{color: white, alignSelf: 'center'}}>-</Text>
+                    <View style={{flex: 1, height: 60, backgroundColor: white, position: 'relative', justifyContent: 'center'}}>
+                        <Text style={{marginLeft: 20, fontWeight: '600'}}>Visitors</Text>
+                        <TouchableOpacity style={this.state.visitorCount==0?styles.minusDisabled:styles.minus} 
+                        onPress={() => this.setVisitorCount(this.state.visitorCount-1)}
+                        disabled={this.state.visitorCount==0?true:false}>
+                            <Text style={{color: this.state.visitorCount==0?"#9B9BA7":"white", alignSelf: 'center'}}>-</Text>
                         </TouchableOpacity>
                         <Text style={styles.number}>{this.state.visitorCount}</Text>
                         <TouchableOpacity style={styles.plus} onPress={() => this.setVisitorCount(this.state.visitorCount+1)}>
                             <Text style={{color: white, alignSelf: 'center'}}>+</Text>
                         </TouchableOpacity>
                     </View>
-                    <View style={[styles.backCard, {height: 410}]}>
+                    <View style={[styles.backCard, {position: 'relative', paddingLeft: 20, paddingRight: 20, paddingBottom: 30}]}>
                         <Text style={styles.sectionText}>Select Date</Text>
+                        <View style={styles.line}></View>
                         <Calendar
                             // minDate={'2012-05-10'}
                             // maxDate={'2012-05-30'}
@@ -231,8 +227,9 @@ class Booking extends Component {
                               }}
                         >
                         </Calendar>
+                        
                     </View>
-                    <View style={[styles.backCard, {height: 165}]}>
+                    <View style={[styles.backCard, {paddingBottom: 10}]}>
                         <Text style={styles.sectionText}>Select Time</Text>
                         <View style={styles.timeView}>
                             {[...Array(this.state.times.length).keys()].map((index) =>  
@@ -240,16 +237,16 @@ class Booking extends Component {
                             )}
                         </View>
                     </View>
-                    <View style={[styles.backCard, {height: 340, paddingLeft: 30, paddingRight: 30}]}>
+                    <View style={[styles.backCard, {paddingLeft: 40, paddingRight: 40, paddingBottom: 30}]}>
                         <Text style={styles.sectionText}>Meeting Point</Text>
-                        <View style={{flexDirection: "row", marginTop: 20}}>
+                        <View style={{flexDirection: "row", marginTop: 12}}>
                             <TouchableOpacity style={styles.circle} onPress={() => this.setSelectedMeet(0)}>
                                 <View style={[styles.innerCircle, {backgroundColor: this.state.selectedMeet==0?"#3154A5":"white"}]}></View>
                             </TouchableOpacity>
                             <Text style={{marginLeft: 10, marginTop: 2}}>Recommended:</Text>
                             <Text style={{marginLeft: 10, marginTop: 2}}>Bruin Bear Statue</Text>
                         </View>
-                        <View pointerEvents="none" style={{height: 90, backgroundColor: "grey", marginTop: 5}}>
+                        <View pointerEvents="none" style={{height: 90, backgroundColor: "grey", marginTop: 10}}>
                             <MapView
                                 style={{flex: 1}}
                                 provider={PROVIDER_GOOGLE}
@@ -275,7 +272,7 @@ class Booking extends Component {
                             </TouchableOpacity>
                             <Text style={{marginLeft: 10, marginTop: 2}}>Select:</Text>
                         </View>
-                        <TouchableOpacity style={{height: 90, backgroundColor: "grey", marginTop: 5}}
+                        <TouchableOpacity style={{height: 90, backgroundColor: "grey", marginTop: 10}}
                         onPress={() => this.openModal()}>
                             <MapView pointerEvents="none"
                                 style={{flex: 1}}
@@ -368,7 +365,7 @@ const styles = StyleSheet.create({
         position: 'absolute',
         width: 20,
         height: 20,
-        top: 15,
+        top: 20,
         right: 80,
         backgroundColor: '#3154A5',
         color: white,
@@ -378,23 +375,24 @@ const styles = StyleSheet.create({
         position: 'absolute',
         width: 20,
         height: 20,
-        top: 15,
+        top: 20,
         right: 80,
         backgroundColor: 'white',
-        color: 'grey',
+        borderColor: '#9B9BA7',
+        borderWidth: 1,
         borderRadius: 4
     },
     number: {
         position: 'absolute',
         right: 60,
-        top: 17,
+        top: 21,
     },
     plus: {
         position: 'absolute',
         width: 20,
         height: 20,
         right: 30,
-        top: 15,
+        top: 20,
         backgroundColor: '#3154A5',
         borderRadius: 4
     },
@@ -402,19 +400,19 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: white, 
         marginTop: 10, 
-        borderRadius: 10, 
-        marginLeft: 5, 
-        marginRight: 5,
-        shadowColor: "#c3c3c3",
+        borderRadius: 20, 
+        marginLeft: 10, 
+        marginRight: 10,
+        shadowColor: "#000000",
         shadowOffset: {width: 1, height: 1},
-        shadowOpacity: 0.8,
-        shadowRadius: 2
+        shadowOpacity: 0.2,
+        shadowRadius: 5
     },
     timeView: {
         flex: 3,
         flexWrap: "wrap",
         flexDirection: "row",
-        marginTop: 10,
+        marginTop: 15,
         justifyContent: 'center'
     },
     circle: {
@@ -454,6 +452,15 @@ const styles = StyleSheet.create({
         height: 40,
         alignItems: 'center',
         justifyContent: 'center'
+    },
+    line: {
+        width: '95%',
+        height: 1,
+        backgroundColor: '#D9D9D9',
+        position: 'absolute',
+        top: 120,
+        alignSelf: 'center',
+        zIndex: 10
     }
 })
 

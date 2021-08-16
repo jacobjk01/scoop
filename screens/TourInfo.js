@@ -20,8 +20,9 @@ class TourInfo extends Component {
         this.state={
             
             reviews: [
-                {stars: 5, tourName: "Westwood Tour", year: "Incoming Freshman", comment: "Brittany was a bitch and I'm a karen"},
-                {stars: 5, tourName: "Westwood Tour", year: "Incoming Junior", comment: "Brittany is my mommy"}
+                {stars: 4.8, tourName: "Westwood Tour", year: "Incoming Freshman", comment: "Brittany was really helpful!! She showed me where the students get groceries from and hangout in Westwood. She also shared a lot of interesting stories as we visit each places, highly recommend incoming freshman who want to familiarize themselves with the area sign up!! "},
+                {stars: 4.3, tourName: "Westwood Tour", year: "Incoming Junior", comment: "Being a sophomore, I kinda know what Westwood is like already; however, Brittany was able to show me interesting places I’ve never discovered!"},
+                {stars: 2.6, tourName: "Westwood Tour", year: "Incoming Junior", comment: "Very valuable tour for incoming freshmen. I was able to quickly familiarize myself with the neighborhood with her help. "}
             ]
         }
         this.scrollY = new ValueXY();
@@ -50,7 +51,7 @@ class TourInfo extends Component {
             extrapolate: 'clamp',
         });
         return(
-            <View style={{backgroundColor: "#d92726", flex: 1}}>
+            <View style={{backgroundColor: "#d92726", flex: 1, borderRadius: 10}}>
                 <ImageBackground style={styles.imageHeader} source={require('../images/Westwood_village.png')}>
                     <LinearGradient colors={['transparent', 'black']} style={styles.linearGradTour}/>
                         <Animated.View style={[styles.imageOverlay, {paddingBottom: openSpace}]}>
@@ -71,6 +72,110 @@ class TourInfo extends Component {
         return(
             <View style={{flex: 1, backgroundColor: "white", alignItems: "center"}}></View>
         )
+    }
+
+    renderStars(count) {
+        let fullstars = Math.floor(count);
+        var decimal = Math.ceil(10 * (count - Math.floor(count)));
+        console.log(decimal)
+        let emptystars = Math.floor(5 - count - 0.1);
+        return(
+            <View style={{flexDirection: "row"}}>
+                {Array.from(Array(fullstars).keys()).map(() => {
+                    return (
+                        <Image 
+                            style={{width: 16, height: 16, marginRight: 4}}
+                            source={require('../images/stars/filledstar.png')}
+                        />
+                    )
+                })}
+                
+                {this.renderPartialStar(decimal)}
+                {Array.from(Array(emptystars).keys()).map(() => {
+                    return (
+                        <Image 
+                            style={{width: 16, height: 16, marginRight: 4}}
+                            source={require('../images/stars/star0.png')}
+                        />
+                    )
+                })}
+            </View>
+        )
+    }
+
+    renderPartialStar(decimal) {
+        switch(decimal) {
+            case 0:
+                return (
+                    <Image 
+                        style={{width: 16, height: 16, marginRight: 4}}
+                        source={require('../images/stars/star0.png')}
+                    />
+                )
+            case 1:
+                return (
+                    <Image 
+                        style={{width: 16, height: 16, marginRight: 4}}
+                        source={require('../images/stars/star1.png')}
+                    />
+                )
+            case 2:
+                return (
+                    <Image 
+                        style={{width: 16, height: 16, marginRight: 4}}
+                        source={require('../images/stars/star2.png')}
+                    />
+                )
+            case 3:
+                return (
+                    <Image 
+                        style={{width: 16, height: 16, marginRight: 4}}
+                        source={require('../images/stars/star3.png')}
+                    />
+                )
+            case 4:
+                return (
+                    <Image 
+                        style={{width: 16, height: 16, marginRight: 4}}
+                        source={require('../images/stars/star4.png')}
+                    />
+                )
+            case 5:
+                return (
+                    <Image 
+                        style={{width: 16, height: 16, marginRight: 4}}
+                        source={require('../images/stars/star5.png')}
+                    />
+                )
+            case 6:
+                return (
+                    <Image 
+                        style={{width: 16, height: 16, marginRight: 4}}
+                        source={require('../images/stars/star6.png')}
+                    />
+                )
+            case 7:
+                return (
+                    <Image 
+                        style={{width: 16, height: 16, marginRight: 4}}
+                        source={require('../images/stars/star7.png')}
+                    />
+                )
+            case 8:
+                return (
+                    <Image 
+                        style={{width: 16, height: 16, marginRight: 4}}
+                        source={require('../images/stars/star8.png')}
+                    />
+                )
+            case 9:
+                return (
+                    <Image 
+                        style={{width: 16, height: 16, marginRight: 4}}
+                        source={require('../images/stars/star9.png')}
+                    />
+                )
+        }
     }
 
     renderContent() {
@@ -102,7 +207,7 @@ class TourInfo extends Component {
                 </Animated.View>
                 {this.state.reviews.map((item) => 
                     <View style={styles.reviewCard}>
-                        <Text>{item.stars} stars</Text>
+                        {this.renderStars(item.stars)}
                         <Text style={{marginTop: 5, fontSize: 14, color: "#9B9BA7", fontStyle: 'italic'}}>{item.tourName} - {item.year}</Text>
                         <Text style={{marginTop: 5}}>{item.comment}</Text>
                     </View>
@@ -188,6 +293,7 @@ const styles = StyleSheet.create({
         height: 600,
         borderTopLeftRadius: 0,
         borderTopRightRadius: 0,
+        borderRadius: 10,
         zIndex: -10
     },
     imageOverlay: {
@@ -210,11 +316,11 @@ const styles = StyleSheet.create({
         alignSelf: "center",
         padding: 20,
         marginBottom: 20,
-        borderRadius: 5,
-        shadowColor: "#656565",
+        borderRadius: 10,
+        shadowColor: "#000000",
         shadowOffset: {width: 1, height: 1},
-        shadowOpacity: 0.8,
-        shadowRadius: 2
+        shadowOpacity: 0.2,
+        shadowRadius: 5,
     },
     whiteButton: {
         backgroundColor: white,
