@@ -26,13 +26,14 @@ import {
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 
-import { NavigationContainer } from '@react-navigation/native';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { createStackNavigator } from '@react-navigation/stack';
+import {NavigationContainer} from '@react-navigation/native';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {createStackNavigator} from '@react-navigation/stack';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import HomePage from './screens/HomePage';
 import Account from './screens/Account';
+import Checkout from './screens/Checkout';
 import Tours from './screens/Tours';
 import TourGuides from './screens/TourGuides';
 import Messages from './screens/Messages';
@@ -50,8 +51,8 @@ const App: () => Node = () => {
         <Stack.Screen name="Profile" component={Profile} />
       </Stack.Navigator> */}
       <Tab.Navigator
-        screenOptions={({ route }) => ({
-          tabBarIcon: ({ focused, color, size }) => {
+        screenOptions={({route}) => ({
+          tabBarIcon: ({focused, color, size}) => {
             let iconName;
 
             if (route.name === 'Home') {
@@ -70,19 +71,26 @@ const App: () => Node = () => {
           activeTintColor: '#3D68CC',
           inactiveTintColor: '#656565',
         }}
-        initialRouteName='HomeScreen'
-      >
-        <Tab.Screen name="Tours" component={Tours}/>
+        initialRouteName="HomeScreen">
+        <Tab.Screen name="Tours" component={Tours} />
         <Tab.Screen name="Home">
           {() => (
             <HomeStack.Navigator>
-              <HomeStack.Screen name="HomeScreen" component={HomePage} options={{title: 'Home'}} />
-              <HomeStack.Screen name="TourGuideProfile" component={TourGuideProfile}/>
-              <HomeStack.Screen name="TourInfo" component={TourInfo}/>
+              <HomeStack.Screen
+                name="HomeScreen"
+                component={HomePage}
+                options={{title: 'Home'}}
+              />
+              <HomeStack.Screen
+                name="TourGuideProfile"
+                component={TourGuideProfile}
+              />
+              <HomeStack.Screen name="TourInfo" component={TourInfo} />
+              <HomeStack.Screen name="Checkout" component={Checkout} />
             </HomeStack.Navigator>
           )}
         </Tab.Screen>
-        <Tab.Screen name="Messages" component={Messages}/>
+        <Tab.Screen name="Messages" component={Messages} />
       </Tab.Navigator>
     </NavigationContainer>
   );

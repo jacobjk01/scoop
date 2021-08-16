@@ -40,11 +40,27 @@ const TourGuideProfile = ({navigation, route}) => {
     console.log('You have pressed the message Button');
   };
 
-  const bookTourButton = () => {
+  const navigateCheckout = ({item}) => {
     return (
-      <TouchableOpacity
-        onPress={messageButtonHandler}
-        style={styles.roundButton2}>
+      <TouchableOpacity onPress={() => navigation.navigate('Checkout', {item})}>
+        <ImageBackground
+          style={styles.listTourImage}
+          imageStyle={{borderRadius: 10}}
+          source={item.src}>
+          <LinearGradient
+            colors={['transparent', 'black']}
+            style={styles.linearGradTour}
+          />
+        </ImageBackground>
+        <Text style={styles.tourText}>{item.name}</Text>
+      </TouchableOpacity>
+    );
+  };
+
+  const bookTourButton = () => {
+    const handleOnPress = () => navigation.navigate('Checkout', {item});
+    return (
+      <TouchableOpacity onPress={handleOnPress} style={styles.roundButton2}>
         <Text style={styles.messageFont}>Book Tour</Text>
       </TouchableOpacity>
     );
@@ -87,20 +103,7 @@ const TourGuideProfile = ({navigation, route}) => {
           style={{marginTop: 10}}
           horizontal={true}
           data={tourimages}
-          renderItem={({item}) => (
-            <TouchableOpacity onPress={() => navigation.navigate('TourInfo')}>
-              <ImageBackground
-                style={styles.listTourImage}
-                imageStyle={{borderRadius: 10}}
-                source={item.src}>
-                <LinearGradient
-                  colors={['transparent', 'black']}
-                  style={styles.linearGradTour}
-                />
-              </ImageBackground>
-              <Text style={styles.tourText}>{item.name}</Text>
-            </TouchableOpacity>
-          )}
+          renderItem={({item}) => navigateCheckout({item})}
         />
         <View style={styles.divider2} />
         <Text style={{marginTop: 30, fontSize: 20, fontWeight: '700'}}>
