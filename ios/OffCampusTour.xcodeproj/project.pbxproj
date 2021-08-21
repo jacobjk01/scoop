@@ -12,7 +12,6 @@
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		450FA69E6E181D8CD09308A0 /* libPods-OffCampusTour.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D6774BF90D5E439FFAA8EFE /* libPods-OffCampusTour.a */; };
-		6050648426B7680300A6B8D5 /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 60E65B0D26AC01B4008E9954 /* Ionicons.ttf */; };
 		645C676A26BE05D2009026B5 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 645C676926BE05D2009026B5 /* GoogleService-Info.plist */; };
 		B422616A3DD90BD591A11EEF /* libPods-OffCampusTour-OffCampusTourTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F2278FDECFA23AA8BB45FCB9 /* libPods-OffCampusTour-OffCampusTourTests.a */; };
 /* End PBXBuildFile section */
@@ -286,7 +285,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6050648426B7680300A6B8D5 /* Ionicons.ttf in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				645C676A26BE05D2009026B5 /* GoogleService-Info.plist in Resources */,
 			);
