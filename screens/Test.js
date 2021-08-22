@@ -1,6 +1,9 @@
 import React, {useState, useEffect} from 'react'
 import { Text, View, Button } from 'react-native'
 import { GoogleSignin, statusCodes, GoogleSigninButton } from '@react-native-google-signin/google-signin';
+import database from '@react-native-firebase/database';
+
+
 const signIn = async () => {
     try {
         //await GoogleSignin.hasPlayServices();
@@ -47,8 +50,10 @@ export default function Test() {
     const [signInStatus, setSignInStatus] = useState(false);
     const [currentUser, setCurrentUser] = useState(null);
     const [signInProgress, setSignInProgress] = useState(false);
+    const [databaseTest, setDatabaseTest] = useState('nothing recieved from database')
     GoogleSignin.configure();
 
+    
     return (
         <View style={{paddingTop:100}}>
             <Text>{signInStatus ? 'Signed In' : 'No Account detected'}</Text>
@@ -82,6 +87,16 @@ export default function Test() {
                             }
                         } )
                 }}/>
+                <Button title="get public value"
+                onPress={() => {
+                    database().ref('/public/hello')
+                        .once('value')
+                        .then(snapshot => {
+                            const val = snapshot.val();
+                            setDatabaseTest(val)
+                        });
+                }}/>
+                <Text>{databaseTest}</Text>
         </View>
     )
 }
