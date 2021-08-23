@@ -101,7 +101,7 @@ const HomePage = ({navigation}) => {
             </TouchableOpacity>
             <TouchableOpacity style={styles.recommendationbuttonright}>
               <View>
-                <Text style={styles.recommendationTitle}>Bussin Food</Text>
+                <Text style={styles.recommendationTitle}>Popular Food</Text>
               </View>
             </TouchableOpacity>
           </View>
