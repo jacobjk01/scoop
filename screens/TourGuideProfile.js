@@ -42,7 +42,7 @@ const TourGuideProfile = ({navigation, route}) => {
 
   const navigateCheckout = ({item}) => {
     return (
-      <TouchableOpacity onPress={() => navigation.navigate('Checkout', {item})}>
+      <TouchableOpacity onPress={() => navigation.navigate('TourInfo', {item})}>
         <ImageBackground
           style={styles.listTourImage}
           imageStyle={{borderRadius: 10}}
