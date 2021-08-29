@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import { Text, View, Button } from 'react-native'
 import { GoogleSignin, statusCodes, GoogleSigninButton } from '@react-native-google-signin/google-signin';
+import auth from '@react-native-firebase/auth';
 import database from '@react-native-firebase/database';
 
 
@@ -8,7 +9,12 @@ const signIn = async () => {
     try {
         //await GoogleSignin.hasPlayServices();
         const userInfo = await GoogleSignin.signIn();
-        //this.setState({ userInfo });
+        const {accessToken, idToken} = userInfo;
+
+        //this hopefully puts user in firebase
+        const credential = auth.GoogleAuthProvider.credential(idToken, accessToken);
+        await auth().signInWithCredential(credential);
+
         return userInfo
     } catch (error) {
         throw Error('sign in failed')
