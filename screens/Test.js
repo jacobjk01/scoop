@@ -3,16 +3,16 @@ import { Text, View, Button } from 'react-native'
 import { GoogleSignin, statusCodes, GoogleSigninButton } from '@react-native-google-signin/google-signin';
 import auth from '@react-native-firebase/auth';
 import database from '@react-native-firebase/database';
-
+import firestore from '@react-native-firebase/firestore';
 
 const signIn = async () => {
     try {
         //await GoogleSignin.hasPlayServices();
         const userInfo = await GoogleSignin.signIn();
-        const {accessToken, idToken} = userInfo;
+        const {idToken} = userInfo;
 
         //this hopefully puts user in firebase
-        const credential = auth.GoogleAuthProvider.credential(idToken, accessToken);
+        const credential = auth.GoogleAuthProvider.credential(idToken);
         await auth().signInWithCredential(credential);
 
         return userInfo
@@ -44,22 +44,38 @@ const getCurrentUser = async () => {
 
 const signOut = async () => {
     try {
-    const res = await GoogleSignin.signOut();
-    //this.setState({ user: null }); // Remember to remove the user from your app's state as well
-
+        const res = await GoogleSignin.signOut();
+        //this.setState({ user: null }); // Remember to remove the user from your app's state as well
+        await GoogleSignin.revokeAccess();
     } catch (error) {
     console.error(error);
     }
     
 };
+
+
 export default function Test() {
     const [signInStatus, setSignInStatus] = useState(false);
     const [currentUser, setCurrentUser] = useState(null);
     const [signInProgress, setSignInProgress] = useState(false);
-    const [databaseTest, setDatabaseTest] = useState('nothing recieved from database')
-    GoogleSignin.configure();
+    const [databaseTest, setDatabaseTest] = useState('if you are recieving this message, you have not accessed the database')
+    const [firestoreTest, setFirestoreTest] = useState('if you are recieving this message, you have not accessed the database')
+    const [uuid, setUuid] = useState(null);
+    GoogleSignin.configure(); //needs to done before signin attempts
 
+    useEffect(() => {
+        var unsubscribe = auth().onAuthStateChanged(user => {
+            if (user) {
+                setUuid(user.uid)
+                console.log(user.uid)
+            }
+        })
+        return () => {
+            unsubscribe();
+        }
+    })
     
+
     return (
         <View style={{paddingTop:100}}>
             <Text>{signInStatus ? 'Signed In' : 'No Account detected'}</Text>
@@ -93,7 +109,7 @@ export default function Test() {
                             }
                         } )
                 }}/>
-                <Button title="get public value"
+                <Button title="get public value realtime"
                 onPress={() => {
                     database().ref('/public/hello')
                         .once('value')
@@ -102,7 +118,17 @@ export default function Test() {
                             setDatabaseTest(val)
                         });
                 }}/>
-                <Text>{databaseTest}</Text>
+                <Text>From realtime database: {databaseTest}</Text>
+
+                {/* <Button title="get public value firestore"
+                onPress={() => {
+                    firestore().collection('users').doc(currentUser.uid)
+                        .get()
+                        .then(res => {
+                            setFirestoreTest(val.type);
+                        });
+                }}/> */}
+                <Text>From firestore database: {}</Text>
         </View>
     )
 }

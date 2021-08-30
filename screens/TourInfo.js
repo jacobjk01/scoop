@@ -74,7 +74,7 @@ class TourInfo extends Component {
     renderStars(count) {
         let fullstars = Math.floor(count);
         var decimal = Math.ceil(10 * (count - Math.floor(count)));
-        console.log(decimal)
+        // console.log(decimal)
         let emptystars = Math.floor(5 - count - 0.1);
         return(
             <View style={{flexDirection: "row"}}>
