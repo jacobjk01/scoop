@@ -120,15 +120,24 @@ export default function Test() {
                 }}/>
                 <Text>From realtime database: {databaseTest}</Text>
 
-                {/* <Button title="get public value firestore"
+                <Button title="get public value firestore"
                 onPress={() => {
-                    firestore().collection('users').doc(currentUser.uid)
-                        .get()
-                        .then(res => {
-                            setFirestoreTest(val.type);
-                        });
-                }}/> */}
-                <Text>From firestore database: {}</Text>
+                    if (uuid == null) {
+                        setFirestoreTest('uid is missing, please login')
+                    } else {
+                        firestore().collection('users').doc(uuid)
+                            .get()
+                            .then(res => {
+                                // console.log(res)
+                                if (res._exists)
+                                    setFirestoreTest(res._data.type);
+                            }).catch(err => {
+                                console.error(err)
+                                setFirestoreTest('error, check console')
+                            })
+                    }
+                }}/>
+                <Text>From firestore database: {firestoreTest}</Text>
         </View>
     )
 }
