@@ -1,74 +1,29 @@
 import React, {useState, useEffect} from 'react'
 import { Text, View, Button } from 'react-native'
+import { signIn, isSignedIn, getCurrentUser, signOut, onAuthStateChanged } from '../api/auth';
 import { GoogleSignin, statusCodes, GoogleSigninButton } from '@react-native-google-signin/google-signin';
-import auth from '@react-native-firebase/auth';
-import database from '@react-native-firebase/database';
-import firestore from '@react-native-firebase/firestore';
-
-const signIn = async () => {
-    try {
-        //await GoogleSignin.hasPlayServices();
-        const userInfo = await GoogleSignin.signIn();
-        const {idToken} = userInfo;
-
-        //this hopefully puts user in firebase
-        const credential = auth.GoogleAuthProvider.credential(idToken);
-        await auth().signInWithCredential(credential);
-
-        return userInfo
-    } catch (error) {
-        throw Error('sign in failed')
-    if (error.code === statusCodes.SIGN_IN_CANCELLED) {
-        // user cancelled the login flow
-    } else if (error.code === statusCodes.IN_PROGRESS) {
-        // operation (e.g. sign in) is in progress already
-    } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
-        // play services not available or outdated
-    } else {
-        // some other error happened
-    }
-    }
-};
-const isSignedIn = async () => {
-    const isSignedIn = await GoogleSignin.isSignedIn();
-    //this.setState({ isLoginScreenPresented: !isSignedIn });
-    return isSignedIn
-};
-
-const getCurrentUser = async () => {
-    const currentUser = await GoogleSignin.getCurrentUser();
-    //this.setState({ currentUser });
-    //console.log(currentUser)
-    return currentUser;
-};
-
-const signOut = async () => {
-    try {
-        const res = await GoogleSignin.signOut();
-        //this.setState({ user: null }); // Remember to remove the user from your app's state as well
-        await GoogleSignin.revokeAccess();
-    } catch (error) {
-    console.error(error);
-    }
-    
-};
-
-
+import { getUser } from '../api/users';
 export default function Test() {
     const [signInStatus, setSignInStatus] = useState(false);
-    const [currentUser, setCurrentUser] = useState(null);
     const [signInProgress, setSignInProgress] = useState(false);
-    const [databaseTest, setDatabaseTest] = useState('if you are recieving this message, you have not accessed the database')
-    const [firestoreTest, setFirestoreTest] = useState('if you are recieving this message, you have not accessed the database')
-    const [uuid, setUuid] = useState(null);
-    GoogleSignin.configure(); //needs to done before signin attempts
+    const [currentUser, setCurrentUser] = useState(null);
+    const [userType, setUserType] = useState('if you are recieving this message, you have not accessed the database')
+    
 
     useEffect(() => {
-        var unsubscribe = auth().onAuthStateChanged(user => {
-            if (user) {
-                setUuid(user.uid)
-                console.log(user.uid)
+        var unsubscribe = onAuthStateChanged(user2 => {
+            console.log('auth state changed')
+            if (user2) { //gets currentUser if logined in but currentUser is null
+                console.log(user2.uid);
+                getCurrentUser().then(user => {
+                    console.log(user);
+                    user.uid = user2.uid;
+                    if (!user) {
+                        setCurrentUser(user);
+                    }
+                }).catch(console.error)
             }
+            
         })
         return () => {
             unsubscribe();
@@ -109,35 +64,20 @@ export default function Test() {
                             }
                         } )
                 }}/>
-                <Button title="get public value realtime"
-                onPress={() => {
-                    database().ref('/public/hello')
-                        .once('value')
-                        .then(snapshot => {
-                            const val = snapshot.val();
-                            setDatabaseTest(val)
-                        });
-                }}/>
-                <Text>From realtime database: {databaseTest}</Text>
 
                 <Button title="get public value firestore"
                 onPress={() => {
-                    if (uuid == null) {
-                        setFirestoreTest('uid is missing, please login')
+                    if (currentUser == null) {
+                        setUserType('currentUser is not detected')
+                    } else if (currentUser.uid == null) {
+                        setUserType('uid is missing, please login')
                     } else {
-                        firestore().collection('users').doc(uuid)
-                            .get()
-                            .then(res => {
-                                // console.log(res)
-                                if (res._exists)
-                                    setFirestoreTest(res._data.type);
-                            }).catch(err => {
-                                console.error(err)
-                                setFirestoreTest('error, check console')
-                            })
+                        getUser(currentUser.uid, (res) => {
+                            setUserType(res._data.type);
+                        })
                     }
                 }}/>
-                <Text>From firestore database: {firestoreTest}</Text>
+                <Text>From firestore database: {userType}</Text>
         </View>
     )
 }
