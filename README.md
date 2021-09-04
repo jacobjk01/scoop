@@ -20,3 +20,8 @@ Before doing these steps, make sure your environment is setup. Please follow the
  7. In another terminal, `npx react-native run-ios`. 
 
 Note: If you are on the `staging` branch or have any backend code (firebase packages), please ask Jonathan for the firebase keys.
+
+
+
+## Firebase connection:
+In order for easy integration with react-native, we are using [rnfirebase library](https://rnfirebase.io/firestore/usage). 
