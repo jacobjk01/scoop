@@ -49,17 +49,16 @@ export default function Test() {
                 />
 
                 <Button title="get public value firestore"
-                onPress={() => {
+                onPress={async () => {
                     if (!userAuth) {
                         setUserType('currentUser is not detected')
                     } else {
-                        getUser(userAuth.uid, ({_data}) => {
-                            if (_data) {
-                                setUserType(_data.type);
-                            } else {
-                                console.error('something is wrong')
-                            }
-                        })
+                        const {_data} = await getUser(userAuth.uid);
+                        if (_data) {
+                            setUserType(_data.type);
+                        } else {
+                            console.error('something is wrong')
+                        }
                     }
                 }}/>
                 <Text>From firestore database: {userType}</Text>
