@@ -1,3 +1,11 @@
+/**
+ * 
+ *  you should only have to use:
+ *    - signIn
+ *    - signOut
+ * 
+ */
+
 import auth from '@react-native-firebase/auth';
 import {
     GoogleSignin,
@@ -35,24 +43,6 @@ export const signIn = async () => {
     }
 };
 
-export const isSignedIn = async () => {
-    const isSignedIn = await GoogleSignin.isSignedIn();
-    //this.setState({ isLoginScreenPresented: !isSignedIn });
-    return isSignedIn
-};
-
-/*
-Don't use this function, rely on the onAuthChange function
-*/
-// export const getCurrentUser = async () => {
-//     console.log('getCurrentUser being called')
-//     const userInfo = await GoogleSignin.signInSilently();
-//     if (userInfo) {
-//         return userInfo
-//     }
-//     const currentUser = await GoogleSignin.getCurrentUser();
-//     return currentUser;
-// };
 
 export const signOut = async () => {
     try {
@@ -115,3 +105,23 @@ const signInReturnData = {
         "photo": "https://lh3.googleusercontent.com/a-/AOh14GhaKhMpzE0CUGUikJaLXGP2AkHuVfbFIj4cJHKRkA=s120"
     }
 }
+
+
+// export const isSignedIn = async () => {
+//     const isSignedIn = await GoogleSignin.isSignedIn();
+//     //this.setState({ isLoginScreenPresented: !isSignedIn });
+//     return isSignedIn
+// };
+
+/*
+Don't use this function, rely on the onAuthChange function
+*/
+// export const getCurrentUser = async () => {
+//     console.log('getCurrentUser being called')
+//     const userInfo = await GoogleSignin.signInSilently();
+//     if (userInfo) {
+//         return userInfo
+//     }
+//     const currentUser = await GoogleSignin.getCurrentUser();
+//     return currentUser;
+// };
