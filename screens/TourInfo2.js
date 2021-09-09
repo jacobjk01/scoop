@@ -12,7 +12,7 @@ import { Calendar } from 'react-native-calendars';
 import { black, white } from '../config/colors';
 
 const { event, ValueXY } = Animated;
-class TourInfo extends Component {
+class TourInfo2 extends Component {
     constructor(props) {
         super(props)
 
@@ -175,10 +175,6 @@ class TourInfo extends Component {
         }
     }
 
-    onDayPress (day) {
-        this.setSelected(day.dateString)
-    }
-
     renderContent() {
         const navigation = this.props.navigation;
         const scrollPosition = (x) => x;
@@ -206,47 +202,6 @@ class TourInfo extends Component {
                         <Text style={{color: "#41479B"}}>Book Now</Text>
                     </TouchableOpacity>
                 </Animated.View>
-                <View style={[styles.backCard, {position: 'relative', paddingLeft: 20, paddingRight: 20, paddingBottom: 30}]}>
-                    <Text style={styles.sectionText}>Select Date</Text>
-                    <View style={styles.line}></View>
-                    <Calendar
-                        // minDate={'2012-05-10'}
-                        // maxDate={'2012-05-30'}
-                        onDayPress={this.onDayPress.bind(this)}
-                        // Month format in calendar title. Formatting values: http://arshaw.com/xdate/#Formatting
-                        monthFormat={'MMM yyyy'}
-                        // If firstDay=1 week starts from Monday. Note that dayNames and dayNamesShort should still start from Sunday
-                        firstDay={1}
-                        // Handler which gets executed when press arrow icon left. It receive a callback can go back month
-                        onPressArrowLeft={subtractMonth => subtractMonth()}
-                        // Handler which gets executed when press arrow icon right. It receive a callback can go next month
-                        onPressArrowRight={addMonth => addMonth()}
-                        // Disable all touch events for disabled days. can be override with disableTouchEvent in markedDates
-                        disableAllTouchEventsForDisabledDays={true}
-                        // Enable the option to swipe between months. Default = false
-                        enableSwipeMonths={true}
-                        
-                        theme={{
-                            arrowColor: "#3154A5",
-                            todayTextColor: "#3D68CC",
-                            monthTextColor: "#3154A5",
-                            textMonthFontWeight: "600",
-                        }}
-
-                        markedDates={{
-                            [this.state.selected]: {
-                                selected: true,
-                                disableTouchEvent: true,
-                                selectedColor: '#3154A5',
-                                selectedTextColor: 'white'
-                            }
-                            }}
-                    >
-                    </Calendar>
-                </View>
-                <TouchableOpacity style={styles.continue} onPress={() => this.props.navigation.navigate("TourGuideList")}>
-                    <Text style={{alignSelf: "center", color: white, fontWeight: '600'}}>See Available Tour Guides</Text>
-                </TouchableOpacity>
                 <Text style={[styles.sectionText, {marginTop: 40}]}>Reviews</Text>
                 <FlatList
                     style={{paddingBottom: 10}}
@@ -436,4 +391,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default TourInfo;
+export default TourInfo2;

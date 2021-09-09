@@ -18,7 +18,7 @@ import colors from '../config/colors';
 import {color} from 'react-native-reanimated';
 import TourGuideProfile from './TourGuideProfile';
 
-const HomePage = ({navigation}) => {
+const TourList = ({navigation}) => {
   const [tourimages, setImages] = useState([
     {name: 'Santa Monica', src: require('../images/SantaMonica.png')},
     {name: 'Westwood Tour', src: require('../images/Westwood_village.png')},
@@ -67,45 +67,6 @@ const HomePage = ({navigation}) => {
   return (
     <SafeAreaView>
       <ScrollView style={{paddingRight: 20, paddingLeft: 20, height: '100%'}}>
-        <Text style={styles.titleText}>Explore around UCLA!</Text>
-        <View style={{marginTop: 30}}>
-          <TextInput style={styles.input} placeholder={'Search'}></TextInput>
-          <Ionicons
-            style={styles.searchicon}
-            name={'search-outline'}
-            size={25}
-            color={'#656565'}
-          />
-        </View>
-        <Text style={styles.sectionText}>Category</Text>
-        <View style={{width: '100%', flexDirection: 'column', marginTop: 10}}>
-          <View style={{flexDirection: 'row'}}>
-            <TouchableOpacity style={styles.recommendationbuttonleft}>
-              <View>
-                <Text style={styles.recommendationTitle}>UCLA Picks</Text>
-              </View>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.recommendationbuttonright}>
-              <View>
-                <Text style={styles.recommendationTitle}>
-                  Outdoor Activities
-                </Text>
-              </View>
-            </TouchableOpacity>
-          </View>
-          <View style={{flexDirection: 'row', marginTop: 15}}>
-            <TouchableOpacity style={styles.recommendationbuttonleft}>
-              <View>
-                <Text style={styles.recommendationTitle}>Sightseeing</Text>
-              </View>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.recommendationbuttonright}>
-              <View>
-                <Text style={styles.recommendationTitle}>Popular Food</Text>
-              </View>
-            </TouchableOpacity>
-          </View>
-        </View>
         <View style={{marginTop: 30}}>
           <Text style={{marginLeft: 10, fontSize: 20, fontWeight: '700'}}>
             Popular Tours
@@ -123,7 +84,7 @@ const HomePage = ({navigation}) => {
           horizontal={true}
           data={tourimages}
           renderItem={({item}) => (
-            <TouchableOpacity onPress={() => navigation.navigate('TourInfo')}>
+            <TouchableOpacity onPress={() => navigation.navigate('TourInfo2')}>
               <ImageBackground
                 style={styles.listTourImage}
                 imageStyle={{borderRadius: 10}}
@@ -137,23 +98,10 @@ const HomePage = ({navigation}) => {
             </TouchableOpacity>
           )}
         />
-        <View style={{marginTop: 30}}>
-          <Text style={{marginLeft: 10, fontSize: 20, fontWeight: '700'}}>
-            Tour Guides
-          </Text>
-          <TouchableOpacity style={{position: 'absolute', right: 10, top: 3}}>
-            <View>
-              <Text style={{color: '#3D68CC'}}>View All &gt;</Text>
-            </View>
-          </TouchableOpacity>
-        </View>
-        <FlatList
-          style={{marginTop: 10, marginBottom: 30}}
-          horizontal={true}
-          data={guideimages}
-          renderItem={renderItem}
-        />
       </ScrollView>
+      <TouchableOpacity style={styles.backIcon} onPress={() => navigation.goBack()}>
+            <Ionicons name='chevron-back-outline' size={20} color='white' />
+        </TouchableOpacity>
     </SafeAreaView>
   );
 };
@@ -252,6 +200,19 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
     borderRadius: 10,
   },
+  backIcon: {
+    backgroundColor: '#3154A5',
+    borderRadius: 10,
+    borderColor: 'white',
+    borderWidth: 1,
+    position: 'absolute',
+    left: 20,
+    top: 40,
+    width: 40,
+    height: 40,
+    alignItems: 'center',
+    justifyContent: 'center'
+},
 });
 
-export default HomePage;
+export default TourList;
