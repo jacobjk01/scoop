@@ -13,6 +13,10 @@ import Messages from '../../screens/Messages';
 import { TouchableOpacity } from 'react-native';
 import Booking from '../../screens/Booking';
 import Checkout from '../../screens/Checkout';
+import TourGuideList from '../../screens/TourGuideList';
+import TourGuideProfile2 from '../../screens/TourGuideProfile2';
+import TourList from '../../screens/TourList';
+import TourInfo2 from '../../screens/TourInfo2';
 
 const HomeStack = ({navigation}) => {
     const HomeStack = createStackNavigator();
@@ -29,7 +33,11 @@ const HomeStack = ({navigation}) => {
                 )
                 }} />
             <HomeStack.Screen name="TourGuideProfile" component={TourGuideProfile}/>
+            <HomeStack.Screen name="TourGuideProfile2" component={TourGuideProfile2}/>
             <HomeStack.Screen name="TourInfo" component={TourInfo} options={{headerShown: false}}/>
+            <HomeStack.Screen name="TourInfo2" component={TourInfo2} options={{headerShown: false}}/>
+            <HomeStack.Screen name="TourGuideList" component={TourGuideList} options={{headerShown: false}}/>
+            <HomeStack.Screen name="TourList" component={TourList} options={{headerShown: false}}/>
             <HomeStack.Screen name="Messages" component={Messages}/>
             <HomeStack.Screen name="Booking" component={Booking}
                 options={({ navigation }) => ({
