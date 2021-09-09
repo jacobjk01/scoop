@@ -302,7 +302,7 @@ class Booking extends Component {
                         </View>
                     </View>
                     <View style={{flex: 1, height: 100, backgroundColor: white, marginTop: 10, justifyContent: 'center', padding: 20}}>
-                        <TouchableOpacity style={styles.continue} onPress={() => this.props.navigation.navigate("Checkout")}>
+                        <TouchableOpacity style={styles.continue} onPress={() => this.props.navigation.navigate('Checkout', {item})}>
                             <Text style={{alignSelf: "center", color: white, fontWeight: '600'}}>Continue</Text>
                         </TouchableOpacity>
                     </View>
