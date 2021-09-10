@@ -9,8 +9,7 @@ const User = db().collection('users');
 //in this case, getUser will create a basic document for the user
 //however that is below the abstraction
 export const getUser = async (userAuth) => {
-    console.log(userAuth)
-    let user = await get(User, userAuth.uid);
+    const user = await get(User, userAuth.uid);
     if (!user._exists) {            
         await User.doc(userAuth.uid).set({
             userType: 'user',
@@ -45,7 +44,7 @@ export const changeYear = async (uid, year) => {
 }
 
 export const changeIntro = async (uid, intro) => {
-    await update(User, uid, "intro", intro)
+    return await update(User, uid, "intro", intro)
 }
 
 // Represented as a list or from multi-selection
