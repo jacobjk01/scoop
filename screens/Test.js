@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react'
-import { Text, View, Button } from 'react-native'
+import { Text, View, Button, Image } from 'react-native'
 import { signIn, signOut, onAuthStateChanged } from '../api/auth';
 import { GoogleSigninButton } from '@react-native-google-signin/google-signin';
 import { changeUsername, getUser } from '../api/users';
@@ -54,6 +54,11 @@ export default function Test() {
                         console.log(user)
                 }}
                 />
+                <View>
+                    {userAuth ? <Image
+                        style={{width: 100, height: 100}}
+                        source={{uri: userAuth.photoURL}}/> : <></>}
+                </View>
 
                 <Button title="get public value firestore"
                 onPress={async () => {

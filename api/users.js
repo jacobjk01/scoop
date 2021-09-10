@@ -9,15 +9,18 @@ const User = db().collection('users');
 //in this case, getUser will create a basic document for the user
 //however that is below the abstraction
 export const getUser = async (userAuth) => {
+    console.log(userAuth)
     let user = await get(User, userAuth.uid);
     if (!user._exists) {            
         await User.doc(userAuth.uid).set({
             userType: 'user',
-            username: userAuth.displayName
+            username: userAuth.displayName,
+            profilePicture: userAuth.photoURL
         })
         return await get(User, userAuth.uid);
     }
-    // TODO update profile pic
+    // TODO update profile pic (right now only sets image once profile made, won't work when image updated after)
+    console.log(userAuth.photoURL) // <- this is the photo URL
     return user
 }
 
@@ -29,34 +32,34 @@ export const changeUsername = async (uid, username) => {
 }
 
 // Specifics for images in db?
-export const changeProfilePicture = (uuid, profilePicture) => {
+export const changeProfilePicture = async (uid, profilePicture) => {
     await update(User, uid, "profilePicture", profilePicture)
 }
 
-export const changeMajor = (uuid, major) => {
+export const changeMajor = async  (uid, major) => {
     await update(User, uid, "major", major)
 }
 
-export const changeYear = (uid, year) => {
+export const changeYear = async (uid, year) => {
     await update(User, uid, "year", year)
 }
 
-export const changeIntro = (uid, intro) => {
+export const changeIntro = async (uid, intro) => {
     await update(User, uid, "intro", intro)
 }
 
 // Represented as a list or from multi-selection
-export const changeLanguages = (uid, languages) => {
+export const changeLanguages = async (uid, languages) => {
     await update(User, uid, "languages", languages)
 }
 
-export const changeHometown = (uid, hometown) => {
+export const changeHometown = async (uid, hometown) => {
     await update(User, uid, "hometown", hometown)
 }
 
 
 // Will need to send the full list of tours back, and update all
-export const changeTours = (uid, tours) => {
+export const changeTours = async (uid, tours) => {
     await update(User, uid, "tours", tours)
 }
 
