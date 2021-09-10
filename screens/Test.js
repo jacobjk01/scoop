@@ -2,7 +2,8 @@ import React, {useState, useEffect} from 'react'
 import { Text, View, Button } from 'react-native'
 import { signIn, signOut, onAuthStateChanged } from '../api/auth';
 import { GoogleSigninButton } from '@react-native-google-signin/google-signin';
-import { getUser } from '../api/users';
+import { changeUsername, getUser } from '../api/users';
+
 export default function Test() {
     const [signInStatus, setSignInStatus] = useState(false);
     const [signInProgress, setSignInProgress] = useState(false);
@@ -17,7 +18,6 @@ export default function Test() {
             } else {
                 setUserAuth(null);
             }
-            
         })
         return () => {
             unsubscribe();
@@ -47,17 +47,29 @@ export default function Test() {
                 }}
                     disabled={!userAuth}
                 />
+                <Button 
+                    title="Change username"
+                    onPress={async () => {
+                        const user = await changeUsername(userAuth.uid, "other");
+                        console.log(user)
+                }}
+                />
 
                 <Button title="get public value firestore"
                 onPress={async () => {
                     if (!userAuth) {
                         setUserType('currentUser is not detected')
                     } else {
-                        const {_data} = await getUser(userAuth.uid);
-                        if (_data) {
-                            setUserType(_data.type);
-                        } else {
-                            console.error('something is wrong')
+                        try {
+                            const user = await getUser(userAuth);
+                            console.log(user)
+                            if (user._data) {
+                                setUserType(user._data.type);
+                            } else {
+                                console.error('something is wrong')
+                            }
+                        } catch(err) {
+                            console.error(err)
                         }
                     }
                 }}/>
