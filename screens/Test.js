@@ -42,8 +42,8 @@ export default function Test() {
                 />
                 <Button 
                     title="Sign Out"
-                    onPress={()=> {
-                        signOut();
+                    onPress={async ()=> {
+                        await signOut();
                 }}
                     disabled={!userAuth}
                 />

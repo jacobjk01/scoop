@@ -47,12 +47,20 @@ export const signIn = async () => {
 export const signOut = async () => {
     try {
         await GoogleSignin.revokeAccess();
+    } catch (error){
+        console.error("revoke Access failed")
+        console.error(error)
+    }
+    try {
         await GoogleSignin.signOut();
-        auth().signOut().then(() => {
-            console.log('you are signed out')
-        });
+    } catch (error){
+        console.error("signOut part 1 failed")
+        console.error(error)
+    }
+    try {
+        await auth().signOut();
     } catch (error) {
-        console.error("Error at signOut function")
+        console.error("signOut part 2 failed")
         console.error(error);
     }
 };
