@@ -44,42 +44,15 @@ const TourList = ({navigation}) => {
     );
   };
 
-  const [guideimages, setGuideImages] = useState([
-    {
-      name: 'Natalie',
-      year: 'Junior',
-      major: 'Psychobiology',
-      src: require('../images/natalie.png'),
-    },
-    {
-      name: 'Trevor',
-      year: 'Senior',
-      major: 'Marketing',
-      src: require('../images/trevor.png'),
-    },
-    {
-      name: 'Brittany',
-      year: 'Junior',
-      major: 'Mechanical Eng.',
-      src: require('../images/brittany.png'),
-    },
-  ]);
   return (
     <SafeAreaView>
       <ScrollView style={{paddingRight: 20, paddingLeft: 20, height: '100%'}}>
-        <View style={{marginTop: 30}}>
-          <Text style={{marginLeft: 10, fontSize: 20, fontWeight: '700'}}>
-            Popular Tours
+        <View style={{marginTop: 50}}>
+          <Text style={{marginLeft: 20, fontSize: 20, fontWeight: '700', marginBottom: 20}}>
+            Tours with Brittany
           </Text>
-          <TouchableOpacity
-            onPress={() => navigation.navigate('Tours')}
-            style={{position: 'absolute', right: 10, top: 3}}>
-            <View>
-              <Text style={{color: '#3D68CC'}}>View All &gt;</Text>
-            </View>
-          </TouchableOpacity>
         </View>
-        <FlatList
+        {/* <FlatList
           style={{marginTop: 10}}
           horizontal={true}
           data={tourimages}
@@ -97,7 +70,28 @@ const TourList = ({navigation}) => {
               <Text style={styles.tourText}>{item.name}</Text>
             </TouchableOpacity>
           )}
-        />
+        /> */}
+        <View style={{flexDirection: 'row', flexWrap: 'wrap'}}>
+          {tourimages.map((tour) => {
+            return(
+              <View style={styles.tourCard}>
+                <Image style={styles.tourImage} source={tour.src}></Image>
+                <View style={styles.tourTextSection}>
+                  <Text style={{color: "#9B9BA7"}}>60 min | Max 6 people</Text>
+                  <Text style={{fontWeight: '600'}}>Westwood Tour</Text>
+                  <Text style={{fontSize: 12, marginTop: 5}}>Get to know the neighborhood: where to grocery shop, where the best hangout...</Text>
+                </View>
+              </View>
+            )
+          })}
+        {/*           
+          <View style={styles.tourCard}>
+            
+          </View>
+          <View style={styles.tourCard}>
+            
+          </View> */}
+        </View>
       </ScrollView>
       <TouchableOpacity style={styles.backIcon} onPress={() => navigation.goBack()}>
             <Ionicons name='chevron-back-outline' size={20} color='white' />
@@ -120,41 +114,6 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     marginTop: 30,
     marginLeft: 10,
-  },
-  input: {
-    alignSelf: 'center',
-    backgroundColor: colors.white,
-    height: 50,
-    width: '100%',
-    // borderWidth: 1,
-    // borderColor: '#656565',
-    borderRadius: 7,
-    paddingLeft: 20,
-  },
-  searchicon: {
-    position: 'absolute',
-    right: 10,
-    top: 11,
-  },
-  recommendationbuttonleft: {
-    flex: 1,
-    backgroundColor: colors.primary,
-    borderRadius: 7,
-    height: 100,
-    marginRight: 15,
-  },
-  recommendationbuttonright: {
-    flex: 1,
-    backgroundColor: colors.primary,
-    borderRadius: 7,
-    height: 100,
-  },
-  recommendationTitle: {
-    marginTop: 15,
-    marginLeft: 15,
-    color: colors.white,
-    fontWeight: '600',
-    fontSize: 16,
   },
   listTourImage: {
     marginRight: 15,
@@ -199,6 +158,29 @@ const styles = StyleSheet.create({
     right: 0,
     backgroundColor: 'transparent',
     borderRadius: 10,
+  },
+  tourCard: {
+    width: '45%',
+    height: 250,
+    margin: 8,
+    borderRadius: 10,
+    backgroundColor: 'white',
+    shadowColor: "#000000",
+    shadowOffset: {width: 1, height: 1},
+    shadowOpacity: 0.2,
+    shadowRadius: 5
+  },
+  tourImage: {
+    position: 'absolute',
+    top: 0,
+    width: '100%',
+    height: '50%',
+    borderRadius: 10,
+  },
+  tourTextSection: {
+    position: 'absolute',
+    top: '53%',
+    left: 10,
   },
   backIcon: {
     backgroundColor: '#3154A5',
