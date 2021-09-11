@@ -3,6 +3,7 @@ const User = db().collection('users');
 import {get} from './auth'
 //needs to be a async/await
 
+
 //gets the user, if there is no document for the user, first time
 //signers may not have a user in the users collection
 //in this case, getUser will create a basic document for the user

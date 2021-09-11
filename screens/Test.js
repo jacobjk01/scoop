@@ -3,6 +3,7 @@ import { Text, View, Button } from 'react-native'
 import { signIn, signOut, onAuthStateChanged } from '../api/auth';
 import { GoogleSigninButton } from '@react-native-google-signin/google-signin';
 import { getUser } from '../api/users';
+import { sendMessage, onConversationChange } from '../api/messaging';
 export default function Test() {
     const [signInStatus, setSignInStatus] = useState(false);
     const [signInProgress, setSignInProgress] = useState(false);
@@ -11,7 +12,7 @@ export default function Test() {
     const [userType, setUserType] = useState('currently userType is not set')
     
     useEffect(() => {
-        var unsubscribe = onAuthStateChanged(user => {
+        var unsubscribe1 = onAuthStateChanged(user => {
             if (user) {
                 setUserAuth(user);
             } else {
@@ -19,8 +20,13 @@ export default function Test() {
             }
             
         })
+        var unsubscribe2 = onConversationChange("123", conversation => {
+            console.log(conversation)
+        })
+
         return () => {
-            unsubscribe();
+            unsubscribe1();
+            unsubscribe2();
         }
     })
     
@@ -62,6 +68,10 @@ export default function Test() {
                     }
                 }}/>
                 <Text>From firestore database: {userType}</Text>
+                <Button title="send Message"
+                onPress={async () => {
+                    await sendMessage("testing append", "123", "senderId123")
+                }}/>
         </View>
     )
 }
