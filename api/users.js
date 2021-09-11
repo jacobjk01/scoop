@@ -14,7 +14,7 @@ export const getUser = async (userAuth) => {
         await User.doc(userAuth.uid).set({
             userType: 'user',
             username: userAuth.displayName,
-            profilePicture: userAuth.photoURL
+            profilePicture: userAuth.photoURL,
         })
         return await get(User, userAuth.uid);
     }

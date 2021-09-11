@@ -14,10 +14,15 @@ export default function Test() {
     const [userName, setUserName] = useState('currently userName is not set')
     const [userIntro, setUserIntro] = useState('currently userIntro is not set');
     
+    
     useEffect(() => {
-        var unsubscribe = onAuthStateChanged(user => {
+        var unsubscribe = onAuthStateChanged(async user => {
             if (user) {
                 setUserAuth(user);
+                const currentUser = await getUser(user);
+                setUserType(currentUser._data.userType)
+                setUserName(currentUser._data.username)
+                setUserIntro(currentUser._data.intro)
             } else {
                 setUserAuth(null);
             }
@@ -29,7 +34,7 @@ export default function Test() {
     
 
     return (
-        <View style={{paddingTop:100}}>
+        <View style={{ paddingTop: 100 }}>
             {/* <Text>{signInStatus ? 'Signed In' : 'No Account detected'}</Text> */}
             <Text>{userAuth ? userAuth.email : 'No User'}</Text>
             {<Text>{userAuth ? 'Signed In' : 'No Account detected'}</Text>}
@@ -51,26 +56,11 @@ export default function Test() {
                 }}
                     disabled={!userAuth}
                 />
-                {/* Currently stuck on understanding how to load user data,
-                if data is already in database, and show it on here */}
                 <HeaderTitle>Welcome back, {userName}</HeaderTitle>
-                {/* <HeaderTitle>Welcome back, {userAuth ? userAuth.displayName : userName}</HeaderTitle> */}
-                <Button
-                    title="Testing"
-                    onPress={async () => {
-                        if (userAuth) {
-                            const user = await getUser(userAuth);
-                            globaluser = user._data.username
-                            console.log(user)
-                        } else {
-                            console.log("no authentication")
-                        }
-                }}
-                />
                 <Button
                     title="Change username"
                     onPress={async () => {
-                        if (await changeUsername(userAuth.uid, "New User")) {
+                        if (await changeUsername(userAuth.uid, "Josh")) {
                             const user = await getUser(userAuth);
                             setUserName(user._data.username)
                             console.log("Username successfully changed")
@@ -88,7 +78,7 @@ export default function Test() {
                 <Button 
                     title="Change Intro"
                     onPress={async () => {
-                        if (await changeIntro(userAuth.uid, "The user intro has been updated to this!")) {
+                        if (await changeIntro(userAuth.uid, "This is my bio!")) {
                             const user = await getUser(userAuth);
                             setUserIntro(user._data.intro)
                         }
