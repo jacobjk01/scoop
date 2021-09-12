@@ -4,6 +4,7 @@ import { signIn, signOut, onAuthStateChanged } from '../api/auth';
 import { GoogleSigninButton } from '@react-native-google-signin/google-signin';
 import { changeIntro, changeUsername, getUser } from '../api/users';
 import { HeaderTitle } from '@react-navigation/stack';
+import { addTour } from '../api/tours';
 
 export default function Test() {
     const [signInStatus, setSignInStatus] = useState(false);
@@ -69,6 +70,13 @@ export default function Test() {
                         }
                 }}
                 />
+                <Button
+                    title="book tour"
+                    onPress={async () => {
+                        addTour(21, 321, 315, 63, 15, 523, 12, 73, 1234);
+                    }
+                    }
+                />
                 <View>
                     {userAuth ? <Image
                         style={{width: 100, height: 100}}
@@ -78,7 +86,7 @@ export default function Test() {
                 <Button 
                     title="Change Intro"
                     onPress={async () => {
-                        if (await changeIntro(userAuth.uid, "This is my bio!")) {
+                        if (await changeIntro(userAuth.uid, "test")) {
                             const user = await getUser(userAuth);
                             setUserIntro(user._data.intro)
                         }
