@@ -1,7 +1,7 @@
 import db from '@react-native-firebase/firestore';
 import { update, get } from './utilities';
 
-const User = db().collection('users');
+const Users = db().collection('users');
 //needs to be a async/await
 
 //gets the user, if there is no document for the user, first time
@@ -9,57 +9,57 @@ const User = db().collection('users');
 //in this case, getUser will create a basic document for the user
 //however that is below the abstraction
 export const getUser = async (userAuth) => {
-    const user = await get(User, userAuth.uid);
+    const user = await get(Users, userAuth.uid);
     if (!user._exists) {            
-        await User.doc(userAuth.uid).set({
+        await Users.doc(userAuth.uid).set({
             userType: "guide",
             username: userAuth.displayName,
             profilePicture: userAuth.photoURL
-        })
-        return await get(User, userAuth.uid);
+        });
+        return await get(Users, userAuth.uid);
     }
     // TODO update profile pic (right now only sets image once profile made, won't work when image updated after)
     console.log(userAuth.photoURL) // <- this is the photo URL
-    return user
+    return user;
 }
 
 // update() will update current value (updating 1 or 2 properties)
 // set() will overwrite whole document (updating whole properties, even ones not specified)
 // if change is successful, returns true, else returns false
 export const changeUsername = async (uid, username) => {
-    return await update(User, uid, "username", username)
+    return await update(Users, uid, "username", username);
 }
 
 // Specifics for images in db?
 export const changeProfilePicture = async (uid, profilePicture) => {
-    await update(User, uid, "profilePicture", profilePicture)
+    await update(Users, uid, "profilePicture", profilePicture);
 }
 
 export const changeMajor = async  (uid, major) => {
-    await update(User, uid, "major", major)
+    await update(Users, uid, "major", major);
 }
 
 export const changeYear = async (uid, year) => {
-    await update(User, uid, "year", year)
+    await update(Users, uid, "year", year);
 }
 
 export const changeIntro = async (uid, intro) => {
-    return await update(User, uid, "intro", intro)
+    return await update(Users, uid, "intro", intro);
 }
 
 // Represented as a list or from multi-selection
 export const changeLanguages = async (uid, languages) => {
-    await update(User, uid, "languages", languages)
+    await update(Users, uid, "languages", languages);
 }
 
 export const changeHometown = async (uid, hometown) => {
-    await update(User, uid, "hometown", hometown)
+    await update(Users, uid, "hometown", hometown);
 }
 
 
 // Will need to send the full list of tours back, and update all
 export const changeTours = async (uid, tours) => {
-    await update(User, uid, "tours", tours)
+    await update(Users, uid, "tours", tours);
 }
 
 // Specifics for searching may be different
