@@ -14,3 +14,12 @@ export async function update(collection, id, key, value) {
 export async function get(collection, id) {
     return await collection.doc(id).get();
 }
+export async function deleteC(field1, query1, field2, query2) {
+
+    await tours.where(field1, '==', query1).where(field2, '==', query2).get().then(querySnapshot =>{
+        querySnapshot.forEach((documentSnapshot) =>
+            {
+               tours.doc(documentSnapshot.id).delete();
+            });
+    });
+}

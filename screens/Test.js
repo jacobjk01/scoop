@@ -4,7 +4,7 @@ import { signIn, signOut, onAuthStateChanged } from '../api/auth';
 import { GoogleSigninButton } from '@react-native-google-signin/google-signin';
 import { changeIntro, changeUsername, getUser } from '../api/users';
 import { HeaderTitle } from '@react-navigation/stack';
-import { addTour } from '../api/tours';
+import { addTour, editTour, switchTour, archiveTour, unarchiveTour, bookTour} from '../api/tours';
 
 export default function Test() {
     const [signInStatus, setSignInStatus] = useState(false);
@@ -71,9 +71,64 @@ export default function Test() {
                 }}
                 />
                 <Button
-                    title="book tour"
+                    title="add tour"
                     onPress={async () => {
-                        addTour(21, 321, 315, 63, 15, 523, 12, 73, 1234);
+                        addTour(2211, 2541, 3341, 65, 654, 1562, 64, 1324, 64, 334).catch((error)=>{
+                            console.log(error);
+                        });
+                    }
+                    }
+                />
+                <Button
+                    title="edit tour"
+                    onPress={async () => {
+                        editTour(21, 2321, "date", 612341).catch((error)=>{
+                            console.log(error);
+                        });
+                    }
+                    }
+                />
+                <Button
+                    title="archive tours"
+                    onPress={async () => {
+                        let i = [
+                            [21, 2321], 
+                            [2211, 2541],
+                        ]
+                        archiveTour(i).catch((error)=>{
+                            console.log(error);
+                        });
+                    }
+                    }
+                />
+                <Button
+                    title="unarchive tours"
+                    onPress={async () => {
+                        let i = [
+                            [21, 2321], 
+                            [2211, 2541],
+                        ]
+                        unarchiveTour(i).catch((error)=>{
+                            console.log(error);
+                        });
+                    }
+                    }
+                />
+                <Button
+                    title="switch tours"
+                    onPress={async () => {
+                        switchTour(2211, 2541, 734).catch((error)=>{
+                            console.log(error);
+                        });
+                    }
+                    }
+                />
+                <Button
+                    title="book tours"
+                    onPress={async () => {
+                        bookTour(2211, 2541, 62322222, 522213).catch((error)=>{
+                            console.log(error);
+                        });
                     }
                     }
                 />
