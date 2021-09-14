@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react'
 import { Text, View, Button, Image } from 'react-native'
 import { signIn, signOut, onAuthStateChanged } from '../api/auth';
 import { GoogleSigninButton } from '@react-native-google-signin/google-signin';
-import { createUser, changeIntro, changeName, getUser, createPrivateData } from '../api/users';
+import { changeIntro, changeName, getUser, createPrivateData } from '../api/users';
 import { HeaderTitle } from '@react-navigation/stack';
 
 export default function Test() {
