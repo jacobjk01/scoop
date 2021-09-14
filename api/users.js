@@ -16,12 +16,9 @@ export const getUser = async (userAuth) => {
     if (!user._exists) {
         await Users.doc(userAuth.uid).set({
             userType: "guide",
-            username: userAuth.displayName,
+            name: userAuth.displayName,
             profilePicture: userAuth.photoURL,
-        })
-        // await Users.doc(userAuth.uid).collection("newCollection").add({
-        //     newField: "new!"
-        // });
+        });
         return await get(Users, userAuth.uid);
     }
     // TODO update profile pic (right now only sets image once profile made, won't work when image updated after)
@@ -29,14 +26,20 @@ export const getUser = async (userAuth) => {
     return user;
 }
 
+export const createPrivateData = async (uid) => {
+    await Users.doc(uid).collection("private-data").add({
+        payment: 100
+    });
+}
+
 /**
- * Updates the username of the user
+ * Updates the name of the user
  * @param {string} uid 
- * @param {string} username 
+ * @param {string} name 
  * @returns true if successful, false if not
  */
-export const changeUsername = async (uid, username) => {
-    return await update(Users, uid, "username", username);
+export const changeName = async (uid, name) => {
+    return await update(Users, uid, "name", name);
 }
 
 // Specifics for images in db?

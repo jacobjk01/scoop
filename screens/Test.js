@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react'
 import { Text, View, Button, Image } from 'react-native'
 import { signIn, signOut, onAuthStateChanged } from '../api/auth';
 import { GoogleSigninButton } from '@react-native-google-signin/google-signin';
-import { changeIntro, changeUsername, getUser } from '../api/users';
+import { createUser, changeIntro, changeName, getUser, createPrivateData } from '../api/users';
 import { HeaderTitle } from '@react-navigation/stack';
 
 export default function Test() {
@@ -10,10 +10,10 @@ export default function Test() {
     const [signInProgress, setSignInProgress] = useState(false);
     const [user, setUser] = useState(null);
     const [userAuth, setUserAuth] = useState(null);
+    const [initializing, setInitializing] = useState(true);
     const [userType, setUserType] = useState('currently userType is not set');
     const [userName, setUserName] = useState('currently userName is not set')
     const [userIntro, setUserIntro] = useState('currently userIntro is not set');
-    
     
     useEffect(() => {
         var unsubscribe = onAuthStateChanged(async user => {
@@ -21,7 +21,7 @@ export default function Test() {
                 setUserAuth(user);
                 const currentUser = await getUser(user);
                 setUserType(currentUser.data().userType)
-                setUserName(currentUser.data().username)
+                setUserName(currentUser.data().name)
                 setUserIntro(currentUser.data().intro)
             } else {
                 setUserAuth(null);
@@ -31,11 +31,10 @@ export default function Test() {
             unsubscribe();
         }
     })
-    
 
     return (
         <View style={{ paddingTop: 100 }}>
-            {/* <Text>{signInStatus ? 'Signed In' : 'No Account detected'}</Text> */}
+            <Text>{signInStatus ? 'Signed In' : 'No Account detected'}</Text>
             <Text>{userAuth ? userAuth.email : 'No User'}</Text>
             {<Text>{userAuth ? 'Signed In' : 'No Account detected'}</Text>}
             <GoogleSigninButton
@@ -58,14 +57,24 @@ export default function Test() {
                 />
                 <HeaderTitle>Welcome back, {userName}</HeaderTitle>
                 <Button
-                    title="Change username"
+                    title="Change Name"
                     onPress={async () => {
-                        if (await changeUsername(userAuth.uid, "Josh")) {
+                        if (await changeName(userAuth.uid, "Josh")) {
                             const user = await getUser(userAuth);
-                            setUserName(user.data().username)
-                            console.log("Username successfully changed")
+                            setUserName(user.data().name)
+                            console.log("Name successfully changed")
                         } else {
-                            console.log("There was an error in changing the username")
+                            console.log("There was an error in changing the name")
+                        }
+                }}
+                />
+                <Button
+                    title="Create Private Data"
+                    onPress={async () => {
+                        if (await createPrivateData(userAuth.uid)) {
+                            console.log("Private data subcollection creation success")
+                        } else {
+                            console.log("There was an error creating private data")
                         }
                 }}
                 />
