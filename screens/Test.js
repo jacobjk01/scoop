@@ -20,9 +20,9 @@ export default function Test() {
             if (user) {
                 setUserAuth(user);
                 const currentUser = await getUser(user);
-                setUserType(currentUser._data.userType)
-                setUserName(currentUser._data.username)
-                setUserIntro(currentUser._data.intro)
+                setUserType(currentUser.data().userType)
+                setUserName(currentUser.data().username)
+                setUserIntro(currentUser.data().intro)
             } else {
                 setUserAuth(null);
             }
@@ -62,7 +62,7 @@ export default function Test() {
                     onPress={async () => {
                         if (await changeUsername(userAuth.uid, "Josh")) {
                             const user = await getUser(userAuth);
-                            setUserName(user._data.username)
+                            setUserName(user.data().username)
                             console.log("Username successfully changed")
                         } else {
                             console.log("There was an error in changing the username")
@@ -80,7 +80,7 @@ export default function Test() {
                     onPress={async () => {
                         if (await changeIntro(userAuth.uid, "This is my bio!")) {
                             const user = await getUser(userAuth);
-                            setUserIntro(user._data.intro)
+                            setUserIntro(user.data().intro)
                         }
                     }}
                 />
@@ -92,8 +92,8 @@ export default function Test() {
                         try {
                             const user = await getUser(userAuth);
                             console.log(user)
-                            if (user._data) {
-                                setUserType(user._data.type);
+                            if (user.data()) {
+                                setUserType(user.data().type);
                             } else {
                                 console.error('something is wrong')
                             }
