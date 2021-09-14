@@ -2,20 +2,26 @@ import db from '@react-native-firebase/firestore';
 import { update, get } from './utilities';
 
 const Users = db().collection('users');
-//needs to be a async/await
 
-//gets the user, if there is no document for the user, first time
-//signers may not have a user in the users collection
-//in this case, getUser will create a basic document for the user
-//however that is below the abstraction
+/**
+ * Gets the user. If no document exists for the user, it is the user's first time and creates a new document
+ * Signers may not have a user in the users collection
+ * In this case, getUser will create a basic document for the user
+ * However, that is below the abstraction
+ * @param {*} userAuth 
+ * @returns the document of the user
+ */
 export const getUser = async (userAuth) => {
     const user = await get(Users, userAuth.uid);
     if (!user._exists) {
         await Users.doc(userAuth.uid).set({
             userType: "guide",
             username: userAuth.displayName,
-            profilePicture: userAuth.photoURL
-        });
+            profilePicture: userAuth.photoURL,
+        })
+        // await Users.doc(userAuth.uid).collection("newCollection").add({
+        //     newField: "new!"
+        // });
         return await get(Users, userAuth.uid);
     }
     // TODO update profile pic (right now only sets image once profile made, won't work when image updated after)
@@ -23,9 +29,12 @@ export const getUser = async (userAuth) => {
     return user;
 }
 
-// update() will update current value (updating 1 or 2 properties)
-// set() will overwrite whole document (updating whole properties, even ones not specified)
-// if change is successful, returns true, else returns false
+/**
+ * Updates the username of the user
+ * @param {string} uid 
+ * @param {string} username 
+ * @returns true if successful, false if not
+ */
 export const changeUsername = async (uid, username) => {
     return await update(Users, uid, "username", username);
 }
