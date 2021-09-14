@@ -10,7 +10,7 @@ const Users = db().collection('users');
 //however that is below the abstraction
 export const getUser = async (userAuth) => {
     const user = await get(Users, userAuth.uid);
-    if (!user._exists) {            
+    if (!user._exists) {
         await Users.doc(userAuth.uid).set({
             userType: "guide",
             username: userAuth.displayName,
@@ -19,7 +19,7 @@ export const getUser = async (userAuth) => {
         return await get(Users, userAuth.uid);
     }
     // TODO update profile pic (right now only sets image once profile made, won't work when image updated after)
-    console.log(userAuth.photoURL) // <- this is the photo URL
+    // console.log(userAuth.photoURL) // <- this is the photo URL
     return user;
 }
 
