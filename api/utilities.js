@@ -18,8 +18,14 @@ export async function get(collection, id) {
 }
 
 //note items must be unique in the array because firebase sucks
+//I think you can add multiple items if you use an array for param item
 export async function append(collection, id, key, item) {
     return await update(collection, id, key, firestore.FieldValue.arrayUnion(item))
+}
+
+//I think you can add multiple items if you use an array for param item
+export async function remove(collection, id, key, item) {
+    return await update(collection, id, key, firestore.FieldValue.arrayRemove(item))
 }
 
 //returns unsubscribe event, https://rnfirebase.io/firestore/usage#realtime-changes

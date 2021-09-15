@@ -3,7 +3,7 @@ import { Text, View, Button } from 'react-native'
 import { signIn, signOut, onAuthStateChanged } from '../api/auth';
 import { GoogleSigninButton } from '@react-native-google-signin/google-signin';
 import { getUser } from '../api/users';
-import { sendMessage, onConversationChange } from '../api/messaging';
+import { sendMessage, onConversationChange, getConversation } from '../api/messaging';
 export default function Test() {
     const [signInStatus, setSignInStatus] = useState(false);
     const [signInProgress, setSignInProgress] = useState(false);
@@ -20,8 +20,11 @@ export default function Test() {
             }
             
         })
-        var unsubscribe2 = onConversationChange("123", conversation => {
-            console.log(conversation)
+        var unsubscribe2 = onConversationChange("VzHN35zMK9qXAk1vT82j", snapshot => {
+            snapshot.docChanges().forEach(change => {
+                console.log(change.doc.data())
+                // console.log(change)
+            })
         })
 
         return () => {
@@ -71,6 +74,10 @@ export default function Test() {
                 <Button title="send Message"
                 onPress={async () => {
                     await sendMessage("testing append", "123", "senderId123")
+                }}/>
+                <Button title="get Messages"
+                onPress={async () => {
+                    await getConversation("VzHN35zMK9qXAk1vT82j")
                 }}/>
         </View>
     )
