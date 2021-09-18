@@ -32,3 +32,14 @@ export async function remove(collection, id, key, item) {
 export const onChange = (collection, id) => (cb) => {
     return collection.doc(id).onSnapshot(cb, console.warn)
 }
+
+export async function deleteC(field1, query1, field2, query2) {
+
+    await tours.where(field1, '==', query1).where(field2, '==', query2).get().then(querySnapshot =>{
+        querySnapshot.forEach((documentSnapshot) =>
+            {
+                tours.doc(documentSnapshot.id).delete();
+            }
+        )
+    })
+}

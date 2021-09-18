@@ -7,13 +7,14 @@
  */
 
 import auth from '@react-native-firebase/auth';
+import {client} from '../android/app/google-services.json'
 import {
     GoogleSignin,
     statusCodes
 } from '@react-native-google-signin/google-signin';
 
 //note for sign ins to work properly, you need to run: GoogleSignin.configure(); //first!
-GoogleSignin.configure(); //needs to done before signin attempts
+GoogleSignin.configure({webClientId: client[0].oauth_client[1].client_id}); //needs to done before signin attempts
 
 //this signs a user in
 export const signIn = async () => {

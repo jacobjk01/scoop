@@ -6,6 +6,7 @@ import { getUser } from '../api/users';
 import { sendMessage, onConversationChange, getConversation } from '../api/messaging';
 import { createUser, changeIntro, changeName, getUser, createPrivateData } from '../api/users';
 import { HeaderTitle } from '@react-navigation/stack';
+import { addTour, editTour, switchTour, archiveTour, unarchiveTour, bookTour, getTourInfo, getBookingInfo} from '../api/tours';
 
 export default function Test() {
     const [signInStatus, setSignInStatus] = useState(false);
@@ -88,6 +89,58 @@ export default function Test() {
                         }
                 }}
                 />
+                <Button
+                    title="add tour"
+                    onPress={async () => {
+                        let attractions = ["eiffel tower", "pyramid of giza", "ur house uwu"]
+                        let meetingPt = [36, 78]
+                        let category = ["food", "sightseeing"]
+                        addTour("cfkj29u4hu", "vm02thwrfa", "www.freepictures.com", attractions, meetingPt, "06/21", "5:00pm", 8, 20, "car", 5, "a bountiful cornucopia of elegance of the like your crystal eyes have even envisioned", category).catch((error)=>{
+                            console.log(error);
+                        });
+                    }
+                    }
+                />
+                <Button
+                    title="unarchive tour"
+                    onPress={async () => {
+                        let i =
+                        [
+                            [2211, 2541],
+                        ]
+                        unarchiveTour(i).catch((error)=>{
+                            console.log(error);
+                        });
+                    }
+                    }
+                />
+                <Button
+                    title="book tours"
+                    onPress={async () => {
+                        bookTour(2211, 2541, 4272, 3).catch((error)=>{
+                            console.log(error);
+                        });
+                    }
+                    }
+                />
+                <Button
+                    title="get tour Info"
+                    onPress={async () => {
+                        console.log(getTourInfo(2211, 2541).catch((error)=>{
+                            console.log(error);
+                        }));
+                    }
+                    }
+                />
+                <Button
+                    title="get Booking Info"
+                    onPress={async () => {
+                        console.log(getBookingInfo(2211, 2541, 62322222).catch((error)=>{
+                            console.log(error);
+                        }));
+                    }
+                    }
+                />
                 <View>
                     {userAuth ? <Image
                         style={{width: 100, height: 100}}
@@ -97,7 +150,7 @@ export default function Test() {
                 <Button 
                     title="Change Intro"
                     onPress={async () => {
-                        if (await changeIntro(userAuth.uid, "This is my bio!")) {
+                        if (await changeIntro(userAuth.uid, "test")) {
                             const user = await getUser(userAuth);
                             setUserIntro(user.data().intro)
                         }
