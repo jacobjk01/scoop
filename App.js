@@ -40,6 +40,7 @@ import HomeStack from './components/navigation/HomeStack';
 import Conversation from './screens/Conversation';
 import colors from './config/colors';
 import Test from './screens/Test';
+import RequireAuth from './screens/RequireAuth';
 
 const Tab = createBottomTabNavigator();
 
@@ -71,7 +72,7 @@ const App: () => Node = () => {
         initialRouteName="HomeScreen">
         <Tab.Screen name="Home" component={HomeStack} />
         <Tab.Screen name="Tours" component={Tours} />
-        <Tab.Screen name="Account" component={Account} />
+        <Tab.Screen name="Account" component={RequireAuth(Account)} />
         <Tab.Screen name="Test" component={Test} />
       </Tab.Navigator>
     </NavigationContainer>
