@@ -2,7 +2,6 @@ import React, {useState, useEffect} from 'react'
 import { Text, View, Button, Image } from 'react-native'
 import { signIn, signOut, onAuthStateChanged } from '../api/auth';
 import { GoogleSigninButton } from '@react-native-google-signin/google-signin';
-import { getUser } from '../api/users';
 import { sendMessage, onConversationChange, getConversation } from '../api/messaging';
 import { createUser, changeIntro, changeName, getUser, createPrivateData } from '../api/users';
 import { HeaderTitle } from '@react-navigation/stack';
@@ -22,7 +21,7 @@ export default function Test() {
         var unsubscribe1 = onAuthStateChanged(user => {
             if (user) {
                 setUserAuth(user);
-                const currentUser = await getUser(user);
+                const currentUser = getUser(user);
                 setUserType(currentUser.data().userType)
                 setUserName(currentUser.data().name)
                 setUserIntro(currentUser.data().intro)
