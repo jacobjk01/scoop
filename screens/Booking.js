@@ -226,8 +226,7 @@ class Booking extends Component {
                                 }
                               }}
                         >
-                        </Calendar>
-                        
+                        </Calendar> 
                     </View>
                     <View style={[styles.backCard, {paddingBottom: 10}]}>
                         <Text style={styles.sectionText}>Select Time</Text>
