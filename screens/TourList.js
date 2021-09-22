@@ -25,7 +25,7 @@ const TourList = ({navigation}) => {
   ]);
 
   const renderItem = ({item}) => {
-    const handleOnPress = () => navigation.navigate('TourGuideProfile', {item});
+    const handleOnPress = () => navigation.navigate('TourInfo2', {item});
     return (
       <TouchableOpacity onPress={handleOnPress}>
         <ImageBackground
@@ -74,14 +74,14 @@ const TourList = ({navigation}) => {
         <View style={{flexDirection: 'row', flexWrap: 'wrap'}}>
           {tourimages.map((tour) => {
             return(
-              <View style={styles.tourCard}>
+              <TouchableOpacity style={styles.tourCard} onPress={() => navigation.navigate('TourInfo2')}>
                 <Image style={styles.tourImage} source={tour.src}></Image>
                 <View style={styles.tourTextSection}>
                   <Text style={{color: "#9B9BA7"}}>60 min | Max 6 people</Text>
                   <Text style={{fontWeight: '600'}}>Westwood Tour</Text>
                   <Text style={{fontSize: 12, marginTop: 5}}>Get to know the neighborhood: where to grocery shop, where the best hangout...</Text>
                 </View>
-              </View>
+              </TouchableOpacity>
             )
           })}
         {/*           
