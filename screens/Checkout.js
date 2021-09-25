@@ -18,7 +18,7 @@ const Checkout = ({navigation, route}) => {
 
   return (
     <SafeAreaView>
-      {console.log(item)}
+      {/* {console.log(item)} */}
       <View style={styles.topContainer}>
         <Image style={styles.image} source={item.src}></Image>
         <Text style={styles.tourNameText}>{item.name}</Text>

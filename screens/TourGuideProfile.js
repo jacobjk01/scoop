@@ -37,7 +37,6 @@ const TourGuideProfile = ({navigation, route}) => {
     );
   };
   const messageButtonHandler = () => {
-    console.log('You have pressed the message Button');
   };
 
   const navigateCheckout = ({item}) => {
