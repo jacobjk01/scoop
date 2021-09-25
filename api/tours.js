@@ -1,0 +1,117 @@
+import firestore from '@react-native-firebase/firestore';
+import uuid from 'react-native-uuid';
+
+
+const tours = firestore().collection('tours');
+
+//tourguide Functions
+export const addTour = async (guideId, tourId, picture, attractions, meetingPt, date, time, cost, duration, transportation, maxPeople, description, category) => {     
+    if(!guideId || !tourId || !picture ||!meetingPt || !attractions || !date || !time || !cost || !duration || !transportation || !maxPeople || !description)
+        {
+            console.log("required parameter not here")
+            return;
+        }
+        else
+        {
+            await tours.doc().set({
+                guideId,
+                tourId,
+                picture,
+                meetingPt,
+                attractions,
+                date,
+                time,
+                cost,
+                duration,
+                transportation,
+                maxPeople,
+                description,
+                category,
+                archive: false,
+            });
+            //adds bookings subcollection to tour
+            await tours.where('guideId', '==', guideId).where('tourId', '==', tourId).get().then(querySnapshot =>
+                {
+                    querySnapshot.forEach((documentSnapshot) => {
+                        tours.doc(documentSnapshot.id).collection("bookings").add({placeholder: ""});
+                    });
+                });
+        }
+}
+export const editTour = async(guideId, tourId, field, fieldValue) => {
+    await tours.where('guideId', '==', guideId).where('tourId', '==', tourId).get().then(querySnapshot =>
+    {
+        querySnapshot.forEach((documentSnapshot) => {
+               tours.doc(documentSnapshot.id).update(field, fieldValue);
+        });
+    });
+}
+export const archiveTour = async(Id) => {
+    for(var i = 0; i < Id.length; i++)
+    {
+        await tours.where('guideId', '==', Id[i][0]).where('tourId', '==', Id[i][1]).get().then(querySnapshot => {
+                querySnapshot.forEach((documentSnapshot) => {
+                       tours.doc(documentSnapshot.id).update("archive", true);
+                });
+        });
+    }
+}
+export const unarchiveTour = async(Id) => {
+    for(var i = 0; i < Id.length; i++)
+    {
+        await tours.where('guideId', '==', Id[i][0]).where('tourId', '==', Id[i][1]).get().then(querySnapshot => {
+                querySnapshot.forEach((documentSnapshot) => {
+                       tours.doc(documentSnapshot.id).update("archive", false);
+                });
+        });
+    }
+}
+
+export const switchTour = async(guideId, tourId, tourId2) => {
+    await tours.where('guideId', '==', guideId).where('tourId', '==', tourId).where('archive', '==', false).get().then(querySnapshot =>
+    {
+            querySnapshot.forEach((documentSnapshot) => {
+                tours.doc(documentSnapshot.id).update("tourId", tourId2);
+            });
+    });
+}
+//user functions
+export const bookTour = async(guideId, tourId, userId, numPeople) => {
+    await tours.where('guideId', '==', guideId).where('tourId', '==', tourId).where('archive', '==', false).get().then(querySnapshot =>
+         {
+            querySnapshot.forEach((documentSnapshot) => {
+                tours.doc(documentSnapshot.id).collection('bookings').doc().set({
+                    userId,
+                    numPeople,
+                });
+            });
+         });
+}
+//utility functions
+export const getTourInfo = async(guideId, tourId) => {
+    await tours.where('guideId', '==', guideId).where('tourId', '==', tourId).where('archive', '==', false).get().then(querySnapshot =>
+    {
+        querySnapshot.forEach((documentSnapshot) => {
+            return documentSnapshot;
+        });
+    });
+}
+export const getBookingInfo = async(guideId, tourId, userId) => {
+    await tours.where('guideId', '==', guideId).where('tourId', '==', tourId).where('archive', '==', false).get().then(querySnapshot =>
+        {
+            querySnapshot.forEach(documentSnapshot =>
+            {
+                    tours.doc(documentSnapshot.id).collection("bookings").where("userId", '==', userId).get().then(querySnapshot2 =>
+                    {
+                            querySnapshot2.forEach(documentSnapshot2 =>
+                            {
+                                    return documentSnapshot2;
+                            });
+                    });
+            });
+        }
+    );
+}
+//two questions:
+//instead of putting tourId and guideId in user database, just search tours database with userId
+//does pushing to a branch add files from npm install, arent we suposed to not push those files to git.
