@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "993553677582",
+    "project_id": "otour-32e80",
+    "storage_bucket": "otour-32e80.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:993553677582:android:3d766906410aeca4ed2b5f",
+        "android_client_info": {
+          "package_name": "com.offcampustour"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "993553677582-j0jjlsudk2t74t9m05nmc4dud42j0tmp.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.offcampustour",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "993553677582-u0i2blqvh548t34njdgjepq9vqleqefk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCXvf2F7SMycB_mp9qOFPe2V-tx3Ij4SOk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "993553677582-u0i2blqvh548t34njdgjepq9vqleqefk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
