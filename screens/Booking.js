@@ -100,7 +100,7 @@ class Booking extends Component {
             //     longitudeDelta: 0.0011,
             // }
         })
-        console.log(this.state.region)
+        // console.log(this.state.region)
     }
 
     takeDefaultSnapshot() {
@@ -138,7 +138,7 @@ class Booking extends Component {
         snapshot.then((uri) => {
           this.setState({ customSnapshot: uri });
         });
-        console.log(this.state.customSnapshot)
+        // console.log(this.state.customSnapshot)
       }
 
     render() {
