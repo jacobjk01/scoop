@@ -20,7 +20,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 
-const TourGuideProfile = ({navigation, route}) => {
+const TourGuideProfile2 = ({navigation, route}) => {
   const [tourimages, setImages] = useState([
     {name: 'Santa Monica', src: require('../images/SantaMonica.png')},
     {name: 'Westwood Tour', src: require('../images/Westwood_village.png')},
@@ -37,6 +37,7 @@ const TourGuideProfile = ({navigation, route}) => {
     );
   };
   const messageButtonHandler = () => {
+    console.log('You have pressed the message Button');
   };
 
   const navigateCheckout = ({item}) => {
@@ -57,7 +58,7 @@ const TourGuideProfile = ({navigation, route}) => {
   };
 
   const bookTourButton = () => {
-    const handleOnPress = () => navigation.navigate('TourList', {item});
+    const handleOnPress = () => navigation.navigate('Booking', {item});
     return (
       <TouchableOpacity onPress={handleOnPress} style={styles.roundButton2}>
         <Text style={styles.messageFont}>Book Tour</Text>
@@ -86,25 +87,6 @@ const TourGuideProfile = ({navigation, route}) => {
 
           <View style={styles.divider} />
         </SafeAreaView>
-        <View style={{marginTop: 10}}>
-          <Text style={{marginLeft: 10, fontSize: 20, fontWeight: '700'}}>
-            Popular Tours
-          </Text>
-          <TouchableOpacity
-            onPress={() => navigation.navigate('Tours')}
-            style={{position: 'absolute', right: 10, top: 3}}>
-            <View>
-              <Text style={{color: '#3D68CC'}}>View All &gt;</Text>
-            </View>
-          </TouchableOpacity>
-        </View>
-        <FlatList
-          style={{marginTop: 10}}
-          horizontal={true}
-          data={tourimages}
-          renderItem={({item}) => navigateCheckout({item})}
-        />
-        <View style={styles.divider2} />
         <Text style={{marginTop: 30, fontSize: 20, fontWeight: '700'}}>
           {"Hi, I'm " + item.name + '!'}
         </Text>
@@ -325,4 +307,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default TourGuideProfile;
+export default TourGuideProfile2;
