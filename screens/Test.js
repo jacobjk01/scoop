@@ -18,10 +18,10 @@ export default function Test() {
     const [userIntro, setUserIntro] = useState('currently userIntro is not set');
     
     useEffect(() => {
-        var unsubscribe1 = onAuthStateChanged(user => {
+        var unsubscribe1 = onAuthStateChanged(async user => {
             if (user) {
                 setUserAuth(user);
-                const currentUser = getUser(user);
+                const currentUser = await getUser(user);
                 setUserType(currentUser.data().userType)
                 setUserName(currentUser.data().name)
                 setUserIntro(currentUser.data().intro)
