@@ -16,6 +16,7 @@ import {
   Text,
   useColorScheme,
   View,
+  Button,
 } from 'react-native';
 
 import {
@@ -26,40 +27,38 @@ import {
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 
-import { NavigationContainer } from '@react-navigation/native';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { createStackNavigator } from '@react-navigation/stack';
+import {NavigationContainer} from '@react-navigation/native';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {createStackNavigator} from '@react-navigation/stack';
+
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-import HomePage from './screens/HomePage';
 import Account from './screens/Account';
+import Checkout from './screens/Checkout';
 import Tours from './screens/Tours';
-import TourGuides from './screens/TourGuides';
-import Messages from './screens/Messages';
-import TourGuideProfile from './screens/TourGuideProfile';
-import TourInfo from './screens/TourInfo';
+import HomeStack from './components/navigation/HomeStack';
+import Conversation from './screens/Conversation';
+import colors from './config/colors';
+import Test from './screens/Test';
 
-const HomeStack = createStackNavigator();
+
 const Tab = createBottomTabNavigator();
 
 const App: () => Node = () => {
+  const MessageStack = createStackNavigator();
   return (
     <NavigationContainer>
-      {/* <Stack.Navigator initialRouteName="Home">
-        <Stack.Screen name="Home" component={Homepage} />
-        <Stack.Screen name="Profile" component={Profile} />
-      </Stack.Navigator> */}
       <Tab.Navigator
-        screenOptions={({ route }) => ({
-          tabBarIcon: ({ focused, color, size }) => {
+        screenOptions={({route}) => ({
+          tabBarIcon: ({focused, color, size}) => {
             let iconName;
 
             if (route.name === 'Home') {
               iconName = focused ? 'home' : 'home-outline';
             } else if (route.name === 'Tours') {
               iconName = focused ? 'map' : 'map-outline';
-            } else if (route.name === 'Messages') {
-              iconName = focused ? 'chatbox' : 'chatbox-outline';
+            } else if (route.name === 'Account') {
+              iconName = focused ? 'person' : 'person-outline';
             }
 
             // You can return any component that you like here!
@@ -68,21 +67,13 @@ const App: () => Node = () => {
         })}
         tabBarOptions={{
           activeTintColor: '#3D68CC',
-          inactiveTintColor: '#656565',
+          inactiveTintColor: '#3D68CC',
         }}
-        initialRouteName='HomeScreen'
-      >
-        <Tab.Screen name="Tours" component={Tours}/>
-        <Tab.Screen name="Home">
-          {() => (
-            <HomeStack.Navigator>
-              <HomeStack.Screen name="HomeScreen" component={HomePage} options={{title: 'Home'}} />
-              <HomeStack.Screen name="TourGuideProfile" component={TourGuideProfile}/>
-              <HomeStack.Screen name="TourInfo" component={TourInfo}/>
-            </HomeStack.Navigator>
-          )}
-        </Tab.Screen>
-        <Tab.Screen name="Messages" component={Messages}/>
+        initialRouteName="HomeScreen">
+        <Tab.Screen name="Home" component={HomeStack} />
+        <Tab.Screen name="Tours" component={Tours} />
+        <Tab.Screen name="Account" component={Account} />
+        <Tab.Screen name="Test" component={Test} />
       </Tab.Navigator>
     </NavigationContainer>
   );

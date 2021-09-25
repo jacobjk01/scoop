@@ -3,23 +3,28 @@ import {View, ScrollView, SafeAreaView, Text, StyleSheet} from 'react-native';
 import colors from '../config/colors';
 import BackButton from '../components/BackButton';
 import TourGuidesMsgSection from '../components/TourGuidesMsgSection';
-import data from '../data';
-
+import tourGuides from '../data/tourGuides';
+import TourGuidesLastMsg from '../components/TourGuidesLastMsg';
 function Messages(props) {
-  
-  const tourGuidesMsgSectionList = data.map(tourGuide => {
-    return <TourGuidesMsgSection text={tourGuide.name}/>
-  });
+  const {navigation} = props;
+
   return(
     <SafeAreaView style={styles.container}>
       
-      <View style={styles.title}>
-        <Text style={{color: colors.white, fontFamily: "Helvetica", fontSize: 20}}>Messages Screen</Text>
-      </View>
+      {/* <View style={styles.title}>
+        <Text style={{color: colors.white, fontFamily: "Helvetica", fontSize: 20}}>Your Messages</Text>
+      </View> */}
       {/* <BackButton /> */}
-      <ScrollView style={styles.body}>
-        {tourGuidesMsgSectionList}
-      </ScrollView>
+      <View style={styles.body}>
+        <View style={[styles.bottomLine]}>
+          <TourGuidesMsgSection tourGuides={tourGuides}/>
+        </View>
+        
+        <ScrollView>
+          <Text style={[{color: colors.black, fontFamily: "Helvetica", fontSize: 18, fontWeight: 'bold', paddingTop: 20, paddingBottom: 20}]}>Messages</Text>
+          <TourGuidesLastMsg tourGuides={tourGuides} navigation={navigation}/>
+        </ScrollView>
+      </View>
     </SafeAreaView>
   )
 }
@@ -27,14 +32,25 @@ function Messages(props) {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: colors.primary,
+    height: "100%",
+    
   },
   title: {
     alignItems: "center",
     justifyContent: "center",
-    height: 100
+    height: 50,
+
   },
   body: {
-    backgroundColor: colors.grayLight
+    backgroundColor: colors.white,
+    padding: 20,
+    height: '100%'
+    
+  },
+  bottomLine: {
+    paddingBottom: 20,
+    borderBottomColor: colors.grayDark,
+    borderBottomWidth: 1,
   }
 })
 

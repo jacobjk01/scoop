@@ -8,5 +8,6 @@ module.exports = {
     white: "#ffffff",
     grayMed: "#8f8f8f",
     grayDark: "#656565",
-    grayLight: "#d8d8d8"
+    grayLight: "#d8d8d8",
+    grayLightBlue: '#F7F7F8' //tint of blue
 }

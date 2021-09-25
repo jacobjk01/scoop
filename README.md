@@ -20,11 +20,18 @@ Before doing these steps, make sure your environment is setup. Please follow the
  2. `cd off-campus-touring`
  3. `npm install`
  4. Assuming you want to run the iOS simulator, `cd ios && pod install && cd ../`
+
 ### Building and running the app (requires 2 terminals)
  6. `npx react-native start`
  7. In another terminal, `npx react-native run-ios`. 
 
-Note: If you are on the `staging` branch or have any backend code (firebase packages), please ask Jonathan for the firebase keys or get it from firebase.
+## firebase keys
+Please download and place the following keys from firebase:
+ - /android/app/google-services.json
+ - /ios/GoogleService-Info.plist
+
+.gitignore will ignore these files when adding to a commit. (Will have to clean if these get pushed)
+
 
 ## Branch General Info
 ### Main Branches
@@ -37,3 +44,4 @@ Staging - could be called the develop branch, this is where you want do most of 
 
 ## Firebase connection:
 In order for easy integration with react-native, we are using [rnfirebase library](https://rnfirebase.io/firestore/usage). 
+
