@@ -1,6 +1,11 @@
 # off-campus-touring
 A touring app.
 
+## Technologies
+This app is built with:
+ - React Native
+ - Firebase
+
 ## Folder structure
  - Screens/Pages/Shells should go in the in the `screens` folder
  - JSX that is smaller than `screens` should go in the `components` folder
