@@ -27,6 +27,7 @@ Note: If you are on the `staging` branch or have any backend code (firebase pack
 Master - Staging - All feature branches
 ```
 Master - stable version
+
 Staging - could be called the develop branch, this is where you want do most of your branching to build new features. Once you finish the feature, you can merge it back into the develop branch (using the pull request on github) and then you should delete your feature branch (on github). [Why?](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-branches-in-your-repository/deleting-and-restoring-branches-in-a-pull-request)
 
 ## Firebase connection:
