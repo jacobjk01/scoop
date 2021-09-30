@@ -17,6 +17,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import colors from '../config/colors';
 import {color} from 'react-native-reanimated';
 import TourGuideProfile from './TourGuideProfile';
+import { Colors } from 'react-native/Libraries/NewAppScreen';
 
 const HomePage = ({navigation}) => {
   const [tourimages, setImages] = useState([
@@ -28,18 +29,20 @@ const HomePage = ({navigation}) => {
     const handleOnPress = () => navigation.navigate('TourGuideProfile2', {item});
     return (
       <TouchableOpacity onPress={handleOnPress}>
-        <ImageBackground
-          style={styles.listGuideImage}
-          imageStyle={{borderRadius: 10}}
-          source={item.src}>
-          <LinearGradient
-            colors={['transparent', 'black']}
-            style={styles.linearGradGuide}
-          />
-        </ImageBackground>
-        <Text style={styles.guideText}>
-          {item.name}, {item.year}, {item.major}
-        </Text>
+        <View>
+          <ImageBackground
+            style={styles.listGuideImage}
+            imageStyle={{borderRadius: 60}}
+            source={item.src}>
+          </ImageBackground>
+          <Text style={styles.guideName}>
+            {item.name}
+          </Text>
+          <Text style={styles.guideTitle}>
+          {item.major}, {item.year}
+          </Text>
+          <View style={styles.line}></View>
+        </View>
       </TouchableOpacity>
     );
   };
@@ -65,43 +68,55 @@ const HomePage = ({navigation}) => {
     },
   ]);
   return (
-    <SafeAreaView>
-      <ScrollView style={{paddingRight: 20, paddingLeft: 20, height: '100%'}}>
-        <View style={{marginTop: 30}}>
-          <Text style={{marginLeft: 10, fontSize: 20, fontWeight: '700'}}>
-            Tour Guides
-          </Text>
-          <TouchableOpacity style={{position: 'absolute', right: 10, top: 3}}>
-            <View>
-              <Text style={{color: '#3D68CC'}}>View All &gt;</Text>
-            </View>
-          </TouchableOpacity>
+    <SafeAreaView style={{backgroundColor: colors.grayLight}}>
+      <View style={{backgroundColor: colors.primary, height: 100}}>
+        <Text style={styles.titleText}>Select Date</Text>
+      </View>
+      <ScrollView style={{marginRight: 7, marginLeft: 7, height: '100%'}}>
+
+        <View style={styles.guideBox}>
+          <View style={{marginTop: 30}}>
+            <Text style={{marginLeft: 'auto', marginRight: 'auto', fontSize: 20, fontWeight: '700', paddingBottom: 20}}>
+              Tour Guides Available
+            </Text>
+            <View style={styles.line}></View>
+          </View>
+          <FlatList
+            style={{marginBottom: 30}}
+            vertical={true}
+            data={guideimages}
+            renderItem={renderItem}
+          />
         </View>
-        <FlatList
-          style={{marginTop: 10, marginBottom: 30}}
-          horizontal={true}
-          data={guideimages}
-          renderItem={renderItem}
-        />
-        <TouchableOpacity style={styles.continue} onPress={() => navigation.navigate("TourGuideProfile2")}>
+        {/* <TouchableOpacity style={styles.continue} onPress={() => navigation.navigate("TourGuideProfile2")}>
             <Text style={{alignSelf: "center", color: 'white', fontWeight: '600'}}>Book Now</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </ScrollView>
         <TouchableOpacity style={styles.backIcon} onPress={() => navigation.goBack()}>
-            <Ionicons name='chevron-back-outline' size={20} color='white' />
+            <Ionicons name='chevron-back-outline' size={20} color={colors.primary} />
         </TouchableOpacity>
     </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
+  line: {
+    borderBottomColor: colors.grayLight,
+    borderBottomWidth: 1,
+    width: '90%',
+    marginLeft: 'auto',
+    marginRight: 'auto'
+  },
   baseText: {
     fontFamily: 'Helvetica',
   },
   titleText: {
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    marginTop: 40,
     fontSize: 24,
-    fontWeight: '600',
-    marginTop: 50,
+    color: colors.white,
+    fontFamily: 'Helvetica-Bold'
   },
   sectionText: {
     fontSize: 20,
@@ -150,9 +165,12 @@ const styles = StyleSheet.create({
     height: 300,
   },
   listGuideImage: {
-    marginRight: 10,
-    width: 120,
-    height: 120,
+    marginLeft: 15,
+    marginTop: 10,
+    marginBottom: 10,
+
+    width: 70,
+    height: 70,
   },
   tourText: {
     width: 200,
@@ -163,12 +181,31 @@ const styles = StyleSheet.create({
     bottom: 50,
     left: 20,
   },
-  guideText: {
-    width: 120,
+  guideBox: {
+    backgroundColor: colors.white,
+    borderRadius: 25,
+    //ios only
+    shadowOffset:{  width: 10,  height: 20,  },
+    shadowColor: 'black',
+    shadowOpacity: 1.0,
+    //android only
+
+  },
+  guideName: {
+    fontSize: 18,
+    fontFamily: 'Helvetica-Bold',
     position: 'absolute',
-    bottom: 10,
-    left: 10,
-    color: colors.white,
+    top: 20,
+    left: 100,
+    color: colors.black,
+  },
+  guideTitle: {
+    fontSize: 18,
+    fontFamily: 'Helvetica-Oblique',
+    position: 'absolute',
+    bottom: 20,
+    left: 100,
+    color: colors.black,
   },
   linearGradTour: {
     position: 'absolute',
@@ -189,7 +226,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   backIcon: {
-    backgroundColor: '#3154A5',
+    backgroundColor: colors.white,
     borderRadius: 10,
     borderColor: 'white',
     borderWidth: 1,
@@ -199,8 +236,8 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     alignItems: 'center',
-    justifyContent: 'center'
-},
+    justifyContent: 'center',
+  },
 });
 
 export default HomePage;
