@@ -35,6 +35,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import Account from './screens/Account';
 import Checkout from './screens/Checkout';
+import ManageTours from './screens/ManageTours';
 import Tours from './screens/Tours';
 import HomeStack from './components/navigation/HomeStack';
 import Conversation from './screens/Conversation';
@@ -55,6 +56,8 @@ const App: () => Node = () => {
 
             if (route.name === 'Home') {
               iconName = focused ? 'home' : 'home-outline';
+            } else if (route.name == 'ManageTours') {
+              iconName = focused ? 'map' : 'map-outline';
             } else if (route.name === 'Tours') {
               iconName = focused ? 'map' : 'map-outline';
             } else if (route.name === 'Account') {
@@ -71,6 +74,7 @@ const App: () => Node = () => {
         }}
         initialRouteName="HomeScreen">
         <Tab.Screen name="Home" component={HomeStack} />
+        <Tab.Screen name="ManageTours" component={ManageTours} />
         <Tab.Screen name="Tours" component={Tours} />
         <Tab.Screen name="Account" component={Account} />
         <Tab.Screen name="Test" component={Test} />
