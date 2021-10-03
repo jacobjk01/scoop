@@ -42,6 +42,7 @@ import Test from './screens/dev/Test';
 
 //guide imports
 import ManageTours from './screens/guide/ManageTours';
+import TourEdit from './screens/guide/TourEdit';
 import Account from './screens/guide/Account';
 import AccountEdit from './screens/guide/AccountEdit';
 import AddTour from './screens/guide/AddTour';
@@ -72,7 +73,7 @@ import TourList from './screens/visitor/TourList';
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
-const MODE = 'visitor'; // visitor | guide | dev
+const MODE = 'guide'; // visitor | guide | dev
 
 //displays bottom tab and some navigation
 const TabAllModes = () => {
@@ -153,6 +154,7 @@ const App = () => {
         <Stack.Screen name="EditTour" component={EditTour} options={{headerShown: true}}/>
         <Stack.Screen name="Home" component={HomeGuide} options={{headerShown: false}}/>
         <Stack.Screen name="ManageTours" component={ManageTours} options={{headerShown: true}}/>
+        <Stack.Screen name="TourEdit" component={TourEdit} options={{headerShown: true}}/>
         <Stack.Screen name="Registration" component={Registration} options={{headerShown: true}}/>
         <Stack.Screen name="ViewTour" component={ViewTour} options={{headerShown: true}}/>
 

@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import LinearGradient from 'react-native-linear-gradient';
-import {white} from '../config/colors';
+import {white} from '../../config/colors';
 
 const {event, ValueXY} = Animated;
 class TourEdit extends Component {
@@ -36,7 +36,7 @@ class TourEdit extends Component {
       <View style={{backgroundColor: '#d92726', flex: 1, borderRadius: 10}}>
         <ImageBackground
           style={styles.imageHeader}
-          source={require('../images/Westwood_village.png')}>
+          source={require('../../images/Westwood_village.png')}>
           <LinearGradient
             colors={['transparent', 'black']}
             style={styles.linearGradTour}
@@ -65,7 +65,7 @@ class TourEdit extends Component {
     return (
       <View style={{marginBottom: 70}}>
         <TouchableOpacity
-            onPress={() => navigation.navigate('AccountEdit', {item})}
+            onPress={() => navigation.navigate('TourEdit2', this.state)}
             style={{position: 'absolute', right: 30, top: 30}}>
             <View>
               <Text style={{color: '#9B9BA7'}}>Edit <Ionicons name={'pencil'} size={16}/></Text>
@@ -188,7 +188,7 @@ const styles = StyleSheet.create({
   },
   continue: {
     position: 'absolute',
-    bottom: -120,
+    bottom: -80,
     left: 20,
     right: 20,
     backgroundColor: '#3154A5',

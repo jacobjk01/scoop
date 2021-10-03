@@ -53,8 +53,8 @@ const ManageTours = ({navigation}) => {
         </View>
         <View style={{flexDirection: 'row', flexWrap: 'wrap'}}>
             <TouchableOpacity style={styles.addNewTourCard} onPress={() => navigation.navigate('AddTour')}>
-            <Ionicons name={'add'} size={24} style={{color: "#525252", position: 'absolute', left: 10}}/>
-            <Text style={{fontSize: 16, fontWeight: '400', color: '#525252', textAlign: 'center', left: 10, top: 1}}>Add a new tour</Text>
+            <Ionicons name={'add'} size={24} style={{color: "#525252", position: 'absolute', left: 8}}/>
+            <Text style={{fontSize: 16, fontWeight: '400', color: '#525252', textAlign: 'center', left: 8, top: 1}}>Add a new tour</Text>
             </TouchableOpacity>
           {tourimages.map((tour) => {
             return(
