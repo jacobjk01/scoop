@@ -17,53 +17,11 @@ import LinearGradient from 'react-native-linear-gradient';
 import colors from '../config/colors';
 import {color} from 'react-native-reanimated';
 import TourGuideProfile from './TourGuideProfile';
+import toursData from '../data/toursData';
 
 const HomePage = ({navigation}) => {
-  const [tourimages, setImages] = useState([
-    {name: 'Santa Monica', src: require('../images/SantaMonica.png')},
-    {name: 'Westwood Tour', src: require('../images/Westwood_village.png')},
-  ]);
-
-  const renderItem = ({item}) => {
-    const handleOnPress = () => navigation.navigate('TourGuideProfile', {item});
-    return (
-      <TouchableOpacity onPress={handleOnPress}>
-        <ImageBackground
-          style={styles.listGuideImage}
-          imageStyle={{borderRadius: 10}}
-          source={item.src}>
-          <LinearGradient
-            colors={['transparent', 'black']}
-            style={styles.linearGradGuide}
-          />
-        </ImageBackground>
-        <Text style={styles.guideText}>
-          {item.name}, {item.year}, {item.major}
-        </Text>
-      </TouchableOpacity>
-    );
-  };
-
-  const [guideimages, setGuideImages] = useState([
-    {
-      name: 'Natalie',
-      year: 'Junior',
-      major: 'Psychobiology',
-      src: require('../images/natalie.png'),
-    },
-    {
-      name: 'Trevor',
-      year: 'Senior',
-      major: 'Marketing',
-      src: require('../images/trevor.png'),
-    },
-    {
-      name: 'Brittany',
-      year: 'Junior',
-      major: 'Mechanical Eng.',
-      src: require('../images/brittany.png'),
-    },
-  ]);
+  const [tourimages, setImages] = useState(toursData.images);
+  const [guideimages, setGuideImages] = useState(toursData.guides);
   return (
     <SafeAreaView>
       <ScrollView style={{paddingRight: 20, paddingLeft: 20, height: '100%'}}>
@@ -77,7 +35,7 @@ const HomePage = ({navigation}) => {
             color={'#656565'}
           />
         </View>
-        <Text style={styles.sectionText}>Category</Text>
+        {/* <Text style={styles.sectionText}>Category</Text>
         <View style={{width: '100%', flexDirection: 'column', marginTop: 10}}>
           <View style={{flexDirection: 'row'}}>
             <TouchableOpacity style={styles.recommendationbuttonleft}>
@@ -105,7 +63,7 @@ const HomePage = ({navigation}) => {
               </View>
             </TouchableOpacity>
           </View>
-        </View>
+        </View> */}
         <View style={{marginTop: 30}}>
           <Text style={{marginLeft: 10, fontSize: 20, fontWeight: '700'}}>
             Popular Tours
@@ -151,7 +109,23 @@ const HomePage = ({navigation}) => {
           style={{marginTop: 10, marginBottom: 30}}
           horizontal={true}
           data={guideimages}
-          renderItem={renderItem}
+          renderItem={({item}) => (
+              <TouchableOpacity onPress={() => navigation.navigate('TourGuideProfile', {item})}>
+                <ImageBackground
+                  style={styles.listGuideImage}
+                  imageStyle={{borderRadius: 10}}
+                  source={item.src}>
+                  <LinearGradient
+                    colors={['transparent', 'black']}
+                    style={styles.linearGradGuide}
+                  />
+                </ImageBackground>
+                <Text style={styles.guideText}>
+                  {item.name}, {item.year}, {item.major}
+                </Text>
+              </TouchableOpacity>
+            )
+          }
         />
       </ScrollView>
     </SafeAreaView>
