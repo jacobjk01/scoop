@@ -46,24 +46,28 @@ import Test from './screens/dev/Test';
 const Tab = createBottomTabNavigator();
 
 const App: () => Node = () => {
-  const MessageStack = createStackNavigator();
   return (
     <NavigationContainer>
       <Tab.Navigator
         screenOptions={({route}) => ({
           tabBarIcon: ({focused, color, size}) => {
             let iconName;
-
-            if (route.name === 'Home') {
-              iconName = focused ? 'home' : 'home-outline';
-            } else if (route.name == 'ManageTours') {
-              iconName = focused ? 'map' : 'map-outline';
-            } else if (route.name === 'Tours') {
-              iconName = focused ? 'map' : 'map-outline';
-            } else if (route.name === 'Account') {
-              iconName = focused ? 'person' : 'person-outline';
-            }
-
+            switch (route.name) {
+              case 'Home':
+                iconName = focused ? 'home' : 'home-outline';
+                break;
+              case 'ManageTours':
+                iconName = focused ? 'map' : 'map-outline';
+                break;
+              case 'Tours':
+                iconName = focused ? 'map' : 'map-outline';
+                break;
+              case 'Account':
+                iconName = focused ? 'person' : 'person-outline';
+                break;
+              default:
+                iconName = focused ? 'help-circle' : 'help-circle-outline';
+            } 
             // You can return any component that you like here!
             return <Ionicons name={iconName} size={size} color={color} />;
           },
