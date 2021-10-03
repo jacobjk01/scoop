@@ -33,14 +33,14 @@ import {createStackNavigator} from '@react-navigation/stack';
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-import Account from './screens/Account';
-import Checkout from './screens/Checkout';
-import ManageTours from './screens/ManageTours';
-import Tours from './screens/Tours';
+import Account from './screens/guide/Account';
+import Checkout from './screens/visitor/Checkout';
+import ManageTours from './screens/guide/ManageTours';
+import Tours from './screens/visitor/Tours';
 import HomeStack from './components/navigation/HomeStack';
-import Conversation from './screens/Conversation';
+import Conversation from './screens/visitor/Conversation';
 import colors from './config/colors';
-import Test from './screens/Test';
+import Test from './screens/dev/Test';
 
 
 const Tab = createBottomTabNavigator();

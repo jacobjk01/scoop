@@ -14,14 +14,14 @@ import {
 import {withSafeAreaInsets} from 'react-native-safe-area-context';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import LinearGradient from 'react-native-linear-gradient';
-import colors from '../config/colors';
+import colors from '../../config/colors';
 import {color} from 'react-native-reanimated';
 import TourGuideProfile from './TourGuideProfile';
 
-const ManageTours = ({navigation}) => {
+const TourList = ({navigation}) => {
   const [tourimages, setImages] = useState([
-    {name: 'Santa Monica', src: require('../images/SantaMonica.png')},
-    {name: 'Westwood Tour', src: require('../images/Westwood_village.png')},
+    {name: 'Santa Monica', src: require('../../images/SantaMonica.png')},
+    {name: 'Westwood Tour', src: require('../../images/Westwood_village.png')},
   ]);
 
   const renderItem = ({item}) => {
@@ -48,29 +48,54 @@ const ManageTours = ({navigation}) => {
     <SafeAreaView>
       <ScrollView style={{paddingRight: 20, paddingLeft: 20, height: '100%'}}>
         <View style={{marginTop: 50}}>
-          <Text style={{marginLeft: 20, fontSize: 24, fontWeight: '700', marginBottom: 20}}>
-            Manage Tours
+          <Text style={{marginLeft: 20, fontSize: 20, fontWeight: '700', marginBottom: 20}}>
+            Tours with Brittany
           </Text>
         </View>
-        <View style={{flexDirection: 'row', flexWrap: 'wrap'}}>
-            <TouchableOpacity style={styles.addNewTourCard} onPress={() => navigation.navigate('TourInfo2')}>
-            <Ionicons name={'add'} size={24} style={{color: "#525252", position: 'absolute', left: 10}}/>
-            <Text style={{fontSize: 16, fontWeight: '400', color: '#525252', textAlign: 'center', left: 10, top: 1}}>Add a new tour</Text>
+        {/* <FlatList
+          style={{marginTop: 10}}
+          horizontal={true}
+          data={tourimages}
+          renderItem={({item}) => (
+            <TouchableOpacity onPress={() => navigation.navigate('TourInfo2')}>
+              <ImageBackground
+                style={styles.listTourImage}
+                imageStyle={{borderRadius: 10}}
+                source={item.src}>
+                <LinearGradient
+                  colors={['transparent', 'black']}
+                  style={styles.linearGradTour}
+                />
+              </ImageBackground>
+              <Text style={styles.tourText}>{item.name}</Text>
             </TouchableOpacity>
+          )}
+        /> */}
+        <View style={{flexDirection: 'row', flexWrap: 'wrap'}}>
           {tourimages.map((tour) => {
             return(
               <TouchableOpacity style={styles.tourCard} onPress={() => navigation.navigate('TourInfo2')}>
                 <Image style={styles.tourImage} source={tour.src}></Image>
                 <View style={styles.tourTextSection}>
-                  <Text style={{fontSize: 10, color: "#9B9BA7"}}>60 min | <Ionicons name={'people'} size={12}/> Max 6 people | <Ionicons name={'walk'} size={12}/></Text>
+                  <Text style={{color: "#9B9BA7"}}>60 min | Max 6 people</Text>
                   <Text style={{fontWeight: '600'}}>Westwood Tour</Text>
                   <Text style={{fontSize: 12, marginTop: 5}}>Get to know the neighborhood: where to grocery shop, where the best hangout...</Text>
                 </View>
               </TouchableOpacity>
             )
           })}
+        {/*           
+          <View style={styles.tourCard}>
+            
+          </View>
+          <View style={styles.tourCard}>
+            
+          </View> */}
         </View>
       </ScrollView>
+      <TouchableOpacity style={styles.backIcon} onPress={() => navigation.goBack()}>
+            <Ionicons name='chevron-back-outline' size={20} color='white' />
+        </TouchableOpacity>
     </SafeAreaView>
   );
 };
@@ -134,20 +159,6 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
     borderRadius: 10,
   },
-  addNewTourCard: {
-    borderWidth: 1,
-    borderStyle: 'dashed',
-    // stroke-dasharray: "8, 3",
-    borderColor: '#525252',
-    width: '45%',
-    height: 250,
-    margin: 8,
-    borderRadius: 10,
-    justifyContent: 'center',
-    // textAlign: 'center',
-    alignItems: 'center',
-    
-  },
   tourCard: {
     width: '45%',
     height: 250,
@@ -171,6 +182,19 @@ const styles = StyleSheet.create({
     top: '53%',
     left: 10,
   },
+  backIcon: {
+    backgroundColor: '#3154A5',
+    borderRadius: 10,
+    borderColor: 'white',
+    borderWidth: 1,
+    position: 'absolute',
+    left: 20,
+    top: 40,
+    width: 40,
+    height: 40,
+    alignItems: 'center',
+    justifyContent: 'center'
+},
 });
 
-export default ManageTours;
+export default TourList;

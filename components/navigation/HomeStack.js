@@ -6,17 +6,17 @@ import { StyleSheet } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-import HomePage from '../../screens/HomePage';
-import TourGuideProfile from '../../screens/TourGuideProfile';
-import TourInfo from '../../screens/TourInfo';
-import Messages from '../../screens/Messages';
+import HomePage from '../../screens/visitor/HomePage';
+import TourGuideProfile from '../../screens/visitor/TourGuideProfile';
+import TourInfo from '../../screens/visitor/TourInfo';
+import Messages from '../../screens/visitor/Messages';
 import { TouchableOpacity } from 'react-native';
-import Booking from '../../screens/Booking';
-import Checkout from '../../screens/Checkout';
-import TourGuideList from '../../screens/TourGuideList';
-import TourGuideProfile2 from '../../screens/TourGuideProfile2';
-import TourList from '../../screens/TourList';
-import TourInfo2 from '../../screens/TourInfo2';
+import Booking from '../../screens/visitor/Booking';
+import Checkout from '../../screens/visitor/Checkout';
+import TourGuideList from '../../screens/visitor/TourGuideList';
+import TourGuideProfile2 from '../../screens/visitor/TourGuideProfile2';
+import TourList from '../../screens/visitor/TourList';
+import TourInfo2 from '../../screens/visitor/TourInfo2';
 
 const HomeStack = ({navigation}) => {
     const HomeStack = createStackNavigator();

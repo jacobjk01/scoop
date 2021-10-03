@@ -4,7 +4,7 @@ import { Icon } from 'react-native-elements';
 import { createStackNavigator } from '@react-navigation/stack';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-import HomePage from '../screens/HomePage';
+import HomePage from '../screens/visitor/HomePage';
 import TourGuideProfile from '../screens/TourGuideProfile';
 import TourInfo from '../screens/TourInfo';
 import Messages from '../screens/Messages';

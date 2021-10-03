@@ -21,7 +21,7 @@ import LinearGradient from 'react-native-linear-gradient';
 
 import StickyParallaxHeader from 'react-native-sticky-parallax-header';
 import {Calendar} from 'react-native-calendars';
-import {black, white} from '../config/colors';
+import {black, white} from '../../config/colors';
 
 const {event, ValueXY} = Animated;
 class TourInfo extends Component {
@@ -58,7 +58,7 @@ class TourInfo extends Component {
       <View style={{backgroundColor: '#d92726', flex: 1, borderRadius: 10}}>
         <ImageBackground
           style={styles.imageHeader}
-          source={require('../images/Westwood_village.png')}>
+          source={require('../../images/Westwood_village.png')}>
           <LinearGradient
             colors={['transparent', 'black']}
             style={styles.linearGradTour}
@@ -111,7 +111,7 @@ class TourInfo extends Component {
           return (
             <Image
               style={{width: 16, height: 16, marginRight: 4}}
-              source={require('../images/stars/filledstar.png')}
+              source={require('../../images/stars/filledstar.png')}
             />
           );
         })}
@@ -121,7 +121,7 @@ class TourInfo extends Component {
           return (
             <Image
               style={{width: 16, height: 16, marginRight: 4}}
-              source={require('../images/stars/star0.png')}
+              source={require('../../images/stars/star0.png')}
             />
           );
         })}
@@ -135,70 +135,70 @@ class TourInfo extends Component {
         return (
           <Image
             style={{width: 16, height: 16, marginRight: 4}}
-            source={require('../images/stars/star0.png')}
+            source={require('../../images/stars/star0.png')}
           />
         );
       case 1:
         return (
           <Image
             style={{width: 16, height: 16, marginRight: 4}}
-            source={require('../images/stars/star1.png')}
+            source={require('../../images/stars/star1.png')}
           />
         );
       case 2:
         return (
           <Image
             style={{width: 16, height: 16, marginRight: 4}}
-            source={require('../images/stars/star2.png')}
+            source={require('../../images/stars/star2.png')}
           />
         );
       case 3:
         return (
           <Image
             style={{width: 16, height: 16, marginRight: 4}}
-            source={require('../images/stars/star3.png')}
+            source={require('../../images/stars/star3.png')}
           />
         );
       case 4:
         return (
           <Image
             style={{width: 16, height: 16, marginRight: 4}}
-            source={require('../images/stars/star4.png')}
+            source={require('../../images/stars/star4.png')}
           />
         );
       case 5:
         return (
           <Image
             style={{width: 16, height: 16, marginRight: 4}}
-            source={require('../images/stars/star5.png')}
+            source={require('../../images/stars/star5.png')}
           />
         );
       case 6:
         return (
           <Image
             style={{width: 16, height: 16, marginRight: 4}}
-            source={require('../images/stars/star6.png')}
+            source={require('../../images/stars/star6.png')}
           />
         );
       case 7:
         return (
           <Image
             style={{width: 16, height: 16, marginRight: 4}}
-            source={require('../images/stars/star7.png')}
+            source={require('../../images/stars/star7.png')}
           />
         );
       case 8:
         return (
           <Image
             style={{width: 16, height: 16, marginRight: 4}}
-            source={require('../images/stars/star8.png')}
+            source={require('../../images/stars/star8.png')}
           />
         );
       case 9:
         return (
           <Image
             style={{width: 16, height: 16, marginRight: 4}}
-            source={require('../images/stars/star9.png')}
+            source={require('../../images/stars/star9.png')}
           />
         );
     }

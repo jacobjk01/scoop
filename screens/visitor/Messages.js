@@ -1,10 +1,10 @@
 import React from 'react';
 import {View, ScrollView, SafeAreaView, Text, StyleSheet} from 'react-native';
-import colors from '../config/colors';
-import BackButton from '../components/BackButton';
-import TourGuidesMsgSection from '../components/TourGuidesMsgSection';
-import tourGuides from '../data/tourGuides';
-import TourGuidesLastMsg from '../components/TourGuidesLastMsg';
+import colors from '../../config/colors';
+import BackButton from '../../components/BackButton';
+import TourGuidesMsgSection from '../../components/TourGuidesMsgSection';
+import tourGuides from '../../data/tourGuides';
+import TourGuidesLastMsg from '../../components/TourGuidesLastMsg';
 function Messages(props) {
   const {navigation} = props;
 
