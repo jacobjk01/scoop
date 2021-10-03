@@ -2,6 +2,8 @@ import React, {useState} from 'react';
 import {
   View,
   Text,
+  TextInput,
+  Select,
   SafeAreaView,
   ScrollView,
   StyleSheet,
@@ -11,7 +13,9 @@ import {
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-const Account = ({navigation}) => {
+const AccountEdit = ({navigation}) => {
+// const {item} = route.params;
+  /* Below is temporary until I can find out how to connect route from Account.js*/
   const item = {
     name: 'Brittany',
     year: 'Junior',
@@ -20,12 +24,20 @@ const Account = ({navigation}) => {
     hometown: 'Irvine, Orange County',
     intro: 'I am a proud first-generation college student! Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sapien velit elementum malesuada leo sociis. Leo nisi, facilisis fames dignissim euismod nec. Tempus scelerisque tempor proin diam int',
   };
+  /*---------------------------------------------*/
 
   return (
     <ImageBackground
       source={require('../images/SantaMonica.png')}
       style={styles.backgroundImage}>
       {renderGuideImage(item.src)}
+      <TouchableOpacity
+        // onPress={() => }
+        style={{position: 'absolute', right: 25, top: 120}}>
+        <View>
+          <Ionicons name={'camera'} size={25} color={'#9B9BA7'}/>
+        </View>
+      </TouchableOpacity>
       <ScrollView
         style={{
           marginTop: '40%',
@@ -36,32 +48,38 @@ const Account = ({navigation}) => {
           borderTopLeftRadius: 20,
           borderTopRightRadius: 20,
         }}>
-        <SafeAreaView>
-          {renderGuideBio({item})}
-          <TouchableOpacity
-            onPress={() => navigation.navigate('AccountEdit', {item})}
-            style={{position: 'absolute', right: 10, top: 20}}>
-            <View>
-              <Text style={{color: '#9B9BA7'}}>Edit <Ionicons name={'pencil'} size={16}/></Text>
-            </View>
-          </TouchableOpacity>
-          <View style={styles.divider} />
-        </SafeAreaView>
-        <View>
+        <SafeAreaView style={{top: 80}}>
           <Text style={styles.titleText}>
-            {'Introduction'}
+            {'First Name'}
           </Text>
-          <Text style={styles.subtitleText}>
-            {'Hometown: ' + item.hometown}
+          <TextInput style={styles.input} placeholder='Edit your name'>
+          </TextInput>
+          <Text style={styles.titleText}>
+            {'Year'}
           </Text>
-          <Text style={styles.bodyText}>
-            {item.intro}
+          <TextInput style={styles.input} placeholder='Select Year'>
+          </TextInput>
+          <Text style={styles.titleText}>
+            {'Major'}
           </Text>
-        </View>
-        <View style={styles.divider} />
-        <Text style={{fontSize: 20, fontWeight: '700'}}>
-          {'Languages'}
-        </Text>
+          <TextInput style={styles.input} placeholder='Edit your major'>
+          </TextInput>
+          <Text style={styles.titleText}>
+            {'Intro'}
+          </Text>
+          <TextInput style={styles.inputIntro} placeholder='Tell us about yourself!'>
+          </TextInput>
+          <Text style={styles.titleText}>
+            {'Hometown'}
+          </Text>
+          <TextInput style={styles.input} placeholder='Edit your hometown'>
+          </TextInput>
+          <View style={styles.divider} />
+          <View>
+            <Ionicons name='add' style={styles.addIcon}/>
+            <Text style={styles.bodyText}>Add another language</Text>
+          </View>
+        </SafeAreaView>
       </ScrollView>
     </ImageBackground>
   );
@@ -102,11 +120,38 @@ const styles = StyleSheet.create({
     resizeMode: 'cover',
   },
   divider: {
+    alignSelf: 'center',
     position: 'relative',
     marginTop: 20,
     marginBottom: 20,
     borderBottomColor: '#9B9BA7',
     borderBottomWidth: 1,
+    width: "92%",
+  },
+  input: {
+    alignSelf: 'center',
+    height: 45,
+    width: "92%",
+    borderWidth: 1,
+    borderColor: '#9B9BA7',
+    fontStyle: 'italic',
+    borderRadius: 7,
+    paddingLeft: 15,
+    marginTop: 10,
+    marginBottom: 30,
+  },
+  inputIntro: {
+    alignSelf: 'center',
+    height: 100,
+    width: "92%",
+    borderWidth: 1,
+    borderColor: '#9B9BA7',
+    fontStyle: 'italic',
+    borderRadius: 7,
+    paddingLeft: 15,
+    marginTop: 10,
+    marginBottom: 30,
+    paddingBottom: 50,
   },
   guideImage: {
     width: 100,
@@ -121,8 +166,9 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   titleText: {
-    fontSize: 20,
-    fontWeight: '700'
+    fontSize: 18,
+    fontWeight: '400',
+    paddingLeft: 10,
   },
   sectionText: {
     fontSize: 24,
@@ -139,8 +185,17 @@ const styles = StyleSheet.create({
   bodyText: {
     fontSize: 16,
     fontWeight: '400',
-    marginTop: 5,
+    left: 52,
+    color: '#525252',
+    bottom: 3,
+  },
+  addIcon: {
+    color: '#525252',
+    fontSize: 25,
+    position: 'absolute',
+    left: 25,
+    bottom: 0,
   },
 });
 
-export default Account;
+export default AccountEdit;
