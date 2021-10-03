@@ -22,8 +22,8 @@ import {createStackNavigator} from '@react-navigation/stack';
 
 const TourGuideProfile2 = ({navigation, route}) => {
   const [tourimages, setImages] = useState([
-    {name: 'Santa Monica', src: require('../images/SantaMonica.png')},
-    {name: 'Westwood Tour', src: require('../images/Westwood_village.png')},
+    {name: 'Santa Monica', src: require('../../images/SantaMonica.png')},
+    {name: 'Westwood Tour', src: require('../../images/Westwood_village.png')},
   ]);
 
   const {item} = route.params;
@@ -68,7 +68,7 @@ const TourGuideProfile2 = ({navigation, route}) => {
 
   return (
     <ImageBackground
-      source={require('../images/SantaMonica.png')}
+      source={require('../../images/SantaMonica.png')}
       style={styles.backgroundImage}>
       <ScrollView
         style={{

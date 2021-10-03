@@ -14,35 +14,34 @@ import {
 import {withSafeAreaInsets} from 'react-native-safe-area-context';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import LinearGradient from 'react-native-linear-gradient';
-import colors from '../config/colors';
+import colors from '../../config/colors';
 import {color} from 'react-native-reanimated';
-import TourGuideProfile from './TourGuideProfile';
+import TourGuideProfile from '../visitor/TourGuideProfile';
 
 const ManageTours = ({navigation}) => {
   const [tourimages, setImages] = useState([
-    {name: 'Santa Monica', src: require('../images/SantaMonica.png')},
-    {name: 'Westwood Tour', src: require('../images/Westwood_village.png')},
+    {name: 'Santa Monica', src: require('../../images/SantaMonica.png')},
+    {name: 'Westwood Tour', src: require('../../images/Westwood_village.png')},
   ]);
 
-  const renderItem = ({item}) => {
-    const handleOnPress = () => navigation.navigate('TourInfo2', {item});
-    return (
-      <TouchableOpacity onPress={handleOnPress}>
-        <ImageBackground
-          style={styles.listGuideImage}
-          imageStyle={{borderRadius: 10}}
-          source={item.src}>
-          <LinearGradient
-            colors={['transparent', 'black']}
-            style={styles.linearGradGuide}
-          />
-        </ImageBackground>
-        <Text style={styles.guideText}>
-          {item.name}, {item.year}, {item.major}
-        </Text>
-      </TouchableOpacity>
-    );
-  };
+  // const renderItem = ({item}) => {
+  //   return (
+  //     <TouchableOpacity onPress={() => navigation.navigate('EditTour', {item})}>
+  //       <ImageBackground
+  //         style={styles.listGuideImage}
+  //         imageStyle={{borderRadius: 10}}
+  //         source={item.src}>
+  //         <LinearGradient
+  //           colors={['transparent', 'black']}
+  //           style={styles.linearGradGuide}
+  //         />
+  //       </ImageBackground>
+  //       <Text style={styles.guideText}>
+  //         {item.name}, {item.year}, {item.major}
+  //       </Text>
+  //     </TouchableOpacity>
+  //   );
+  // };
 
   return (
     <SafeAreaView>
@@ -53,7 +52,7 @@ const ManageTours = ({navigation}) => {
           </Text>
         </View>
         <View style={{flexDirection: 'row', flexWrap: 'wrap'}}>
-            <TouchableOpacity style={styles.addNewTourCard} onPress={() => navigation.navigate('TourInfo2')}>
+            <TouchableOpacity style={styles.addNewTourCard} onPress={() => navigation.navigate('AddTour')}>
             <Ionicons name={'add'} size={24} style={{color: "#525252", position: 'absolute', left: 10}}/>
             <Text style={{fontSize: 16, fontWeight: '400', color: '#525252', textAlign: 'center', left: 10, top: 1}}>Add a new tour</Text>
             </TouchableOpacity>

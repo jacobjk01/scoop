@@ -20,7 +20,7 @@ const AccountEdit = ({navigation}) => {
     name: 'Brittany',
     year: 'Junior',
     major: 'Mechanical Eng.',
-    src: require('../images/brittany.png'),
+    src: require('../../images/brittany.png'),
     hometown: 'Irvine, Orange County',
     intro: 'I am a proud first-generation college student! Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sapien velit elementum malesuada leo sociis. Leo nisi, facilisis fames dignissim euismod nec. Tempus scelerisque tempor proin diam int',
   };
@@ -28,7 +28,7 @@ const AccountEdit = ({navigation}) => {
 
   return (
     <ImageBackground
-      source={require('../images/SantaMonica.png')}
+      source={require('../../images/SantaMonica.png')}
       style={styles.backgroundImage}>
       {renderGuideImage(item.src)}
       <TouchableOpacity
