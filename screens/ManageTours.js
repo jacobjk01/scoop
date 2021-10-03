@@ -59,7 +59,7 @@ const ManageTours = ({navigation}) => {
             </TouchableOpacity>
           {tourimages.map((tour) => {
             return(
-              <TouchableOpacity style={styles.tourCard} onPress={() => navigation.navigate('TourInfo2')}>
+              <TouchableOpacity style={styles.tourCard} onPress={() => navigation.navigate('TourEdit')}>
                 <Image style={styles.tourImage} source={tour.src}></Image>
                 <View style={styles.tourTextSection}>
                   <Text style={{fontSize: 10, color: "#9B9BA7"}}>60 min | <Ionicons name={'people'} size={12}/> Max 6 people | <Ionicons name={'walk'} size={12}/></Text>
