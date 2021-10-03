@@ -37,7 +37,8 @@ import Account from './screens/guide/Account';
 import Checkout from './screens/visitor/Checkout';
 import ManageTours from './screens/guide/ManageTours';
 import Tours from './screens/visitor/Tours';
-import HomeStack from './components/navigation/HomeStack';
+import HomeStackVisitor from './components/navigation/HomeStackVisitor';
+import HomeStackGuide from './components/navigation/HomeStackGuide';
 import Conversation from './screens/visitor/Conversation';
 import colors from './config/colors';
 import Test from './screens/dev/Test';
@@ -83,20 +84,20 @@ const App: () => Node = () => {
         {(() => {
           if (MODE === 'visitor') {
             return <>
-              <Tab.Screen name="Home" component={HomeStack} />
+              <Tab.Screen name="Home" component={HomeStackVisitor} />
               <Tab.Screen name="Tours" component={Tours} />
               <Tab.Screen name="Account" component={Account} />
             </>
           } else if (MODE === 'guide'){
             return <>
               <Tab.Screen name="Home" component={HomeStack} />
-              <Tab.Screen name="ManageTours" component={ManageTours} />
+              <Tab.Screen name="ManageTours" component={ManageToursGuide} />
               <Tab.Screen name="Tours" component={Tours} />
               <Tab.Screen name="Account" component={Account} />
             </>
           } else {
             return <>
-              <Tab.Screen name="Home" component={HomeStack} />
+              <Tab.Screen name="Home" component={HomeStackVisitor} />
               <Tab.Screen name="ManageTours" component={ManageTours} />
               <Tab.Screen name="Tours" component={Tours} />
               <Tab.Screen name="Account" component={Account} />
