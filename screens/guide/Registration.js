@@ -1,9 +1,11 @@
 import React from 'react'
-import { View } from 'react-native'
-export default  () => {
+import { SafeAreaView, Text} from 'react-native'
+export default  ({navigation}) => {
     return (
-        <View>
-            Registration for guide
-        </View>
+        <SafeAreaView>
+            <Text>
+                Registration for guide
+            </Text>
+        </SafeAreaView>
     )
 }

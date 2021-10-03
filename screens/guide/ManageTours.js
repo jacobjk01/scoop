@@ -24,25 +24,24 @@ const ManageTours = ({navigation}) => {
     {name: 'Westwood Tour', src: require('../../images/Westwood_village.png')},
   ]);
 
-  const renderItem = ({item}) => {
-    const handleOnPress = () => navigation.navigate('TourInfo2', {item});
-    return (
-      <TouchableOpacity onPress={handleOnPress}>
-        <ImageBackground
-          style={styles.listGuideImage}
-          imageStyle={{borderRadius: 10}}
-          source={item.src}>
-          <LinearGradient
-            colors={['transparent', 'black']}
-            style={styles.linearGradGuide}
-          />
-        </ImageBackground>
-        <Text style={styles.guideText}>
-          {item.name}, {item.year}, {item.major}
-        </Text>
-      </TouchableOpacity>
-    );
-  };
+  // const renderItem = ({item}) => {
+  //   return (
+  //     <TouchableOpacity onPress={() => navigation.navigate('EditTour', {item})}>
+  //       <ImageBackground
+  //         style={styles.listGuideImage}
+  //         imageStyle={{borderRadius: 10}}
+  //         source={item.src}>
+  //         <LinearGradient
+  //           colors={['transparent', 'black']}
+  //           style={styles.linearGradGuide}
+  //         />
+  //       </ImageBackground>
+  //       <Text style={styles.guideText}>
+  //         {item.name}, {item.year}, {item.major}
+  //       </Text>
+  //     </TouchableOpacity>
+  //   );
+  // };
 
   return (
     <SafeAreaView>
@@ -53,13 +52,13 @@ const ManageTours = ({navigation}) => {
           </Text>
         </View>
         <View style={{flexDirection: 'row', flexWrap: 'wrap'}}>
-            <TouchableOpacity style={styles.addNewTourCard} onPress={() => navigation.navigate('TourInfo2')}>
+            <TouchableOpacity style={styles.addNewTourCard} onPress={() => navigation.navigate('AddTour')}>
             <Ionicons name={'add'} size={24} style={{color: "#525252", position: 'absolute', left: 10}}/>
             <Text style={{fontSize: 16, fontWeight: '400', color: '#525252', textAlign: 'center', left: 10, top: 1}}>Add a new tour</Text>
             </TouchableOpacity>
           {tourimages.map((tour) => {
             return(
-              <TouchableOpacity style={styles.tourCard} onPress={() => navigation.navigate('TourInfo2')}>
+              <TouchableOpacity style={styles.tourCard} onPress={() => navigation.navigate('EditTour')}>
                 <Image style={styles.tourImage} source={tour.src}></Image>
                 <View style={styles.tourTextSection}>
                   <Text style={{fontSize: 10, color: "#9B9BA7"}}>60 min | <Ionicons name={'people'} size={12}/> Max 6 people | <Ionicons name={'walk'} size={12}/></Text>

@@ -10,7 +10,7 @@
 //react imports
 import 'react-native-gesture-handler';
 import React from 'react';
-import type {Node} from 'react';
+// import type {Node} from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -118,8 +118,7 @@ const TabAllModes = () => {
           } else if (MODE === 'guide'){
             return <>
               <Tab.Screen name="Home" component={HomeGuide} />
-              <Tab.Screen name="ManageTours" component={ManageToursGuide} />
-              <Tab.Screen name="Tours" component={Tours} />
+              <Tab.Screen name="ManageTours" component={ManageTours} />
               <Tab.Screen name="Account" component={Account} />
             </>
           } else {
@@ -138,7 +137,7 @@ const TabAllModes = () => {
 }
 
 //bulk of navigation
-const App: () => Node = () => {
+const App = () => {
   
   return (
     <NavigationContainer>
@@ -148,14 +147,14 @@ const App: () => Node = () => {
         <Stack.Screen name="Test" component={Test} options={{headerShown: false}}/>
 
         {/* Guide Routes */}
-        <Stack.Screen name="Account" component={Account} options={{headerShown: false}}/>
-        <Stack.Screen name="AccountEdit" component={AccountEdit} options={{headerShown: false}}/>
-        <Stack.Screen name="AddTour" component={AddTour} options={{headerShown: false}}/>
-        <Stack.Screen name="EditTour" component={EditTour} options={{headerShown: false}}/>
+        <Stack.Screen name="Account" component={Account} options={{headerShown: true}}/>
+        <Stack.Screen name="AccountEdit" component={AccountEdit} options={{headerShown: true}}/>
+        <Stack.Screen name="AddTour" component={AddTour} options={{headerShown: true}}/>
+        <Stack.Screen name="EditTour" component={EditTour} options={{headerShown: true}}/>
         <Stack.Screen name="Home" component={HomeGuide} options={{headerShown: false}}/>
-        <Stack.Screen name="ManageTours" component={ManageTours} options={{headerShown: false}}/>
-        <Stack.Screen name="Registration" component={Registration} options={{headerShown: false}}/>
-        <Stack.Screen name="ViewTour" component={ViewTour} options={{headerShown: false}}/>
+        <Stack.Screen name="ManageTours" component={ManageTours} options={{headerShown: true}}/>
+        <Stack.Screen name="Registration" component={Registration} options={{headerShown: true}}/>
+        <Stack.Screen name="ViewTour" component={ViewTour} options={{headerShown: true}}/>
 
         {/* Visitor Routes */}
         <Stack.Screen name="Tours" component={Tours} options={{headerShown: false}}/>

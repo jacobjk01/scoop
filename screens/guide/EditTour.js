@@ -1,9 +1,11 @@
 import React from 'react'
-import { View } from 'react-native'
-export default function EditTour() {
+import { SafeAreaView, Text } from 'react-native'
+export default function EditTour({navigation}) {
     return (
-        <View>
+        <SafeAreaView>
+            <Text>
             Edit tour
-        </View>
+            </Text>
+        </SafeAreaView>
     )
 }
