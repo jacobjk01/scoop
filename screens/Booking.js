@@ -457,7 +457,7 @@ const styles = StyleSheet.create({
         height: 1,
         backgroundColor: '#D9D9D9',
         position: 'absolute',
-        top: 120,
+        top: 125,
         alignSelf: 'center',
         zIndex: 10
     }
