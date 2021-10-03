@@ -42,10 +42,12 @@ import Conversation from './screens/visitor/Conversation';
 import colors from './config/colors';
 import Test from './screens/dev/Test';
 
-
 const Tab = createBottomTabNavigator();
 
+const MODE = 'visitor'; // visitor | guide | dev
+
 const App: () => Node = () => {
+  
   return (
     <NavigationContainer>
       <Tab.Navigator
@@ -73,15 +75,35 @@ const App: () => Node = () => {
           },
         })}
         tabBarOptions={{
-          activeTintColor: '#3D68CC',
-          inactiveTintColor: '#3D68CC',
+          activeTintColor: colors.primary,
+          inactiveTintColor: colors.primary,
         }}
-        initialRouteName="HomeScreen">
-        <Tab.Screen name="Home" component={HomeStack} />
-        <Tab.Screen name="ManageTours" component={ManageTours} />
-        <Tab.Screen name="Tours" component={Tours} />
-        <Tab.Screen name="Account" component={Account} />
-        <Tab.Screen name="Test" component={Test} />
+        initialRouteName={MODE === 'visitor' ? "Home" : MODE === 'guide' ? "Home" : "Home" }>
+          
+        {(() => {
+          if (MODE === 'visitor') {
+            return <>
+              <Tab.Screen name="Home" component={HomeStack} />
+              <Tab.Screen name="Tours" component={Tours} />
+              <Tab.Screen name="Account" component={Account} />
+            </>
+          } else if (MODE === 'guide'){
+            return <>
+              <Tab.Screen name="Home" component={HomeStack} />
+              <Tab.Screen name="ManageTours" component={ManageTours} />
+              <Tab.Screen name="Tours" component={Tours} />
+              <Tab.Screen name="Account" component={Account} />
+            </>
+          } else {
+            return <>
+              <Tab.Screen name="Home" component={HomeStack} />
+              <Tab.Screen name="ManageTours" component={ManageTours} />
+              <Tab.Screen name="Tours" component={Tours} />
+              <Tab.Screen name="Account" component={Account} />
+              <Tab.Screen name="Test" component={Test} />
+            </>
+          }
+        })()}
       </Tab.Navigator>
     </NavigationContainer>
   );
