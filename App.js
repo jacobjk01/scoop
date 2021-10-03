@@ -64,11 +64,17 @@ import Booking from './screens/visitor/Booking';
 import TourGuideList from './screens/visitor/TourGuideList';
 import TourList from './screens/visitor/TourList';
 
-// All navigation is handled here
+/**
+ * 
+ *  All navigation is handled here
+ * 
+ */
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
 const MODE = 'visitor'; // visitor | guide | dev
+
+//displays bottom tab and some navigation
 const TabAllModes = () => {
   return (
       <Tab.Navigator
@@ -131,6 +137,7 @@ const TabAllModes = () => {
   )
 }
 
+//bulk of navigation
 const App: () => Node = () => {
   
   return (
