@@ -15,8 +15,6 @@ import {withSafeAreaInsets} from 'react-native-safe-area-context';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import LinearGradient from 'react-native-linear-gradient';
 import colors from '../../config/colors';
-import {color} from 'react-native-reanimated';
-import TourGuideProfile from '../visitor/TourGuideProfile';
 import toursData from '../../data/toursData';
 
 const ManageTours = ({navigation}) => {

@@ -4,17 +4,20 @@ import {
   Text,
   ScrollView,
   StyleSheet,
+  TextInput,
   TouchableOpacity,
   ImageBackground,
   Animated,
   StatusBar,
 } from 'react-native';
+import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
+import { Marker } from 'react-native-maps';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import LinearGradient from 'react-native-linear-gradient';
 import {white} from '../../config/colors';
 
 const {event, ValueXY} = Animated;
-class TourEdit extends Component {
+class TourEdit3 extends Component {
   constructor(props, tour) {
     super(props);
     this.state = {
@@ -35,10 +38,9 @@ class TourEdit extends Component {
 
   renderForeground() {
     return (
-      <View style={{flex: 1, borderRadius: 15}}>
+      <View style={{backgroundColor: '#d92726', flex: 1, borderRadius: 10}}>
         <ImageBackground
           style={styles.imageHeader}
-          imageStyle={{borderBottomLeftRadius: 15, borderBottomRightRadius: 15}}
           source={require('../../images/Westwood_village.png')}>
           <LinearGradient
             colors={['transparent', 'black']}
@@ -68,27 +70,64 @@ class TourEdit extends Component {
     return (
       <View style={{marginBottom: 70}}>
         <TouchableOpacity
-            onPress={() => navigation.navigate('TourEdit3', this.state)}
+            onPress={() => navigation.navigate('TourEdit2', this.state)}
             style={{position: 'absolute', right: 30, top: 30}}>
             <View>
               <Text style={{color: '#9B9BA7'}}>Edit <Ionicons name={'pencil'} size={16}/></Text>
             </View>
         </TouchableOpacity>
         <Text style={[styles.sectionText, {marginTop: 40}]}>Basic Info</Text>
-        <Text style={[styles.bodyText, {marginTop: 20}]}>
-            {'Duration :'} {this.state.duration} {'min'}
-        </Text>
-        <Text style={[styles.bodyText]}>
-            {'Max Group :'} {this.state.maxGroup}
-        </Text>
-        <Text style={[styles.bodyText]}>
-            {'Transportation :'} {this.state.transportation}
-        </Text>
-        <Text style={[styles.bodyText]}>
-            {'Recommended Meetup Point :'} {this.state.meetPoint}
-        </Text>
+        <View style={[styles.bodyText, {flexDirection: 'row', marginTop: 20}]}>
+            <Text>
+                {'Duration :'}
+            </Text>
+            <TextInput style={styles.input}>
+                {this.state.duration}
+            </TextInput>
+            <Text>
+                {'min'}
+            </Text>
+        </View>
+        <View style={[styles.bodyText, {flexDirection: 'row'}]}>
+            <Text>
+                {'Max Group :'} {this.state.maxGroup}
+            </Text>
+            <Counter />
+        </View>
+        <View style={styles.bodyText}>
+            <Text >
+                {'Transportation :'} {this.state.transportation}
+            </Text>
+            <Text>Add Dropdown Picker Here</Text>
+        </View>
+        <View style={styles.bodyText}>
+            <Text>
+                {'Recommended Meetup Point :'} {this.state.meetPoint}
+            </Text>
+            <Text>Add Dropdown Picker Here</Text>
+            <View pointerEvents="none" style={{height: 90, backgroundColor: "grey", marginTop: 10}}>
+                <MapView
+                    style={{flex: 1}}
+                    provider={PROVIDER_GOOGLE}
+                    initialRegion = {{
+                        latitude: 34.07106828093279, 
+                        longitude: -118.444993904947,
+                        latitudeDelta: 0.0015,
+                        longitudeDelta: 0.0020,
+                    }}>
+                    <Marker
+                        key={1}
+                        coordinate={{latitude: 34.07106828093279, longitude: -118.444993904947}}
+                        title="Bruin Statue"
+                        description="Recommended Meeting Point"
+                    />
+                </MapView>
+                <Text style={{color: "#EA4336", position: 'absolute', top: 10, left: 175, fontWeight: '500'}}>Bruin Bear</Text>
+            </View>
+        </View>
         <View style={styles.divider} />
         <Text style={[styles.sectionText, {marginTop: 0}]}>Introduction</Text>
+        <TextInput style={styles.inputIntro}></TextInput>
         <Text style={[styles.bodyText, {marginTop: 20}]}>
             {this.state.introduction}
         </Text>
@@ -121,6 +160,33 @@ class TourEdit extends Component {
     );
   }
 }
+
+class Counter extends React.Component {
+    state = { count: 1 };
+  
+    subtractCount = () => this.setState(
+        prevState => ({ ...prevState, count: this.state.count > 1 ? this.state.count - 1 : this.state.count })
+    )
+    
+    addCount = () => this.setState(
+        prevState => ({ ...prevState, count: this.state.count + 1 })
+    )
+  
+    render() {
+      const { count } = this.state;
+      return (
+        <View style={{flexDirection: 'row'}}>
+            <TouchableOpacity style={styles.removeButton} onPress={this.subtractCount}>
+                <Ionicons name={'remove'} size={16} style={{color: '#9B9BA7'}}/>
+            </TouchableOpacity>
+            <Text style={{paddingHorizontal: 8}}>{count}</Text>
+            <TouchableOpacity style={styles.addButton} onPress={this.addCount}>
+                <Ionicons name={'add'} size={16} style={{color: 'white'}}/>
+            </TouchableOpacity>
+        </View>
+      );
+    }
+  }
 
 const styles = StyleSheet.create({
     divider: {
@@ -156,6 +222,9 @@ const styles = StyleSheet.create({
   imageHeader: {
     width: '100%',
     height: 200,
+    borderTopLeftRadius: 0,
+    borderTopRightRadius: 0,
+    borderRadius: 10,
     zIndex: -10,
     paddingTop: 100,
   },
@@ -171,7 +240,7 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     backgroundColor: 'transparent',
-    borderRadius: 15,
+    borderRadius: 10,
   },
   backIcon: {
     backgroundColor: '#3154A5',
@@ -200,6 +269,44 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.8,
     shadowRadius: 3,
   },
+  input: {
+      borderColor: '#9B9BA7',
+      borderWidth: 1,
+      borderRadius: 5,
+      width: 35,
+      textAlign: 'center',
+      paddingHorizontal: 5,
+      marginHorizontal: 5,
+  },
+  removeButton: {
+    borderColor: '#9B9BA7',
+    borderWidth: 1,
+    paddingHorizontal: 2,
+    borderRadius: 5,
+    paddingVertical: 1,
+  },
+  addButton: {
+    borderColor: '#3154A5',
+    borderWidth: 1,
+    paddingHorizontal: 2,
+    borderRadius: 5,
+    backgroundColor: '#3154A5',
+    },
+  buttonText: {
+      fontSize: 16,
+    },
+  inputIntro: {
+    alignSelf: 'center',
+    height: 100,
+    width: "75%",
+    borderWidth: 1,
+    borderColor: '#9B9BA7',
+    borderRadius: 7,
+    paddingLeft: 10,
+    marginTop: 10,
+    marginBottom: 30,
+    paddingBottom: 50,
+  },
 });
 
-export default TourEdit;
+export default TourEdit3;
