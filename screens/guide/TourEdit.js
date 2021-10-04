@@ -15,7 +15,7 @@ import {white} from '../../config/colors';
 
 const {event, ValueXY} = Animated;
 class TourEdit extends Component {
-  constructor(props) {
+  constructor(props, tour) {
     super(props);
     this.state = {
         duration: 60,
@@ -24,6 +24,8 @@ class TourEdit extends Component {
         meetPoint: 'Bruin Bear',
         introduction: 'Get to know the neighborhood: where to grocery shop, where the best hangout places are, and where to grab a bite with your fellow hungry bruins.',
     }
+    // this.state = 
+    this.state = tour;
     this.scrollY = new ValueXY();
   }
 

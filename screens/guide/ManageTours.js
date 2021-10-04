@@ -17,31 +17,10 @@ import LinearGradient from 'react-native-linear-gradient';
 import colors from '../../config/colors';
 import {color} from 'react-native-reanimated';
 import TourGuideProfile from '../visitor/TourGuideProfile';
+import toursData from '../../data/toursData';
 
 const ManageTours = ({navigation}) => {
-  const [tourimages, setImages] = useState([
-    {name: 'Santa Monica', src: require('../../images/SantaMonica.png')},
-    {name: 'Westwood Tour', src: require('../../images/Westwood_village.png')},
-  ]);
-
-  // const renderItem = ({item}) => {
-  //   return (
-  //     <TouchableOpacity onPress={() => navigation.navigate('EditTour', {item})}>
-  //       <ImageBackground
-  //         style={styles.listGuideImage}
-  //         imageStyle={{borderRadius: 10}}
-  //         source={item.src}>
-  //         <LinearGradient
-  //           colors={['transparent', 'black']}
-  //           style={styles.linearGradGuide}
-  //         />
-  //       </ImageBackground>
-  //       <Text style={styles.guideText}>
-  //         {item.name}, {item.year}, {item.major}
-  //       </Text>
-  //     </TouchableOpacity>
-  //   );
-  // };
+  const tours = toursData.tours;
 
   return (
     <SafeAreaView>
@@ -56,14 +35,14 @@ const ManageTours = ({navigation}) => {
             <Ionicons name={'add'} size={24} style={{color: "#525252", position: 'absolute', left: 8}}/>
             <Text style={{fontSize: 16, fontWeight: '400', color: '#525252', textAlign: 'center', left: 8, top: 1}}>Add a new tour</Text>
             </TouchableOpacity>
-          {tourimages.map((tour) => {
+          {tours.map((tour) => {
             return(
-              <TouchableOpacity style={styles.tourCard} onPress={() => navigation.navigate('TourEdit')}>
+              <TouchableOpacity style={styles.tourCard} onPress={() => navigation.navigate('TourEdit', tour)}>
                 <Image style={styles.tourImage} source={tour.src}></Image>
                 <View style={styles.tourTextSection}>
-                  <Text style={{fontSize: 10, color: "#9B9BA7"}}>60 min | <Ionicons name={'people'} size={12}/> Max 6 people | <Ionicons name={'walk'} size={12}/></Text>
-                  <Text style={{fontWeight: '600'}}>Westwood Tour</Text>
-                  <Text style={{fontSize: 12, marginTop: 5}}>Get to know the neighborhood: where to grocery shop, where the best hangout...</Text>
+                  <Text style={{fontSize: 10, color: "#9B9BA7"}}>{tour.duration} min | <Ionicons name={'people'} size={12}/> Max {tour.maxPeople} people | <Ionicons name={tour.transportation} size={12}/></Text>
+                  <Text style={{fontWeight: '600'}}>{tour.name}</Text>
+                  <Text style={{fontSize: 12, marginTop: 5}}>{tour.description}</Text>
                 </View>
               </TouchableOpacity>
             )
@@ -156,7 +135,7 @@ const styles = StyleSheet.create({
     shadowColor: "#000000",
     shadowOffset: {width: 1, height: 1},
     shadowOpacity: 0.2,
-    shadowRadius: 5
+    shadowRadius: 5,
   },
   tourImage: {
     position: 'absolute',
@@ -169,6 +148,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: '53%',
     left: 10,
+    right: 5,
   },
 });
 
