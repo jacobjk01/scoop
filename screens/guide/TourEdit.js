@@ -74,7 +74,7 @@ class TourEdit extends Component {
             {'Duration :'} {this.tour.duration} {'min'}
         </Text>
         <Text style={[styles.bodyText]}>
-            {'Max Group :'} {this.tour.maxGroup}
+            {'Max Group :'} {this.tour.maxPeople}
         </Text>
         <Text style={[styles.bodyText]}>
             {'Transportation :'} {this.tour.transportation}
@@ -106,7 +106,7 @@ class TourEdit extends Component {
         </ScrollView>
         <TouchableOpacity
           style={styles.continue}
-          onPress={() => this.navigation.navigate('TourGuideList')}>
+          onPress={() => this.navigation.navigate('TourEdit2')}>
           <Text style={{alignSelf: 'center', color: white, fontWeight: '700'}}>
             {'View Suggested Itinerary'}
           </Text>

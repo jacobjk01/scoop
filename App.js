@@ -43,6 +43,7 @@ import Test from './screens/dev/Test';
 //guide imports
 import ManageTours from './screens/guide/ManageTours';
 import TourEdit from './screens/guide/TourEdit';
+import TourEdit2 from './screens/guide/TourEdit2';
 import TourEdit3 from './screens/guide/TourEdit3';
 import Account from './screens/guide/Account';
 import AccountEdit from './screens/guide/AccountEdit';
@@ -156,6 +157,7 @@ const App = () => {
         <Stack.Screen name="Home" component={HomeGuide} options={{headerShown: false}}/>
         <Stack.Screen name="ManageTours" component={ManageTours} options={{headerShown: true}}/>
         <Stack.Screen name="TourEdit" component={TourEdit} options={{headerShown: true}}/>
+        <Stack.Screen name="TourEdit2" component={TourEdit2} options={{headerShown: true}}/>
         <Stack.Screen name="TourEdit3" component={TourEdit3} options={{headerShown: true}}/>
         <Stack.Screen name="Registration" component={Registration} options={{headerShown: true}}/>
         <Stack.Screen name="ViewTour" component={ViewTour} options={{headerShown: true}}/>
