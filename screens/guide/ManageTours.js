@@ -35,7 +35,7 @@ const ManageTours = ({navigation}) => {
             </TouchableOpacity>
           {tours.map((tour) => {
             return(
-              <TouchableOpacity style={styles.tourCard} onPress={() => navigation.navigate('TourEdit', tour)}>
+              <TouchableOpacity style={styles.tourCard} onPress={() => navigation.navigate('TourEdit', {tour})}>
                 <Image style={styles.tourImage} source={tour.src}></Image>
                 <View style={styles.tourTextSection}>
                   <Text style={{fontSize: 10, color: "#9B9BA7"}}>{tour.duration} min | <Ionicons name={'people'} size={12}/> Max {tour.maxPeople} people | <Ionicons name={tour.transportation} size={12}/></Text>

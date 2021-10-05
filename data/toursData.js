@@ -7,6 +7,8 @@ module.exports = {
       maxPeople: 6,
       transportation: 'walk',
       description: 'Get to know the neighborhood: where to grocery shop, where the best hangout...',
+      introduction: 'Get to know the neighborhood: where to grocery shop, where the best hangout places are, and where to grab a bite with your fellow hungry bruins.',
+      meetPoint: 'Bruin Bear',
     },
     {
       name: 'Westwood Tour',

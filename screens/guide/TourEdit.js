@@ -15,18 +15,11 @@ import {white} from '../../config/colors';
 
 const {event, ValueXY} = Animated;
 class TourEdit extends Component {
-  constructor(props, tour) {
+  constructor(props) {
     super(props);
-    this.state = {
-        duration: 60,
-        maxGroup: 6,
-        transportation: 'Walking',
-        meetPoint: 'Bruin Bear',
-        introduction: 'Get to know the neighborhood: where to grocery shop, where the best hangout places are, and where to grab a bite with your fellow hungry bruins.',
-    }
-    // this.state = 
-    this.state = tour;
     this.scrollY = new ValueXY();
+    this.navigation = this.props.navigation;
+    this.tour = this.props.route.params.tour;
   }
 
   componentDidMount() {
@@ -34,6 +27,7 @@ class TourEdit extends Component {
   }
 
   renderForeground() {
+    // const tour = this.props.route.params.tour;
     return (
       <View style={{flex: 1, borderRadius: 15}}>
         <ImageBackground
@@ -45,7 +39,9 @@ class TourEdit extends Component {
             style={styles.linearGradTour}
           />
           <View style={styles.imageOverlay}>
-            <Text style={styles.titleText}>{'Westwood Tour'}</Text>
+            <Text style={styles.titleText}>
+              {this.tour.name}
+            </Text>
           </View>
         </ImageBackground>
       </View>
@@ -64,11 +60,10 @@ class TourEdit extends Component {
   }
 
   renderContent() {
-    const navigation = this.props.navigation;
     return (
       <View style={{marginBottom: 70}}>
         <TouchableOpacity
-            onPress={() => navigation.navigate('TourEdit3', this.state)}
+            onPress={() => this.navigation.navigate('TourEdit3', this.tour)}
             style={{position: 'absolute', right: 30, top: 30}}>
             <View>
               <Text style={{color: '#9B9BA7'}}>Edit <Ionicons name={'pencil'} size={16}/></Text>
@@ -76,28 +71,27 @@ class TourEdit extends Component {
         </TouchableOpacity>
         <Text style={[styles.sectionText, {marginTop: 40}]}>Basic Info</Text>
         <Text style={[styles.bodyText, {marginTop: 20}]}>
-            {'Duration :'} {this.state.duration} {'min'}
+            {'Duration :'} {this.tour.duration} {'min'}
         </Text>
         <Text style={[styles.bodyText]}>
-            {'Max Group :'} {this.state.maxGroup}
+            {'Max Group :'} {this.tour.maxGroup}
         </Text>
         <Text style={[styles.bodyText]}>
-            {'Transportation :'} {this.state.transportation}
+            {'Transportation :'} {this.tour.transportation}
         </Text>
         <Text style={[styles.bodyText]}>
-            {'Recommended Meetup Point :'} {this.state.meetPoint}
+            {'Recommended Meetup Point :'} {this.tour.meetPoint}
         </Text>
         <View style={styles.divider} />
         <Text style={[styles.sectionText, {marginTop: 0}]}>Introduction</Text>
         <Text style={[styles.bodyText, {marginTop: 20}]}>
-            {this.state.introduction}
+            {this.tour.introduction}
         </Text>
       </View>
     );
   }
 
   render() {
-    const navigation = this.props.navigation;
     return (
       <View>
         <StatusBar barStyle="dark-content" />
@@ -106,13 +100,13 @@ class TourEdit extends Component {
           {this.renderContent()}
           <TouchableOpacity
             style={styles.backIcon}
-            onPress={() => navigation.goBack()}>
+            onPress={() => this.navigation.goBack()}>
             <Ionicons name="chevron-back-outline" size={20} color={white} />
           </TouchableOpacity>
         </ScrollView>
         <TouchableOpacity
           style={styles.continue}
-          onPress={() => this.props.navigation.navigate('TourGuideList')}>
+          onPress={() => this.navigation.navigate('TourGuideList')}>
           <Text style={{alignSelf: 'center', color: white, fontWeight: '700'}}>
             {'View Suggested Itinerary'}
           </Text>

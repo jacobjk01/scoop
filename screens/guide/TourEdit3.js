@@ -18,17 +18,10 @@ import {white} from '../../config/colors';
 
 const {event, ValueXY} = Animated;
 class TourEdit3 extends Component {
-  constructor(props, tour) {
+  constructor(props) {
     super(props);
-    this.state = {
-        duration: 60,
-        maxGroup: 6,
-        transportation: 'Walking',
-        meetPoint: 'Bruin Bear',
-        introduction: 'Get to know the neighborhood: where to grocery shop, where the best hangout places are, and where to grab a bite with your fellow hungry bruins.',
-    }
-    // this.state = 
-    this.state = tour;
+    this.navigation = this.props.navigation;
+    this.tour = this.props.route.params
     this.scrollY = new ValueXY();
   }
 
@@ -38,16 +31,17 @@ class TourEdit3 extends Component {
 
   renderForeground() {
     return (
-      <View style={{backgroundColor: '#d92726', flex: 1, borderRadius: 10}}>
+      <View style={{flex: 1, borderRadius: 15}}>
         <ImageBackground
           style={styles.imageHeader}
+          imageStyle={{borderBottomLeftRadius: 15, borderBottomRightRadius: 15}}
           source={require('../../images/Westwood_village.png')}>
           <LinearGradient
             colors={['transparent', 'black']}
             style={styles.linearGradTour}
           />
           <View style={styles.imageOverlay}>
-            <Text style={styles.titleText}>{'Westwood Tour'}</Text>
+            <Text style={styles.titleText}>{this.tour.name}</Text>
           </View>
         </ImageBackground>
       </View>
@@ -66,11 +60,10 @@ class TourEdit3 extends Component {
   }
 
   renderContent() {
-    const navigation = this.props.navigation;
     return (
       <View style={{marginBottom: 70}}>
         <TouchableOpacity
-            onPress={() => navigation.navigate('TourEdit2', this.state)}
+            onPress={() => this.navigation.navigate()}
             style={{position: 'absolute', right: 30, top: 30}}>
             <View>
               <Text style={{color: '#9B9BA7'}}>Edit <Ionicons name={'pencil'} size={16}/></Text>
@@ -82,7 +75,7 @@ class TourEdit3 extends Component {
                 {'Duration :'}
             </Text>
             <TextInput style={styles.input}>
-                {this.state.duration}
+                {this.tour.duration}
             </TextInput>
             <Text>
                 {'min'}
@@ -90,19 +83,19 @@ class TourEdit3 extends Component {
         </View>
         <View style={[styles.bodyText, {flexDirection: 'row'}]}>
             <Text>
-                {'Max Group :'} {this.state.maxGroup}
+                {'Max Group :'}
             </Text>
-            <Counter />
+            <Counter maxPeople={this.tour.maxPeople}/>
         </View>
         <View style={styles.bodyText}>
             <Text >
-                {'Transportation :'} {this.state.transportation}
+                {'Transportation :'} {this.tour.transportation}
             </Text>
             <Text>Add Dropdown Picker Here</Text>
         </View>
         <View style={styles.bodyText}>
             <Text>
-                {'Recommended Meetup Point :'} {this.state.meetPoint}
+                {'Recommended Meetup Point :'} {this.tour.meetPoint}
             </Text>
             <Text>Add Dropdown Picker Here</Text>
             <View pointerEvents="none" style={{height: 90, backgroundColor: "grey", marginTop: 10}}>
@@ -127,16 +120,14 @@ class TourEdit3 extends Component {
         </View>
         <View style={styles.divider} />
         <Text style={[styles.sectionText, {marginTop: 0}]}>Introduction</Text>
-        <TextInput style={styles.inputIntro}></TextInput>
-        <Text style={[styles.bodyText, {marginTop: 20}]}>
-            {this.state.introduction}
-        </Text>
+        <TextInput style={styles.inputIntro} multiline='true'>
+            {this.tour.introduction}
+        </TextInput>
       </View>
     );
   }
 
   render() {
-    const navigation = this.props.navigation;
     return (
       <View>
         <StatusBar barStyle="dark-content" />
@@ -145,13 +136,13 @@ class TourEdit3 extends Component {
           {this.renderContent()}
           <TouchableOpacity
             style={styles.backIcon}
-            onPress={() => navigation.goBack()}>
+            onPress={() => this.navigation.goBack()}>
             <Ionicons name="chevron-back-outline" size={20} color={white} />
           </TouchableOpacity>
         </ScrollView>
         <TouchableOpacity
           style={styles.continue}
-          onPress={() => this.props.navigation.navigate('TourGuideList')}>
+          onPress={() => this.navigation.navigate('TourGuideList')}>
           <Text style={{alignSelf: 'center', color: white, fontWeight: '700'}}>
             {'View Suggested Itinerary'}
           </Text>
@@ -162,8 +153,8 @@ class TourEdit3 extends Component {
 }
 
 class Counter extends React.Component {
-    state = { count: 1 };
-  
+    state = this.props.maxPeople ? {count: this.props.maxPeople} : {count: 0};
+
     subtractCount = () => this.setState(
         prevState => ({ ...prevState, count: this.state.count > 1 ? this.state.count - 1 : this.state.count })
     )
@@ -222,9 +213,6 @@ const styles = StyleSheet.create({
   imageHeader: {
     width: '100%',
     height: 200,
-    borderTopLeftRadius: 0,
-    borderTopRightRadius: 0,
-    borderRadius: 10,
     zIndex: -10,
     paddingTop: 100,
   },
@@ -240,7 +228,7 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     backgroundColor: 'transparent',
-    borderRadius: 10,
+    borderRadius: 15,
   },
   backIcon: {
     backgroundColor: '#3154A5',
@@ -284,6 +272,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 2,
     borderRadius: 5,
     paddingVertical: 1,
+    marginLeft: 5,
   },
   addButton: {
     borderColor: '#3154A5',
@@ -297,7 +286,7 @@ const styles = StyleSheet.create({
     },
   inputIntro: {
     alignSelf: 'center',
-    height: 100,
+    height: 140,
     width: "75%",
     borderWidth: 1,
     borderColor: '#9B9BA7',
@@ -306,6 +295,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginBottom: 30,
     paddingBottom: 50,
+    paddingTop: 10,
   },
 });
 
