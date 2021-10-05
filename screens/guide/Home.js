@@ -1,4 +1,4 @@
-import React, {useState, Component} from 'react';
+import React, {useState} from 'react';
 import {
   View,
   Text,
@@ -6,12 +6,9 @@ import {
   ScrollView,
   StyleSheet,
   TouchableOpacity,
-  FlatList,
   Image,
-  ImageBackground,
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import LinearGradient from 'react-native-linear-gradient';
 import colors from '../../config/colors';
 import toursData from '../../data/toursData';
 
@@ -74,30 +71,6 @@ const Home = ({navigation}) => {
 };
 
 const styles = StyleSheet.create({
-  baseText: {
-    fontFamily: 'Helvetica',
-  },
-  titleText: {
-    fontSize: 24,
-    fontWeight: '600',
-    marginTop: 50,
-  },
-  sectionText: {
-    fontSize: 20,
-    fontWeight: '700',
-    marginTop: 30,
-    marginLeft: 10,
-  },
-  listTourImage: {
-    marginRight: 15,
-    width: 200,
-    height: 300,
-  },
-  listGuideImage: {
-    marginRight: 10,
-    width: 120,
-    height: 120,
-  },
   tourDateSection: {
     marginTop: 8,
     width: '20%',
@@ -115,40 +88,6 @@ const styles = StyleSheet.create({
   tourNameText: {
     fontWeight: '600',
     fontSize: 18,
-  },
-  tourText: {
-    width: 200,
-    fontWeight: '600',
-    fontSize: 18,
-    color: colors.white,
-    position: 'absolute',
-    bottom: 50,
-    left: 20,
-  },
-  guideText: {
-    width: 120,
-    position: 'absolute',
-    bottom: 10,
-    left: 10,
-    color: colors.white,
-  },
-  linearGradTour: {
-    position: 'absolute',
-    top: 150,
-    bottom: 0,
-    left: 0,
-    right: 0,
-    backgroundColor: 'transparent',
-    borderRadius: 10,
-  },
-  linearGradGuide: {
-    position: 'absolute',
-    top: 60,
-    bottom: 0,
-    left: 0,
-    right: 0,
-    backgroundColor: 'transparent',
-    borderRadius: 10,
   },
   nextTourCard: {
     width: '85%',
@@ -185,7 +124,6 @@ const styles = StyleSheet.create({
   },
   tourTextSection: {
     position: 'absolute',
-    // top: '72%',
     top: '15%',
     left: 10,
     right: 5,
