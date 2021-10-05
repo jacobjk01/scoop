@@ -9,7 +9,7 @@ import { Calendar } from 'react-native-calendars';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import moment from 'moment';
 
-class Booking extends Component {
+class TourBooking3 extends Component {
     constructor(props) {
         super(props);
 
@@ -301,7 +301,12 @@ class Booking extends Component {
                         </View>
                     </View>
                     <View style={{flex: 1, height: 100, backgroundColor: white, marginTop: 10, justifyContent: 'center', padding: 20}}>
-                        <TouchableOpacity style={styles.continue} onPress={() => this.props.navigation.navigate('Checkout', {item})}>
+                        <TouchableOpacity style={styles.continue} onPress={(item) => {
+                            //TODO: fix this
+                            console.log('vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv')
+                            console.log(item)
+                            this.props.navigation.navigate('BookingCheckout', {item})
+                            }}>
                             <Text style={{alignSelf: "center", color: white, fontWeight: '600'}}>Continue</Text>
                         </TouchableOpacity>
                     </View>
@@ -463,4 +468,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default Booking;
+export default TourBooking3;

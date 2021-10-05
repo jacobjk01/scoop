@@ -40,6 +40,9 @@ const GuideProfile = ({navigation, route}) => {
   };
 
   const navigateCheckout = ({item}) => {
+    if (item === null) {
+      throw Error ('checkout item cannot be null')
+    }
     return (
       <TouchableOpacity onPress={() => navigation.navigate('TourInfo', {item})}>
         <ImageBackground
@@ -57,7 +60,7 @@ const GuideProfile = ({navigation, route}) => {
   };
 
   const bookTourButton = () => {
-    const handleOnPress = () => navigation.navigate('TourList', {item});
+    const handleOnPress = () => navigation.navigate('GuideBooking1');
     return (
       <TouchableOpacity onPress={handleOnPress} style={styles.roundButton2}>
         <Text style={styles.messageFont}>Book Tour</Text>
@@ -91,7 +94,7 @@ const GuideProfile = ({navigation, route}) => {
             Popular Tours
           </Text>
           <TouchableOpacity
-            onPress={() => navigation.navigate('Tours')}
+            onPress={() => navigation.navigate('TourList')}
             style={{position: 'absolute', right: 10, top: 3}}>
             <View>
               <Text style={{color: '#3D68CC'}}>View All &gt;</Text>

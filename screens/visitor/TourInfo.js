@@ -32,7 +32,7 @@ class TourInfo extends Component {
       reviews: [
         {
           stars: 4.8,
-          tourName: 'Westwood Tour',
+          tourName: 'Westwood Tour', 
           year: 'Incoming Freshman',
           comment:
             'Brittany was really helpful!! She showed me where the students get groceries from and hangout in Westwood. She also shared a lot of interesting stories as we visit each places, highly recommend incoming freshman who want to familiarize themselves with the area sign up!! ',
@@ -70,6 +70,7 @@ class TourInfo extends Component {
             </Text>
             <Text style={styles.subText}> $8 per person</Text>
           </View>
+          
           <Text
             style={[
               styles.summaryText,
@@ -86,6 +87,11 @@ class TourInfo extends Component {
             bruins.
           </Text>
         </ImageBackground>
+        <Text>TODO: Make Tour Info Page a functional component</Text>
+        <Text>
+            TODO: Make Tour Info Page accept data instead of
+            it being hard coded so that multiple tours work
+        </Text>
       </View>
     );
   }
@@ -264,7 +270,7 @@ class TourInfo extends Component {
         </ScrollView>
         <TouchableOpacity
           style={styles.continue}
-          onPress={() => this.props.navigation.navigate('GuideBooking1')}>
+          onPress={() => this.props.navigation.navigate('TourBooking1')}>
           <Text style={{alignSelf: 'center', color: white, fontWeight: '600'}}>
             Find A Tour Guide
           </Text>

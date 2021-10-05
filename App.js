@@ -42,7 +42,7 @@ import Test from './screens/dev/Test';
 
 //guide imports
 import ManageTours from './screens/guide/ManageTours';
-import Account from './screens/guide/Account';
+import AccountGuide from './screens/guide/Account';
 import AccountEdit from './screens/guide/AccountEdit';
 import AddTour from './screens/guide/AddTour';
 import EditTour from './screens/guide/EditTour';
@@ -51,19 +51,23 @@ import Registration from './screens/guide/Registration';
 import ViewTour from './screens/guide/ViewTour';
 
 //visitor imports
-import Tours from './screens/visitor/Tours';
-import Checkout from './screens/visitor/Checkout';
+import AccountVisitor from './screens/visitor/Account';
+import TourList from './screens/visitor/TourList';
 import Conversation from './screens/visitor/Conversation';
+import GuideBooking1 from './screens/visitor/GuideBooking1';
+import GuideBooking2 from './screens/visitor/GuideBooking2';
+import GuideBooking3 from './screens/visitor/GuideBooking3';
+import TourBooking1 from './screens/visitor/TourBooking1';
+import TourBooking2 from './screens/visitor/TourBooking2';
+import TourBooking3 from './screens/visitor/TourBooking3';
+import BookingCheckout from './screens/visitor/BookingCheckout';
 import HomeVisitor from './screens/visitor/HomePage';
 import TourInfo from './screens/visitor/TourInfo';
-import TourInfo2 from './screens/visitor/TourInfo2';
 import GuideProfile from './screens/visitor/GuideProfile';
-import GuideProfile2 from './screens/visitor/GuideProfile2';
 import Messages from './screens/visitor/Messages';
-import Booking from './screens/visitor/Booking';
 import GuideList from './screens/visitor/GuideList';
-import GuideBooking1 from './screens/visitor/GuideBooking1';
-import TourList from './screens/visitor/TourList';
+import SelectSchool from './screens/visitor/SelectSchool';
+
 
 /**
  * 
@@ -92,7 +96,7 @@ const TabAllModes = () => {
               case 'Tours':
                 iconName = focused ? 'map' : 'map-outline';
                 break;
-              case 'Account':
+              case 'AccountVisitor' || 'AccountGuide':
                 iconName = focused ? 'person' : 'person-outline';
                 break;
               default:
@@ -113,22 +117,21 @@ const TabAllModes = () => {
             return <>
               <Tab.Screen name="Home" component={HomeVisitor} options={{tabBarVisible:true}}
           />
-              <Tab.Screen name="Tours" component={Tours} />
-              <Tab.Screen name="Account" component={Account} />
+              <Tab.Screen name="TourList" component={TourList} />
+              <Tab.Screen name="Account" component={AccountVisitor} />
             </>
           } else if (MODE === 'guide'){
             return <>
               <Tab.Screen name="Home" component={HomeGuide} />
               <Tab.Screen name="ManageTours" component={ManageTours} />
-              <Tab.Screen name="Account" component={Account} />
+              <Tab.Screen name="Account" component={AccountGuide} />
             </>
           } else {
             return <>
               <Tab.Screen name="HomeVisitor" component={HomeVisitor} />
               <Tab.Screen name="HomeGuide" component={HomeGuide} />
               <Tab.Screen name="ManageTours" component={ManageTours} />
-              <Tab.Screen name="Tours" component={Tours} />
-              <Tab.Screen name="Account" component={Account} />
+              <Tab.Screen name="Account" component={AccountGuide} />
               <Tab.Screen name="Test" component={Test} />
             </>
           }
@@ -148,29 +151,34 @@ const App = () => {
         <Stack.Screen name="Test" component={Test} options={{headerShown: false}}/>
 
         {/* Guide Routes */}
-        <Stack.Screen name="Account" component={Account} options={{headerShown: true}}/>
+        <Stack.Screen name="AccountGuide" component={AccountGuide} options={{headerShown: true}}/>
         <Stack.Screen name="AccountEdit" component={AccountEdit} options={{headerShown: true}}/>
         <Stack.Screen name="AddTour" component={AddTour} options={{headerShown: true}}/>
         <Stack.Screen name="EditTour" component={EditTour} options={{headerShown: true}}/>
-        <Stack.Screen name="Home" component={HomeGuide} options={{headerShown: false}}/>
+        <Stack.Screen name="HomeGuide" component={HomeGuide} options={{headerShown: false}}/>
         <Stack.Screen name="ManageTours" component={ManageTours} options={{headerShown: true}}/>
         <Stack.Screen name="Registration" component={Registration} options={{headerShown: true}}/>
         <Stack.Screen name="ViewTour" component={ViewTour} options={{headerShown: true}}/>
 
         {/* Visitor Routes */}
-        <Stack.Screen name="Tours" component={Tours} options={{headerShown: false}}/>
-        <Stack.Screen name="Checkout" component={Checkout} options={{headerShown: false}}/>
+        <Stack.Screen name="AccountVisitor" component={AccountVisitor} options={{headerShown: false}}/>
+        <Stack.Screen name="TourList" component={TourList} options={{headerShown: false}}/>
         <Stack.Screen name="Conversation" component={Conversation} options={{headerShown: false}}/>
+        <Stack.Screen name="GuideBooking1" component={GuideBooking1} options={{headerShown: false}}/>
+        <Stack.Screen name="GuideBooking2" component={GuideBooking2} options={{headerShown: false}}/>
+        <Stack.Screen name="GuideBooking3" component={GuideBooking3} options={{headerShown: false}}/>
+        <Stack.Screen name="TourBooking1" component={TourBooking1} options={{headerShown: false}}/>
+        <Stack.Screen name="TourBooking2" component={TourBooking2} options={{headerShown: false}}/>
+        <Stack.Screen name="TourBooking3" component={TourBooking3} options={{headerShown: false}}/>
+        <Stack.Screen name="BookingCheckout" component={BookingCheckout} options={{headerShown: false}}/>
         <Stack.Screen name="HomeVisitor" component={HomeVisitor} options={{headerShown: false}}/>
         <Stack.Screen name="TourInfo" component={TourInfo} options={{headerShown: false}}/>
-        <Stack.Screen name="TourInfo2" component={TourInfo2} options={{headerShown: false}}/>
+        <Stack.Screen name="TourInfo2" component={TourInfo} options={{headerShown: false}}/>
         <Stack.Screen name="GuideProfile" component={GuideProfile} options={{headerShown: true}}/>
-        <Stack.Screen name="GuideProfile2" component={GuideProfile2} options={{headerShown: true}}/>
+        <Stack.Screen name="GuideProfile2" component={GuideProfile} options={{headerShown: true}}/>
         <Stack.Screen name="Messages" component={Messages} options={{headerShown: false}}/>
-        <Stack.Screen name="Booking" component={Booking} options={{headerShown: false}}/>
-        <Stack.Screen name="GuideBooking1" component={GuideBooking1} options={{headerShown: false}}/>
-        <Stack.Screen name="TourList" component={TourList} options={{headerShown: false}}/>
-
+        <Stack.Screen name="GuideList" component={GuideList} options={{headerShown: false}}/>
+        <Stack.Screen name="SelectSchool" component={SelectSchool} options={{headerShown: false}}/>
       </Stack.Navigator>
     </NavigationContainer>
   );
