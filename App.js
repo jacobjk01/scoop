@@ -57,11 +57,12 @@ import Conversation from './screens/visitor/Conversation';
 import HomeVisitor from './screens/visitor/HomePage';
 import TourInfo from './screens/visitor/TourInfo';
 import TourInfo2 from './screens/visitor/TourInfo2';
-import TourGuideProfile from './screens/visitor/TourGuideProfile';
-import TourGuideProfile2 from './screens/visitor/TourGuideProfile2';
+import GuideProfile from './screens/visitor/GuideProfile';
+import GuideProfile2 from './screens/visitor/GuideProfile2';
 import Messages from './screens/visitor/Messages';
 import Booking from './screens/visitor/Booking';
-import TourGuideList from './screens/visitor/TourGuideList';
+import GuideList from './screens/visitor/GuideList';
+import GuideBooking1 from './screens/visitor/GuideBooking1';
 import TourList from './screens/visitor/TourList';
 
 /**
@@ -163,11 +164,11 @@ const App = () => {
         <Stack.Screen name="HomeVisitor" component={HomeVisitor} options={{headerShown: false}}/>
         <Stack.Screen name="TourInfo" component={TourInfo} options={{headerShown: false}}/>
         <Stack.Screen name="TourInfo2" component={TourInfo2} options={{headerShown: false}}/>
-        <Stack.Screen name="TourGuideProfile" component={TourGuideProfile} options={{headerShown: true}}/>
-        <Stack.Screen name="TourGuideProfile2" component={TourGuideProfile2} options={{headerShown: true}}/>
+        <Stack.Screen name="GuideProfile" component={GuideProfile} options={{headerShown: true}}/>
+        <Stack.Screen name="GuideProfile2" component={GuideProfile2} options={{headerShown: true}}/>
         <Stack.Screen name="Messages" component={Messages} options={{headerShown: false}}/>
         <Stack.Screen name="Booking" component={Booking} options={{headerShown: false}}/>
-        <Stack.Screen name="TourGuideList" component={TourGuideList} options={{headerShown: false}}/>
+        <Stack.Screen name="GuideBooking1" component={GuideBooking1} options={{headerShown: false}}/>
         <Stack.Screen name="TourList" component={TourList} options={{headerShown: false}}/>
 
       </Stack.Navigator>

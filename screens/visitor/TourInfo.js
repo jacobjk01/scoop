@@ -264,7 +264,7 @@ class TourInfo extends Component {
         </ScrollView>
         <TouchableOpacity
           style={styles.continue}
-          onPress={() => this.props.navigation.navigate('TourGuideList')}>
+          onPress={() => this.props.navigation.navigate('GuideBooking1')}>
           <Text style={{alignSelf: 'center', color: white, fontWeight: '600'}}>
             Find A Tour Guide
           </Text>

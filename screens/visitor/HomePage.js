@@ -16,7 +16,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import LinearGradient from 'react-native-linear-gradient';
 import colors from '../../config/colors';
 import {color} from 'react-native-reanimated';
-import TourGuideProfile from './TourGuideProfile';
+import TourGuideProfile from './GuideProfile';
 import toursData from '../../data/toursData';
 
 const HomePage = ({navigation}) => {
@@ -110,7 +110,7 @@ const HomePage = ({navigation}) => {
           horizontal={true}
           data={guideimages}
           renderItem={({item}) => (
-              <TouchableOpacity onPress={() => navigation.navigate('TourGuideProfile', {item})}>
+              <TouchableOpacity onPress={() => navigation.navigate('GuideProfile', {item})}>
                 <ImageBackground
                   style={styles.listGuideImage}
                   imageStyle={{borderRadius: 10}}
