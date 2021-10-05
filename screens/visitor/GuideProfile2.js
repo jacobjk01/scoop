@@ -20,7 +20,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 
-const TourGuideProfile2 = ({navigation, route}) => {
+const GuideProfile2 = ({navigation, route}) => {
   const [tourimages, setImages] = useState([
     {name: 'Santa Monica', src: require('../../images/SantaMonica.png')},
     {name: 'Westwood Tour', src: require('../../images/Westwood_village.png')},
@@ -307,4 +307,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default TourGuideProfile2;
+export default GuideProfile2;

@@ -1,8 +1,8 @@
 import React from 'react';
 import {View, Text} from 'react-native';
 
-function TourGuides() {
+function Guides() {
   return 'Hello World';
 }
 
-export default TourGuides;
+export default Guides;

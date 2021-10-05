@@ -16,7 +16,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import LinearGradient from 'react-native-linear-gradient';
 import colors, { black } from '../../config/colors';
 import {color} from 'react-native-reanimated';
-import TourGuideProfile from './GuideProfile';
+import GuideProfile from './GuideProfile';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import { Calendar } from 'react-native-calendars';
 import moment from 'moment';
@@ -214,7 +214,7 @@ const HomePage = ({navigation}) => {
           </View>
           {checkDate()}
         </View>
-        {/* <TouchableOpacity style={styles.continue} onPress={() => navigation.navigate("TourGuideProfile2")}>
+        {/* <TouchableOpacity style={styles.continue} onPress={() => navigation.navigate("GuideProfile2")}>
             <Text style={{alignSelf: "center", color: 'white', fontWeight: '600'}}>Book Now</Text>
         </TouchableOpacity> */}
       </View>

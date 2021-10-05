@@ -16,7 +16,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import LinearGradient from 'react-native-linear-gradient';
 import colors from '../../config/colors';
 import {color} from 'react-native-reanimated';
-import TourGuideProfile from '../visitor/GuideProfile';
+import GuideProfile from '../visitor/GuideProfile';
 
 const ManageTours = ({navigation}) => {
   const [tourimages, setImages] = useState([

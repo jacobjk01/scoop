@@ -16,7 +16,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import LinearGradient from 'react-native-linear-gradient';
 import colors from '../../config/colors';
 import {color} from 'react-native-reanimated';
-import TourGuideProfile from './GuideProfile';
+import GuideProfile from './GuideProfile';
 import toursData from '../../data/toursData';
 
 const HomePage = ({navigation}) => {
