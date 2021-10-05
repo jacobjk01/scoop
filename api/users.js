@@ -75,7 +75,7 @@ export const changeTours = async (uid, tours) => {
 }
 
 // Specifics for searching may be different
-export const searchTourGuides = (searchQuery) => {
+export const searchGuides = (searchQuery) => {
     db()
         .collection('users')
         .where('type', '==', 'guide') // should this be 'array-contains'?

@@ -1,7 +1,7 @@
 import React, { Component }from 'react';
 import {View, Text, SafeAreaView, ScrollView, StyleSheet, 
     TouchableOpacity, Image, ImageBackground, Modal} from 'react-native';
-import { black, white } from '../config/colors';
+import { black, white } from '../../config/colors';
 
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
 import { Marker } from 'react-native-maps';
@@ -9,7 +9,7 @@ import { Calendar } from 'react-native-calendars';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import moment from 'moment';
 
-class Booking extends Component {
+class TourBooking3 extends Component {
     constructor(props) {
         super(props);
 
@@ -164,17 +164,17 @@ class Booking extends Component {
                         <Ionicons name='chevron-back-outline' size={20} color={white} />
                     </TouchableOpacity>
                     <View pointerEvents='none' style={{position: "absolute", left: 0, right: 0, top: 0, bottom: 0, justifyContent: 'center', alignItems: 'center'}}>
-                        <ImageBackground style={{width: 25, height: 40}} source={require('../images/marker.png')}
+                        <ImageBackground style={{width: 25, height: 40}} source={require('../../images/marker.png')}
                         ></ImageBackground> 
                     </View>
                 </Modal>
                 <ScrollView overScrollMode="never" style={{height: "100%"}}>
                     <View style={{height: 100, flex: 1, position: 'relative'}}>
-                        <ImageBackground style={styles.imageHeader} source={require('../images/Westwood_village.png')}>
+                        <ImageBackground style={styles.imageHeader} source={require('../../images/Westwood_village.png')}>
                             <View style={styles.shader}></View>
                             <Text style={styles.titleText}>Westwood Tour</Text>
                             <Text style={styles.tourGuideText}>Tour Guide: Brittany</Text>
-                            <ImageBackground style={styles.tourGuideProfile} imageStyle={{borderRadius: 40}} source={require('../images/brittany.png')}
+                            <ImageBackground style={styles.tourGuideProfile} imageStyle={{borderRadius: 40}} source={require('../../images/brittany.png')}
                             ></ImageBackground> 
                         </ImageBackground> 
                     </View>
@@ -301,7 +301,12 @@ class Booking extends Component {
                         </View>
                     </View>
                     <View style={{flex: 1, height: 100, backgroundColor: white, marginTop: 10, justifyContent: 'center', padding: 20}}>
-                        <TouchableOpacity style={styles.continue} onPress={() => this.props.navigation.navigate('Checkout', {item})}>
+                        <TouchableOpacity style={styles.continue} onPress={(item) => {
+                            //TODO: fix this
+                            console.log('vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv')
+                            console.log(item)
+                            this.props.navigation.navigate('BookingCheckout', {item})
+                            }}>
                             <Text style={{alignSelf: "center", color: white, fontWeight: '600'}}>Continue</Text>
                         </TouchableOpacity>
                     </View>
@@ -463,4 +468,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default Booking;
+export default TourBooking3;

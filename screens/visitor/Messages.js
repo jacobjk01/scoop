@@ -1,10 +1,10 @@
 import React from 'react';
 import {View, ScrollView, SafeAreaView, Text, StyleSheet} from 'react-native';
-import colors from '../config/colors';
-import BackButton from '../components/BackButton';
-import TourGuidesMsgSection from '../components/TourGuidesMsgSection';
-import tourGuides from '../data/tourGuides';
-import TourGuidesLastMsg from '../components/TourGuidesLastMsg';
+import colors from '../../config/colors';
+import BackButton from '../../components/BackButton';
+import GuidesMsgSection from '../../components/GuidesMsgSection';
+import tourGuides from '../../data/tourGuides';
+import GuidesLastMsg from '../../components/GuidesLastMsg';
 function Messages(props) {
   const {navigation} = props;
 
@@ -17,12 +17,12 @@ function Messages(props) {
       {/* <BackButton /> */}
       <View style={styles.body}>
         <View style={[styles.bottomLine]}>
-          <TourGuidesMsgSection tourGuides={tourGuides}/>
+          <GuidesMsgSection tourGuides={tourGuides}/>
         </View>
         
         <ScrollView>
           <Text style={[{color: colors.black, fontFamily: "Helvetica", fontSize: 18, fontWeight: 'bold', paddingTop: 20, paddingBottom: 20}]}>Messages</Text>
-          <TourGuidesLastMsg tourGuides={tourGuides} navigation={navigation}/>
+          <GuidesLastMsg tourGuides={tourGuides} navigation={navigation}/>
         </ScrollView>
       </View>
     </SafeAreaView>
