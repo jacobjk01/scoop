@@ -16,6 +16,8 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import LinearGradient from 'react-native-linear-gradient';
 import colors from '../../config/colors';
 import toursData from '../../data/toursData';
+import {color} from 'react-native-reanimated';
+import GuideProfile from '../visitor/GuideProfile';
 
 const ManageTours = ({navigation}) => {
   const tours = toursData.tours;

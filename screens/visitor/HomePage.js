@@ -16,7 +16,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import LinearGradient from 'react-native-linear-gradient';
 import colors from '../../config/colors';
 import {color} from 'react-native-reanimated';
-import TourGuideProfile from './TourGuideProfile';
+import GuideProfile from './GuideProfile';
 import toursData from '../../data/toursData';
 
 const HomePage = ({navigation}) => {
@@ -69,7 +69,7 @@ const HomePage = ({navigation}) => {
             Popular Tours
           </Text>
           <TouchableOpacity
-            onPress={() => navigation.navigate('Tours')}
+            onPress={() => navigation.navigate('TourList')}
             style={{position: 'absolute', right: 10, top: 3}}>
             <View>
               <Text style={{color: '#3D68CC'}}>View All &gt;</Text>
@@ -99,7 +99,7 @@ const HomePage = ({navigation}) => {
           <Text style={{marginLeft: 10, fontSize: 20, fontWeight: '700'}}>
             Tour Guides
           </Text>
-          <TouchableOpacity style={{position: 'absolute', right: 10, top: 3}}>
+          <TouchableOpacity style={{position: 'absolute', right: 10, top: 3}} onPress={() => navigation.navigate('GuideList', {item})}>
             <View>
               <Text style={{color: '#3D68CC'}}>View All &gt;</Text>
             </View>
@@ -110,7 +110,7 @@ const HomePage = ({navigation}) => {
           horizontal={true}
           data={guideimages}
           renderItem={({item}) => (
-              <TouchableOpacity onPress={() => navigation.navigate('TourGuideProfile', {item})}>
+              <TouchableOpacity onPress={() => navigation.navigate('GuideProfile', {item})}>
                 <ImageBackground
                   style={styles.listGuideImage}
                   imageStyle={{borderRadius: 10}}
