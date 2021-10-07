@@ -14,7 +14,7 @@ import toursData from '../../data/toursData';
 
 const Home = ({navigation}) => {
   const tours = toursData.tours;
-  const nextTour = tours[0];
+  const currentTour = tours[0];
 
   return (
     <SafeAreaView backgroundColor='white'>
@@ -25,27 +25,27 @@ const Home = ({navigation}) => {
           </Text>
         </View>
         <View style={{flexWrap: 'wrap', alignContent: 'center'}}>
-            <TouchableOpacity style={styles.nextTourCard} onPress={() => navigation.navigate('TourEdit', {tour: nextTour})}>
-                <Image style={styles.nextTourImage} source={nextTour.src}></Image>
+            {/* <TouchableOpacity style={styles.currentTourCard} onPress={() => navigation.navigate('TourEdit', {tour: currentTour})}>
+                <Image style={styles.currentTourImage} source={currentTour.src}></Image>
                 <View style={[styles.tourTextSection, {top: '72%'}]}>
                     <View style={styles.tourDateSection}>
-                        <Text style={styles.tourDateText}>{nextTour.tourMonth}</Text>
-                        <Text style={styles.tourDateText}>{nextTour.tourDay}</Text>
+                        <Text style={styles.tourDateText}>{currentTour.tourMonth}</Text>
+                        <Text style={styles.tourDateText}>{currentTour.tourDay}</Text>
                     </View>
                     <View style={[styles.tourInfoSection, {marginLeft: '15%'}]}>
-                        <Text style={styles.tourNameText}>{nextTour.name}</Text>
-                        <Text style={{marginTop: 5}}>{nextTour.startTime}</Text>
-                        <Text style={{marginTop: 5}}>{nextTour.meetPoint}</Text>
+                        <Text style={styles.tourNameText}>{currentTour.name}</Text>
+                        <Text style={{marginTop: 5}}>{currentTour.startTime}</Text>
+                        <Text style={{marginTop: 5}}>{currentTour.meetPoint}</Text>
                     </View>
                     <View style={[styles.forwardIcon, {right: 10}]}>
                         <Ionicons name="chevron-forward-outline" size={20} color={'gray'} />
                     </View>
                 </View>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
           {tours.slice(1).map((tour) => {
             return(
               <TouchableOpacity style={styles.tourCard} onPress={() => navigation.navigate('TourEdit', {tour})}>
-                <Image style={styles.tourImage} source={tour.src}></Image>
+                {/* <Image style={styles.tourImage} source={tour.src}></Image> */}
                 <View style={styles.tourTextSection}>
                     <View style={styles.tourDateSection}>
                         <Text style={styles.tourDateText}>{tour.tourMonth}</Text>
@@ -60,7 +60,7 @@ const Home = ({navigation}) => {
                         <Ionicons name="chevron-forward-outline" size={20} color={'gray'} />
                     </View>
                 </View>
-                <View style={styles.divider}></View>
+                {/* <View style={styles.divider}></View> */}
               </TouchableOpacity>
             )
           })}
@@ -77,7 +77,9 @@ const styles = StyleSheet.create({
   },
   tourInfoSection: {
     fontSize: 14,
-    marginLeft: '25%',
+    marginLeft: '3%',
+    flex: 1,
+    paddingRight: '15%',
   },
   tourDateText: {
     fontWeight: '700',
@@ -89,7 +91,7 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     fontSize: 18,
   },
-  nextTourCard: {
+  currentTourCard: {
     width: '85%',
     height: 300,
     borderRadius: 10,
@@ -108,20 +110,20 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     justifyContent: 'flex-end',
   },
-  nextTourImage: {
+  currentTourImage: {
     position: 'absolute',
     top: 0,
     width: '100%',
     height: '65%',
     borderRadius: 10,
   },
-  tourImage: {
-    width: 70,
-    height: 70,
-    borderRadius: 10,
-    left: '23%',
-    bottom: '15%',
-  },
+//   tourImage: {
+//     width: 70,
+//     height: 70,
+//     borderRadius: 10,
+//     left: '23%',
+//     bottom: '15%',
+//   },
   tourTextSection: {
     position: 'absolute',
     top: '15%',

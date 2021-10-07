@@ -61,7 +61,7 @@ module.exports = {
       tourDay: '12',
     },
     {
-      name: 'Santa Monica',
+      name: 'Day in Life of an Engineering Student',
       src: require('../images/SantaMonica.png'),
       duration: 60,
       maxPeople: 6,
