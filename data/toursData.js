@@ -1,6 +1,7 @@
 module.exports = {
   tours: [
     {
+      id: '1',
       name: 'Santa Monica',
       src: require('../images/SantaMonica.png'),
       duration: 60,
@@ -16,6 +17,7 @@ module.exports = {
       tourDay: '14',
     },
     {
+      id: '2',
       name: 'Westwood Tour',
       src: require('../images/Westwood_village.png'),
       duration: 45,
@@ -31,6 +33,7 @@ module.exports = {
       tourDay: '15',
     },
     {
+      id: '3',
       name: 'Happy Tour',
       src: require('../images/Westwood_village.png'),
       duration: 45,
@@ -46,6 +49,7 @@ module.exports = {
       tourDay: '1',
     },
     {
+      id: '4',
       name: 'Santa Monica',
       src: require('../images/SantaMonica.png'),
       duration: 60,
@@ -61,6 +65,7 @@ module.exports = {
       tourDay: '12',
     },
     {
+      id: '6',
       name: 'Day in Life of an Engineering Student',
       src: require('../images/SantaMonica.png'),
       duration: 60,

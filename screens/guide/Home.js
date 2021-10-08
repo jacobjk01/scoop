@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   Text,
@@ -11,10 +11,29 @@ import {
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import colors from '../../config/colors';
 import toursData from '../../data/toursData';
+import { onAuthStateChanged } from '../../api/auth';
+import { getUser } from '../../api/users';
 
 const Home = ({navigation}) => {
   const tours = toursData.tours;
   const currentTour = tours[0];
+  const [userAuth, setUserAuth] = useState(null);
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    var unsubscribe1 = onAuthStateChanged(async user => {
+      if (user) {
+        console.log('user logged in')
+        setUserAuth(user);
+        const currentUser = await getUser(user);
+        setUser({...currentUser.data()})
+        console.log(user)
+      }
+  })
+  return () => {
+    unsubscribe1();
+  }
+  }, [])
 
   return (
     <SafeAreaView backgroundColor='white'>
@@ -44,7 +63,7 @@ const Home = ({navigation}) => {
             </TouchableOpacity> */}
           {tours.slice(1).map((tour) => {
             return(
-              <TouchableOpacity style={styles.tourCard} onPress={() => navigation.navigate('TourEdit', {tour})}>
+              <TouchableOpacity key={tour.id} style={styles.tourCard} onPress={() => navigation.navigate('TourEdit', {tour})}>
                 {/* <Image style={styles.tourImage} source={tour.src}></Image> */}
                 <View style={styles.tourTextSection}>
                     <View style={styles.tourDateSection}>
