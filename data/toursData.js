@@ -4,6 +4,9 @@ module.exports = {
       id: '1',
       name: 'Santa Monica',
       src: require('../images/SantaMonica.png'),
+      image: "https://www.google.com/url?sa=i&url=https%3A%2F%2Fmomsla.com%2Fsanta-monica-pier%2F&psig=AOvVaw3FC1rw00QeyKX7iR4nqItj&ust=1633753930373000&source=images&cd=vfe&ved=0CAsQjRxqFwoTCMjlze_9ufMCFQAAAAAdAAAAABAD",
+      attractions: ["Diddy Riese", "Regency Theater", "Copymat", "CVS"],
+      cost: 10,
       duration: 60,
       maxPeople: 6,
       transportation: 'walk',
@@ -15,11 +18,14 @@ module.exports = {
       for now this bc easier for following screen mock ups */
       tourMonth: 'JUL',
       tourDay: '14',
+      category: 'sightseeing'
     },
     {
       id: '2',
       name: 'Westwood Tour',
       src: require('../images/Westwood_village.png'),
+      image: "https://www.google.com/url?sa=i&url=https%3A%2F%2Fmomsla.com%2Fsanta-monica-pier%2F&psig=AOvVaw3FC1rw00QeyKX7iR4nqItj&ust=1633753930373000&source=images&cd=vfe&ved=0CAsQjRxqFwoTCMjlze_9ufMCFQAAAAAdAAAAABAD",
+      attractions: ["Diddy Riese", "Regency Theater", "Copymat", "CVS"],
       duration: 45,
       maxPeople: 3,
       transportation: 'car',
@@ -31,11 +37,14 @@ module.exports = {
       for now this bc easier for following screen mock ups */
       tourMonth: 'JUL',
       tourDay: '15',
+      category: 'sightseeing'
     },
     {
       id: '3',
       name: 'Happy Tour',
       src: require('../images/Westwood_village.png'),
+      image: "https://www.google.com/url?sa=i&url=https%3A%2F%2Fmomsla.com%2Fsanta-monica-pier%2F&psig=AOvVaw3FC1rw00QeyKX7iR4nqItj&ust=1633753930373000&source=images&cd=vfe&ved=0CAsQjRxqFwoTCMjlze_9ufMCFQAAAAAdAAAAABAD",
+      attractions: ["Diddy Riese", "Regency Theater", "Copymat", "CVS"],
       duration: 45,
       maxPeople: 3,
       transportation: 'car',
@@ -52,6 +61,8 @@ module.exports = {
       id: '4',
       name: 'Santa Monica',
       src: require('../images/SantaMonica.png'),
+      image: "https://www.google.com/url?sa=i&url=https%3A%2F%2Fmomsla.com%2Fsanta-monica-pier%2F&psig=AOvVaw3FC1rw00QeyKX7iR4nqItj&ust=1633753930373000&source=images&cd=vfe&ved=0CAsQjRxqFwoTCMjlze_9ufMCFQAAAAAdAAAAABAD",
+      attractions: ["Diddy Riese", "Regency Theater", "Copymat", "CVS"],
       duration: 60,
       maxPeople: 6,
       transportation: 'walk',
@@ -68,6 +79,8 @@ module.exports = {
       id: '6',
       name: 'Day in Life of an Engineering Student',
       src: require('../images/SantaMonica.png'),
+      image: "https://www.google.com/url?sa=i&url=https%3A%2F%2Fmomsla.com%2Fsanta-monica-pier%2F&psig=AOvVaw3FC1rw00QeyKX7iR4nqItj&ust=1633753930373000&source=images&cd=vfe&ved=0CAsQjRxqFwoTCMjlze_9ufMCFQAAAAAdAAAAABAD",
+      attractions: ["Diddy Riese", "Regency Theater", "Copymat", "CVS"],
       duration: 60,
       maxPeople: 6,
       transportation: 'walk',

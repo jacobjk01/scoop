@@ -19,22 +19,8 @@ const Home = ({navigation}) => {
   const currentTour = tours[0];
   const [userAuth, setUserAuth] = useState(null);
   const [user, setUser] = useState(null);
-
-  useEffect(() => {
-    var unsubscribe1 = onAuthStateChanged(async user => {
-      if (user) {
-        console.log('user logged in')
-        setUserAuth(user);
-        const currentUser = await getUser(user);
-        setUser({...currentUser.data()})
-        console.log(user)
-      }
-  })
-  return () => {
-    unsubscribe1();
-  }
-  }, [])
-
+  
+  
   return (
     <SafeAreaView backgroundColor='white'>
       <ScrollView style={{height: '100%'}}>
