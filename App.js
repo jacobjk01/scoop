@@ -75,6 +75,8 @@ import Messages from './screens/visitor/Messages';
 import GuideList from './screens/visitor/GuideList';
 import SelectSchool from './screens/visitor/SelectSchool';
 
+import RequireAuth from './screens/RequireAuth';
+
 import { onAuthStateChanged } from './api/auth';
 import { getUser } from './api/users';
 /**
@@ -85,6 +87,7 @@ import { getUser } from './api/users';
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
+//
 const MODE = 'guide'; // visitor | guide | dev
 
 //displays bottom tab and some navigation
@@ -157,6 +160,7 @@ const App = () => {
   const [userAuth, setUserAuth] = useState(null);
   //user is a object with the user document data
   const [user, setUser] = useState(null);
+  const [isUserLoading, setIsUserLoading] = useState(true);
   useEffect(() => {
     console.log('onAuthStateChanged called')
     var unsubscribeAuth = onAuthStateChanged(async newUserAuth => {
@@ -166,6 +170,9 @@ const App = () => {
       // userAuth exists and doesn't match with with newUserAuth.uid
       } else if (userAuth.uid && newUserAuth && (userAuth.uid != newUserAuth.uid)) {
         setUserAuth(newUserAuth);
+      }
+      if (isUserLoading) {
+        setIsUserLoading(false);
       }
     })
     return () => {
@@ -185,7 +192,7 @@ const App = () => {
    * Navigation
    */
   return (
-    <UserContext.Provider value={{userAuth, setUserAuth, user, setUser}}>
+    <UserContext.Provider value={{userAuth, setUserAuth, user, setUser, isUserLoading, setIsUserLoading}}>
       <NavigationContainer>
         <Stack.Navigator>
           <Stack.Screen name=" " component={TabAllModes} options={{headerShown: false}}/>
@@ -193,17 +200,16 @@ const App = () => {
           <Stack.Screen name="Test" component={Test} options={{headerShown: false}}/>
 
           {/* Guide Routes */}
-          <Stack.Screen name="AccountGuide" component={AccountGuide} options={{headerShown: true}}/>
-          <Stack.Screen name="AccountEdit" component={AccountEdit} options={{headerShown: true}}/>
-          <Stack.Screen name="AddTour" component={AddTour} options={{headerShown: true}}/>
-          <Stack.Screen name="EditTour" component={EditTour} options={{headerShown: true}}/>
-          <Stack.Screen name="HomeGuide" component={HomeGuide} options={{headerShown: false}}/>
-          <Stack.Screen name="ManageTours" component={ManageTours} options={{headerShown: true}}/>
-          <Stack.Screen name="TourEdit" component={TourEdit} options={{headerShown: true}}/>
-          <Stack.Screen name="TourEdit2" component={TourEdit2} options={{headerShown: true}}/>
-          <Stack.Screen name="TourEdit3" component={TourEdit3} options={{headerShown: true}}/>
-          <Stack.Screen name="Registration" component={Registration} options={{headerShown: true}}/>
-          <Stack.Screen name="ViewTour" component={ViewTour} options={{headerShown: true}}/>
+          <Stack.Screen name="AccountGuide" component={RequireAuth(AccountGuide)} options={{headerShown: true}}/>
+          <Stack.Screen name="AccountEdit" component={RequireAuth(AccountEdit)} options={{headerShown: true}}/>
+          <Stack.Screen name="AddTour" component={RequireAuth(AddTour)} options={{headerShown: true}}/>
+          <Stack.Screen name="EditTour" component={RequireAuth(EditTour)} options={{headerShown: true}}/>
+          <Stack.Screen name="ManageTours" component={RequireAuth(ManageTours)} options={{headerShown: true}}/>
+          <Stack.Screen name="TourEdit" component={RequireAuth(TourEdit)} options={{headerShown: true}}/>
+          <Stack.Screen name="TourEdit2" component={RequireAuth(TourEdit2)} options={{headerShown: true}}/>
+          <Stack.Screen name="TourEdit3" component={RequireAuth(TourEdit3)} options={{headerShown: true}}/>
+          <Stack.Screen name="Registration" component={RequireAuth(Registration)} options={{headerShown: true}}/>
+          <Stack.Screen name="ViewTour" component={RequireAuth(ViewTour)} options={{headerShown: true}}/>
 
           {/* Visitor Routes */}
           <Stack.Screen name="AccountVisitor" component={AccountVisitor} options={{headerShown: false}}/>
@@ -216,7 +222,6 @@ const App = () => {
           <Stack.Screen name="TourBooking2" component={TourBooking2} options={{headerShown: false}}/>
           <Stack.Screen name="TourBooking3" component={TourBooking3} options={{headerShown: false}}/>
           <Stack.Screen name="BookingCheckout" component={BookingCheckout} options={{headerShown: false}}/>
-          <Stack.Screen name="HomeVisitor" component={HomeVisitor} options={{headerShown: false}}/>
           <Stack.Screen name="TourInfo" component={TourInfo} options={{headerShown: false}}/>
           <Stack.Screen name="TourInfo2" component={TourInfo} options={{headerShown: false}}/>
           <Stack.Screen name="GuideProfile" component={GuideProfile} options={{headerShown: true}}/>
