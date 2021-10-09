@@ -17,3 +17,11 @@ Before doing these steps, make sure that you can run the app in this tutorial us
  4. Assuming you want to run the iOS simulator, `cd ios && pod install && cd ../`
  5. `npx react-native start`
  6. In another terminal, `npx react-native run-ios`. 
+
+
+## firebase keys
+Please download and place the following keys from firebase:
+ - /android/app/google-services.json
+ - /ios/GoogleService-Info.plist
+
+.gitignore will ignore these files when adding to a commit.

@@ -120,7 +120,7 @@ class Booking extends Component {
       //     longitudeDelta: 0.0011,
       // }
     });
-    console.log(this.state.region);
+    // console.log(this.state.region)
   };
 
   takeDefaultSnapshot() {
@@ -158,7 +158,7 @@ class Booking extends Component {
     snapshot.then(uri => {
       this.setState({customSnapshot: uri});
     });
-    console.log(this.state.customSnapshot);
+    // console.log(this.state.customSnapshot)
   }
 
   render() {
@@ -225,15 +225,15 @@ class Booking extends Component {
             <Text style={{marginLeft: 20, fontWeight: '600'}}>Visitors</Text>
             <TouchableOpacity
               style={
-                this.state.visitorCount == 1
+                this.state.visitorCount == 0
                   ? styles.minusDisabled
                   : styles.minus
               }
               onPress={() => this.setVisitorCount(this.state.visitorCount - 1)}
-              disabled={this.state.visitorCount == 1 ? true : false}>
+              disabled={this.state.visitorCount == 0 ? true : false}>
               <Text
                 style={{
-                  color: this.state.visitorCount == 1 ? '#9B9BA7' : 'white',
+                  color: this.state.visitorCount == 0 ? '#9B9BA7' : 'white',
                   alignSelf: 'center',
                 }}>
                 -
@@ -245,6 +245,49 @@ class Booking extends Component {
               onPress={() => this.setVisitorCount(this.state.visitorCount + 1)}>
               <Text style={{color: white, alignSelf: 'center'}}>+</Text>
             </TouchableOpacity>
+          </View>
+          <View
+            style={[
+              styles.backCard,
+              {
+                position: 'relative',
+                paddingLeft: 20,
+                paddingRight: 20,
+                paddingBottom: 30,
+              },
+            ]}>
+            <Text style={styles.sectionText}>Select Date</Text>
+            <View style={styles.line}></View>
+            <Calendar
+              // minDate={'2012-05-10'}
+              // maxDate={'2012-05-30'}
+              onDayPress={this.onDayPress.bind(this)}
+              // Month format in calendar title. Formatting values: http://arshaw.com/xdate/#Formatting
+              monthFormat={'MMM yyyy'}
+              // If firstDay=1 week starts from Monday. Note that dayNames and dayNamesShort should still start from Sunday
+              firstDay={1}
+              // Handler which gets executed when press arrow icon left. It receive a callback can go back month
+              onPressArrowLeft={subtractMonth => subtractMonth()}
+              // Handler which gets executed when press arrow icon right. It receive a callback can go next month
+              onPressArrowRight={addMonth => addMonth()}
+              // Disable all touch events for disabled days. can be override with disableTouchEvent in markedDates
+              disableAllTouchEventsForDisabledDays={true}
+              // Enable the option to swipe between months. Default = false
+              enableSwipeMonths={true}
+              theme={{
+                arrowColor: '#3154A5',
+                todayTextColor: '#3D68CC',
+                monthTextColor: '#3154A5',
+                textMonthFontWeight: '600',
+              }}
+              markedDates={{
+                [this.state.selected]: {
+                  selected: true,
+                  disableTouchEvent: true,
+                  selectedColor: '#3154A5',
+                  selectedTextColor: 'white',
+                },
+              }}></Calendar>
           </View>
           <View style={[styles.backCard, {paddingBottom: 10}]}>
             <Text style={styles.sectionText}>Select Time</Text>
