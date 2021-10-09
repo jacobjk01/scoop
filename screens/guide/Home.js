@@ -17,10 +17,16 @@ import { getUser } from '../../api/users';
 const Home = ({navigation}) => {
   const tours = toursData.tours;
   const currentTour = tours[0];
-  const [userAuth, setUserAuth] = useState(null);
-  const [user, setUser] = useState(null);
   
-  
+  // useEffect(() => {
+  //   const iid = setInterval(() => {
+  //     console.log('tick')
+  //   }, 500)
+  //   return () => {
+  //     console.log('unsubscribed')
+  //     clearInterval(iid);
+  //   }
+  // })
   return (
     <SafeAreaView backgroundColor='white'>
       <ScrollView style={{height: '100%'}}>
@@ -30,6 +36,7 @@ const Home = ({navigation}) => {
           </Text>
         </View>
         <View style={{flexWrap: 'wrap', alignContent: 'center'}}>
+          {/* Current tour? */}
             {/* <TouchableOpacity style={styles.currentTourCard} onPress={() => navigation.navigate('TourEdit', {tour: currentTour})}>
                 <Image style={styles.currentTourImage} source={currentTour.src}></Image>
                 <View style={[styles.tourTextSection, {top: '72%'}]}>
@@ -47,6 +54,7 @@ const Home = ({navigation}) => {
                     </View>
                 </View>
             </TouchableOpacity> */}
+            {/* a tour list */}
           {tours.slice(1).map((tour) => {
             return(
               <TouchableOpacity key={tour.id} style={styles.tourCard} onPress={() => navigation.navigate('TourEdit', {tour})}>

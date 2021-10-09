@@ -81,7 +81,7 @@ import SelectSchool from './screens/visitor/SelectSchool';
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
-const MODE = 'guide'; // visitor | guide | dev
+const MODE = 'visitor'; // visitor | guide | dev
 
 //displays bottom tab and some navigation
 const TabAllModes = () => {

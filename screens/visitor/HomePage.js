@@ -20,7 +20,7 @@ import GuideProfile from './GuideProfile';
 import toursData from '../../data/toursData';
 
 const HomePage = ({navigation}) => {
-  const [tourimages, setImages] = useState(toursData.images);
+  const [tours, setTours] = useState(toursData.tours);
   const [guideimages, setGuideImages] = useState(toursData.guides);
   return (
     <SafeAreaView>
@@ -79,8 +79,10 @@ const HomePage = ({navigation}) => {
         <FlatList
           style={{marginTop: 10}}
           horizontal={true}
-          data={tourimages}
-          renderItem={({item}) => (
+          data={tours}
+          renderItem={({item}) => {
+            return (
+              //TODO: make tourinfo get the tour info, this can be done in this screen or in tourinfo screen
             <TouchableOpacity onPress={() => navigation.navigate('TourInfo')}>
               <ImageBackground
                 style={styles.listTourImage}
@@ -93,7 +95,7 @@ const HomePage = ({navigation}) => {
               </ImageBackground>
               <Text style={styles.tourText}>{item.name}</Text>
             </TouchableOpacity>
-          )}
+          )}}
         />
         <View style={{marginTop: 30}}>
           <Text style={{marginLeft: 10, fontSize: 20, fontWeight: '700'}}>
