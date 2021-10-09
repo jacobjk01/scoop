@@ -88,68 +88,9 @@ const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
 //
-const MODE = 'guide'; // visitor | guide | dev
+const intialMode = 'guide'; // visitor | guide | dev | prod
+// NOTE: MODE should be equal to prod when published
 
-//displays bottom tab and some navigation
-const TabAllModes = () => {
-  return (
-      <Tab.Navigator
-        screenOptions={({route}) => ({
-          tabBarIcon: ({focused, color, size}) => {
-            let iconName;
-            switch (route.name) {
-              case 'Home':
-                iconName = focused ? 'home' : 'home-outline';
-                break;
-              case 'ManageTours':
-                iconName = focused ? 'map' : 'map-outline';
-                break;
-              case 'Tours':
-                iconName = focused ? 'map' : 'map-outline';
-                break;
-              case 'AccountVisitor' || 'AccountGuide':
-                iconName = focused ? 'person' : 'person-outline';
-                break;
-              default:
-                iconName = focused ? 'help-circle' : 'help-circle-outline';
-            } 
-            // You can return any component that you like here!
-            return <Ionicons name={iconName} size={size} color={color} />;
-          },
-        })}
-        tabBarOptions={{
-          activeTintColor: colors.primary,
-          inactiveTintColor: colors.primary,
-        }}
-        initialRouteName={MODE === 'visitor' ? "Home" : MODE === 'guide' ? "Home" : "Home" }>
-          
-        {(() => {
-          if (MODE === 'visitor') {
-            return <>
-              <Tab.Screen name="Home" component={HomeVisitor} options={{tabBarVisible:true}}
-          />
-              <Tab.Screen name="TourList" component={TourList} />
-              <Tab.Screen name="Account" component={AccountVisitor} />
-            </>
-          } else if (MODE === 'guide'){
-            return <>
-              <Tab.Screen name="Home" component={HomeGuide} />
-              <Tab.Screen name="ManageTours" component={ManageTours} />
-              <Tab.Screen name="Account" component={AccountGuide} />
-            </>
-          } else {
-            return <>
-              <Tab.Screen name="HomeVisitor" component={HomeVisitor} />
-              <Tab.Screen name="HomeGuide" component={HomeGuide} />
-              <Tab.Screen name="ManageTours" component={ManageTours} />
-              <Tab.Screen name="Account" component={AccountGuide} />
-              <Tab.Screen name="Test" component={Test} />
-            </>
-          }
-        })()}
-      </Tab.Navigator>
-  )
-}
 
 //bulk of navigation
 const App = () => {
@@ -161,6 +102,8 @@ const App = () => {
   //user is a object with the user document data
   const [user, setUser] = useState(null);
   const [isUserLoading, setIsUserLoading] = useState(true);
+  const [mode, setMode] = useState(intialMode);
+
   useEffect(() => {
     console.log('onAuthStateChanged called')
     var unsubscribeAuth = onAuthStateChanged(async newUserAuth => {
@@ -187,12 +130,77 @@ const App = () => {
       setUser({...currentUser.data()})
     }
   }, [userAuth])
-  //TODO: Make auth routes
+
+  //displays bottom tab and some navigation
+  const TabAllModes = () => {
+    return (
+        <Tab.Navigator
+          screenOptions={({route}) => ({
+            tabBarIcon: ({focused, color, size}) => {
+              let iconName;
+              switch (route.name) {
+                case 'Home':
+                  iconName = focused ? 'home' : 'home-outline';
+                  break;
+                case 'ManageTours':
+                  iconName = focused ? 'map' : 'map-outline';
+                  break;
+                case 'Tours':
+                  iconName = focused ? 'map' : 'map-outline';
+                  break;
+                case 'AccountVisitor' || 'AccountGuide':
+                  iconName = focused ? 'person' : 'person-outline';
+                  break;
+                default:
+                  iconName = focused ? 'help-circle' : 'help-circle-outline';
+              } 
+              // You can return any component that you like here!
+              return <Ionicons name={iconName} size={size} color={color} />;
+            },
+          })}
+          tabBarOptions={{
+            activeTintColor: colors.primary,
+            inactiveTintColor: colors.primary,
+          }}
+          initialRouteName={mode === 'visitor' ? "Home" : mode === 'guide' ? "Home" : "Home" }>
+            
+          {(() => {
+            if (mode === 'visitor') {
+              return <>
+                <Tab.Screen name="Home" component={HomeVisitor} options={{tabBarVisible:true}}
+            />
+                <Tab.Screen name="TourList" component={TourList} />
+                <Tab.Screen name="Account" component={AccountVisitor} />
+              </>
+            } else if (mode === 'guide'){
+              return <>
+                <Tab.Screen name="Home" component={HomeGuide} />
+                <Tab.Screen name="ManageTours" component={ManageTours} />
+                <Tab.Screen name="Account" component={AccountGuide} />
+              </>
+            } else {
+              return <>
+                <Tab.Screen name="HomeVisitor" component={HomeVisitor} />
+                <Tab.Screen name="HomeGuide" component={HomeGuide} />
+                <Tab.Screen name="ManageTours" component={ManageTours} />
+                <Tab.Screen name="Account" component={AccountGuide} />
+                <Tab.Screen name="Test" component={Test} />
+              </>
+            }
+          })()}
+        </Tab.Navigator>
+    )
+  }
+
   /**
    * Navigation
    */
   return (
-    <UserContext.Provider value={{userAuth, setUserAuth, user, setUser, isUserLoading, setIsUserLoading}}>
+    <UserContext.Provider value={{
+      userAuth, setUserAuth,
+      user, setUser,
+      isUserLoading, setIsUserLoading,
+      mode, setMode}}>
       <NavigationContainer>
         <Stack.Navigator>
           <Stack.Screen name=" " component={TabAllModes} options={{headerShown: false}}/>
