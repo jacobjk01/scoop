@@ -67,26 +67,20 @@ const TourGuideProfile = ({navigation, route}) => {
   };
 
   return (
-    <ImageBackground
-      source={require('../images/SantaMonica.png')}
-      style={styles.backgroundImage}>
-      <ScrollView
-        style={{
-          marginTop: '30%',
-          paddingRight: 20,
-          paddingLeft: 20,
-          height: '100%',
-          backgroundColor: 'white',
-          borderTopLeftRadius: 20,
-          borderTopRightRadius: 20,
-        }}>
-        <SafeAreaView>
-          {renderGuideImage({item})}
-          {messageButton()}
-          {bookTourButton()}
+    <ScrollView
+      style={{
+        height: '100%',
+      }}>
+      <ImageBackground
+        source={require('../images/SantaMonica.png')}
+        style={styles.backgroundImage}></ImageBackground>
+      <View style={{backgroundColor: 'white'}}>
+        {renderGuideImage({item})}
+        {messageButton()}
+        {bookTourButton()}
 
-          <View style={styles.divider} />
-        </SafeAreaView>
+        <View style={styles.divider} />
+
         <View style={{marginTop: 10}}>
           <Text style={{marginLeft: 10, fontSize: 20, fontWeight: '700'}}>
             Popular Tours
@@ -124,8 +118,8 @@ const TourGuideProfile = ({navigation, route}) => {
         <Text style={{marginTop: 30, fontSize: 20, fontWeight: '700'}}>
           {'Reviews:'}
         </Text>
-      </ScrollView>
-    </ImageBackground>
+      </View>
+    </ScrollView>
   );
 };
 

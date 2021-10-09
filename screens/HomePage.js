@@ -44,6 +44,24 @@ const HomePage = ({navigation}) => {
     );
   };
 
+  const renderTour = ({item}) => {
+    const handleOnPress = () => navigation.navigate('TourInfo', {item});
+    return (
+      <TouchableOpacity onPress={handleOnPress}>
+        <ImageBackground
+          style={styles.listTourImage}
+          imageStyle={{borderRadius: 10}}
+          source={item.src}>
+          <LinearGradient
+            colors={['transparent', 'black']}
+            style={styles.linearGradTour}
+          />
+        </ImageBackground>
+        <Text style={styles.tourText}>{item.name}</Text>
+      </TouchableOpacity>
+    );
+  };
+
   const [guideimages, setGuideImages] = useState([
     {
       name: 'Natalie',
@@ -122,20 +140,7 @@ const HomePage = ({navigation}) => {
           style={{marginTop: 10}}
           horizontal={true}
           data={tourimages}
-          renderItem={({item}) => (
-            <TouchableOpacity onPress={() => navigation.navigate('TourInfo')}>
-              <ImageBackground
-                style={styles.listTourImage}
-                imageStyle={{borderRadius: 10}}
-                source={item.src}>
-                <LinearGradient
-                  colors={['transparent', 'black']}
-                  style={styles.linearGradTour}
-                />
-              </ImageBackground>
-              <Text style={styles.tourText}>{item.name}</Text>
-            </TouchableOpacity>
-          )}
+          renderItem={renderTour}
         />
         <View style={{marginTop: 30}}>
           <Text style={{marginLeft: 10, fontSize: 20, fontWeight: '700'}}>

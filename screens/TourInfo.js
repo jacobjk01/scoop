@@ -27,8 +27,9 @@ const {event, ValueXY} = Animated;
 class TourInfo extends Component {
   constructor(props) {
     super(props);
-
+    console.log(props);
     this.state = {
+      tour: this.props.route.params.item,
       reviews: [
         {
           stars: 4.8,
@@ -58,13 +59,13 @@ class TourInfo extends Component {
       <View style={{backgroundColor: '#d92726', flex: 1, borderRadius: 10}}>
         <ImageBackground
           style={styles.imageHeader}
-          source={require('../images/Westwood_village.png')}>
+          source={this.state.tour.src}>
           <LinearGradient
             colors={['transparent', 'black']}
             style={styles.linearGradTour}
           />
           <View style={styles.imageOverlay}>
-            <Text style={styles.titleText}>Westwood Tour</Text>
+            <Text style={styles.titleText}>{this.state.tour.name}</Text>
             <Text style={styles.detailText}>
               60 min | Max 6 people | person
             </Text>
@@ -219,9 +220,15 @@ class TourInfo extends Component {
                     </TouchableOpacity>
                 </Animated.View> */}
         <Text style={[styles.sectionText, {marginTop: 40}]}>Reviews</Text>
+        {/* <View style={{display: 'flex', flexDirection: 'column'}}>
+          {this.state.reviews.map(item => {
+            this.renderCards(item);
+          })}
+        </View> */}
+
         <FlatList
           style={{paddingBottom: 10}}
-          horizontal={true}
+          horizontal={false}
           data={this.state.reviews}
           renderItem={this.renderCards}
         />
@@ -230,7 +237,6 @@ class TourInfo extends Component {
   }
 
   renderCards = item => {
-    console.log(item.item);
     return (
       <View style={styles.reviewCard}>
         {this.renderStars(item.item.stars)}
@@ -256,12 +262,12 @@ class TourInfo extends Component {
         <ScrollView>
           {this.renderForeground()}
           {this.renderContent()}
-          <TouchableOpacity
-            style={styles.backIcon}
-            onPress={() => navigation.goBack()}>
-            <Ionicons name="chevron-back-outline" size={20} color={white} />
-          </TouchableOpacity>
         </ScrollView>
+        <TouchableOpacity
+          style={styles.backIcon}
+          onPress={() => navigation.goBack()}>
+          <Ionicons name="chevron-back-outline" size={20} color={white} />
+        </TouchableOpacity>
         <TouchableOpacity
           style={styles.continue}
           onPress={() => this.props.navigation.navigate('TourGuideList')}>
@@ -355,7 +361,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     alignSelf: 'center',
     padding: 20,
-    marginBottom: 20,
+    marginBottom: 10,
     marginLeft: 20,
     marginRight: 20,
     marginTop: 20,
@@ -391,7 +397,7 @@ const styles = StyleSheet.create({
   },
   continue: {
     position: 'absolute',
-    bottom: 20,
+    bottom: 10,
     left: 20,
     right: 20,
     backgroundColor: '#3154A5',
