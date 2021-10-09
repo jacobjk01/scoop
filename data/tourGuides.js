@@ -2,6 +2,10 @@ module.exports = [
     {
         name: "Brittany",
         picture: require('../images/brittany.png'),
+        year: 'Junior',
+        major: 'Mechanical Eng.',
+        hometown: 'Irvine, Orange County',
+        intro: 'I am a proud first-generation college student! Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sapien velit elementum malesuada leo sociis. Leo nisi, facilisis fames dignissim euismod nec. Tempus scelerisque tempor proin diam int',
         lastMessage: 'excited to see you',
         tour: 'Westwood Tour',
         date: "10:05 AM",
