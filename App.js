@@ -36,6 +36,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 
 //config imports
 import colors from './config/colors';
+import { intialMode } from './config/initialState';
 
 //contexts imports
 import { UserContext } from './contexts';
@@ -75,10 +76,13 @@ import Messages from './screens/visitor/Messages';
 import GuideList from './screens/visitor/GuideList';
 import SelectSchool from './screens/visitor/SelectSchool';
 
+//authorization
 import RequireAuth from './screens/RequireAuth';
 
+//api
 import { onAuthStateChanged } from './api/auth';
 import { getUser } from './api/users';
+
 /**
  * 
  *  All navigation is handled here
@@ -86,10 +90,6 @@ import { getUser } from './api/users';
  */
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
-
-//
-const intialMode = 'guide'; // visitor | guide | dev | prod
-// NOTE: MODE should be equal to prod when published
 
 
 //bulk of navigation
