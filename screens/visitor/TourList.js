@@ -7,12 +7,12 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
 
-const Tours = () => {
+const TourList = () => {
     return(
         <SafeAreaView>
             <ScrollView 
             style={{paddingRight: 20, paddingLeft: 20, height: "100%"}}>
-                <Text style={styles.titleText}>Tours Page</Text>
+                <Text style={styles.titleText}>Tour List Page</Text>
                 <View style={{marginTop: 30}}>
                     <TextInput style={styles.input} placeholder={'Search'}></TextInput>
                     <Ionicons style={styles.searchicon} name={'search-outline'} size={25} color={'#656565'} />
@@ -119,4 +119,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default Tours;
+export default TourList;

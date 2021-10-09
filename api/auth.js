@@ -7,13 +7,14 @@
  */
 
 import auth from '@react-native-firebase/auth';
+import {client} from '../android/app/google-services.json'
 import {
     GoogleSignin,
     statusCodes
 } from '@react-native-google-signin/google-signin';
 
 //note for sign ins to work properly, you need to run: GoogleSignin.configure(); //first!
-GoogleSignin.configure(); //needs to done before signin attempts
+GoogleSignin.configure({webClientId: client[0].oauth_client[1].client_id}); //needs to done before signin attempts
 
 //this signs a user in
 export const signIn = async () => {
@@ -47,12 +48,20 @@ export const signIn = async () => {
 export const signOut = async () => {
     try {
         await GoogleSignin.revokeAccess();
+    } catch (error){
+        console.error("revoke Access failed")
+        console.error(error)
+    }
+    try {
         await GoogleSignin.signOut();
-        auth().signOut().then(() => {
-            console.log('you are signed out')
-        });
+    } catch (error){
+        console.error("signOut part 1 failed")
+        console.error(error)
+    }
+    try {
+        await auth().signOut();
     } catch (error) {
-        console.error("Error at signOut function")
+        console.error("signOut part 2 failed")
         console.error(error);
     }
 };

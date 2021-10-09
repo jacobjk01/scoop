@@ -20,10 +20,10 @@ import LinearGradient from 'react-native-linear-gradient';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 
-const TourGuideProfile = ({navigation, route}) => {
+const GuideProfile = ({navigation, route}) => {
   const [tourimages, setImages] = useState([
-    {name: 'Santa Monica', src: require('../images/SantaMonica.png')},
-    {name: 'Westwood Tour', src: require('../images/Westwood_village.png')},
+    {name: 'Santa Monica', src: require('../../images/SantaMonica.png')},
+    {name: 'Westwood Tour', src: require('../../images/Westwood_village.png')},
   ]);
 
   const {item} = route.params;
@@ -37,12 +37,14 @@ const TourGuideProfile = ({navigation, route}) => {
     );
   };
   const messageButtonHandler = () => {
-    // console.log('You have pressed the message Button');
   };
 
   const navigateCheckout = ({item}) => {
+    if (item === null) {
+      throw Error ('checkout item cannot be null')
+    }
     return (
-      <TouchableOpacity onPress={() => navigation.navigate('Checkout', {item})}>
+      <TouchableOpacity onPress={() => navigation.navigate('TourInfo', {item})}>
         <ImageBackground
           style={styles.listTourImage}
           imageStyle={{borderRadius: 10}}
@@ -58,7 +60,7 @@ const TourGuideProfile = ({navigation, route}) => {
   };
 
   const bookTourButton = () => {
-    const handleOnPress = () => navigation.navigate('Checkout', {item});
+    const handleOnPress = () => navigation.navigate('GuideBooking1');
     return (
       <TouchableOpacity onPress={handleOnPress} style={styles.roundButton2}>
         <Text style={styles.messageFont}>Book Tour</Text>
@@ -68,7 +70,7 @@ const TourGuideProfile = ({navigation, route}) => {
 
   return (
     <ImageBackground
-      source={require('../images/SantaMonica.png')}
+      source={require('../../images/SantaMonica.png')}
       style={styles.backgroundImage}>
       <ScrollView
         style={{
@@ -92,7 +94,7 @@ const TourGuideProfile = ({navigation, route}) => {
             Popular Tours
           </Text>
           <TouchableOpacity
-            onPress={() => navigation.navigate('Tours')}
+            onPress={() => navigation.navigate('TourList')}
             style={{position: 'absolute', right: 10, top: 3}}>
             <View>
               <Text style={{color: '#3D68CC'}}>View All &gt;</Text>
@@ -326,4 +328,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default TourGuideProfile;
+export default GuideProfile;

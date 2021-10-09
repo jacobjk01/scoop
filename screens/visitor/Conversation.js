@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {Text, View, StyleSheet, TextInput, TouchableOpacity} from 'react-native'
 import InvertibleScrollView from 'react-native-invertible-scroll-view';
-import colors from '../config/colors';
+import colors from '../../config/colors';
 import Ionicons from 'react-native-vector-icons/Ionicons'
 
 function Conversation(props) {

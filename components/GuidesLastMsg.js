@@ -2,14 +2,14 @@ import React from 'react';
 import {Text, View, StyleSheet, TouchableOpacity} from 'react-native'
 import colors from '../config/colors';
 import PictureIcon from './PictureIcon';
-function TourGuidesLastMsg(props) {
+function GuidesLastMsg(props) {
     const {tourGuides, navigation} = props;
-    const TourGuides = tourGuides.map(guide => {
+    const Guides = tourGuides.map(guide => {
         return <LastMsg guide={guide} navigation={navigation}/>
     })
     return (
         <View>
-            {TourGuides}
+            {Guides}
         </View>
         
     );
@@ -67,4 +67,4 @@ const styles = StyleSheet.create({
         flex: 1
     }
 })
-export default TourGuidesLastMsg;
+export default GuidesLastMsg;
