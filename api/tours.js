@@ -6,35 +6,25 @@ const tours = firestore().collection('tours');
 
 //tourguide Functions
 export const addTour = async (guideId, picture, attractions, meetingPt, date, time, cost, duration, transportation, maxPeople, description, category) => {
-    //TODO: FIX THIS FUNCTION     
-    // if(!guideId || !picture ||!meetingPt || !attractions || !date || !time || !cost || !duration || !transportation || !maxPeople || !description || !category)
-    // {
-    //     console.log("required parameter not here")
-    //     return;
-    // }
-    // else
-    if (true){
+    if (!(guideId && picture && meetingPt && attractions && date && time && cost && duration && transportation && maxPeople && description && category)) {
+        console.log("required parameter not here")
+        return;
+    } else {
         await tours.doc().set({
-            // guideId,
-            // picture,
-            // meetingPt,
-            // attractions,
-            // date,
-            // time,
-            // cost,
-            // duration,
-            // transportation,
-            // maxPeople,
-            // description,
-            // category,
-            // archive: false,
+            guideId,
+            picture,
+            meetingPt,
+            attractions,
+            date,
+            time,
+            cost,
+            duration,
+            transportation,
+            maxPeople,
+            description,
+            category,
+            archive: false,
         });
-        //adds bookings subcollection to tour
-        // await tours.where('guideId', '==', guideId).where('tourId', '==', tourId).get().then( querySnapshot => {
-        //         querySnapshot.forEach((documentSnapshot) => {
-        //         tours.doc(documentSnapshot.id).collection("bookings").add({placeholder: ""});
-        //     });
-        // });
     }
 }
 export const editTour = async(guideId, tourId, field, fieldValue) => {

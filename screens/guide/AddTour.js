@@ -28,7 +28,7 @@ export default function AddTour({navigation}) {
       }, [])
       useEffect(async () => {
         if (userAuth) {
-          console.log('user logged in')
+          console.log('user logged in');
           const currentUser = await getUser(userAuth);
           setUser({...currentUser.data()})
         }
@@ -47,8 +47,7 @@ export default function AddTour({navigation}) {
                 <TouchableOpacity onPress={async () => {
                     try {
                         const tour = tours[0];
-                        await addTour(user.uid, tour.image, tour.attractions, tour.meetPoint, tour.tourDay, tour.startTime, tour.cost, tour.duration, tour.transportation, tour.maxPeople, tour.description, tour.category);
-                        console.log('added')
+                        await addTour(userAuth.uid, tour.image, tour.attractions, tour.meetPoint, tour.tourDay, tour.startTime, tour.cost, tour.duration, tour.transportation, tour.maxPeople, tour.description, tour.category);
                     } catch (error) {
                         console.error(error)
                     }
