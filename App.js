@@ -36,7 +36,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 
 //config imports
 import colors from './config/colors';
-import { intialMode } from './config/initialState';
+import { localState } from './config/initialState';
 
 //contexts imports
 import { UserContext } from './contexts';
@@ -77,7 +77,7 @@ import GuideList from './screens/visitor/GuideList';
 import SelectSchool from './screens/visitor/SelectSchool';
 
 //authorization
-import RequireAuth from './screens/RequireAuth';
+import RequireAuth from './components/RequireAuth';
 
 //api
 import { onAuthStateChanged } from './api/auth';
@@ -102,9 +102,14 @@ const App = () => {
   //user is a object with the user document data
   const [user, setUser] = useState(null);
   const [isUserLoading, setIsUserLoading] = useState(true);
-  const [mode, setMode] = useState(intialMode);
+  const [mode, setMode] = useState(localState.currentMode);
+  const [firstTimeOpen, setFirstTimeOpen] = useState(localState.firstTimeOpen);
+
 
   useEffect(() => {
+    if (firstTimeOpen) {
+      return;
+    }
     console.log('onAuthStateChanged called')
     var unsubscribeAuth = onAuthStateChanged(async newUserAuth => {
       //if userAuth exists, 
@@ -124,6 +129,9 @@ const App = () => {
   }, [])
 
   useEffect(async () => {
+    if (firstTimeOpen) {
+      return;
+    }
     if (userAuth) {
       console.log('user logged in')
       const currentUser = await getUser(userAuth);
@@ -192,6 +200,11 @@ const App = () => {
     )
   }
 
+  if (firstTimeOpen) {
+    return (
+      <Registration f = {setFirstTimeOpen}/>
+    )
+  } else
   /**
    * Navigation
    */
@@ -200,7 +213,8 @@ const App = () => {
       userAuth, setUserAuth,
       user, setUser,
       isUserLoading, setIsUserLoading,
-      mode, setMode}}>
+      mode, setMode,
+      firstTimeOpen, setFirstTimeOpen}}>
       <NavigationContainer>
         <Stack.Navigator>
           <Stack.Screen name=" " component={TabAllModes} options={{headerShown: false}}/>
