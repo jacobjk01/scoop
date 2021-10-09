@@ -2,8 +2,8 @@ import React, {useState, useEffect} from 'react'
 import { Text, View, Button, Image } from 'react-native'
 import { signIn, signOut, onAuthStateChanged } from '../../api/auth';
 import { GoogleSigninButton } from '@react-native-google-signin/google-signin';
+import { changeIntro, changeName, getUser, createPrivateData } from '../../api/users';
 import { sendMessage, onConversationChange, getConversation } from '../../api/messaging';
-import { createUser, changeIntro, changeName, getUser, createPrivateData } from '../../api/users';
 import { HeaderTitle } from '@react-navigation/stack';
 import { addTour, editTour, switchTour, archiveTour, unarchiveTour, bookTour, getTourInfo, getBookingInfo} from '../../api/tours';
 
