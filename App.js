@@ -9,7 +9,7 @@
 
 //react imports
 import 'react-native-gesture-handler';
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 // import type {Node} from 'react';
 import {
   SafeAreaView,
@@ -36,6 +36,9 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 
 //config imports
 import colors from './config/colors';
+
+//contexts imports
+import { UserContext } from './contexts';
 
 //dev imports
 import Test from './screens/dev/Test';
@@ -72,7 +75,8 @@ import Messages from './screens/visitor/Messages';
 import GuideList from './screens/visitor/GuideList';
 import SelectSchool from './screens/visitor/SelectSchool';
 
-
+import { onAuthStateChanged } from './api/auth';
+import { getUser } from './api/users';
 /**
  * 
  *  All navigation is handled here
@@ -81,7 +85,7 @@ import SelectSchool from './screens/visitor/SelectSchool';
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
-const MODE = 'visitor'; // visitor | guide | dev
+const MODE = 'guide'; // visitor | guide | dev
 
 //displays bottom tab and some navigation
 const TabAllModes = () => {
@@ -146,48 +150,80 @@ const TabAllModes = () => {
 
 //bulk of navigation
 const App = () => {
-  
+  /**
+   * Authentication
+   */
+  const [userAuth, setUserAuth] = useState(null);
+  const [user, setUser] = useState(null);
+  useEffect(() => {
+    console.log('onAuthStateChanged called')
+    var unsubscribeAuth = onAuthStateChanged(async newUserAuth => {
+      //if userAuth exists, 
+      if (newUserAuth && userAuth == null) { // userAuth is null, so definitely unique
+        setUserAuth(newUserAuth);
+      // userAuth exists and doesn't match with with newUserAuth.uid
+      } else if (userAuth.uid && newUserAuth && (userAuth.uid != newUserAuth.uid)) {
+        setUserAuth(newUserAuth);
+      }
+    })
+    return () => {
+      unsubscribeAuth();
+    }
+  }, [])
+
+  useEffect(async () => {
+    if (userAuth) {
+      console.log('user logged in')
+      const currentUser = await getUser(userAuth);
+      setUser({...currentUser.data()})
+    }
+  }, [userAuth])
+
   return (
-    <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen name=" " component={TabAllModes} options={{headerShown: false}}/>
-        {/* Dev Routes */}
-        <Stack.Screen name="Test" component={Test} options={{headerShown: false}}/>
+    <UserContext.Provider value={{userAuth, setUserAuth, user, setUser}}>
+      <NavigationContainer>
+        <Stack.Navigator>
+          <Stack.Screen name=" " component={TabAllModes} options={{headerShown: false}}/>
+          {/* Dev Routes */}
+          <Stack.Screen name="Test" component={Test} options={{headerShown: false}}/>
 
-        {/* Guide Routes */}
-        <Stack.Screen name="AccountGuide" component={AccountGuide} options={{headerShown: true}}/>
-        <Stack.Screen name="AccountEdit" component={AccountEdit} options={{headerShown: true}}/>
-        <Stack.Screen name="AddTour" component={AddTour} options={{headerShown: true}}/>
-        <Stack.Screen name="EditTour" component={EditTour} options={{headerShown: true}}/>
-        <Stack.Screen name="HomeGuide" component={HomeGuide} options={{headerShown: false}}/>
-        <Stack.Screen name="ManageTours" component={ManageTours} options={{headerShown: true}}/>
-        <Stack.Screen name="TourEdit" component={TourEdit} options={{headerShown: true}}/>
-        <Stack.Screen name="TourEdit2" component={TourEdit2} options={{headerShown: true}}/>
-        <Stack.Screen name="TourEdit3" component={TourEdit3} options={{headerShown: true}}/>
-        <Stack.Screen name="Registration" component={Registration} options={{headerShown: true}}/>
-        <Stack.Screen name="ViewTour" component={ViewTour} options={{headerShown: true}}/>
+          {/* Guide Routes */}
+          <Stack.Screen name="AccountGuide" component={AccountGuide} options={{headerShown: true}}/>
+          <Stack.Screen name="AccountEdit" component={AccountEdit} options={{headerShown: true}}/>
+          <Stack.Screen name="AddTour" component={AddTour} options={{headerShown: true}}/>
+          <Stack.Screen name="EditTour" component={EditTour} options={{headerShown: true}}/>
+          <Stack.Screen name="HomeGuide" component={HomeGuide} options={{headerShown: false}}/>
+          <Stack.Screen name="ManageTours" component={ManageTours} options={{headerShown: true}}/>
+          <Stack.Screen name="TourEdit" component={TourEdit} options={{headerShown: true}}/>
+          <Stack.Screen name="TourEdit2" component={TourEdit2} options={{headerShown: true}}/>
+          <Stack.Screen name="TourEdit3" component={TourEdit3} options={{headerShown: true}}/>
+          <Stack.Screen name="Registration" component={Registration} options={{headerShown: true}}/>
+          <Stack.Screen name="ViewTour" component={ViewTour} options={{headerShown: true}}/>
 
-        {/* Visitor Routes */}
-        <Stack.Screen name="AccountVisitor" component={AccountVisitor} options={{headerShown: false}}/>
-        <Stack.Screen name="TourList" component={TourList} options={{headerShown: false}}/>
-        <Stack.Screen name="Conversation" component={Conversation} options={{headerShown: false}}/>
-        <Stack.Screen name="GuideBooking1" component={GuideBooking1} options={{headerShown: false}}/>
-        <Stack.Screen name="GuideBooking2" component={GuideBooking2} options={{headerShown: false}}/>
-        <Stack.Screen name="GuideBooking3" component={GuideBooking3} options={{headerShown: false}}/>
-        <Stack.Screen name="TourBooking1" component={TourBooking1} options={{headerShown: false}}/>
-        <Stack.Screen name="TourBooking2" component={TourBooking2} options={{headerShown: false}}/>
-        <Stack.Screen name="TourBooking3" component={TourBooking3} options={{headerShown: false}}/>
-        <Stack.Screen name="BookingCheckout" component={BookingCheckout} options={{headerShown: false}}/>
-        <Stack.Screen name="HomeVisitor" component={HomeVisitor} options={{headerShown: false}}/>
-        <Stack.Screen name="TourInfo" component={TourInfo} options={{headerShown: false}}/>
-        <Stack.Screen name="TourInfo2" component={TourInfo} options={{headerShown: false}}/>
-        <Stack.Screen name="GuideProfile" component={GuideProfile} options={{headerShown: true}}/>
-        <Stack.Screen name="GuideProfile2" component={GuideProfile} options={{headerShown: true}}/>
-        <Stack.Screen name="Messages" component={Messages} options={{headerShown: false}}/>
-        <Stack.Screen name="GuideList" component={GuideList} options={{headerShown: false}}/>
-        <Stack.Screen name="SelectSchool" component={SelectSchool} options={{headerShown: false}}/>
-      </Stack.Navigator>
-    </NavigationContainer>
+          {/* Visitor Routes */}
+          <Stack.Screen name="AccountVisitor" component={AccountVisitor} options={{headerShown: false}}/>
+          <Stack.Screen name="TourList" component={TourList} options={{headerShown: false}}/>
+          <Stack.Screen name="Conversation" component={Conversation} options={{headerShown: false}}/>
+          <Stack.Screen name="GuideBooking1" component={GuideBooking1} options={{headerShown: false}}/>
+          <Stack.Screen name="GuideBooking2" component={GuideBooking2} options={{headerShown: false}}/>
+          <Stack.Screen name="GuideBooking3" component={GuideBooking3} options={{headerShown: false}}/>
+          <Stack.Screen name="TourBooking1" component={TourBooking1} options={{headerShown: false}}/>
+          <Stack.Screen name="TourBooking2" component={TourBooking2} options={{headerShown: false}}/>
+          <Stack.Screen name="TourBooking3" component={TourBooking3} options={{headerShown: false}}/>
+          <Stack.Screen name="BookingCheckout" component={BookingCheckout} options={{headerShown: false}}/>
+          <Stack.Screen name="HomeVisitor" component={HomeVisitor} options={{headerShown: false}}/>
+          <Stack.Screen name="TourInfo" component={TourInfo} options={{headerShown: false}}/>
+          <Stack.Screen name="TourInfo2" component={TourInfo} options={{headerShown: false}}/>
+          <Stack.Screen name="GuideProfile" component={GuideProfile} options={{headerShown: true}}/>
+          <Stack.Screen name="GuideProfile2" component={GuideProfile} options={{headerShown: true}}/>
+          <Stack.Screen name="Messages" component={Messages} options={{headerShown: false}}/>
+          <Stack.Screen name="GuideList" component={GuideList} options={{headerShown: false}}/>
+          <Stack.Screen name="SelectSchool" component={SelectSchool} options={{headerShown: false}}/>
+        </Stack.Navigator>
+      </NavigationContainer>
+    </UserContext.Provider>
+    
+  
   );
 };
 

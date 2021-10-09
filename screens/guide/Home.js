@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import {
   View,
   Text,
@@ -13,20 +13,103 @@ import colors from '../../config/colors';
 import toursData from '../../data/toursData';
 import { onAuthStateChanged } from '../../api/auth';
 import { getUser } from '../../api/users';
+import { UserContext } from '../../contexts';
 
 const Home = ({navigation}) => {
   const tours = toursData.tours;
   const currentTour = tours[0];
-  
-  // useEffect(() => {
-  //   const iid = setInterval(() => {
-  //     console.log('tick')
-  //   }, 500)
-  //   return () => {
-  //     console.log('unsubscribed')
-  //     clearInterval(iid);
-  //   }
-  // })
+  const {userAuth, setUserAuth, user, setUser} = useContext(UserContext);
+  console.log(user)
+  if (!user) {
+    return (
+      <SafeAreaView>
+        <Text>
+          Loading...
+        </Text>
+        <Text>
+          Loading...
+        </Text>
+        <Text>
+          Loading...
+        </Text>
+        <Text>
+          Loading...
+        </Text>
+      
+        <Text>
+          Loading...
+        </Text>
+        <Text>
+          Loading...
+        </Text>
+      
+        <Text>
+          Loading...
+        </Text>
+        <Text>
+          Loading...
+        </Text>
+      
+        <Text>
+          Loading...
+        </Text>
+        <Text>
+          Loading...
+        </Text>
+      
+        <Text>
+          Loading...
+        </Text>
+        <Text>
+          Loading...
+        </Text>
+      
+        <Text>
+          Loading...
+        </Text>
+        <Text>
+          Loading...
+        </Text>
+      
+        <Text>
+          Loading...
+        </Text>
+        <Text>
+          Loading...
+        </Text>
+      
+        <Text>
+          Loading...
+        </Text>
+        <Text>
+          Loading...
+        </Text>
+      
+        <Text>
+          Loading...
+        </Text>
+        <Text>
+          Loading...
+        </Text>
+      
+        <Text>
+          Loading...
+        </Text>
+        <Text>
+          Loading...
+        </Text>
+      
+        <Text>
+          Loading...
+        </Text>
+        <Text>
+          Loading...
+        </Text>
+      
+      </SafeAreaView>
+    )
+  }
+
   return (
     <SafeAreaView backgroundColor='white'>
       <ScrollView style={{height: '100%'}}>

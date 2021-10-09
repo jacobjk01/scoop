@@ -9,30 +9,7 @@ export default function AddTour({navigation}) {
     /**
      * You can Delete this, this is mainly to create dumby tours
      */
-     const [userAuth, setUserAuth] = useState(null);
-     const [user, setUser] = useState(null);
-     useEffect(() => {
-        console.log('onAuthStateChanged called')
-        var unsubscribeAuth = onAuthStateChanged(async newUserAuth => {
-          //if userAuth exists, 
-          if (newUserAuth && userAuth == null) { // userAuth is null, so definitely unique
-            setUserAuth(newUserAuth);
-          // userAuth exists and doesn't match with with newUserAuth.uid
-          } else if (userAuth.uid && newUserAuth && (userAuth.uid != newUserAuth.uid)) {
-            setUserAuth(newUserAuth);
-          }
-        })
-      return () => {
-        unsubscribeAuth();
-      }
-      }, [])
-      useEffect(async () => {
-        if (userAuth) {
-          console.log('user logged in')
-          const currentUser = await getUser(userAuth);
-          setUser({...currentUser.data()})
-        }
-      }, [userAuth])
+     
 
 
     if (!user) {
