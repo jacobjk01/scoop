@@ -153,7 +153,9 @@ const App = () => {
   /**
    * Authentication
    */
+  //userAuth is a object with the field uid
   const [userAuth, setUserAuth] = useState(null);
+  //user is a object with the user document data
   const [user, setUser] = useState(null);
   useEffect(() => {
     console.log('onAuthStateChanged called')
@@ -178,7 +180,10 @@ const App = () => {
       setUser({...currentUser.data()})
     }
   }, [userAuth])
-
+  //TODO: Make auth routes
+  /**
+   * Navigation
+   */
   return (
     <UserContext.Provider value={{userAuth, setUserAuth, user, setUser}}>
       <NavigationContainer>
