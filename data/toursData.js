@@ -96,18 +96,21 @@ module.exports = {
   ],
   guides: [
     {
+      id: '1',
       name: 'Natalie',
       year: 'Junior',
       major: 'Psychobiology',
       src: require('../images/natalie.png'),
     },
     {
+      id: '2',
       name: 'Trevor',
       year: 'Senior',
       major: 'Marketing',
       src: require('../images/trevor.png'),
     },
     {
+      id: '3',
       name: 'Brittany',
       year: 'Junior',
       major: 'Mechanical Eng.',

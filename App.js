@@ -44,18 +44,23 @@ import { UserContext } from './contexts';
 //dev imports
 import Test from './screens/dev/Test';
 
+//new user imports
+import FirstTime from './screens/FirstTime';
+
+//onboarding
+import OnboardingVisitor from './screens/visitor/Onboarding';
+import OnboardingGuide from './screens/guide/Onboarding';
+
 //guide imports
 import ManageTours from './screens/guide/ManageTours';
 import TourEdit from './screens/guide/TourEdit';
 import TourEdit2 from './screens/guide/TourEdit2';
 import TourEdit3 from './screens/guide/TourEdit3';
-import Account from './screens/guide/Account';
 import AccountGuide from './screens/guide/Account';
 import AccountEdit from './screens/guide/AccountEdit';
 import AddTour from './screens/guide/AddTour';
 import EditTour from './screens/guide/EditTour';
 import HomeGuide from './screens/guide/Home';
-import Registration from './screens/guide/Registration';
 import ViewTour from './screens/guide/ViewTour';
 
 //visitor imports
@@ -103,11 +108,13 @@ const App = () => {
   const [user, setUser] = useState(null);
   const [isUserLoading, setIsUserLoading] = useState(true);
   const [mode, setMode] = useState(localState.currentMode);
-  const [firstTimeOpen, setFirstTimeOpen] = useState(localState.firstTimeOpen);
-
+  const [guideDone, setGuideDone] = useState(localState.guideDone);
+  const [visitorDone, setVisitorDone] = useState(localState.visitorDone);
+  const [visitorBone, setVisitorBone] = useState(localState.visitorBare);
+  const hasNotFinishedBareOnboarding = mode === 'new' || mode === 'visitor' && !visitorBone  || mode === 'guide' && !guideDone;
 
   useEffect(() => {
-    if (firstTimeOpen) {
+    if (hasNotFinishedBareOnboarding) {
       return;
     }
     console.log('onAuthStateChanged called')
@@ -126,10 +133,10 @@ const App = () => {
     return () => {
       unsubscribeAuth();
     }
-  }, [])
+  }, [hasNotFinishedBareOnboarding])
 
   useEffect(async () => {
-    if (firstTimeOpen) {
+    if (hasNotFinishedBareOnboarding) {
       return;
     }
     if (userAuth) {
@@ -200,11 +207,6 @@ const App = () => {
     )
   }
 
-  if (firstTimeOpen) {
-    return (
-      <Registration f = {setFirstTimeOpen}/>
-    )
-  } else
   /**
    * Navigation
    */
@@ -214,7 +216,20 @@ const App = () => {
       user, setUser,
       isUserLoading, setIsUserLoading,
       mode, setMode,
-      firstTimeOpen, setFirstTimeOpen}}>
+      guideDone, setGuideDone,
+      visitorDone, setVisitorDone,
+      visitorBone, setVisitorBone}}>
+      
+      {/* Has not finished basic onboarding */}
+      {hasNotFinishedBareOnboarding ?
+      <NavigationContainer>
+        <Stack.Navigator> 
+          <Stack.Screen name="FirstTime" component={FirstTime} options={{headerShown: false}}/>
+          <Stack.Screen name="OnboardingVisitor" component={OnboardingVisitor} options={{headerShown: false}}/>
+          <Stack.Screen name="OnboardingGuide" component={OnboardingGuide} options={{headerShown: false}}/>
+        </Stack.Navigator>
+      </NavigationContainer>
+      :
       <NavigationContainer>
         <Stack.Navigator>
           <Stack.Screen name=" " component={TabAllModes} options={{headerShown: false}}/>
@@ -230,7 +245,6 @@ const App = () => {
           <Stack.Screen name="TourEdit" component={RequireAuth(TourEdit)} options={{headerShown: true}}/>
           <Stack.Screen name="TourEdit2" component={RequireAuth(TourEdit2)} options={{headerShown: true}}/>
           <Stack.Screen name="TourEdit3" component={RequireAuth(TourEdit3)} options={{headerShown: true}}/>
-          <Stack.Screen name="Registration" component={RequireAuth(Registration)} options={{headerShown: true}}/>
           <Stack.Screen name="ViewTour" component={RequireAuth(ViewTour)} options={{headerShown: true}}/>
 
           {/* Visitor Routes */}
@@ -252,7 +266,7 @@ const App = () => {
           <Stack.Screen name="GuideList" component={GuideList} options={{headerShown: false}}/>
           <Stack.Screen name="SelectSchool" component={SelectSchool} options={{headerShown: false}}/>
         </Stack.Navigator>
-      </NavigationContainer>
+      </NavigationContainer>}
     </UserContext.Provider>
     
   
