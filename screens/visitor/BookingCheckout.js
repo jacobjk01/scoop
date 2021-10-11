@@ -13,12 +13,13 @@ import {
   ImageBackground,
 } from 'react-native';
 
-const Checkout = ({navigation, route}) => {
+const BookingCheckout = ({navigation, route}) => {
   const {item} = route.params;
 
   return (
     <SafeAreaView>
-      {console.log(item)}
+      {/* {console.log(item)} */}
+      <Text>TODO: LET IT TAKE THE ITEM, if possible</Text>
       <View style={styles.topContainer}>
         <Image style={styles.image} source={item.src}></Image>
         <Text style={styles.tourNameText}>{item.name}</Text>
@@ -29,7 +30,9 @@ const Checkout = ({navigation, route}) => {
       <View style={styles.bottomContainer}></View>
 
       <View style={styles.confirmContainter}></View>
-      <TouchableOpacity style={styles.confirmButton}>
+      <TouchableOpacity
+        style={styles.confirmButton}
+        onPress={() => navigation.navigate('HomeVisitor')}>
         <Text style={styles.confirmationText}>Confirm</Text>
       </TouchableOpacity>
     </SafeAreaView>
@@ -126,4 +129,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Checkout;
+export default BookingCheckout;
