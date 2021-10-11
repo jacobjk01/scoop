@@ -19,12 +19,10 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import LinearGradient from 'react-native-linear-gradient';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
+import toursData from '../../data/toursData';
 
 const GuideProfile = ({navigation, route}) => {
-  const [tourimages, setImages] = useState([
-    {name: 'Santa Monica', src: require('../../images/Santa_Monica.png')},
-    {name: 'Westwood Tour', src: require('../../images/Westwood_village.png')},
-  ]);
+  const [tours, setTours] = useState(toursData);
 
   const {item} = route.params;
   const messageButton = () => {
@@ -73,7 +71,7 @@ const GuideProfile = ({navigation, route}) => {
         height: '100%',
       }}>
       <ImageBackground
-        source={require('../images/Santa_Monica.png')}
+        source={require('../../images/Santa_Monica.png')}
         style={styles.backgroundImage}></ImageBackground>
       <View style={{backgroundColor: 'white'}}>
         {renderGuideImage({item})}
@@ -97,7 +95,7 @@ const GuideProfile = ({navigation, route}) => {
         <FlatList
           style={{marginTop: 10}}
           horizontal={true}
-          data={tourimages}
+          data={tours}
           renderItem={({item}) => navigateCheckout({item})}
         />
         <View style={styles.divider2} />
