@@ -94,7 +94,7 @@ export const getBookingInfo = async(guideId, tourId, userId) => {
                     {
                             querySnapshot2.forEach(documentSnapshot2 =>
                             {
-                                    return documentSnapshot2;
+                                return documentSnapshot2;
                             });
                     });
             });
