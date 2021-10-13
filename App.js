@@ -123,7 +123,7 @@ const App = () => {
       if (newUserAuth && userAuth == null) { // userAuth is null, so definitely unique
         setUserAuth(newUserAuth);
       // userAuth exists and doesn't match with with newUserAuth.uid
-      } else if (userAuth.uid && newUserAuth && (userAuth.uid != newUserAuth.uid)) {
+      } else if (userAuth && userAuth.uid && newUserAuth && (userAuth.uid != newUserAuth.uid)) {
         setUserAuth(newUserAuth);
       }
       if (isUserLoading) {
