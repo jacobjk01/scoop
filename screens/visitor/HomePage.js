@@ -20,26 +20,8 @@ import GuideProfile from './GuideProfile';
 import toursData from '../../data/toursData';
 
 const HomePage = ({navigation}) => {
-  const [tours, setTours] = useState(toursData.tours);
-  const [tourGuides, setTourGuides] = useState(toursData.guides);
-
-  const renderTour = ({item}) => {
-    return (
-      <TouchableOpacity onPress={() => navigation.navigate('TourInfo', {item})}>
-        <ImageBackground
-          style={styles.listTourImage}
-          imageStyle={{borderRadius: 10}}
-          source={item.src}>
-          <LinearGradient
-            colors={['transparent', 'black']}
-            style={styles.linearGradTour}
-          />
-        </ImageBackground>
-        <Text style={styles.tourText}>{item.name}</Text>
-      </TouchableOpacity>
-    );
-  };
-
+  const [tourimages, setImages] = useState(toursData.tours);
+  const [guideimages, setGuideImages] = useState(toursData.guides);
   return (
     <SafeAreaView>
       <ScrollView style={{paddingRight: 20, paddingLeft: 20, height: '100%'}}>
