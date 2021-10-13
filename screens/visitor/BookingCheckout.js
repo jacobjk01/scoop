@@ -19,9 +19,7 @@ const BookingCheckout = ({navigation, route}) => {
   return (
     <SafeAreaView>
       {/* {console.log(item)} */}
-      <Text>
-          TODO: LET IT TAKE THE ITEM, if possible
-      </Text>
+      <Text>TODO: LET IT TAKE THE ITEM, if possible</Text>
       <View style={styles.topContainer}>
         <Image style={styles.image} source={item.src}></Image>
         <Text style={styles.tourNameText}>{item.name}</Text>
@@ -32,7 +30,10 @@ const BookingCheckout = ({navigation, route}) => {
       <View style={styles.bottomContainer}></View>
 
       <View style={styles.confirmContainter}></View>
-      <TouchableOpacity style={styles.confirmButton} onPress={() => navigation.popToTop('HomeVisitor')}>
+
+      <TouchableOpacity
+        style={styles.confirmButton}
+        onPress={() => navigation.popToTop('HomeVisitor')}>
         <Text style={styles.confirmationText}>Confirm</Text>
       </TouchableOpacity>
     </SafeAreaView>

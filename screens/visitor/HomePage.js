@@ -101,7 +101,9 @@ const HomePage = ({navigation}) => {
           <Text style={{marginLeft: 10, fontSize: 20, fontWeight: '700'}}>
             Tour Guides
           </Text>
-          <TouchableOpacity style={{position: 'absolute', right: 10, top: 3}} onPress={() => navigation.navigate('GuideList', {item})}>
+          <TouchableOpacity
+            style={{position: 'absolute', right: 10, top: 3}}
+            onPress={() => navigation.navigate('GuideList', {item})}>
             <View>
               <Text style={{color: '#3D68CC'}}>View All &gt;</Text>
             </View>

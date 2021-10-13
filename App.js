@@ -6,7 +6,6 @@
  * @flow strict-local
  */
 
-
 //react imports
 import 'react-native-gesture-handler';
 import React, {useState, useEffect} from 'react';
@@ -20,7 +19,7 @@ import {
   useColorScheme,
   View,
   Button,
-  TouchableOpacity
+  TouchableOpacity,
 } from 'react-native';
 import {
   Colors,
@@ -81,6 +80,7 @@ import Messages from './screens/visitor/Messages';
 import GuideList from './screens/visitor/GuideList';
 import SelectSchool from './screens/visitor/SelectSchool';
 
+
 //authorization
 import RequireAuth from './components/RequireAuth';
 
@@ -88,10 +88,11 @@ import RequireAuth from './components/RequireAuth';
 import { onAuthStateChanged } from './api/auth';
 import { getUser } from './api/users';
 
+
 /**
- * 
+ *
  *  All navigation is handled here
- * 
+ *
  */
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -269,8 +270,7 @@ const App = () => {
         </Stack.Navigator>
       </NavigationContainer>}
     </UserContext.Provider>
-    
-  
+   
   );
 };
 
