@@ -17,7 +17,7 @@ import {Calendar} from 'react-native-calendars';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import moment from 'moment';
 
-class Booking extends Component {
+class TourBooking3 extends Component {
   constructor(props) {
     super(props);
 
@@ -91,7 +91,7 @@ class Booking extends Component {
       return (
         <TouchableOpacity
           style={{
-            backgroundColor: white,
+            backgroundColor: 'white',
             borderColor: '#3154A5',
             borderWidth: 2,
             borderRadius: 10,
@@ -181,7 +181,7 @@ class Booking extends Component {
           <TouchableOpacity
             style={styles.backIcon}
             onPress={() => this.closeModal()}>
-            <Ionicons name="chevron-back-outline" size={20} color={white} />
+            <Ionicons name="chevron-back-outline" size={20} color={'white'} />
           </TouchableOpacity>
           <View
             pointerEvents="none"
@@ -217,7 +217,7 @@ class Booking extends Component {
             style={{
               flex: 1,
               height: 60,
-              backgroundColor: white,
+              backgroundColor: 'white',
               position: 'relative',
               justifyContent: 'center',
             }}>
@@ -242,7 +242,7 @@ class Booking extends Component {
             <TouchableOpacity
               style={styles.plus}
               onPress={() => this.setVisitorCount(this.state.visitorCount + 1)}>
-              <Text style={{color: white, alignSelf: 'center'}}>+</Text>
+              <Text style={{color: 'white', alignSelf: 'center'}}>+</Text>
             </TouchableOpacity>
           </View>
           <View
@@ -429,7 +429,7 @@ class Booking extends Component {
             style={{
               flex: 1,
               height: 100,
-              backgroundColor: white,
+              backgroundColor: 'white',
               marginTop: 10,
               justifyContent: 'center',
               padding: 20,
@@ -440,7 +440,11 @@ class Booking extends Component {
                 this.props.navigation.navigate('Checkout', {item})
               }>
               <Text
-                style={{alignSelf: 'center', color: white, fontWeight: '600'}}>
+                style={{
+                  alignSelf: 'center',
+                  color: 'white',
+                  fontWeight: '600',
+                }}>
                 Continue
               </Text>
             </TouchableOpacity>
@@ -458,7 +462,7 @@ const styles = StyleSheet.create({
   titleText: {
     fontSize: 28,
     fontWeight: '600',
-    color: white,
+    color: 'white',
     position: 'absolute',
     bottom: 30,
     left: 20,
@@ -479,7 +483,7 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 400,
     opacity: 0.3,
-    backgroundColor: black,
+    backgroundColor: 'black',
     position: 'absolute',
     bottom: 0,
   },
@@ -487,7 +491,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: '400',
     width: 100,
-    color: white,
+    color: 'white',
     position: 'absolute',
     bottom: 30,
     right: 45,
@@ -506,7 +510,7 @@ const styles = StyleSheet.create({
     top: 20,
     right: 80,
     backgroundColor: '#3154A5',
-    color: white,
+    color: 'white',
     borderRadius: 4,
   },
   minusDisabled: {
@@ -537,7 +541,7 @@ const styles = StyleSheet.create({
   },
   backCard: {
     flex: 1,
-    backgroundColor: white,
+    backgroundColor: 'white',
     marginTop: 10,
     borderRadius: 20,
     marginLeft: 10,
@@ -582,7 +586,7 @@ const styles = StyleSheet.create({
   backIcon: {
     backgroundColor: '#3154A5',
     borderRadius: 10,
-    borderColor: white,
+    borderColor: 'white',
     borderWidth: 1,
     position: 'absolute',
     left: 20,
@@ -603,4 +607,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Booking;
+export default TourBooking3;

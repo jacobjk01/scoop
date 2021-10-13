@@ -403,7 +403,7 @@ const styles = StyleSheet.create({
   },
   continue: {
     position: 'absolute',
-    bottom: 10,
+    bottom: 20,
     left: 20,
     right: 20,
     backgroundColor: '#3154A5',
