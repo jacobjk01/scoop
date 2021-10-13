@@ -1,3 +1,15 @@
+
+const firstTimeLoggingInState = {
+    userType: 'new', 
+    guideDone: false,
+    visitorDone: false,
+    visitorBone: false,
+    currentMode: 'new'
+}
+
+/**
+ * ^^^^ Don't modify above ^^^^ but you can create your own test states
+ */
 const intialMode = 'new'; // visitor | guide | new | dev | prod
 
 // userType: guide | visitor | new (default is new)

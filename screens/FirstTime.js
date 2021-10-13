@@ -2,7 +2,8 @@ import React, { useContext, useEffect } from 'react'
 import { SafeAreaView, Text, Button} from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import { UserContext } from '../contexts'
-
+import {GoogleSigninButton} from  '@react-native-google-signin/google-signin';
+import {signOut, signIn} from '../api/auth';
 export default  ({navigation}) => {
     const {mode, setMode} = useContext(UserContext);
     useEffect(() => {
@@ -18,7 +19,7 @@ export default  ({navigation}) => {
                 Welcome to Otour. 
             </Text>
             <Text>
-                Which of these best suit you?
+                Choose mode.
             </Text>
             <Button onPress={() => {
                 setMode('visitor');
@@ -32,6 +33,25 @@ export default  ({navigation}) => {
                 //setFirstTimeOpen(false);
                 //TODO: go to login account page
             }} title='Already have an account'/>
+
+            <GoogleSigninButton
+                style={{ width: 192, height: 48 }}
+                size={GoogleSigninButton.Size.Wide}
+                color={GoogleSigninButton.Color.Dark}
+                onPress={async () => {
+                    await signIn().catch(err => {
+                        console.log(err)
+                    })
+                }}
+                // disabled={userAuth ? true : false}
+                />
+                <Button
+                    title="Sign Out"
+                    onPress={async ()=> {
+                        await signOut();
+                }}
+                    // disabled={!userAuth}
+                />
         </SafeAreaView>
     )
 }

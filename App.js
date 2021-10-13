@@ -110,7 +110,7 @@ const App = () => {
   const [mode, setMode] = useState(localState.currentMode);
   const [guideDone, setGuideDone] = useState(localState.guideDone);
   const [visitorDone, setVisitorDone] = useState(localState.visitorDone);
-  const [visitorBone, setVisitorBone] = useState(localState.visitorBare);
+  const [visitorBone, setVisitorBone] = useState(localState.visitorBone);
   const hasNotFinishedBareOnboarding = mode === 'new' || mode === 'visitor' && !visitorBone  || mode === 'guide' && !guideDone;
 
   useEffect(() => {
@@ -233,6 +233,7 @@ const App = () => {
       <NavigationContainer>
         <Stack.Navigator>
           <Stack.Screen name=" " component={TabAllModes} options={{headerShown: false}}/>
+          
           {/* Dev Routes */}
           <Stack.Screen name="Test" component={Test} options={{headerShown: false}}/>
 
