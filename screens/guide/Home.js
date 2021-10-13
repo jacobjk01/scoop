@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import {
   View,
   Text,
@@ -11,10 +11,14 @@ import {
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import colors from '../../config/colors';
 import toursData from '../../data/toursData';
+import { onAuthStateChanged } from '../../api/auth';
+import { getUser } from '../../api/users';
+import { UserContext } from '../../contexts';
 
 const Home = ({navigation}) => {
   const tours = toursData.tours;
   const currentTour = tours[0];
+  const {userAuth, setUserAuth, user, setUser} = useContext(UserContext);
 
   return (
     <SafeAreaView backgroundColor='white'>
@@ -25,6 +29,7 @@ const Home = ({navigation}) => {
           </Text>
         </View>
         <View style={{flexWrap: 'wrap', alignContent: 'center'}}>
+          {/* Current tour? */}
             {/* <TouchableOpacity style={styles.currentTourCard} onPress={() => navigation.navigate('TourEdit', {tour: currentTour})}>
                 <Image style={styles.currentTourImage} source={currentTour.src}></Image>
                 <View style={[styles.tourTextSection, {top: '72%'}]}>
@@ -42,9 +47,10 @@ const Home = ({navigation}) => {
                     </View>
                 </View>
             </TouchableOpacity> */}
+            {/* a tour list */}
           {tours.slice(1).map((tour) => {
             return(
-              <TouchableOpacity style={styles.tourCard} onPress={() => navigation.navigate('TourEdit', {tour})}>
+              <TouchableOpacity key={tour.id} style={styles.tourCard} onPress={() => navigation.navigate('TourEdit', {tour})}>
                 {/* <Image style={styles.tourImage} source={tour.src}></Image> */}
                 <View style={styles.tourTextSection}>
                     <View style={styles.tourDateSection}>

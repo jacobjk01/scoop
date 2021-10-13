@@ -20,7 +20,7 @@ import GuideProfile from './GuideProfile';
 import toursData from '../../data/toursData';
 
 const HomePage = ({navigation}) => {
-  const [tourimages, setImages] = useState(toursData.tours);
+  const [tours, setTours] = useState(toursData.tours);
   const [guideimages, setGuideImages] = useState(toursData.guides);
   return (
     <SafeAreaView>
@@ -79,9 +79,11 @@ const HomePage = ({navigation}) => {
         <FlatList
           style={{marginTop: 10}}
           horizontal={true}
-          data={tourimages}
-          renderItem={({item}) => (
-            <TouchableOpacity onPress={() => navigation.navigate('TourInfo')}>
+          data={tours}
+          renderItem={({item}) => {
+            return (
+              //TODO: make tourinfo get the tour info, this can be done in this screen or in tourinfo screen
+            <TouchableOpacity key={item.id} onPress={() => navigation.navigate('TourInfo')}>
               <ImageBackground
                 style={styles.listTourImage}
                 imageStyle={{borderRadius: 10}}
@@ -93,7 +95,7 @@ const HomePage = ({navigation}) => {
               </ImageBackground>
               <Text style={styles.tourText}>{item.name}</Text>
             </TouchableOpacity>
-          )}
+          )}}
         />
         <View style={{marginTop: 30}}>
           <Text style={{marginLeft: 10, fontSize: 20, fontWeight: '700'}}>
@@ -112,22 +114,22 @@ const HomePage = ({navigation}) => {
           horizontal={true}
           data={guideimages}
           renderItem={({item}) => (
-            <TouchableOpacity
-              onPress={() => navigation.navigate('GuideProfile', {item})}>
-              <ImageBackground
-                style={styles.listGuideImage}
-                imageStyle={{borderRadius: 10}}
-                source={item.src}>
-                <LinearGradient
-                  colors={['transparent', 'black']}
-                  style={styles.linearGradGuide}
-                />
-              </ImageBackground>
-              <Text style={styles.guideText}>
-                {item.name}, {item.year}, {item.major}
-              </Text>
-            </TouchableOpacity>
-          )}
+              <TouchableOpacity key={item.id} onPress={() => navigation.navigate('GuideProfile', {item})}>
+                <ImageBackground
+                  style={styles.listGuideImage}
+                  imageStyle={{borderRadius: 10}}
+                  source={item.src}>
+                  <LinearGradient
+                    colors={['transparent', 'black']}
+                    style={styles.linearGradGuide}
+                  />
+                </ImageBackground>
+                <Text style={styles.guideText}>
+                  {item.name}, {item.year}, {item.major}
+                </Text>
+              </TouchableOpacity>
+            )
+          }
         />
       </ScrollView>
     </SafeAreaView>

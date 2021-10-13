@@ -45,3 +45,6 @@ Staging - could be called the develop branch, this is where you want do most of 
 ## Firebase connection:
 In order for easy integration with react-native, we are using [rnfirebase library](https://rnfirebase.io/firestore/usage). 
 
+## Learn about Async Storage (will implement this in future)
+[https://react-native-async-storage.github.io/async-storage/docs/install/](https://react-native-async-storage.github.io/async-storage/docs/install/)
+

@@ -18,6 +18,7 @@ import colors from '../../config/colors';
 import toursData from '../../data/toursData';
 import {color} from 'react-native-reanimated';
 import GuideProfile from '../visitor/GuideProfile';
+import { getUser } from '../../api/users';
 
 const ManageTours = ({navigation}) => {
   const tours = toursData.tours;
@@ -31,13 +32,17 @@ const ManageTours = ({navigation}) => {
           </Text>
         </View>
         <View style={{flexDirection: 'row', flexWrap: 'wrap'}}>
-            <TouchableOpacity style={styles.addNewTourCard} onPress={() => navigation.navigate('AddTour')}>
+            <TouchableOpacity style={styles.addNewTourCard} onPress={async () => {
+              navigation.navigate('AddTour')
+            }}>
             <Ionicons name={'add'} size={24} style={{color: "#525252", position: 'absolute', left: 8}}/>
-            <Text style={{fontSize: 16, fontWeight: '400', color: '#525252', textAlign: 'center', left: 8, top: 1}}>Add a new tour</Text>
+            <Text style={{fontSize: 16, fontWeight: '400', color: '#525252', textAlign: 'center', left: 8, top: 1}}>
+              Add a new tour
+            </Text>
             </TouchableOpacity>
           {tours.map((tour) => {
             return(
-              <TouchableOpacity style={styles.tourCard} onPress={() => navigation.navigate('TourEdit', {tour})}>
+              <TouchableOpacity key={tour.id} style={styles.tourCard} onPress={() => navigation.navigate('TourEdit', {tour})}>
                 <Image style={styles.tourImage} source={tour.src}></Image>
                 <View style={styles.tourTextSection}>
                   <Text style={{fontSize: 10, color: "#9B9BA7"}}>{tour.duration} min | <Ionicons name={'people'} size={12}/> Max {tour.maxPeople} people | <Ionicons name={tour.transportation} size={12}/></Text>
