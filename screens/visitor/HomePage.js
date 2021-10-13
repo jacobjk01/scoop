@@ -20,7 +20,7 @@ import GuideProfile from './GuideProfile';
 import toursData from '../../data/toursData';
 
 const HomePage = ({navigation}) => {
-  const [tourimages, setImages] = useState(toursData.images);
+  const [tourimages, setImages] = useState(toursData.tours);
   const [guideimages, setGuideImages] = useState(toursData.guides);
   return (
     <SafeAreaView>
@@ -99,7 +99,9 @@ const HomePage = ({navigation}) => {
           <Text style={{marginLeft: 10, fontSize: 20, fontWeight: '700'}}>
             Tour Guides
           </Text>
-          <TouchableOpacity style={{position: 'absolute', right: 10, top: 3}} onPress={() => navigation.navigate('GuideList', {item})}>
+          <TouchableOpacity
+            style={{position: 'absolute', right: 10, top: 3}}
+            onPress={() => navigation.navigate('GuideList', {item})}>
             <View>
               <Text style={{color: '#3D68CC'}}>View All &gt;</Text>
             </View>
@@ -110,22 +112,22 @@ const HomePage = ({navigation}) => {
           horizontal={true}
           data={guideimages}
           renderItem={({item}) => (
-              <TouchableOpacity onPress={() => navigation.navigate('GuideProfile', {item})}>
-                <ImageBackground
-                  style={styles.listGuideImage}
-                  imageStyle={{borderRadius: 10}}
-                  source={item.src}>
-                  <LinearGradient
-                    colors={['transparent', 'black']}
-                    style={styles.linearGradGuide}
-                  />
-                </ImageBackground>
-                <Text style={styles.guideText}>
-                  {item.name}, {item.year}, {item.major}
-                </Text>
-              </TouchableOpacity>
-            )
-          }
+            <TouchableOpacity
+              onPress={() => navigation.navigate('GuideProfile', {item})}>
+              <ImageBackground
+                style={styles.listGuideImage}
+                imageStyle={{borderRadius: 10}}
+                source={item.src}>
+                <LinearGradient
+                  colors={['transparent', 'black']}
+                  style={styles.linearGradGuide}
+                />
+              </ImageBackground>
+              <Text style={styles.guideText}>
+                {item.name}, {item.year}, {item.major}
+              </Text>
+            </TouchableOpacity>
+          )}
         />
       </ScrollView>
     </SafeAreaView>
