@@ -1,4 +1,4 @@
-import React, {useState, Component} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   Text,
@@ -19,43 +19,76 @@ import toursData from '../../data/toursData';
 import {color} from 'react-native-reanimated';
 import GuideProfile from '../visitor/GuideProfile';
 import { getUser } from '../../api/users';
+import { onAuthStateChanged } from '../../api/auth';
 
 const ManageTours = ({navigation}) => {
   const tours = toursData.tours;
+  const [userAuth, setUserAuth] = useState(null);
+  const [user, setUser] = useState(null);
+  useEffect(() => {
+    console.log('onAuthStateChanged called')
+    var unsubscribeAuth = onAuthStateChanged(async newUserAuth => {
+      //if userAuth exists, 
+      if (newUserAuth && userAuth == null) { // userAuth is null, so definitely unique
+        setUserAuth(newUserAuth);
+      // userAuth exists and doesn't match with with newUserAuth.uid
+      } else if (userAuth.uid && newUserAuth && (userAuth.uid != newUserAuth.uid)) {
+        setUserAuth(newUserAuth);
+      }
+    })
+    return () => {
+      unsubscribeAuth();
+    }
+  }, []);
+  useEffect(async () => {
+    if (userAuth) {
+      console.log('user logged in');
+      const currentUser = await getUser(userAuth);
+      setUser({...currentUser.data()})
+    }
+  }, [userAuth]);
 
-  return (
-    <SafeAreaView>
-      <ScrollView style={{paddingRight: 20, paddingLeft: 20, height: '100%'}}>
-        <View style={{marginTop: 50}}>
-          <Text style={{marginLeft: 20, fontSize: 24, fontWeight: '700', marginBottom: 20}}>
-            Manage Tours
-          </Text>
-        </View>
-        <View style={{flexDirection: 'row', flexWrap: 'wrap'}}>
-            <TouchableOpacity style={styles.addNewTourCard} onPress={async () => {
-              navigation.navigate('AddTour')
-            }}>
-            <Ionicons name={'add'} size={24} style={{color: "#525252", position: 'absolute', left: 8}}/>
-            <Text style={{fontSize: 16, fontWeight: '400', color: '#525252', textAlign: 'center', left: 8, top: 1}}>
-              Add a new tour
+  if (!user) {
+      return (
+          <SafeAreaView>
+              <Text>User not logged in</Text>
+          </SafeAreaView>
+      );
+  } else {
+    return (
+      <SafeAreaView>
+        <ScrollView style={{paddingRight: 20, paddingLeft: 20, height: '100%'}}>
+          <View style={{marginTop: 50}}>
+            <Text style={{marginLeft: 20, fontSize: 24, fontWeight: '700', marginBottom: 20}}>
+              Manage Tours
             </Text>
-            </TouchableOpacity>
-          {tours.map((tour) => {
-            return(
-              <TouchableOpacity key={tour.id} style={styles.tourCard} onPress={() => navigation.navigate('TourEdit', {tour})}>
-                <Image style={styles.tourImage} source={tour.src}></Image>
-                <View style={styles.tourTextSection}>
-                  <Text style={{fontSize: 10, color: "#9B9BA7"}}>{tour.duration} min | <Ionicons name={'people'} size={12}/> Max {tour.maxPeople} people | <Ionicons name={tour.transportation} size={12}/></Text>
-                  <Text style={{fontWeight: '600'}}>{tour.name}</Text>
-                  <Text style={{fontSize: 12, marginTop: 5}}>{tour.description}</Text>
-                </View>
+          </View>
+          <View style={{flexDirection: 'row', flexWrap: 'wrap'}}>
+              <TouchableOpacity style={styles.addNewTourCard} onPress={async () => {
+                navigation.navigate('AddTour')
+              }}>
+              <Ionicons name={'add'} size={24} style={{color: "#525252", position: 'absolute', left: 8}}/>
+              <Text style={{fontSize: 16, fontWeight: '400', color: '#525252', textAlign: 'center', left: 8, top: 1}}>
+                Add a new tour
+              </Text>
               </TouchableOpacity>
-            )
-          })}
-        </View>
-      </ScrollView>
-    </SafeAreaView>
-  );
+            {tours.map((tour) => {
+              return(
+                <TouchableOpacity key={tour.id} style={styles.tourCard} onPress={() => navigation.navigate('TourEdit', {tour})}>
+                  <Image style={styles.tourImage} source={tour.src}></Image>
+                  <View style={styles.tourTextSection}>
+                    <Text style={{fontSize: 10, color: "#9B9BA7"}}>{tour.duration} min | <Ionicons name={'people'} size={12}/> Max {tour.maxPeople} people | <Ionicons name={tour.transportation} size={12}/></Text>
+                    <Text style={{fontWeight: '600'}}>{tour.name}</Text>
+                    <Text style={{fontSize: 12, marginTop: 5}}>{tour.description}</Text>
+                  </View>
+                </TouchableOpacity>
+              )
+            })}
+          </View>
+        </ScrollView>
+      </SafeAreaView>
+    );
+  }
 };
 
 const styles = StyleSheet.create({

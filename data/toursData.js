@@ -18,7 +18,7 @@ module.exports = {
       for now this bc easier for following screen mock ups */
       tourMonth: 'JUL',
       tourDay: '14',
-      category: 'sightseeing'
+      category: 'sightseeing',
     },
     {
       id: '2',
