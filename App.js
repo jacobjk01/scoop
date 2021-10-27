@@ -295,12 +295,12 @@ const App = () => {
         <Stack.Screen
           name="GuideProfile"
           component={GuideProfile}
-          options={{headerShown: true}}
+          options={{headerShown: false}}
         />
         <Stack.Screen
           name="GuideProfile2"
           component={GuideProfile}
-          options={{headerShown: true}}
+          options={{headerShown: false}}
         />
         <Stack.Screen
           name="Messages"

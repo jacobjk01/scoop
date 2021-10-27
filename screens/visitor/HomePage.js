@@ -79,7 +79,7 @@ const HomePage = ({navigation}) => {
         <FlatList
           style={{marginTop: 10}}
           horizontal={true}
-          data={tours}
+          data={tourimages}
           renderItem={({item}) => (
             <TouchableOpacity
               onPress={() => navigation.navigate('TourInfo', {item})}>
@@ -111,7 +111,7 @@ const HomePage = ({navigation}) => {
         <FlatList
           style={{marginTop: 10, marginBottom: 30}}
           horizontal={true}
-          data={tourGuides}
+          data={guideimages}
           renderItem={({item}) => (
             <TouchableOpacity
               onPress={() => navigation.navigate('GuideProfile', {item})}>

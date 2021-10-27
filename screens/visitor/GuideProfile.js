@@ -13,6 +13,7 @@ import {
   ImageBackground,
   Button,
   ReadMore,
+  StatusBar,
 } from 'react-native';
 import {withSafeAreaInsets} from 'react-native-safe-area-context';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -66,59 +67,90 @@ const GuideProfile = ({navigation, route}) => {
   };
 
   return (
-    <ScrollView
-      style={{
-        height: '100%',
-      }}>
+    <View style={{height: '100%'}}>
       <ImageBackground
-        source={require('../../images/Santa_Monica.png')}
-        style={styles.backgroundImage}></ImageBackground>
-      <View style={{backgroundColor: 'white'}}>
-        {renderGuideImage({item})}
-        {messageButton()}
-        {bookTourButton()}
+        style={styles.imageHeader}
+        source={require('../../images/Westwood_village.png')}
+      />
+      <ScrollView
+        style={{
+          position: 'absolute',
+          top: 0,
+          bottom: 0,
+          width: '100%',
+        }}>
+        <View style={{backgroundColor: 'transparent', height: 230}}></View>
+        <View
+          style={{
+            backgroundColor: 'white',
+            borderTopLeftRadius: 30,
+            borderTopRightRadius: 30,
+            marginTop: -20,
+            paddingHorizontal: 30,
+          }}>
+          <View
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              marginTop: -80,
+              justifyContent: 'center',
+            }}>
+            {renderGuideImage({item})}
+            {messageButton()}
+            {bookTourButton()}
+          </View>
 
-        <View style={styles.divider} />
+          <View style={styles.divider} />
 
-        <View style={{marginTop: 10}}>
-          <Text style={{marginLeft: 10, fontSize: 20, fontWeight: '700'}}>
-            Popular Tours
+          <View style={{marginTop: 10}}>
+            <Text style={{fontSize: 20, fontWeight: '700'}}>Popular Tours</Text>
+            <TouchableOpacity
+              onPress={() => navigation.navigate('TourList')}
+              style={{position: 'absolute', right: 10, top: 3}}>
+              <View>
+                <Text style={{color: '#3D68CC'}}>View All &gt;</Text>
+              </View>
+            </TouchableOpacity>
+          </View>
+          <FlatList
+            style={{marginTop: 10}}
+            horizontal={true}
+            data={tours.tours}
+            renderItem={({item}) => navigateCheckout({item})}
+          />
+          <View style={styles.divider2} />
+          <Text style={{marginTop: 30, fontSize: 20, fontWeight: '700'}}>
+            {"Hi, I'm " + item.name + '!'}
           </Text>
-          <TouchableOpacity
-            onPress={() => navigation.navigate('TourList')}
-            style={{position: 'absolute', right: 10, top: 3}}>
-            <View>
-              <Text style={{color: '#3D68CC'}}>View All &gt;</Text>
-            </View>
-          </TouchableOpacity>
-        </View>
-        <FlatList
-          style={{marginTop: 10}}
-          horizontal={true}
-          data={tours}
-          renderItem={({item}) => navigateCheckout({item})}
-        />
-        <View style={styles.divider2} />
-        <Text style={{marginTop: 30, fontSize: 20, fontWeight: '700'}}>
-          {"Hi, I'm " + item.name + '!'}
-        </Text>
 
-        <Text style={{marginTop: 5}}></Text>
-        {/* <SeeMore numberOfLines={5} style={styles.baseText}>
+          <Text style={{marginTop: 5}}></Text>
+          {/* <SeeMore numberOfLines={5} style={styles.baseText}>
           {
             'Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description '
           }
         </SeeMore> */}
-        <View style={styles.divider2} />
-        <Text style={{marginTop: 30, fontSize: 20, fontWeight: '700'}}>
-          {'Languages:'}
-        </Text>
-        <View style={styles.divider2} />
-        <Text style={{marginTop: 30, fontSize: 20, fontWeight: '700'}}>
-          {'Reviews:'}
-        </Text>
-      </View>
-    </ScrollView>
+          <View style={styles.divider2} />
+          <Text style={{marginTop: 30, fontSize: 20, fontWeight: '700'}}>
+            {'Languages:'}
+          </Text>
+          <View style={styles.divider2} />
+          <Text
+            style={{
+              marginTop: 30,
+              fontSize: 20,
+              fontWeight: '700',
+              marginBottom: 30,
+            }}>
+            {'Reviews:'}
+          </Text>
+        </View>
+      </ScrollView>
+      <TouchableOpacity
+        style={styles.backIcon}
+        onPress={() => navigation.goBack()}>
+        <Ionicons name="chevron-back-outline" size={20} color={'white'} />
+      </TouchableOpacity>
+    </View>
   );
 };
 
@@ -157,6 +189,14 @@ const renderGuideImage = ({item}) => {
 };
 
 const styles = StyleSheet.create({
+  imageHeader: {
+    width: '100%',
+    height: 400,
+    borderTopLeftRadius: 0,
+    borderTopRightRadius: 0,
+    borderRadius: 10,
+    zIndex: -10,
+  },
   backgroundImage: {
     flex: 1,
     resizeMode: 'cover',
@@ -282,7 +322,19 @@ const styles = StyleSheet.create({
     width: 200,
     height: 300,
   },
-
+  backIcon: {
+    backgroundColor: '#3154A5',
+    borderRadius: 10,
+    borderColor: 'white',
+    borderWidth: 1,
+    position: 'absolute',
+    left: 20,
+    top: 40,
+    width: 40,
+    height: 40,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   tourText: {
     width: 200,
     fontWeight: '600',

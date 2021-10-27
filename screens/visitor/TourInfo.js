@@ -2,11 +2,8 @@ import React, {Component, useState} from 'react';
 import {
   View,
   Text,
-  SafeAreaView,
   ScrollView,
-  Button,
   StyleSheet,
-  TextInput,
   TouchableOpacity,
   FlatList,
   Image,
@@ -21,7 +18,7 @@ import LinearGradient from 'react-native-linear-gradient';
 
 import StickyParallaxHeader from 'react-native-sticky-parallax-header';
 import {Calendar} from 'react-native-calendars';
-import {black, white} from '../../config/colors';
+import renderReviews from '../../components/Reviews';
 
 const {event, ValueXY} = Animated;
 class TourInfo extends Component {
@@ -108,109 +105,6 @@ class TourInfo extends Component {
     );
   }
 
-  renderStars(count) {
-    let fullstars = Math.floor(count);
-    var decimal = Math.ceil(10 * (count - Math.floor(count)));
-    let emptystars = Math.floor(5 - count - 0.1);
-    return (
-      <View style={{flexDirection: 'row'}}>
-        {Array.from(Array(fullstars).keys()).map(() => {
-          return (
-            <Image
-              style={{width: 16, height: 16, marginRight: 4}}
-              source={require('../../images/stars/filledstar.png')}
-            />
-          );
-        })}
-
-        {this.renderPartialStar(decimal)}
-        {Array.from(Array(emptystars).keys()).map(() => {
-          return (
-            <Image
-              style={{width: 16, height: 16, marginRight: 4}}
-              source={require('../../images/stars/star0.png')}
-            />
-          );
-        })}
-      </View>
-    );
-  }
-
-  renderPartialStar(decimal) {
-    switch (decimal) {
-      case 0:
-        return (
-          <Image
-            style={{width: 16, height: 16, marginRight: 4}}
-            source={require('../../images/stars/star0.png')}
-          />
-        );
-      case 1:
-        return (
-          <Image
-            style={{width: 16, height: 16, marginRight: 4}}
-            source={require('../../images/stars/star1.png')}
-          />
-        );
-      case 2:
-        return (
-          <Image
-            style={{width: 16, height: 16, marginRight: 4}}
-            source={require('../../images/stars/star2.png')}
-          />
-        );
-      case 3:
-        return (
-          <Image
-            style={{width: 16, height: 16, marginRight: 4}}
-            source={require('../../images/stars/star3.png')}
-          />
-        );
-      case 4:
-        return (
-          <Image
-            style={{width: 16, height: 16, marginRight: 4}}
-            source={require('../../images/stars/star4.png')}
-          />
-        );
-      case 5:
-        return (
-          <Image
-            style={{width: 16, height: 16, marginRight: 4}}
-            source={require('../../images/stars/star5.png')}
-          />
-        );
-      case 6:
-        return (
-          <Image
-            style={{width: 16, height: 16, marginRight: 4}}
-            source={require('../../images/stars/star6.png')}
-          />
-        );
-      case 7:
-        return (
-          <Image
-            style={{width: 16, height: 16, marginRight: 4}}
-            source={require('../../images/stars/star7.png')}
-          />
-        );
-      case 8:
-        return (
-          <Image
-            style={{width: 16, height: 16, marginRight: 4}}
-            source={require('../../images/stars/star8.png')}
-          />
-        );
-      case 9:
-        return (
-          <Image
-            style={{width: 16, height: 16, marginRight: 4}}
-            source={require('../../images/stars/star9.png')}
-          />
-        );
-    }
-  }
-
   renderContent() {
     const navigation = this.props.navigation;
     return (
@@ -226,39 +120,10 @@ class TourInfo extends Component {
                     </TouchableOpacity>
                 </Animated.View> */}
         <Text style={[styles.sectionText, {marginTop: 40}]}>Reviews</Text>
-        {/* <View style={{display: 'flex', flexDirection: 'column'}}>
-          {this.state.reviews.map(item => {
-            this.renderCards(item);
-          })}
-        </View> */}
-
-        <FlatList
-          style={{paddingBottom: 10}}
-          horizontal={false}
-          data={this.state.reviews}
-          renderItem={this.renderCards}
-        />
+        {/* {renderReviews(this.state.reviews)} */}
       </View>
     );
   }
-
-  renderCards = item => {
-    return (
-      <View style={styles.reviewCard}>
-        {this.renderStars(item.item.stars)}
-        <Text
-          style={{
-            marginTop: 5,
-            fontSize: 14,
-            color: '#9B9BA7',
-            fontStyle: 'italic',
-          }}>
-          {item.item.tourName} - {item.item.year}
-        </Text>
-        <Text style={{marginTop: 5}}>{item.item.comment}</Text>
-      </View>
-    );
-  };
 
   render() {
     const navigation = this.props.navigation;
@@ -272,12 +137,13 @@ class TourInfo extends Component {
         <TouchableOpacity
           style={styles.backIcon}
           onPress={() => navigation.goBack()}>
-          <Ionicons name="chevron-back-outline" size={20} color={white} />
+          <Ionicons name="chevron-back-outline" size={20} color={'white'} />
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.continue}
           onPress={() => this.props.navigation.navigate('TourBooking1')}>
-          <Text style={{alignSelf: 'center', color: white, fontWeight: '600'}}>
+          <Text
+            style={{alignSelf: 'center', color: 'white', fontWeight: '600'}}>
             Find A Tour Guide
           </Text>
         </TouchableOpacity>
@@ -343,7 +209,7 @@ const styles = StyleSheet.create({
   },
   backCard: {
     flex: 1,
-    backgroundColor: white,
+    backgroundColor: 'white',
     marginTop: 10,
     borderRadius: 20,
     marginLeft: 20,
@@ -362,23 +228,8 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
     borderRadius: 10,
   },
-  reviewCard: {
-    width: Dimensions.get('window').width - 40,
-    backgroundColor: 'white',
-    alignSelf: 'center',
-    padding: 20,
-    marginBottom: 10,
-    marginLeft: 20,
-    marginRight: 20,
-    marginTop: 20,
-    borderRadius: 10,
-    shadowColor: '#000000',
-    shadowOffset: {width: 1, height: 1},
-    shadowOpacity: 0.2,
-    shadowRadius: 5,
-  },
   whiteButton: {
-    backgroundColor: white,
+    backgroundColor: 'white',
     borderRadius: 10,
     color: '#41479B',
     alignItems: 'center',
@@ -391,7 +242,7 @@ const styles = StyleSheet.create({
   backIcon: {
     backgroundColor: '#3154A5',
     borderRadius: 10,
-    borderColor: white,
+    borderColor: 'white',
     borderWidth: 1,
     position: 'absolute',
     left: 20,
