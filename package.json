@@ -26,6 +26,7 @@
     "react-moment": "^1.1.1",
     "react-native": "0.64.2",
     "react-native-calendars": "^1.1264.0",
+    "react-native-date-picker": "^4.1.0",
     "react-native-invertible-scroll-view": "^2.0.0",
     "react-native-linear-gradient": "^2.5.6",
     "react-native-maps": "^0.27.1",

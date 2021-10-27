@@ -15,7 +15,7 @@ export const getUser = async (userAuth) => {
     const user = await get(Users, userAuth.uid);
     if (!user._exists) {
         await Users.doc(userAuth.uid).set({
-            userType: "guide",
+            type: "guide",
             name: userAuth.displayName,
             profilePicture: userAuth.photoURL,
         });

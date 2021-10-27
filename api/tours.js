@@ -5,38 +5,27 @@ import uuid from 'react-native-uuid';
 const tours = firestore().collection('tours');
 
 //tourguide Functions
-export const addTour = async (guideId, tourId, picture, attractions, meetingPt, date, time, cost, duration, transportation, maxPeople, description, category) => {     
-    if(!guideId || !tourId || !picture ||!meetingPt || !attractions || !date || !time || !cost || !duration || !transportation || !maxPeople || !description)
-        {
-            console.log("required parameter not here")
-            return;
-        }
-        else
-        {
-            await tours.doc().set({
-                guideId,
-                tourId,
-                picture,
-                meetingPt,
-                attractions,
-                date,
-                time,
-                cost,
-                duration,
-                transportation,
-                maxPeople,
-                description,
-                category,
-                archive: false,
-            });
-            //adds bookings subcollection to tour
-            await tours.where('guideId', '==', guideId).where('tourId', '==', tourId).get().then(querySnapshot =>
-                {
-                    querySnapshot.forEach((documentSnapshot) => {
-                        tours.doc(documentSnapshot.id).collection("bookings").add({placeholder: ""});
-                    });
-                });
-        }
+export const addTour = async (guideId, picture, attractions, meetingPt, date, time, cost, duration, transportation, maxPeople, description, category) => {
+    if (!(guideId && picture && meetingPt && attractions && date && time && cost && duration && transportation && maxPeople && description && category)) {
+        console.log("required parameter not here")
+        return;
+    } else {
+        await tours.doc().set({
+            guideId,
+            picture,
+            meetingPt,
+            attractions,
+            date,
+            time,
+            cost,
+            duration,
+            transportation,
+            maxPeople,
+            description,
+            category,
+            archive: false,
+        });
+    }
 }
 export const editTour = async(guideId, tourId, field, fieldValue) => {
     await tours.where('guideId', '==', guideId).where('tourId', '==', tourId).get().then(querySnapshot =>
@@ -105,13 +94,10 @@ export const getBookingInfo = async(guideId, tourId, userId) => {
                     {
                             querySnapshot2.forEach(documentSnapshot2 =>
                             {
-                                    return documentSnapshot2;
+                                return documentSnapshot2;
                             });
                     });
             });
         }
     );
 }
-//two questions:
-//instead of putting tourId and guideId in user database, just search tours database with userId
-//does pushing to a branch add files from npm install, arent we suposed to not push those files to git.

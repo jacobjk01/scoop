@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   Text,
@@ -11,15 +11,37 @@ import {
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import tourGuides from '../../data/tourGuides';
+import { onAuthStateChanged } from '../../api/auth';
+import { createUser, changeIntro, changeName, getUser, createPrivateData } from '../../api/users';
+
 
 const Account = ({navigation}) => {
   const item = tourGuides[0];
+  const [userAuth, setUserAuth] = useState(null);
+  const user = getUser(userAuth);
+
+  useEffect(() => {
+    var unsubscribe1 = onAuthStateChanged(async user => {
+        if (user) {
+            setUserAuth(user);
+            const currentUser = await getUser(user);
+            setUserType(currentUser.data().userType)
+            setUserName(currentUser.data().name)
+            setUserIntro(currentUser.data().intro)
+        } else {
+            setUserAuth(null);
+        }
+    })
+    return () => {
+        unsubscribe1();
+    }
+  })
 
   return (
     <ImageBackground
       source={require('../../images/Santa_Monica.png')}
       style={styles.backgroundImage}>
-      {renderGuideImage(item.picture)}
+      {renderGuideImage(userAuth ? user.profilePicture : item.picture)}
       <ScrollView
         style={{
           marginTop: '40%',

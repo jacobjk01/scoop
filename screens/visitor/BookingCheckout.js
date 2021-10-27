@@ -30,9 +30,10 @@ const BookingCheckout = ({navigation, route}) => {
       <View style={styles.bottomContainer}></View>
 
       <View style={styles.confirmContainter}></View>
+
       <TouchableOpacity
         style={styles.confirmButton}
-        onPress={() => navigation.navigate('HomeVisitor')}>
+        onPress={() => navigation.popToTop('HomeVisitor')}>
         <Text style={styles.confirmationText}>Confirm</Text>
       </TouchableOpacity>
     </SafeAreaView>
