@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 
-import {View, StyleSheet, FlatList} from 'react-native';
+import {View, StyleSheet, FlatList, Dimensions} from 'react-native';
 
 const renderReviews = reviews => {
   const renderStars = count => {

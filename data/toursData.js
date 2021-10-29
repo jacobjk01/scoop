@@ -3,7 +3,7 @@ module.exports = {
     {
       id: '1',
       name: 'Santa Monica',
-      src: require('../images/SantaMonica.png'),
+      src: require('../images/Santa_Monica.png'),
       image:
         'https://www.google.com/url?sa=i&url=https%3A%2F%2Fmomsla.com%2Fsanta-monica-pier%2F&psig=AOvVaw3FC1rw00QeyKX7iR4nqItj&ust=1633753930373000&source=images&cd=vfe&ved=0CAsQjRxqFwoTCMjlze_9ufMCFQAAAAAdAAAAABAD',
       attractions: ['Diddy Riese', 'Regency Theater', 'Copymat', 'CVS'],
@@ -69,7 +69,7 @@ module.exports = {
     {
       id: '4',
       name: 'Santa Monica',
-      src: require('../images/SantaMonica.png'),
+      src: require('../images/Santa_Monica.png'),
       image:
         'https://www.google.com/url?sa=i&url=https%3A%2F%2Fmomsla.com%2Fsanta-monica-pier%2F&psig=AOvVaw3FC1rw00QeyKX7iR4nqItj&ust=1633753930373000&source=images&cd=vfe&ved=0CAsQjRxqFwoTCMjlze_9ufMCFQAAAAAdAAAAABAD',
       attractions: ['Diddy Riese', 'Regency Theater', 'Copymat', 'CVS'],
@@ -90,7 +90,7 @@ module.exports = {
     {
       id: '6',
       name: 'Day in Life of an Engineering Student',
-      src: require('../images/SantaMonica.png'),
+      src: require('../images/Santa_Monica.png'),
       image:
         'https://www.google.com/url?sa=i&url=https%3A%2F%2Fmomsla.com%2Fsanta-monica-pier%2F&psig=AOvVaw3FC1rw00QeyKX7iR4nqItj&ust=1633753930373000&source=images&cd=vfe&ved=0CAsQjRxqFwoTCMjlze_9ufMCFQAAAAAdAAAAABAD',
       attractions: ['Diddy Riese', 'Regency Theater', 'Copymat', 'CVS'],
