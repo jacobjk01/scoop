@@ -83,7 +83,7 @@ const HomePage = ({navigation}) => {
           renderItem={({item}) => {
             return (
               //TODO: make tourinfo get the tour info, this can be done in this screen or in tourinfo screen
-            <TouchableOpacity key={item.id} onPress={() => navigation.navigate('TourInfo')}>
+            <TouchableOpacity key={item.id} onPress={() => navigation.navigate('TourInfo', tours[item.id].name)}>
               <ImageBackground
                 style={styles.listTourImage}
                 imageStyle={{borderRadius: 10}}
