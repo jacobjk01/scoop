@@ -13,18 +13,17 @@ import {
   ImageBackground,
   Button,
   ReadMore,
+  StatusBar,
 } from 'react-native';
 import {withSafeAreaInsets} from 'react-native-safe-area-context';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import LinearGradient from 'react-native-linear-gradient';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
+import toursData from '../../data/toursData';
 
 const GuideProfile = ({navigation, route}) => {
-  const [tourimages, setImages] = useState([
-    {name: 'Santa Monica', src: require('../../images/SantaMonica.png')},
-    {name: 'Westwood Tour', src: require('../../images/Westwood_village.png')},
-  ]);
+  const [tours, setTours] = useState(toursData);
 
   const {item} = route.params;
   const messageButton = () => {
@@ -36,12 +35,11 @@ const GuideProfile = ({navigation, route}) => {
       </TouchableOpacity>
     );
   };
-  const messageButtonHandler = () => {
-  };
+  const messageButtonHandler = () => {};
 
   const navigateCheckout = ({item}) => {
     if (item === null) {
-      throw Error ('checkout item cannot be null')
+      throw Error('checkout item cannot be null');
     }
     return (
       <TouchableOpacity onPress={() => navigation.navigate('TourInfo', {item})}>
@@ -69,65 +67,90 @@ const GuideProfile = ({navigation, route}) => {
   };
 
   return (
-    <ImageBackground
-      source={require('../../images/SantaMonica.png')}
-      style={styles.backgroundImage}>
+    <View style={{height: '100%'}}>
+      <ImageBackground
+        style={styles.imageHeader}
+        source={require('../../images/Westwood_village.png')}
+      />
       <ScrollView
         style={{
-          marginTop: '30%',
-          paddingRight: 20,
-          paddingLeft: 20,
-          height: '100%',
-          backgroundColor: 'white',
-          borderTopLeftRadius: 20,
-          borderTopRightRadius: 20,
+          position: 'absolute',
+          top: 0,
+          bottom: 0,
+          width: '100%',
         }}>
-        <SafeAreaView>
-          {renderGuideImage({item})}
-          {messageButton()}
-          {bookTourButton()}
+        <View style={{backgroundColor: 'transparent', height: 230}}></View>
+        <View
+          style={{
+            backgroundColor: 'white',
+            borderTopLeftRadius: 30,
+            borderTopRightRadius: 30,
+            marginTop: -20,
+            paddingHorizontal: 30,
+          }}>
+          <View
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              marginTop: -80,
+              justifyContent: 'center',
+            }}>
+            {renderGuideImage({item})}
+            {messageButton()}
+            {bookTourButton()}
+          </View>
 
           <View style={styles.divider} />
-        </SafeAreaView>
-        <View style={{marginTop: 10}}>
-          <Text style={{marginLeft: 10, fontSize: 20, fontWeight: '700'}}>
-            Popular Tours
-          </Text>
-          <TouchableOpacity
-            onPress={() => navigation.navigate('TourList')}
-            style={{position: 'absolute', right: 10, top: 3}}>
-            <View>
-              <Text style={{color: '#3D68CC'}}>View All &gt;</Text>
-            </View>
-          </TouchableOpacity>
-        </View>
-        <FlatList
-          style={{marginTop: 10}}
-          horizontal={true}
-          data={tourimages}
-          renderItem={({item}) => navigateCheckout({item})}
-        />
-        <View style={styles.divider2} />
-        <Text style={{marginTop: 30, fontSize: 20, fontWeight: '700'}}>
-          {"Hi, I'm " + item.name + '!'}
-        </Text>
 
-        <Text style={{marginTop: 5}}></Text>
-        {/* <SeeMore numberOfLines={5} style={styles.baseText}>
+          <View style={{marginTop: 10}}>
+            <Text style={{fontSize: 20, fontWeight: '700'}}>Popular Tours</Text>
+            <TouchableOpacity
+              onPress={() => navigation.navigate('TourList')}
+              style={{position: 'absolute', right: 10, top: 3}}>
+              <View>
+                <Text style={{color: '#3D68CC'}}>View All &gt;</Text>
+              </View>
+            </TouchableOpacity>
+          </View>
+          <FlatList
+            style={{marginTop: 10}}
+            horizontal={true}
+            data={tours.tours}
+            renderItem={({item}) => navigateCheckout({item})}
+          />
+          <View style={styles.divider2} />
+          <Text style={{marginTop: 30, fontSize: 20, fontWeight: '700'}}>
+            {"Hi, I'm " + item.name + '!'}
+          </Text>
+
+          <Text style={{marginTop: 5}}></Text>
+          {/* <SeeMore numberOfLines={5} style={styles.baseText}>
           {
             'Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description '
           }
         </SeeMore> */}
-        <View style={styles.divider2} />
-        <Text style={{marginTop: 30, fontSize: 20, fontWeight: '700'}}>
-          {'Languages:'}
-        </Text>
-        <View style={styles.divider2} />
-        <Text style={{marginTop: 30, fontSize: 20, fontWeight: '700'}}>
-          {'Reviews:'}
-        </Text>
+          <View style={styles.divider2} />
+          <Text style={{marginTop: 30, fontSize: 20, fontWeight: '700'}}>
+            {'Languages:'}
+          </Text>
+          <View style={styles.divider2} />
+          <Text
+            style={{
+              marginTop: 30,
+              fontSize: 20,
+              fontWeight: '700',
+              marginBottom: 30,
+            }}>
+            {'Reviews:'}
+          </Text>
+        </View>
       </ScrollView>
-    </ImageBackground>
+      <TouchableOpacity
+        style={styles.backIcon}
+        onPress={() => navigation.goBack()}>
+        <Ionicons name="chevron-back-outline" size={20} color={'white'} />
+      </TouchableOpacity>
+    </View>
   );
 };
 
@@ -166,6 +189,14 @@ const renderGuideImage = ({item}) => {
 };
 
 const styles = StyleSheet.create({
+  imageHeader: {
+    width: '100%',
+    height: 400,
+    borderTopLeftRadius: 0,
+    borderTopRightRadius: 0,
+    borderRadius: 10,
+    zIndex: -10,
+  },
   backgroundImage: {
     flex: 1,
     resizeMode: 'cover',
@@ -291,7 +322,19 @@ const styles = StyleSheet.create({
     width: 200,
     height: 300,
   },
-
+  backIcon: {
+    backgroundColor: '#3154A5',
+    borderRadius: 10,
+    borderColor: 'white',
+    borderWidth: 1,
+    position: 'absolute',
+    left: 20,
+    top: 40,
+    width: 40,
+    height: 40,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   tourText: {
     width: 200,
     fontWeight: '600',

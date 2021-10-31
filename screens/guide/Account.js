@@ -39,7 +39,7 @@ const Account = ({navigation}) => {
 
   return (
     <ImageBackground
-      source={require('../../images/SantaMonica.png')}
+      source={require('../../images/Santa_Monica.png')}
       style={styles.backgroundImage}>
       {renderGuideImage(userAuth ? user.profilePicture : item.picture)}
       <ScrollView
@@ -58,26 +58,22 @@ const Account = ({navigation}) => {
             onPress={() => navigation.navigate('AccountEdit', item)}
             style={{position: 'absolute', right: 10, top: 20}}>
             <View>
-              <Text style={{color: '#9B9BA7'}}>Edit <Ionicons name={'pencil'} size={16}/></Text>
+              <Text style={{color: '#9B9BA7'}}>
+                Edit <Ionicons name={'pencil'} size={16} />
+              </Text>
             </View>
           </TouchableOpacity>
           <View style={styles.divider} />
         </SafeAreaView>
         <View>
-          <Text style={styles.titleText}>
-            {'Introduction'}
-          </Text>
+          <Text style={styles.titleText}>{'Introduction'}</Text>
           <Text style={styles.subtitleText}>
             {'Hometown: ' + item.hometown}
           </Text>
-          <Text style={styles.bodyText}>
-            {item.intro}
-          </Text>
+          <Text style={styles.bodyText}>{item.intro}</Text>
         </View>
         <View style={styles.divider} />
-        <Text style={{fontSize: 20, fontWeight: '700'}}>
-          {'Languages'}
-        </Text>
+        <Text style={{fontSize: 20, fontWeight: '700'}}>{'Languages'}</Text>
       </ScrollView>
     </ImageBackground>
   );
@@ -89,7 +85,7 @@ const renderGuideImage = ({item}) => {
       style={{
         top: 275,
         alignItems: 'center',
-        zIndex: 1
+        zIndex: 1,
       }}>
       <Image style={styles.guideImage} source={item} />
     </View>
@@ -138,7 +134,7 @@ const styles = StyleSheet.create({
   },
   titleText: {
     fontSize: 20,
-    fontWeight: '700'
+    fontWeight: '700',
   },
   sectionText: {
     fontSize: 24,
@@ -150,7 +146,7 @@ const styles = StyleSheet.create({
     fontWeight: '400',
     marginTop: 5,
     fontStyle: 'italic',
-    color: '#9B9BA7'
+    color: '#9B9BA7',
   },
   bodyText: {
     fontSize: 16,
