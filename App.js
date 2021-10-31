@@ -250,6 +250,7 @@ const App = () => {
           <Stack.Screen name="ViewTour" component={RequireAuth(ViewTour)} options={{headerShown: true}}/>
 
           {/* Visitor Routes */}
+          <Stack.Screen name="HomePage" component={HomeVisitor} options={{headerShown: false}}/>
           <Stack.Screen name="AccountVisitor" component={AccountVisitor} options={{headerShown: false}}/>
           <Stack.Screen name="TourList" component={TourList} options={{headerShown: false}}/>
           <Stack.Screen name="Conversation" component={Conversation} options={{headerShown: false}}/>

@@ -27,7 +27,7 @@ const {event, ValueXY} = Animated;
 class TourInfo extends Component {
   constructor(props) {
     super(props);
-    console.log(props)
+
     this.state = {
       name: props.params,
       reviews: [

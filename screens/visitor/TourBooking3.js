@@ -426,9 +426,7 @@ class TourBooking3 extends Component {
                             <View style={{flex: 1, height: 100, backgroundColor: white, marginTop: 10, justifyContent: 'center', padding: 20}}>
                                 <TouchableOpacity style={styles.continue} onPress={(item) => {
                                     //TODO: fix this
-                                    console.log('vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv')
-                                    console.log(item)
-                                    this.props.navigation.navigate('BookingCheckout', {item})
+                                    this.props.navigation.navigate('BookingCheckout')
                                     }}>
                                     <Text style={{alignSelf: "center", color: white, fontWeight: '600'}}>Continue</Text>
                                 </TouchableOpacity>
