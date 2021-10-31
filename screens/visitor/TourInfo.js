@@ -19,13 +19,14 @@ import LinearGradient from 'react-native-linear-gradient';
 import StickyParallaxHeader from 'react-native-sticky-parallax-header';
 import {Calendar} from 'react-native-calendars';
 import renderReviews from '../../components/Reviews';
-
+import {tours} from '../../data/toursData';
 const {event, ValueXY} = Animated;
 class TourInfo extends Component {
   constructor(props) {
     super(props);
     console.log(props)
     this.state = {
+      tour: tours[0],
       name: props.params,
       reviews: [
         {
