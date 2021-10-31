@@ -114,22 +114,23 @@ const HomePage = ({navigation}) => {
           horizontal={true}
           data={guideimages}
           renderItem={({item}) => (
-              <TouchableOpacity key={item.id} onPress={() => navigation.navigate('GuideProfile', {item})}>
-                <ImageBackground
-                  style={styles.listGuideImage}
-                  imageStyle={{borderRadius: 10}}
-                  source={item.src}>
-                  <LinearGradient
-                    colors={['transparent', 'black']}
-                    style={styles.linearGradGuide}
-                  />
-                </ImageBackground>
-                <Text style={styles.guideText}>
-                  {item.name}, {item.year}, {item.major}
-                </Text>
-              </TouchableOpacity>
-            )
-          }
+            <TouchableOpacity
+              key={item.id}
+              onPress={() => navigation.navigate('GuideProfile', {item})}>
+              <ImageBackground
+                style={styles.listGuideImage}
+                imageStyle={{borderRadius: 10}}
+                source={item.src}>
+                <LinearGradient
+                  colors={['transparent', 'black']}
+                  style={styles.linearGradGuide}
+                />
+              </ImageBackground>
+              <Text style={styles.guideText}>
+                {item.name}, {item.year}, {item.major}
+              </Text>
+            </TouchableOpacity>
+          )}
         />
       </ScrollView>
     </SafeAreaView>
