@@ -86,6 +86,7 @@ import RequireAuth from './components/RequireAuth';
 //api
 import {onAuthStateChanged} from './api/auth';
 import {getUser} from './api/users';
+import { viewAvailableTours } from './api/tours';
 
 /**
  *
@@ -114,7 +115,7 @@ const App = () => {
     (mode === 'visitor' && !visitorBone) ||
     (mode === 'guide' && !guideDone);
 
-  useEffect(() => {
+  useEffect(async () => {
     if (hasNotFinishedBareOnboarding) {
       return;
     }

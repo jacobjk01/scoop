@@ -76,8 +76,27 @@ export const bookTour = async(guideId, tourId, userId, numPeople) => {
             });
          });
 }
+
+export const cancelTour = async (guideId, tourId, userId) => {
+
+}
+
+export const viewAvailableTours = async () => {
+    const queryTourSnapshots = await tours.where("title", "!=", "").get();
+    if (queryTourSnapshots.empty) {
+        console.warn("No tours found!")
+    }
+    const docTourSnapshots = queryTourSnapshots.docs;
+    //AFTER-MVP: limit documents seen for performance
+    const availableTours = [];
+    for (let i = 0; i < docTourSnapshots.length; i++) {
+        availableTours.push(docTourSnapshots[i].data())
+    }
+    return availableTours;
+}
+
 //utility functions
-export const getTourInfo = async(guideId, tourId) => {
+export const getTour = async(guideId, tourId) => {
     await tours.where('guideId', '==', guideId).where('tourId', '==', tourId).where('archive', '==', false).get().then(querySnapshot =>
     {
         querySnapshot.forEach((documentSnapshot) => {
@@ -85,7 +104,7 @@ export const getTourInfo = async(guideId, tourId) => {
         });
     });
 }
-export const getBookingInfo = async(guideId, tourId, userId) => {
+export const getBooking = async(guideId, tourId, userId) => {
     await tours.where('guideId', '==', guideId).where('tourId', '==', tourId).where('archive', '==', false).get().then(querySnapshot =>
         {
             querySnapshot.forEach(documentSnapshot =>
