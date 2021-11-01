@@ -49,7 +49,9 @@ class TourInfo extends Component {
   componentDidMount() {
     this.scrollY.addListener(({value}) => (this._value = value));
   }
-
+  componentWillUnmount() {
+    this.scrollY.removeAllListeners();
+  }
   renderForeground() {
     return (
       <View style={{backgroundColor: '#d92726', flex: 1, borderRadius: 10}}>
