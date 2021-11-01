@@ -90,7 +90,9 @@ export const viewAvailableTours = async () => {
     //AFTER-MVP: limit documents seen for performance
     const availableTours = [];
     for (let i = 0; i < docTourSnapshots.length; i++) {
-        availableTours.push(docTourSnapshots[i].data())
+        let tourData = docTourSnapshots[i].data();
+        tourData.id = docTourSnapshots[i].id;
+        availableTours.push(tourData)
     }
     return availableTours;
 }

@@ -1,4 +1,4 @@
-import React, {useState, Component} from 'react';
+import React, {useState, useEffect, Component} from 'react';
 import {
   View,
   Text,
@@ -18,10 +18,17 @@ import colors from '../../config/colors';
 import {color} from 'react-native-reanimated';
 import GuideProfile from './GuideProfile';
 import toursData from '../../data/toursData';
+import { viewAvailableTours } from '../../api/tours';
 
 const HomePage = ({navigation}) => {
-  const [tours, setTours] = useState(toursData.tours);
+  const [tours, setTours] = useState([]);
   const [guideimages, setGuideImages] = useState(toursData.guides);
+  useEffect(async () => {
+    setTours(await viewAvailableTours())
+    return () => {
+
+    }
+  }, [])
   return (
     <SafeAreaView>
       <ScrollView style={{paddingRight: 20, paddingLeft: 20, height: '100%'}}>
@@ -83,17 +90,17 @@ const HomePage = ({navigation}) => {
           renderItem={({item}) => {
             return (
               //TODO: make tourinfo get the tour info, this can be done in this screen or in tourinfo screen
-            <TouchableOpacity key={item.id} onPress={() => navigation.navigate('TourInfo', tours[item.id].name)}>
+            <TouchableOpacity key={item.id} onPress={() => navigation.navigate('TourInfo', item.title)}>
               <ImageBackground
                 style={styles.listTourImage}
-                imageStyle={{borderRadius: 10}}
-                source={item.src}>
+                imageStyle={{width: '100%', height: '100%'}}
+                source={{uri: item.picture}}>
                 <LinearGradient
                   colors={['transparent', 'black']}
                   style={styles.linearGradTour}
                 />
               </ImageBackground>
-              <Text style={styles.tourText}>{item.name}</Text>
+              <Text style={styles.tourText}>{item.title}</Text>
             </TouchableOpacity>
           )}}
         />
