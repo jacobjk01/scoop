@@ -115,7 +115,7 @@ const App = () => {
     (mode === 'visitor' && !visitorBone) ||
     (mode === 'guide' && !guideDone);
 
-  useEffect(async () => {
+  useEffect(() => {
     if (hasNotFinishedBareOnboarding) {
       return;
     }

@@ -24,10 +24,10 @@ const {event, ValueXY} = Animated;
 class TourInfo extends Component {
   constructor(props) {
     super(props);
-    console.log(props)
+    console.log(props.route.params)
     this.state = {
-      tour: tours[0],
-      name: props.params,
+      tour: props.route.params,
+      name: props.route.params.title,
       reviews: [
         {
           stars: 4.8,
@@ -52,18 +52,19 @@ class TourInfo extends Component {
   componentWillUnmount() {
     this.scrollY.removeAllListeners();
   }
+
   renderForeground() {
     return (
       <View style={{backgroundColor: '#d92726', flex: 1, borderRadius: 10}}>
         <ImageBackground
           style={styles.imageHeader}
-          source={this.state.tour.src}>
+          source={{uri: this.state.tour.picture}}>
           <LinearGradient
             colors={['transparent', 'black']}
             style={styles.linearGradTour}
           />
           <View style={styles.imageOverlay}>
-            <Text style={styles.titleText}>{this.state.tour.name}</Text>
+            <Text style={styles.titleText}>{this.state.tour.title}</Text>
             <Text style={styles.detailText}>
               60 min | Max 6 people | person
             </Text>

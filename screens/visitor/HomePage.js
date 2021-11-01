@@ -23,10 +23,18 @@ import { viewAvailableTours } from '../../api/tours';
 const HomePage = ({navigation}) => {
   const [tours, setTours] = useState([]);
   const [guideimages, setGuideImages] = useState(toursData.guides);
-  useEffect(async () => {
-    setTours(await viewAvailableTours())
+  useEffect(() => {
+    let isMounted = true
+    viewAvailableTours().then(tours => {
+      //https://stackoverflow.com/questions/53949393/cant-perform-a-react-state-update-on-an-unmounted-component
+      //You are not suppose to use async/await functions in useEffect
+      //jon has no idea how these 3 isMounted are connected...
+        if (isMounted) {
+        setTours(tours)
+        }
+      });
     return () => {
-
+      isMounted = false
     }
   }, [])
   return (
@@ -90,7 +98,7 @@ const HomePage = ({navigation}) => {
           renderItem={({item}) => {
             return (
               //TODO: make tourinfo get the tour info, this can be done in this screen or in tourinfo screen
-            <TouchableOpacity key={item.id} onPress={() => navigation.navigate('TourInfo', item.title)}>
+            <TouchableOpacity key={item.id} onPress={() => navigation.navigate('TourInfo', item)}>
               <ImageBackground
                 style={styles.listTourImage}
                 imageStyle={{width: '100%', height: '100%'}}
