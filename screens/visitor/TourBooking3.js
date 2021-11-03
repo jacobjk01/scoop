@@ -634,7 +634,7 @@ class TourBooking3 extends Component {
         <TouchableOpacity
           style={styles.backIcon}
           onPress={() => this.props.navigation.goBack()}>
-          <Ionicons name="chevron-back-outline" size={20} color={primary} />
+          <Ionicons name="chevron-back-outline" size={22} color={primary} />
         </TouchableOpacity>
       </SafeAreaView>
     );
@@ -778,9 +778,9 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     position: 'absolute',
     left: 20,
-    top: 22,
-    width: 40,
-    height: 40,
+    top: 20,
+    width: 45,
+    height: 45,
     alignItems: 'center',
     justifyContent: 'center',
   },

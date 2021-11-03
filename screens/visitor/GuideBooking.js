@@ -5,14 +5,14 @@ import {
     Button
 } from 'react-native';
 
-const GuideBooking1 = ({navigation}) => {
+const GuideBooking = ({navigation}) => {
 
     return (
     <SafeAreaView>
         <Text>Guide Booking 1 Page</Text>
-        <Button title="Guide booking 2" onPress={() => navigation.navigate('GuideBooking2')}/>
+        <Button title="Guide booking" onPress={() => navigation.navigate('TourBooking3')}/>
     </SafeAreaView>
     )
 };
 
-export default GuideBooking1;
+export default GuideBooking;
