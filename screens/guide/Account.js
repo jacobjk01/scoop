@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import {
   View,
   Text,
@@ -10,38 +10,20 @@ import {
   ImageBackground,
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import tourGuides from '../../data/tourGuides';
-import { onAuthStateChanged } from '../../api/auth';
-import { createUser, changeIntro, changeName, getUser, createPrivateData } from '../../api/users';
+import db from '@react-native-firebase/firestore';
+import { UserContext } from '../../contexts'
 
-
-const Account = ({navigation}) => {
-  const item = tourGuides[0];
-  const [userAuth, setUserAuth] = useState(null);
-  const user = getUser(userAuth);
+const Account = ({ navigation }) => {
+  const {user} = useContext(UserContext);
 
   useEffect(() => {
-    var unsubscribe1 = onAuthStateChanged(async user => {
-        if (user) {
-            setUserAuth(user);
-            const currentUser = await getUser(user);
-            setUserType(currentUser.data().userType)
-            setUserName(currentUser.data().name)
-            setUserIntro(currentUser.data().intro)
-        } else {
-            setUserAuth(null);
-        }
-    })
-    return () => {
-        unsubscribe1();
-    }
-  })
+  },[user])
 
   return (
     <ImageBackground
       source={require('../../images/SantaMonica.png')}
       style={styles.backgroundImage}>
-      {renderGuideImage(userAuth ? user.profilePicture : item.picture)}
+      {renderGuideImage(user.profilePicture)}
       <ScrollView
         style={{
           marginTop: '40%',
@@ -53,9 +35,9 @@ const Account = ({navigation}) => {
           borderTopRightRadius: 20,
         }}>
         <SafeAreaView>
-          {renderGuideBio({item})}
+          {renderGuideBio(user ? user : "")}
           <TouchableOpacity
-            onPress={() => navigation.navigate('AccountEdit', item)}
+            onPress={() => navigation.navigate('AccountEdit')}
             style={{position: 'absolute', right: 10, top: 20}}>
             <View>
               <Text style={{color: '#9B9BA7'}}>Edit <Ionicons name={'pencil'} size={16}/></Text>
@@ -68,10 +50,10 @@ const Account = ({navigation}) => {
             {'Introduction'}
           </Text>
           <Text style={styles.subtitleText}>
-            {'Hometown: ' + item.hometown}
+            {'Hometown: '} {user.hometown ? user.hometown : ""}
           </Text>
           <Text style={styles.bodyText}>
-            {item.intro}
+            {user.intro ? user.intro : ""}
           </Text>
         </View>
         <View style={styles.divider} />
@@ -83,7 +65,7 @@ const Account = ({navigation}) => {
   );
 };
 
-const renderGuideImage = ({item}) => {
+const renderGuideImage = (profilePicture) => {
   return (
     <View
       style={{
@@ -91,12 +73,14 @@ const renderGuideImage = ({item}) => {
         alignItems: 'center',
         zIndex: 1
       }}>
-      <Image style={styles.guideImage} source={item} />
+      <Image style={styles.guideImage} source={{
+          uri: profilePicture
+        }} />
     </View>
   );
 };
 
-const renderGuideBio = ({item}) => {
+const renderGuideBio = (user) => {
   return (
     <View
       style={{
@@ -104,9 +88,9 @@ const renderGuideBio = ({item}) => {
         justifyContent: 'center',
         alignItems: 'center',
       }}>
-      <Text style={styles.sectionText}>{item.name}</Text>
+      <Text style={styles.sectionText}>{user.name}</Text>
       <Text style={styles.baseText}>
-        {item.major + ','} {item.year}
+        {user.major && user.year ? user.major + ', ' + user.year : ""}
       </Text>
     </View>
   );

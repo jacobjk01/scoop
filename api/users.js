@@ -13,6 +13,7 @@ const Users = db().collection('users');
  */
 export const getUser = async (userAuth) => {
     const user = await get(Users, userAuth.uid);
+    // console.error(user.data());
     if (!user._exists) {
         await Users.doc(userAuth.uid).set({
             type: "guide",
@@ -25,6 +26,15 @@ export const getUser = async (userAuth) => {
     // console.log(userAuth.photoURL) // <- this is the photo URL
     return user;
 }
+
+export const getUserData = async (userAuth) => {
+    const user = await get(Users, userAuth.uid);
+    if (user._exists) {
+        return user.data();
+    }
+    return null;
+}
+
 
 export const createPrivateData = async (uid) => {
     await Users.doc(uid).collection("private-data").add({

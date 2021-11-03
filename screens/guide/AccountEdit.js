@@ -1,5 +1,5 @@
 import { placeholder } from '@babel/types';
-import React, {useState} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import {
   View,
   Text,
@@ -14,85 +14,80 @@ import {
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import tourGuides from '../../data/tourGuides';
+import { UserContext } from '../../contexts'
+
 
 const AccountEdit = ({navigation}) => {
-  const item = tourGuides[0];
-// const {item} = route.params;
-  /* Below is temporary until I can find out how to connect route from Account.js*/
-  // const item = {
-  //   name: 'Brittany',
-  //   year: 'Junior',
-  //   major: 'Mechanical Eng.',
-  //   src: require('../../images/brittany.png'),
-  //   hometown: 'Irvine, Orange County',
-  //   intro: 'I am a proud first-generation college student! Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sapien velit elementum malesuada leo sociis. Leo nisi, facilisis fames dignissim euismod nec. Tempus scelerisque tempor proin diam int',
-  // };
-  // const {item} = navigation;
-  /*---------------------------------------------*/
+  const {user} = useContext(UserContext);
+
+  useEffect(() => {
+  },[user])
 
   return (
-    <ScrollView>
-      <ImageBackground
-        source={require('../../images/SantaMonica.png')}
-        style={styles.backgroundImage}>
-        {renderGuideImage(item.picture)}
-        <TouchableOpacity
-          // onPress={() => }
-          style={{position: 'absolute', right: 25, top: 120}}>
-          <Ionicons name={'camera'} size={25} color={'#9B9BA7'}/>
-        </TouchableOpacity>
-        <View
-          style={{
-            marginTop: '40%',
-            paddingRight: 20,
-            paddingLeft: 20,
-            height: '100%',
-            backgroundColor: 'white',
-            borderTopLeftRadius: 20,
-            borderTopRightRadius: 20,
-          }}>
-          <SafeAreaView style={{top: 80}}>
-            <Text style={styles.titleText}>
-              {'First Name'}
-            </Text>
-            <TextInput style={styles.input} placeholder='Edit your name'>
-              {item.name}
-            </TextInput>
-            <Text style={styles.titleText}>
-              {'Year'}
-            </Text>
-            <TextInput style={styles.input} placeholder='Select Year'>
-              {item.year}
-            </TextInput>
-            <Text style={styles.titleText}>
-              {'Major'}
-            </Text>
-            <TextInput style={styles.input} placeholder='Edit your major'>
-              {item.major}
-            </TextInput>
-            <Text style={styles.titleText}>
-              {'Intro'}
-            </Text>
-            <TextInput style={styles.inputIntro} placeholder='Tell us about yourself!' multiline='true'>
-              {item.intro}
-            </TextInput>
-            <Text style={styles.titleText}>
-              {'Hometown'}
-            </Text>
-            <TextInput style={styles.input} placeholder='Edit your hometown'>
-              {item.hometown}
-            </TextInput>
-            <View style={styles.divider} />
-            <Ionicons name='add' style={styles.addIcon}/>
-            <Text style={styles.bodyText}>Add another language</Text>
-          </SafeAreaView>
-        </View>
-      </ImageBackground>
-    </ScrollView>
+    <SafeAreaView>
+      <ScrollView>
+        <ImageBackground
+          source={require('../../images/SantaMonica.png')}
+          style={styles.backgroundImage}>
+          {renderGuideImage(user.profilePicture)}
+          <TouchableOpacity
+            // onPress={() => }
+            style={{position: 'absolute', right: 25, top: 120}}>
+            <Ionicons name={'camera'} size={25} color={'#9B9BA7'}/>
+          </TouchableOpacity>
+          <View
+            style={{
+              marginTop: '40%',
+              paddingRight: 20,
+              paddingLeft: 20,
+              height: '100%',
+              backgroundColor: 'white',
+              borderTopLeftRadius: 20,
+              borderTopRightRadius: 20,
+            }}>
+            <View style={{top: 80}}>
+              <Text style={styles.titleText}>
+                {'First Name'}
+              </Text>
+              <TextInput style={styles.input} placeholder='Edit your name'>
+                {user.name}
+              </TextInput>
+              <Text style={styles.titleText}>
+                {'Year'}
+              </Text>
+              <TextInput style={styles.input} placeholder='Select Year'>
+                {user.year}
+              </TextInput>
+              <Text style={styles.titleText}>
+                {'Major'}
+              </Text>
+              <TextInput style={styles.input} placeholder='Edit your major'>
+                {user.major}
+              </TextInput>
+              <Text style={styles.titleText}>
+                {'Intro'}
+              </Text>
+              <TextInput style={styles.inputIntro} placeholder='Tell us about yourself!' multiline='true'>
+                {user.intro}
+              </TextInput>
+              <Text style={styles.titleText}>
+                {'Hometown'}
+              </Text>
+              <TextInput style={styles.input} placeholder='Edit your hometown'>
+                {user.hometown}
+              </TextInput>
+              <View style={styles.divider} />
+              <Ionicons name='add' style={styles.addIcon}/>
+              <Text style={styles.bodyText}>Add another language</Text>
+            </View>
+          </View>
+        </ImageBackground>
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 
-const renderGuideImage = ({item}) => {
+const renderGuideImage = (profilePicture) => {
   return (
     <TouchableOpacity
         // onPress={() => }
@@ -103,26 +98,10 @@ const renderGuideImage = ({item}) => {
             alignItems: 'center',
             zIndex: 1,
           }}>
-          <Image style={styles.guideImage} source={item} />
+          <Image style={styles.guideImage} source={{uri: profilePicture}} />
           <Ionicons style={{position: 'absolute', bottom: 105}} name={'camera'} size={35} color={'white'}/>
         </View>
       </TouchableOpacity>
-  );
-};
-
-const renderGuideBio = ({item}) => {
-  return (
-    <View
-      style={{
-        paddingTop: 30,
-        justifyContent: 'center',
-        alignItems: 'center',
-      }}>
-      <Text style={styles.sectionText}>{item.name}</Text>
-      <Text style={styles.baseText}>
-        {item.major + ','} {item.year}
-      </Text>
-    </View>
   );
 };
 
