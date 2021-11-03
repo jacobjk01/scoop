@@ -5,6 +5,8 @@ import uuid from 'react-native-uuid';
 const tours = firestore().collection('tours');
 
 //tourguide Functions
+
+//TODO
 export const addTour = async (guideId, picture, attractions, meetingPt, date, time, cost, duration, transportation, maxPeople, description, category) => {
     if (!(guideId && picture && meetingPt && attractions && date && time && cost && duration && transportation && maxPeople && description && category)) {
         console.log("required parameter not here")
@@ -27,6 +29,8 @@ export const addTour = async (guideId, picture, attractions, meetingPt, date, ti
         });
     }
 }
+
+//TODO
 export const editTour = async(guideId, tourId, field, fieldValue) => {
     await tours.where('guideId', '==', guideId).where('tourId', '==', tourId).get().then(querySnapshot =>
     {
@@ -35,6 +39,8 @@ export const editTour = async(guideId, tourId, field, fieldValue) => {
         });
     });
 }
+
+//TODO
 export const archiveTour = async(Id) => {
     for(var i = 0; i < Id.length; i++)
     {
@@ -45,6 +51,7 @@ export const archiveTour = async(Id) => {
         });
     }
 }
+//TODO
 export const unarchiveTour = async(Id) => {
     for(var i = 0; i < Id.length; i++)
     {
@@ -56,6 +63,7 @@ export const unarchiveTour = async(Id) => {
     }
 }
 
+//TODO
 export const switchTour = async(guideId, tourId, tourId2) => {
     await tours.where('guideId', '==', guideId).where('tourId', '==', tourId).where('archive', '==', false).get().then(querySnapshot =>
     {
@@ -65,6 +73,7 @@ export const switchTour = async(guideId, tourId, tourId2) => {
     });
 }
 //user functions
+//TODO
 export const bookTour = async(guideId, tourId, userId, numPeople) => {
     await tours.where('guideId', '==', guideId).where('tourId', '==', tourId).where('archive', '==', false).get().then(querySnapshot =>
          {
@@ -76,7 +85,7 @@ export const bookTour = async(guideId, tourId, userId, numPeople) => {
             });
          });
 }
-
+//TODO
 export const cancelTour = async (guideId, tourId, userId) => {
 
 }
