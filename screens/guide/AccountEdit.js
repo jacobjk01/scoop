@@ -38,6 +38,7 @@ const AccountEdit = ({navigation}) => {
           <View
             style={{
               marginTop: '40%',
+              paddingTop: 40,
               paddingRight: 20,
               paddingLeft: 20,
               height: '100%',
@@ -45,7 +46,7 @@ const AccountEdit = ({navigation}) => {
               borderTopLeftRadius: 20,
               borderTopRightRadius: 20,
             }}>
-            <View style={{top: 80}}>
+
               <Text style={styles.titleText}>
                 {'First Name'}
               </Text>
@@ -67,7 +68,7 @@ const AccountEdit = ({navigation}) => {
               <Text style={styles.titleText}>
                 {'Intro'}
               </Text>
-              <TextInput style={styles.inputIntro} placeholder='Tell us about yourself!' multiline='true'>
+              <TextInput style={styles.inputIntro} placeholder='Tell us about yourself!'>
                 {user.intro}
               </TextInput>
               <Text style={styles.titleText}>
@@ -77,9 +78,8 @@ const AccountEdit = ({navigation}) => {
                 {user.hometown}
               </TextInput>
               <View style={styles.divider} />
-              <Ionicons name='add' style={styles.addIcon}/>
+              <Ionicons name='add' style={styles.addIcon} size={30}/>
               <Text style={styles.bodyText}>Add another language</Text>
-            </View>
           </View>
         </ImageBackground>
       </ScrollView>
