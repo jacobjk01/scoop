@@ -34,10 +34,8 @@ const AccountEdit = ({navigation}) => {
 
   useEffect(() => {
     var unsubscribeAuth = onAuthStateChanged(async newUserAuth => {
-      //if userAuth exists, 
-      if (newUserAuth && userAuth == null) { // userAuth is null, so definitely unique
+      if (newUserAuth && userAuth == null) {
         setUserAuth(newUserAuth);
-      // userAuth exists and doesn't match with with newUserAuth.uid
       } else if (userAuth.uid && newUserAuth && (userAuth.uid != newUserAuth.uid)) {
         setUserAuth(newUserAuth);
       }
@@ -60,12 +58,11 @@ const AccountEdit = ({navigation}) => {
   saveFields = () => {
     const uid = userAuth.uid;
     changeName(uid, name);
-    // changeProfilePicture(uid, profilePicture);
+    changeProfilePicture(uid, profilePicture);
     changeMajor(uid, major);
     changeYear(uid, year);
     changeIntro(uid, intro);
     changeHometown(uid, hometown);
-    changeProfilePicture(uid, profilePicture);
     // changeLanguages(uid, languages);
   };
 
@@ -258,7 +255,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#9B9BA7',
     borderRadius: 7,
-    paddingLeft: 15,
+    paddingHorizontal: 15,
     marginTop: 10,
     marginBottom: 30,
     paddingBottom: 50,
