@@ -17,12 +17,7 @@ import { UserContext } from '../../contexts'
 import { getUser, changeName, changeProfilePicture, changeMajor, changeYear, changeIntro, changeLanguages, changeHometown } from '../../api/users';
 import { onAuthStateChanged } from '../../api/auth';
 import { useNavigation } from '@react-navigation/native';
-import {request, PERMISSIONS, RESULTS, check} from 'react-native-permissions';
-// import * as firebase from 'firebase/app';
-import storage from '@react-native-firebase/storage';
-import { firebase } from '@react-native-firebase/firestore';
-// import ImagePicker from 'react-native-image-picker';
-// https://www.pluralsight.com/guides/upload-images-to-firebase-storage-in-react-native
+import {request, check, PERMISSIONS, RESULTS} from 'react-native-permissions';
 
 const AccountEdit = ({navigation}) => {
   const nav = useNavigation();
@@ -36,7 +31,6 @@ const AccountEdit = ({navigation}) => {
   const [hometown, setHometown] = useState(user.hometown);
   const [profilePicture, setProfilePicture] = useState(user.profilePicture);
   const [imageData, setImageData] = useState(null);
-  // console.log(profilePicture);
 
   useEffect(() => {
     var unsubscribeAuth = onAuthStateChanged(async newUserAuth => {
@@ -63,40 +57,6 @@ const AccountEdit = ({navigation}) => {
   useEffect(() => {
   },[user]);
 
-  uriToBlob = (uri) => {
-    return new Promise((resolve, reject) => {
-      const xhr = new XMLHttpRequest();
-      xhr.onload = function() {
-        // return the blob
-        resolve(xhr.response);
-      };
-      
-      xhr.onerror = function() {
-        // something went wrong
-        reject(new Error('uriToBlob failed'));
-      };
-      // this helps us get a blob
-      xhr.responseType = 'blob';
-      xhr.open('GET', uri, true);
-      
-      xhr.send(null);
-    });
-  }
-  uploadToFirebase = (blob) => {
-    return new Promise((resolve, reject)=>{
-      var storageRef = storage().ref();
-      storageRef.child('uploads/photo.jpg').put(blob, {
-        contentType: 'image/jpeg'
-      }).then((snapshot)=>{
-        blob.close();
-        resolve(snapshot);
-      }).catch((error)=>{
-        reject(error);
-      });
-    });
-  }
-
-
   saveFields = () => {
     const uid = userAuth.uid;
     changeName(uid, name);
@@ -107,56 +67,6 @@ const AccountEdit = ({navigation}) => {
     changeHometown(uid, hometown);
     changeProfilePicture(uid, profilePicture);
     // changeLanguages(uid, languages);
-    // console.log(profilePicture.name);
-    // console.log(profilePicture.uri);
-    /*
-    let options = {
-      storageOptions: {
-        skipBackup: true,
-        path: 'images',
-      },
-    };
-    const ImagePicker = require('react-native-image-picker');
-    ImagePicker.launchImageLibrary((options),(result)=>{ 
-
-      if (!result.cancelled) {
-        // User picked an image
-        const {height, width, type, uri} = result;
-        return uriToBlob(uri);
-
-      }
-
-    }).then((blob)=>{
-
-      return uploadToFirebase(blob);
-
-    }).then((snapshot)=>{
-
-      console.log("File uploaded");
-   
-    }).catch((error)=>{
-
-      throw error;
-
-    }); 
-    */
-    
-    // var send = uriToBlob(profilePicture.uri);
-    // uploadToFirebase(send);
-    
-    // task.on('state_changed', snapshot => {
-    //   setTransferred(
-    //     Math.round(snapshot.bytesTransferred / snapshot.totalBytes) * 10000
-    //   );
-    // });
-    // try {
-    //   task;
-    // } catch (e) {
-    //   console.error(e);
-    // }
-    // const reference = storage().ref('black-t-shirt-sm.png');
-    // reference.storage().putFile(profilePicture.uri);
-    // console.log("put ",profilePicture.uri);
   };
 
   handleProfilePicture = async () => {
@@ -303,8 +213,6 @@ const renderGuideImage = (profilePicture) => {
     <TouchableOpacity
       onPress={() => handleProfilePicture()}
       style={{position: 'absolute', alignSelf: 'center', left: '50%', justifyContent: 'center', top: 135, zIndex: 1}}>
-      {/* {console.log("here")} */}
-      {/* {console.log(profilePicture)} */}
       <View
         style={{
           top: 140,

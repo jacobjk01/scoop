@@ -1,6 +1,7 @@
 import db from '@react-native-firebase/firestore';
-import { update, get } from './utilities';
 import storage from '@react-native-firebase/storage';
+import { update, get } from './utilities';
+
 
 const Users = db().collection('users');
 
@@ -14,7 +15,6 @@ const Users = db().collection('users');
  */
 export const getUser = async (userAuth) => {
     const user = await get(Users, userAuth.uid);
-    // console.error(user.data());
     if (!user._exists) {
         await Users.doc(userAuth.uid).set({
             type: "guide",
@@ -23,8 +23,6 @@ export const getUser = async (userAuth) => {
         });
         return await get(Users, userAuth.uid);
     }
-    // TODO update profile pic (right now only sets image once profile made, won't work when image updated after)
-    // console.log(userAuth.photoURL) // <- this is the photo URL
     return user;
 }
 
