@@ -16,10 +16,10 @@ import { UserContext } from '../../contexts'
 import { getUser, changeName, changeProfilePicture, changeMajor, changeYear, changeIntro, changeLanguages, changeHometown } from '../../api/users';
 import { onAuthStateChanged } from '../../api/auth';
 import { useNavigation } from '@react-navigation/native';
-import UserPermissions from '../../utilities/UserPermissions';
-import * as ImagePicker from 'expo-image-picker';
-import {request, PERMISSIONS, RESULTS, openLimitedPhotoLibraryPicker, check} from 'react-native-permissions';
-
+import {request, PERMISSIONS, RESULTS, check} from 'react-native-permissions';
+// import storage from '@react-native-firebase/storage';
+// import ImagePicker from 'react-native-image-picker';
+// https://www.pluralsight.com/guides/upload-images-to-firebase-storage-in-react-native
 
 const AccountEdit = ({navigation}) => {
   const nav = useNavigation();
@@ -31,6 +31,15 @@ const AccountEdit = ({navigation}) => {
   const [major, setMajor] = useState(user.major);
   const [intro, setIntro] = useState(user.intro);
   const [hometown, setHometown] = useState(user.hometown);
+  const [profilePicture = {
+    filepath: {
+      data: '',
+      uri: ''
+    },
+    fileData: '',
+    fileUri: ''
+  }, setProfilePicture] = useState(null);
+  console.log(profilePicture);
 
   useEffect(() => {
     var unsubscribeAuth = onAuthStateChanged(async newUserAuth => {
@@ -69,33 +78,36 @@ const AccountEdit = ({navigation}) => {
   };
 
   handleProfilePicture = async () => {
-    // UserPermissions.getCameraPermission();
     console.log("got checking");
     check(PERMISSIONS.IOS.PHOTO_LIBRARY)
       .then((result) => {
         switch (result) {
           case RESULTS.UNAVAILABLE:
-            console.log('This feature is not available (on this device / in this context)');
+            console.log('Photo Library: This feature is not available (on this device / in this context)');
             break;
           case RESULTS.DENIED:
-            console.log('The permission has not been requested / is denied but requestable');
+            console.log('Photo Library: The permission has not been requested / is denied but requestable');
             break;
           case RESULTS.LIMITED:
-            console.log('The permission is limited: some actions are possible');
+            console.log('Photo Library: The permission is limited: some actions are possible');
             break;
           case RESULTS.GRANTED:
-            console.log('The permission is granted');
+            console.log('Photo Library: The permission is granted');
             break;
           case RESULTS.BLOCKED:
-            console.log('The permission is denied and not requestable anymore');
+            console.log('Photo Library: The permission is denied and not requestable anymore');
             break;
         }
       })
     console.log("done checking");
     request(PERMISSIONS.IOS.PHOTO_LIBRARY);
+    console.log("launching image lib");
+    console.log("done launching lib");
     // openLimitedPhotoLibraryPicker().catch(() => {
     //   console.warn('Cannot open photo library picker');
     // });
+    
+    /*
     console.log("gpt");
     let result = await ImagePicker.launchImageLibraryAsync({
       medialTypes: ImagePicker.MedialTypeOptions.Images,
@@ -107,6 +119,38 @@ const AccountEdit = ({navigation}) => {
       console.error("trying to set!");
       // this.setState({user: })
     }
+    */
+  }
+
+  launchImageLibrary = () => {
+    console.log("started image lib");
+    let options = {
+      storageOptions: {
+        skipBackup: true,
+        path: 'images',
+      },
+    };
+    const ImagePicker = require('react-native-image-picker');
+    ImagePicker.launchImageLibrary(options, (response) => {
+      console.log('Response = ', response);
+
+      if (response.didCancel) {
+        console.log('User cancelled image picker');
+      } else if (response.error) {
+        console.log('ImagePicker Error: ', response.error);
+      } else if (response.customButton) {
+        console.log('User tapped custom button: ', response.customButton);
+        alert(response.customButton);
+      } else {
+        const source = { uri: response.uri };
+        console.log('response', JSON.stringify(response));
+        setProfilePicture({
+          filePath: response,
+          fileData: response.data,
+          fileUri: response.uri
+        });
+      }
+    });
   }
 
   if (!validUser) {
@@ -124,7 +168,7 @@ const AccountEdit = ({navigation}) => {
             style={styles.backgroundImage}>
             {renderGuideImage(user.profilePicture)}
             <TouchableOpacity
-              onPress={() => handleProfilePicture()}
+              onPress={() => launchImageLibrary()}
               style={{position: 'absolute', right: 25, top: 120}}>
               <Ionicons name={'camera'} size={25} color={'#9B9BA7'}/>
             </TouchableOpacity>
