@@ -3,7 +3,7 @@ module.exports = {
     {
       id: '1',
       name: 'Santa Monica',
-      src: require('../images/SantaMonica.png'),
+      src: require('images/SantaMonica.png'),
       image: "https://www.google.com/url?sa=i&url=https%3A%2F%2Fmomsla.com%2Fsanta-monica-pier%2F&psig=AOvVaw3FC1rw00QeyKX7iR4nqItj&ust=1633753930373000&source=images&cd=vfe&ved=0CAsQjRxqFwoTCMjlze_9ufMCFQAAAAAdAAAAABAD",
       attractions: ["Diddy Riese", "Regency Theater", "Copymat", "CVS"],
       cost: 10,
@@ -23,7 +23,7 @@ module.exports = {
     {
       id: '2',
       name: 'Westwood Tour',
-      src: require('../images/Westwood_village.png'),
+      src: require('images/Westwood_village.png'),
       image: "https://www.google.com/url?sa=i&url=https%3A%2F%2Fmomsla.com%2Fsanta-monica-pier%2F&psig=AOvVaw3FC1rw00QeyKX7iR4nqItj&ust=1633753930373000&source=images&cd=vfe&ved=0CAsQjRxqFwoTCMjlze_9ufMCFQAAAAAdAAAAABAD",
       attractions: ["Diddy Riese", "Regency Theater", "Copymat", "CVS"],
       duration: 45,
@@ -42,7 +42,7 @@ module.exports = {
     {
       id: '3',
       name: 'Happy Tour',
-      src: require('../images/Westwood_village.png'),
+      src: require('images/Westwood_village.png'),
       image: "https://www.google.com/url?sa=i&url=https%3A%2F%2Fmomsla.com%2Fsanta-monica-pier%2F&psig=AOvVaw3FC1rw00QeyKX7iR4nqItj&ust=1633753930373000&source=images&cd=vfe&ved=0CAsQjRxqFwoTCMjlze_9ufMCFQAAAAAdAAAAABAD",
       attractions: ["Diddy Riese", "Regency Theater", "Copymat", "CVS"],
       duration: 45,
@@ -60,7 +60,7 @@ module.exports = {
     {
       id: '4',
       name: 'Santa Monica',
-      src: require('../images/SantaMonica.png'),
+      src: require('images/SantaMonica.png'),
       image: "https://www.google.com/url?sa=i&url=https%3A%2F%2Fmomsla.com%2Fsanta-monica-pier%2F&psig=AOvVaw3FC1rw00QeyKX7iR4nqItj&ust=1633753930373000&source=images&cd=vfe&ved=0CAsQjRxqFwoTCMjlze_9ufMCFQAAAAAdAAAAABAD",
       attractions: ["Diddy Riese", "Regency Theater", "Copymat", "CVS"],
       duration: 60,
@@ -78,7 +78,7 @@ module.exports = {
     {
       id: '6',
       name: 'Day in Life of an Engineering Student',
-      src: require('../images/SantaMonica.png'),
+      src: require('images/SantaMonica.png'),
       image: "https://www.google.com/url?sa=i&url=https%3A%2F%2Fmomsla.com%2Fsanta-monica-pier%2F&psig=AOvVaw3FC1rw00QeyKX7iR4nqItj&ust=1633753930373000&source=images&cd=vfe&ved=0CAsQjRxqFwoTCMjlze_9ufMCFQAAAAAdAAAAABAD",
       attractions: ["Diddy Riese", "Regency Theater", "Copymat", "CVS"],
       duration: 60,
@@ -100,21 +100,21 @@ module.exports = {
       name: 'Natalie',
       year: 'Junior',
       major: 'Psychobiology',
-      src: require('../images/natalie.png'),
+      src: require('images/natalie.png'),
     },
     {
       id: '2',
       name: 'Trevor',
       year: 'Senior',
       major: 'Marketing',
-      src: require('../images/trevor.png'),
+      src: require('images/trevor.png'),
     },
     {
       id: '3',
       name: 'Brittany',
       year: 'Junior',
       major: 'Mechanical Eng.',
-      src: require('../images/brittany.png'),
+      src: require('images/brittany.png'),
     },
   ]
 }

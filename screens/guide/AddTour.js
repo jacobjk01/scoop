@@ -1,10 +1,10 @@
 import React, {useState, useEffect} from 'react'
 import { SafeAreaView, Text } from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler'
-import { addTour } from '../../api/tours';
-import { getUser } from '../../api/users';
-import { tours } from '../../data/toursData';
-import { onAuthStateChanged } from '../../api/auth';
+import { addTour } from 'api/tours';
+import { getUser } from 'api/users';
+import { tours } from 'data/toursData';
+import { onAuthStateChanged } from 'api/auth';
 export default function AddTour({navigation}) {
      const [userAuth, setUserAuth] = useState(null);
      const [user, setUser] = useState(null);

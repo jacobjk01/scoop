@@ -1,6 +1,6 @@
 import React from 'react'
 import { Text, FlatList, View, StyleSheet, TouchableOpacity, LinearGradient, ImageBackground, Image } from 'react-native'
-import colors from '../config/colors'
+import colors from 'config/colors'
 import PictureIcon from './PictureIcon'
 export default function GuidesMsgSection({tourGuides}) {
     return (

@@ -34,11 +34,11 @@ import {createStackNavigator} from '@react-navigation/stack';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 //config imports
-import colors from './config/colors';
-import { localState } from './config/initialState';
+import colors from 'config/colors';
+import { localState } from 'config/initialState';
 
 //contexts imports
-import { UserContext } from './contexts';
+import { UserContext } from 'contexts';
 
 //dev imports
 import Test from './screens/dev/Test';
@@ -82,11 +82,11 @@ import SelectSchool from './screens/visitor/SelectSchool';
 
 
 //authorization
-import RequireAuth from './components/RequireAuth';
+import RequireAuth from 'components/RequireAuth';
 
 //api
-import { onAuthStateChanged } from './api/auth';
-import { getUser } from './api/users';
+import { onAuthStateChanged } from 'api/auth';
+import { getUser } from 'api/users';
 
 
 /**

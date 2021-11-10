@@ -3,9 +3,9 @@ import {
     Text,
     SafeAreaView,
 } from 'react-native';
-import {UserContext} from '../../contexts';
-import SigninButton from '../../components/SigninButton';
-import SignoutButton from '../../components/SignoutButton';
+import {UserContext} from 'contexts';
+import SigninButton from 'components/SigninButton';
+import SignoutButton from 'components/SignoutButton';
 
 const Account = ({navigation}) => {
     const {user, userAuth} = useContext(UserContext)

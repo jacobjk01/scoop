@@ -9,11 +9,11 @@ import {
   Image,
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import colors from '../../config/colors';
-import toursData from '../../data/toursData';
-import { onAuthStateChanged } from '../../api/auth';
-import { getUser } from '../../api/users';
-import { UserContext } from '../../contexts';
+import colors from 'config/colors';
+import toursData from 'data/toursData';
+import { onAuthStateChanged } from 'api/auth';
+import { getUser } from 'api/users';
+import { UserContext } from 'contexts';
 
 const Home = ({navigation}) => {
   const tours = toursData.tours;

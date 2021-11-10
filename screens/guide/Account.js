@@ -10,7 +10,7 @@ import {
   ImageBackground,
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { UserContext } from '../../contexts'
+import { UserContext } from 'contexts'
 import { useIsFocused } from '@react-navigation/core';
 
 const Account = ({ navigation }) => {
@@ -25,7 +25,7 @@ const Account = ({ navigation }) => {
 
   return (
     <ImageBackground
-      source={require('../../images/SantaMonica.png')}
+      source={require('images/SantaMonica.png')}
       style={styles.backgroundImage}>
       <ScrollView>
           <View
@@ -66,7 +66,7 @@ const Account = ({ navigation }) => {
             <Text style={{fontSize: 20, fontWeight: '700', paddingBottom: 400}}>
               {'Languages'}
               {/* <View style={{flex: 1, height: 10}}> */}
-                {/* <Image source={require('../../images/languages/us.png')} style={{flex: 1}} resizeMode={"stretch"}></Image> */}
+                {/* <Image source={require('images/languages/us.png')} style={{flex: 1}} resizeMode={"stretch"}></Image> */}
               {/* </View> */}
             </Text>
             

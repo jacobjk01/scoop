@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { View, Text, SafeAreaView } from 'react-native';
-import { onAuthStateChanged } from '../api/auth';
-import { getUser } from '../api/users';
-import { UserContext } from '../contexts';
+import { onAuthStateChanged } from 'api/auth';
+import { getUser } from 'api/users';
+import { UserContext } from 'contexts';
 
 export default RequireAuth = (Component) => {
     const AuthIntermediary = (props) => {

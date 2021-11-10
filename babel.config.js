@@ -9,6 +9,10 @@ module.exports = {
             alias: {
                 'api': './api',
                 'contexts': './contexts',
+                'config': './config',
+                'components': './components',
+                'data': './data',
+                'images': './images',
             },
         },
     ]

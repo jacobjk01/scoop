@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import LinearGradient from 'react-native-linear-gradient';
-import {white} from '../../config/colors';
+import {white} from 'config/colors';
 
 const {event, ValueXY} = Animated;
 class TourEdit extends Component {
@@ -33,7 +33,7 @@ class TourEdit extends Component {
         <ImageBackground
           style={styles.imageHeader}
           imageStyle={{borderBottomLeftRadius: 15, borderBottomRightRadius: 15}}
-          source={require('../../images/Westwood_village.png')}>
+          source={require('images/Westwood_village.png')}>
           <LinearGradient
             colors={['transparent', 'black']}
             style={styles.linearGradTour}

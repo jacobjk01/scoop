@@ -1,7 +1,7 @@
 import React, {useContext} from "react"
 import { Button } from "react-native";
-import { signOut } from "../api/auth";
-import { UserContext } from "../contexts";
+import { signOut } from "api/auth";
+import { UserContext } from "contexts";
 export default function SignoutButton(){
     const {userAuth} = useContext(UserContext);
     return <Button

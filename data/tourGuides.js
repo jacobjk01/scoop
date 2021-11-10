@@ -1,7 +1,7 @@
 module.exports = [
     {
         name: "Brittany",
-        picture: require('../images/brittany.png'),
+        picture: require('images/brittany.png'),
         year: 'Junior',
         major: 'Mechanical Eng.',
         hometown: 'Irvine, Orange County',
@@ -24,14 +24,14 @@ module.exports = [
     },
     {
         name: "Natalie",
-        picture: require('../images/natalie.png'),
+        picture: require('images/natalie.png'),
         lastMessage: 'I have a couple resturant options I like',
         tour: 'Ktown Tour',
         date: "6:02 AM"
     },
     {
         name: "Trevor",
-        picture: require('../images/trevor.png'),
+        picture: require('images/trevor.png'),
         lastMessage: 'Yes, I can show you where to find ',
         tour: 'Day in the life of an UCLA student',
         date: "10:05 AM"

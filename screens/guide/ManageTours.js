@@ -14,12 +14,12 @@ import {
 import {withSafeAreaInsets} from 'react-native-safe-area-context';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import LinearGradient from 'react-native-linear-gradient';
-import colors from '../../config/colors';
-import toursData from '../../data/toursData';
+import colors from 'config/colors';
+import toursData from 'data/toursData';
 import {color} from 'react-native-reanimated';
 import GuideProfile from '../visitor/GuideProfile';
-import { getUser } from '../../api/users';
-import { onAuthStateChanged } from '../../api/auth';
+import { getUser } from 'api/users';
+import { onAuthStateChanged } from 'api/auth';
 
 const ManageTours = ({navigation}) => {
   const tours = toursData.tours;

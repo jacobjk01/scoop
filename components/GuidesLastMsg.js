@@ -1,6 +1,6 @@
 import React from 'react';
 import {Text, View, StyleSheet, TouchableOpacity} from 'react-native'
-import colors from '../config/colors';
+import colors from 'config/colors';
 import PictureIcon from './PictureIcon';
 function GuidesLastMsg(props) {
     const {tourGuides, navigation} = props;

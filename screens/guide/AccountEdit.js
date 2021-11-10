@@ -3,19 +3,17 @@ import {
   View,
   Text,
   TextInput,
-  Select,
   SafeAreaView,
   ScrollView,
   StyleSheet,
   TouchableOpacity,
   Image,
   ImageBackground,
-  Alert,
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { UserContext } from '../../contexts'
-import { getUser, changeName, changeProfilePicture, changeMajor, changeYear, changeIntro, changeLanguages, changeHometown } from '../../api/users';
-import { onAuthStateChanged } from '../../api/auth';
+import { UserContext } from 'contexts';
+import { getUser, changeName, changeProfilePicture, changeMajor, changeYear, changeIntro, changeLanguages, changeHometown } from 'api/users';
+import { onAuthStateChanged } from 'api/auth';
 import { useNavigation } from '@react-navigation/native';
 import {request, check, PERMISSIONS, RESULTS} from 'react-native-permissions';
 
@@ -133,7 +131,7 @@ const AccountEdit = ({navigation}) => {
       <SafeAreaView>
         <ScrollView>
           <ImageBackground
-            source={require('../../images/SantaMonica.png')}
+            source={require('images/SantaMonica.png')}
             style={styles.backgroundImage}>
             {renderGuideImage(profilePicture)}
             <TouchableOpacity

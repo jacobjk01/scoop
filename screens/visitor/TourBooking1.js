@@ -14,7 +14,7 @@ import {
 import {withSafeAreaInsets} from 'react-native-safe-area-context';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import LinearGradient from 'react-native-linear-gradient';
-import colors, { black } from '../../config/colors';
+import colors, { black } from 'config/colors';
 import {color} from 'react-native-reanimated';
 import GuideProfile from './GuideProfile';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
@@ -24,8 +24,8 @@ import moment from 'moment';
 const TourBooking1 = ({navigation}) => {
 
   const [tourimages, setImages] = useState([
-    {name: 'Santa Monica', src: require('../../images/SantaMonica.png')},
-    {name: 'Westwood Tour', src: require('../../images/Westwood_village.png')},
+    {name: 'Santa Monica', src: require('images/SantaMonica.png')},
+    {name: 'Westwood Tour', src: require('images/Westwood_village.png')},
   ]);
   const [calender, setCalender] = useState({
     selected: '',
@@ -39,19 +39,19 @@ const TourBooking1 = ({navigation}) => {
       name: 'Natalie',
       year: 'Junior',
       major: 'Psychobiology',
-      src: require('../../images/natalie.png'),
+      src: require('images/natalie.png'),
     },
     {
       name: 'Trevor',
       year: 'Senior',
       major: 'Marketing',
-      src: require('../../images/trevor.png'),
+      src: require('images/trevor.png'),
     },
     {
       name: 'Brittany',
       year: 'Junior',
       major: 'Mechanical Eng.',
-      src: require('../../images/brittany.png'),
+      src: require('images/brittany.png'),
     },
   ]);
   const updateSelectedTime = (index, value) => {

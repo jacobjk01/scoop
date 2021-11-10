@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button, StyleSheet } from 'react-native';
-import colors from '../config/colors';
+import colors from 'config/colors';
 function BackButton(props) {
     return (
         <Button style={styles.button}  title="<"/>
