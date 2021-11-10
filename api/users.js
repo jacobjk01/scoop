@@ -1,5 +1,6 @@
 import db from '@react-native-firebase/firestore';
 import { update, get } from './utilities';
+import storage from '@react-native-firebase/storage';
 
 const Users = db().collection('users');
 
@@ -52,9 +53,13 @@ export const changeName = async (uid, name) => {
     return await update(Users, uid, "name", name);
 }
 
-// Specifics for images in db?
 export const changeProfilePicture = async (uid, profilePicture) => {
-    await update(Users, uid, "profilePicture", profilePicture);
+    try {
+        await storage().ref(uid).putFile(profilePicture);
+        await update(Users, uid, "profilePicture", profilePicture);
+    } catch (e) {
+        console.log(e);
+    }
 }
 
 export const changeMajor = async  (uid, major) => {

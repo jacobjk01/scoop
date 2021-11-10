@@ -10,6 +10,7 @@ import {
   TouchableOpacity,
   Image,
   ImageBackground,
+  Alert,
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { UserContext } from '../../contexts'
@@ -17,7 +18,9 @@ import { getUser, changeName, changeProfilePicture, changeMajor, changeYear, cha
 import { onAuthStateChanged } from '../../api/auth';
 import { useNavigation } from '@react-navigation/native';
 import {request, PERMISSIONS, RESULTS, check} from 'react-native-permissions';
-// import storage from '@react-native-firebase/storage';
+// import * as firebase from 'firebase/app';
+import storage from '@react-native-firebase/storage';
+import { firebase } from '@react-native-firebase/firestore';
 // import ImagePicker from 'react-native-image-picker';
 // https://www.pluralsight.com/guides/upload-images-to-firebase-storage-in-react-native
 
@@ -31,15 +34,9 @@ const AccountEdit = ({navigation}) => {
   const [major, setMajor] = useState(user.major);
   const [intro, setIntro] = useState(user.intro);
   const [hometown, setHometown] = useState(user.hometown);
-  const [profilePicture = {
-    filepath: {
-      data: '',
-      uri: ''
-    },
-    fileData: '',
-    fileUri: ''
-  }, setProfilePicture] = useState(null);
-  console.log(profilePicture);
+  const [profilePicture, setProfilePicture] = useState(user.profilePicture);
+  const [imageData, setImageData] = useState(null);
+  // console.log(profilePicture);
 
   useEffect(() => {
     var unsubscribeAuth = onAuthStateChanged(async newUserAuth => {
@@ -66,6 +63,40 @@ const AccountEdit = ({navigation}) => {
   useEffect(() => {
   },[user]);
 
+  uriToBlob = (uri) => {
+    return new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+      xhr.onload = function() {
+        // return the blob
+        resolve(xhr.response);
+      };
+      
+      xhr.onerror = function() {
+        // something went wrong
+        reject(new Error('uriToBlob failed'));
+      };
+      // this helps us get a blob
+      xhr.responseType = 'blob';
+      xhr.open('GET', uri, true);
+      
+      xhr.send(null);
+    });
+  }
+  uploadToFirebase = (blob) => {
+    return new Promise((resolve, reject)=>{
+      var storageRef = storage().ref();
+      storageRef.child('uploads/photo.jpg').put(blob, {
+        contentType: 'image/jpeg'
+      }).then((snapshot)=>{
+        blob.close();
+        resolve(snapshot);
+      }).catch((error)=>{
+        reject(error);
+      });
+    });
+  }
+
+
   saveFields = () => {
     const uid = userAuth.uid;
     changeName(uid, name);
@@ -74,11 +105,62 @@ const AccountEdit = ({navigation}) => {
     changeYear(uid, year);
     changeIntro(uid, intro);
     changeHometown(uid, hometown);
+    changeProfilePicture(uid, profilePicture);
     // changeLanguages(uid, languages);
+    // console.log(profilePicture.name);
+    // console.log(profilePicture.uri);
+    /*
+    let options = {
+      storageOptions: {
+        skipBackup: true,
+        path: 'images',
+      },
+    };
+    const ImagePicker = require('react-native-image-picker');
+    ImagePicker.launchImageLibrary((options),(result)=>{ 
+
+      if (!result.cancelled) {
+        // User picked an image
+        const {height, width, type, uri} = result;
+        return uriToBlob(uri);
+
+      }
+
+    }).then((blob)=>{
+
+      return uploadToFirebase(blob);
+
+    }).then((snapshot)=>{
+
+      console.log("File uploaded");
+   
+    }).catch((error)=>{
+
+      throw error;
+
+    }); 
+    */
+    
+    // var send = uriToBlob(profilePicture.uri);
+    // uploadToFirebase(send);
+    
+    // task.on('state_changed', snapshot => {
+    //   setTransferred(
+    //     Math.round(snapshot.bytesTransferred / snapshot.totalBytes) * 10000
+    //   );
+    // });
+    // try {
+    //   task;
+    // } catch (e) {
+    //   console.error(e);
+    // }
+    // const reference = storage().ref('black-t-shirt-sm.png');
+    // reference.storage().putFile(profilePicture.uri);
+    // console.log("put ",profilePicture.uri);
   };
 
   handleProfilePicture = async () => {
-    console.log("got checking");
+    request(PERMISSIONS.IOS.PHOTO_LIBRARY);
     check(PERMISSIONS.IOS.PHOTO_LIBRARY)
       .then((result) => {
         switch (result) {
@@ -99,31 +181,10 @@ const AccountEdit = ({navigation}) => {
             break;
         }
       })
-    console.log("done checking");
-    request(PERMISSIONS.IOS.PHOTO_LIBRARY);
-    console.log("launching image lib");
-    console.log("done launching lib");
-    // openLimitedPhotoLibraryPicker().catch(() => {
-    //   console.warn('Cannot open photo library picker');
-    // });
-    
-    /*
-    console.log("gpt");
-    let result = await ImagePicker.launchImageLibraryAsync({
-      medialTypes: ImagePicker.MedialTypeOptions.Images,
-      allowsEditing: true,
-      aspect: [4, 3]
-    })
-    console.error(result);
-    if (!result.cancelled) {
-      console.error("trying to set!");
-      // this.setState({user: })
-    }
-    */
+    launchImageLibrary();
   }
 
   launchImageLibrary = () => {
-    console.log("started image lib");
     let options = {
       storageOptions: {
         skipBackup: true,
@@ -132,8 +193,6 @@ const AccountEdit = ({navigation}) => {
     };
     const ImagePicker = require('react-native-image-picker');
     ImagePicker.launchImageLibrary(options, (response) => {
-      console.log('Response = ', response);
-
       if (response.didCancel) {
         console.log('User cancelled image picker');
       } else if (response.error) {
@@ -142,12 +201,15 @@ const AccountEdit = ({navigation}) => {
         console.log('User tapped custom button: ', response.customButton);
         alert(response.customButton);
       } else {
-        const source = { uri: response.uri };
-        console.log('response', JSON.stringify(response));
-        setProfilePicture({
-          filePath: response,
-          fileData: response.data,
-          fileUri: response.uri
+        const data = response.assets[0];
+        setProfilePicture(data.uri);
+        setImageData({
+          uri: data.uri,
+          name: data.fileName,
+          size: data.fileSize,
+          height: data.height,
+          width: data.width,
+          type: data.type,
         });
       }
     });
@@ -166,9 +228,8 @@ const AccountEdit = ({navigation}) => {
           <ImageBackground
             source={require('../../images/SantaMonica.png')}
             style={styles.backgroundImage}>
-            {renderGuideImage(user.profilePicture)}
+            {renderGuideImage(profilePicture)}
             <TouchableOpacity
-              onPress={() => launchImageLibrary()}
               style={{position: 'absolute', right: 25, top: 120}}>
               <Ionicons name={'camera'} size={25} color={'#9B9BA7'}/>
             </TouchableOpacity>
@@ -237,37 +298,23 @@ const AccountEdit = ({navigation}) => {
   }
 };
 
-// const handleProfilePicture = async () => {
-//   UserPermissions.getCameraPermission();
-  
-//   let result = await ImagePicker.launchImageLibraryAsync({
-//     medialTypes: ImagePicker.MedialTypeOptions.Images,
-//     allowsEditing: true,
-//     aspect: [4, 3]
-//   })
-//   console.error(result);
-//   if (!result.cancelled) {
-//     console.error("trying to set!");
-//     // this.setState({user: })
-//   }
-// }
-
-
 const renderGuideImage = (profilePicture) => {
   return (
     <TouchableOpacity
-        // onPress={() => }
-        style={{position: 'absolute', alignSelf: 'center', left: '50%', justifyContent: 'center', top: 135, zIndex: 1}}>
-        <View
-          style={{
-            top: 140,
-            alignItems: 'center',
-            zIndex: 1,
-          }}>
-          <Image style={styles.guideImage} source={{uri: profilePicture}} />
-          <Ionicons style={{position: 'absolute', bottom: 105}} name={'camera'} size={35} color={'white'}/>
-        </View>
-      </TouchableOpacity>
+      onPress={() => handleProfilePicture()}
+      style={{position: 'absolute', alignSelf: 'center', left: '50%', justifyContent: 'center', top: 135, zIndex: 1}}>
+      {/* {console.log("here")} */}
+      {/* {console.log(profilePicture)} */}
+      <View
+        style={{
+          top: 140,
+          alignItems: 'center',
+          zIndex: 1,
+        }}>
+        <Image style={styles.guideImage} source={{uri: profilePicture}} />
+        <Ionicons style={{position: 'absolute', bottom: 105}} name={'camera'} size={35} color={'white'}/>
+      </View>
+    </TouchableOpacity>
   );
 };
 
