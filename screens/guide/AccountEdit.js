@@ -163,7 +163,7 @@ const AccountEdit = ({navigation}) => {
                 <Text style={styles.titleText}>
                   {'Intro'}
                 </Text>
-                <TextInput style={styles.inputIntro} placeholder='Tell us about yourself!' multiline='true'
+                <TextInput style={styles.inputIntro} placeholder='Tell us about yourself!' multiline={true}
                   onChangeText={intro => setIntro(intro)}>
                   {user.intro}
                 </TextInput>
@@ -175,7 +175,7 @@ const AccountEdit = ({navigation}) => {
                   {user.hometown}
                 </TextInput>
                 <View style={styles.divider} />
-                <Ionicons name='add' style={styles.addIcon}/>
+                <Ionicons name='add' style={styles.addIcon} size={30}/>
                 <Text style={styles.bodyText}>Add another language</Text>
                 <TouchableOpacity
                   style={styles.saveButton}
