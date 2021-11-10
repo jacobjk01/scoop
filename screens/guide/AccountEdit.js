@@ -1,4 +1,3 @@
-import { placeholder } from '@babel/types';
 import React, {useState, useEffect, useContext} from 'react';
 import {
   View,
@@ -17,7 +16,9 @@ import { UserContext } from '../../contexts'
 import { getUser, changeName, changeProfilePicture, changeMajor, changeYear, changeIntro, changeLanguages, changeHometown } from '../../api/users';
 import { onAuthStateChanged } from '../../api/auth';
 import { useNavigation } from '@react-navigation/native';
-
+import UserPermissions from '../../utilities/UserPermissions';
+import * as ImagePicker from 'expo-image-picker';
+import {request, PERMISSIONS, RESULTS, openLimitedPhotoLibraryPicker, check} from 'react-native-permissions';
 
 
 const AccountEdit = ({navigation}) => {
@@ -67,6 +68,47 @@ const AccountEdit = ({navigation}) => {
     // changeLanguages(uid, languages);
   };
 
+  handleProfilePicture = async () => {
+    // UserPermissions.getCameraPermission();
+    console.log("got checking");
+    check(PERMISSIONS.IOS.PHOTO_LIBRARY)
+      .then((result) => {
+        switch (result) {
+          case RESULTS.UNAVAILABLE:
+            console.log('This feature is not available (on this device / in this context)');
+            break;
+          case RESULTS.DENIED:
+            console.log('The permission has not been requested / is denied but requestable');
+            break;
+          case RESULTS.LIMITED:
+            console.log('The permission is limited: some actions are possible');
+            break;
+          case RESULTS.GRANTED:
+            console.log('The permission is granted');
+            break;
+          case RESULTS.BLOCKED:
+            console.log('The permission is denied and not requestable anymore');
+            break;
+        }
+      })
+    console.log("done checking");
+    request(PERMISSIONS.IOS.PHOTO_LIBRARY);
+    // openLimitedPhotoLibraryPicker().catch(() => {
+    //   console.warn('Cannot open photo library picker');
+    // });
+    console.log("gpt");
+    let result = await ImagePicker.launchImageLibraryAsync({
+      medialTypes: ImagePicker.MedialTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [4, 3]
+    })
+    console.error(result);
+    if (!result.cancelled) {
+      console.error("trying to set!");
+      // this.setState({user: })
+    }
+  }
+
   if (!validUser) {
     return (
         <SafeAreaView>
@@ -82,7 +124,7 @@ const AccountEdit = ({navigation}) => {
             style={styles.backgroundImage}>
             {renderGuideImage(user.profilePicture)}
             <TouchableOpacity
-              // onPress={() => }
+              onPress={() => handleProfilePicture()}
               style={{position: 'absolute', right: 25, top: 120}}>
               <Ionicons name={'camera'} size={25} color={'#9B9BA7'}/>
             </TouchableOpacity>
@@ -150,6 +192,21 @@ const AccountEdit = ({navigation}) => {
     );
   }
 };
+
+// const handleProfilePicture = async () => {
+//   UserPermissions.getCameraPermission();
+  
+//   let result = await ImagePicker.launchImageLibraryAsync({
+//     medialTypes: ImagePicker.MedialTypeOptions.Images,
+//     allowsEditing: true,
+//     aspect: [4, 3]
+//   })
+//   console.error(result);
+//   if (!result.cancelled) {
+//     console.error("trying to set!");
+//     // this.setState({user: })
+//   }
+// }
 
 
 const renderGuideImage = (profilePicture) => {
