@@ -12,12 +12,18 @@ import {
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import db from '@react-native-firebase/firestore';
 import { UserContext } from '../../contexts'
+import { useIsFocused } from '@react-navigation/core';
 
 const Account = ({ navigation }) => {
   const {user} = useContext(UserContext);
+  const isFocused = useIsFocused();
 
   useEffect(() => {
   },[user])
+
+  useEffect(() => {
+    // this.forceUpdate();
+  }, [isFocused])
 
   return (
     <ImageBackground
