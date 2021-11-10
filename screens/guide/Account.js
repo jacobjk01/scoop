@@ -10,7 +10,6 @@ import {
   ImageBackground,
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import db from '@react-native-firebase/firestore';
 import { UserContext } from '../../contexts'
 import { useIsFocused } from '@react-navigation/core';
 
@@ -66,7 +65,11 @@ const Account = ({ navigation }) => {
             <View style={styles.divider} />
             <Text style={{fontSize: 20, fontWeight: '700', paddingBottom: 400}}>
               {'Languages'}
+              {/* <View style={{flex: 1, height: 10}}> */}
+                {/* <Image source={require('../../images/languages/us.png')} style={{flex: 1}} resizeMode={"stretch"}></Image> */}
+              {/* </View> */}
             </Text>
+            
           </View>
       </ScrollView>
     </ImageBackground>
