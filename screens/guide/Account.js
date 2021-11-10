@@ -18,8 +18,7 @@ const Account = ({ navigation }) => {
   const {user} = useContext(UserContext);
   const isFocused = useIsFocused();
 
-  useEffect(() => {
-  },[user])
+  useEffect(() => {},[user])
 
   useEffect(() => {
     // this.forceUpdate();
@@ -29,43 +28,46 @@ const Account = ({ navigation }) => {
     <ImageBackground
       source={require('../../images/SantaMonica.png')}
       style={styles.backgroundImage}>
-      {renderGuideImage(user.profilePicture)}
-      <ScrollView
-        style={{
-          marginTop: '40%',
-          paddingRight: 20,
-          paddingLeft: 20,
-          height: '100%',
-          backgroundColor: 'white',
-          borderTopLeftRadius: 20,
-          borderTopRightRadius: 20,
-        }}>
-        <SafeAreaView>
-          {renderGuideBio(user ? user : "")}
-          <TouchableOpacity
-            onPress={() => navigation.navigate('AccountEdit')}
-            style={{position: 'absolute', right: 10, top: 20}}>
+      <ScrollView>
+          <View
+            style={{
+              marginTop: '40%',
+              paddingRight: 20,
+              paddingLeft: 20,
+              height: '100%',
+              backgroundColor: 'white',
+              borderTopLeftRadius: 20,
+              borderTopRightRadius: 20,
+            }}
+          >
+            {renderGuideImage(user.profilePicture)}
+            <SafeAreaView>
+              {renderGuideBio(user ? user : "")}
+              <TouchableOpacity
+                onPress={() => navigation.navigate('AccountEdit')}
+                style={{position: 'absolute', right: 10, top: 20}}>
+                <View>
+                  <Text style={{color: '#9B9BA7'}}>Edit <Ionicons name={'pencil'} size={16}/></Text>
+                </View>
+              </TouchableOpacity>
+              <View style={styles.divider} />
+            </SafeAreaView>
             <View>
-              <Text style={{color: '#9B9BA7'}}>Edit <Ionicons name={'pencil'} size={16}/></Text>
+              <Text style={styles.titleText}>
+                {'Introduction'}
+              </Text>
+              <Text style={styles.subtitleText}>
+                {'Hometown: '} {user.hometown ? user.hometown : ""}
+              </Text>
+              <Text style={styles.bodyText}>
+                {user.intro ? user.intro : ""}
+              </Text>
             </View>
-          </TouchableOpacity>
-          <View style={styles.divider} />
-        </SafeAreaView>
-        <View>
-          <Text style={styles.titleText}>
-            {'Introduction'}
-          </Text>
-          <Text style={styles.subtitleText}>
-            {'Hometown: '} {user.hometown ? user.hometown : ""}
-          </Text>
-          <Text style={styles.bodyText}>
-            {user.intro ? user.intro : ""}
-          </Text>
-        </View>
-        <View style={styles.divider} />
-        <Text style={{fontSize: 20, fontWeight: '700'}}>
-          {'Languages'}
-        </Text>
+            <View style={styles.divider} />
+            <Text style={{fontSize: 20, fontWeight: '700', paddingBottom: 400}}>
+              {'Languages'}
+            </Text>
+          </View>
       </ScrollView>
     </ImageBackground>
   );
@@ -75,7 +77,7 @@ const renderGuideImage = (profilePicture) => {
   return (
     <View
       style={{
-        top: 275,
+        top: 120,
         alignItems: 'center',
         zIndex: 1
       }}>
