@@ -13,79 +13,144 @@ import {
   ImageBackground,
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import tourGuides from '../../data/tourGuides';
 import { UserContext } from '../../contexts'
+import { getUser, changeName, changeProfilePicture, changeMajor, changeYear, changeIntro, changeLanguages, changeHometown } from '../../api/users';
+import { onAuthStateChanged } from '../../api/auth';
+import { useNavigation } from '@react-navigation/native';
+
 
 
 const AccountEdit = ({navigation}) => {
+  const nav = useNavigation();
+  const [userAuth, setUserAuth] = useState(null);
+  const [validUser, setUser] = useState(null);
   const {user} = useContext(UserContext);
+  const [name, setName] = useState(user.name);
+  const [year, setYear] = useState(user.year);
+  const [major, setMajor] = useState(user.major);
+  const [intro, setIntro] = useState(user.intro);
+  const [hometown, setHometown] = useState(user.hometown);
 
   useEffect(() => {
-  },[user])
+    var unsubscribeAuth = onAuthStateChanged(async newUserAuth => {
+      //if userAuth exists, 
+      if (newUserAuth && userAuth == null) { // userAuth is null, so definitely unique
+        setUserAuth(newUserAuth);
+      // userAuth exists and doesn't match with with newUserAuth.uid
+      } else if (userAuth.uid && newUserAuth && (userAuth.uid != newUserAuth.uid)) {
+        setUserAuth(newUserAuth);
+      }
+    })
+    return () => {
+      unsubscribeAuth();
+    }
+  }, []);
 
-  return (
-    <SafeAreaView>
-      <ScrollView>
-        <ImageBackground
-          source={require('../../images/SantaMonica.png')}
-          style={styles.backgroundImage}>
-          {renderGuideImage(user.profilePicture)}
-          <TouchableOpacity
-            // onPress={() => }
-            style={{position: 'absolute', right: 25, top: 120}}>
-            <Ionicons name={'camera'} size={25} color={'#9B9BA7'}/>
-          </TouchableOpacity>
-          <View
-            style={{
-              marginTop: '40%',
-              paddingRight: 20,
-              paddingLeft: 20,
-              height: '100%',
-              backgroundColor: 'white',
-              borderTopLeftRadius: 20,
-              borderTopRightRadius: 20,
-            }}>
-            <View style={{top: 80}}>
-              <Text style={styles.titleText}>
-                {'First Name'}
-              </Text>
-              <TextInput style={styles.input} placeholder='Edit your name'>
-                {user.name}
-              </TextInput>
-              <Text style={styles.titleText}>
-                {'Year'}
-              </Text>
-              <TextInput style={styles.input} placeholder='Select Year'>
-                {user.year}
-              </TextInput>
-              <Text style={styles.titleText}>
-                {'Major'}
-              </Text>
-              <TextInput style={styles.input} placeholder='Edit your major'>
-                {user.major}
-              </TextInput>
-              <Text style={styles.titleText}>
-                {'Intro'}
-              </Text>
-              <TextInput style={styles.inputIntro} placeholder='Tell us about yourself!' multiline='true'>
-                {user.intro}
-              </TextInput>
-              <Text style={styles.titleText}>
-                {'Hometown'}
-              </Text>
-              <TextInput style={styles.input} placeholder='Edit your hometown'>
-                {user.hometown}
-              </TextInput>
-              <View style={styles.divider} />
-              <Ionicons name='add' style={styles.addIcon}/>
-              <Text style={styles.bodyText}>Add another language</Text>
+  useEffect(async () => {
+    if (userAuth) {
+      const currentUser = await getUser(userAuth);
+      setUser({...currentUser.data()})
+    }
+  }, [userAuth]);
+
+  useEffect(() => {
+  },[user]);
+
+  saveFields = () => {
+    const uid = userAuth.uid;
+    changeName(uid, name);
+    // changeProfilePicture(uid, profilePicture);
+    changeMajor(uid, major);
+    changeYear(uid, year);
+    changeIntro(uid, intro);
+    changeHometown(uid, hometown);
+    // changeLanguages(uid, languages);
+  };
+
+  if (!validUser) {
+    return (
+        <SafeAreaView>
+            <Text>User not logged in</Text>
+        </SafeAreaView>
+    );
+  } else {
+    return (
+      <SafeAreaView>
+        <ScrollView>
+          <ImageBackground
+            source={require('../../images/SantaMonica.png')}
+            style={styles.backgroundImage}>
+            {renderGuideImage(user.profilePicture)}
+            <TouchableOpacity
+              // onPress={() => }
+              style={{position: 'absolute', right: 25, top: 120}}>
+              <Ionicons name={'camera'} size={25} color={'#9B9BA7'}/>
+            </TouchableOpacity>
+            <View
+              style={{
+                marginTop: '40%',
+                paddingRight: 20,
+                paddingLeft: 20,
+                height: '100%',
+                backgroundColor: 'white',
+                borderTopLeftRadius: 20,
+                borderTopRightRadius: 20,
+              }}>
+              <View style={{ paddingTop: 80, paddingBottom: 80 }}>
+                <Text style={styles.titleText}>
+                  {'First Name'}
+                </Text>
+                <TextInput style={styles.input} placeholder='Edit your name'
+                  onChangeText={name => setName(name)}>
+                  {user.name}
+                </TextInput>
+                <Text style={styles.titleText}>
+                  {'Year'}
+                </Text>
+                <TextInput style={styles.input} placeholder='Select Year'
+                  onChangeText={year => setYear(year)}>
+                  {user.year}
+                </TextInput>
+                <Text style={styles.titleText}>
+                  {'Major'}
+                </Text>
+                <TextInput style={styles.input} placeholder='Edit your major'
+                  onChangeText={major => setMajor(major)}>
+                  {user.major}
+                </TextInput>
+                <Text style={styles.titleText}>
+                  {'Intro'}
+                </Text>
+                <TextInput style={styles.inputIntro} placeholder='Tell us about yourself!' multiline='true'
+                  onChangeText={intro => setIntro(intro)}>
+                  {user.intro}
+                </TextInput>
+                <Text style={styles.titleText}>
+                  {'Hometown'}
+                </Text>
+                <TextInput style={styles.input} placeholder='Edit your hometown'
+                  onChangeText={hometown => setHometown(hometown)}>
+                  {user.hometown}
+                </TextInput>
+                <View style={styles.divider} />
+                <Ionicons name='add' style={styles.addIcon}/>
+                <Text style={styles.bodyText}>Add another language</Text>
+                <TouchableOpacity
+                  style={styles.saveButton}
+                  onPress={() => (nav.goBack(), saveFields())}>
+                  <Text style={{alignSelf: 'center', color: "white", fontWeight: '700'}}>
+                    {'Save'}
+                  </Text>
+                </TouchableOpacity>
+              </View>
             </View>
-          </View>
-        </ImageBackground>
-      </ScrollView>
-    </SafeAreaView>
-  );
+          </ImageBackground>
+        </ScrollView>
+      </SafeAreaView>
+    );
+  }
 };
+
 
 const renderGuideImage = (profilePicture) => {
   return (
@@ -114,7 +179,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     position: 'relative',
     marginTop: 20,
-    marginBottom: 20,
+    marginBottom: 0,
     borderBottomColor: '#9B9BA7',
     borderBottomWidth: 1,
     width: "92%",
@@ -177,14 +242,26 @@ const styles = StyleSheet.create({
     fontWeight: '400',
     left: 52,
     color: '#525252',
-    bottom: 3,
+    top: -5,
+    paddingBottom: 40,
   },
   addIcon: {
     color: '#525252',
     fontSize: 25,
-    position: 'absolute',
+    position: 'relative',
     left: 25,
-    bottom: 0,
+    top: 17,
+  },
+  saveButton: {
+    marginHorizontal: 20,
+    backgroundColor: '#3154A5',
+    height: 50,
+    justifyContent: 'center',
+    borderRadius: 10,
+    shadowColor: '#adadad',
+    shadowOffset: {width: 2, height: 2},
+    shadowOpacity: 0.8,
+    shadowRadius: 3,
   },
 });
 
