@@ -100,8 +100,8 @@ const AccountEdit = ({navigation}) => {
     ImagePicker.launchImageLibrary(options, (response) => {
       if (response.didCancel) {
         console.log('User cancelled image picker');
-      } else if (response.error) {
-        console.log('ImagePicker Error: ', response.error);
+      } else if (response.errorCode) {
+        console.log('ImagePicker Error: ', response.errorCode);
       } else if (response.customButton) {
         console.log('User tapped custom button: ', response.customButton);
         alert(response.customButton);
