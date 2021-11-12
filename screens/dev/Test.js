@@ -7,6 +7,8 @@ import { sendMessage, onConversationChange, getConversation } from '../../api/me
 import { HeaderTitle } from '@react-navigation/stack';
 import {
     /* Visitor Functions */
+    viewTourSettings,
+    convertToTourSummary,
     bookTour,
     cancelTour,
     viewAvailableTours,
@@ -60,6 +62,20 @@ export default function Test() {
             <ScrollView>
 
                 <Text>Tour Api</Text>
+                <Button
+                    title="view tour settings"
+                    onPress={async () => {
+                        //This gets the available tours and views the first tour setting list
+                        try {
+                            const tours = await viewAvailableTours();
+                            const tourSettings = await viewTourSettings(tours[0].id);
+                            console.log(tourSettings)
+                            console.log("Tour Summary data is: " + convertToTourSummary(tourSettings))
+                        } catch (err) {
+                            console.error(err)
+                        }
+                    }}
+                />
                 <Button
                     title="book tour"
                     onPress={async () => {

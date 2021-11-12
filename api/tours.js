@@ -5,9 +5,30 @@ import uuid from 'react-native-uuid';
 const tours = firestore().collection('tours');
 
 //user functions
+
+export const viewTourSettings = async (tourId) => {
+    const tourSettingsSnapshot = await tours.doc(tourId).collection('tourSettings').where('isPublished', '==', true).where('isArchived', '==', false).get()
+    const processedTourSettings = []
+    tourSettingsSnapshot.forEach(queryDocSnapshot => {
+        processedTourSettings.push({
+            id: queryDocSnapshot.id,
+            queryDocSnapshot, //extra
+            ...queryDocSnapshot.data(),
+        })
+    })
+    //const guideDoc = processedTourSettings[0].guide;
+    //console.log(await guideDoc.get())
+    return processedTourSettings
+}
+
+//TODO
+//pass in output of viewTourSettings fn to get basic info of tour
+export const convertToTourSummary = (processedTourSettings) => {
+    return 'Not Implemented'
+}
+
 //TODO
 export const bookTour = async(settingsId, partySize, visitorId) => {
-    throw new Error("Feature not implemented")
     await tours.where('settingsId', '==', settingsId).get().then(querySnapshot =>
         {
             console.log(querySnapshot.docs())
