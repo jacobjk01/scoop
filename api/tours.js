@@ -1,8 +1,8 @@
 import firestore from '@react-native-firebase/firestore';
 import uuid from 'react-native-uuid';
 
-
-const tours = firestore().collection('tours');
+const db = firestore();
+const tours = db.collection('tours');
 
 //user functions
 
@@ -11,6 +11,7 @@ export const viewTourSettings = async (tourId) => {
     const processedTourSettings = []
     tourSettingsSnapshot.forEach(queryDocSnapshot => {
         processedTourSettings.push({
+            tourSettingRef: queryDocSnapshot.ref,
             id: queryDocSnapshot.id,
             queryDocSnapshot, //extra
             ...queryDocSnapshot.data(),
@@ -27,19 +28,44 @@ export const convertToTourSummary = (processedTourSettings) => {
     return 'Not Implemented'
 }
 
-//TODO
-export const bookTour = async(settingsId, partySize, visitorId) => {
-    await tours.where('settingsId', '==', settingsId).get().then(querySnapshot =>
-        {
-            console.log(querySnapshot.docs())
-        });
+
+export const bookTour = async(tourSettingRef, partySize, visitorId) => {
+    if (!visitorId) {
+        throw new Error("visitor is not defined")
+    }
+    const visitor = user(visitorId);
+
+    const booking = tourSettingRef.collection("bookings").doc(); 
+    //console.log(booking.id)
+    booking.set({
+        visitor,
+        partySize
+    })
 }
-//TODO
-export const cancelTour = async (guideId, tourId, userId) => {
+
+//TODO? cancel a tour setting? cancel a tour? or cancel a booking?
+export const cancelTour = async (tourSettingRef) => {
     throw new Error("Feature not implemented")
 }
 
+//TODO - need to show only available tours
 export const viewAvailableTours = async () => {
+    return await viewAllTours();
+}
+
+export const getVisitorBookings = async (visitorId) => {
+    const queryTourSettingSnapshots = await db.collectionGroup("bookings").where("visitor", "==", user(visitorId)).get();
+    console.log(queryTourSettingSnapshots.docs)
+    let visitorBookings = [];
+    queryTourSettingSnapshots.forEach(tourSetting => {
+        visitorBookings.push(tourSetting.data());
+    })
+    return visitorBookings
+}
+
+//guide Functions
+//TODO
+export const viewAllTours = async () => {
     const queryTourSnapshots = await tours.where("title", "!=", "").get();
     if (queryTourSnapshots.empty) {
         console.warn("No tours found!")
@@ -53,17 +79,6 @@ export const viewAvailableTours = async () => {
         availableTours.push(tourData)
     }
     return availableTours;
-}
-
-//TODO
-export const getVisitorBookings = async (visitorId) => {
-    throw new Error("Feature not implemented")
-}
-
-//guide Functions
-//TODO
-export const viewAllTours = async () => {
-    throw new Error("Feature not implemented")
 }
 
 //TODO
@@ -116,7 +131,7 @@ export const addTour = async (
 
 //TODO
 export const editTour = async (
-    settingsId,
+    tourSettingRef,
     categories,
     cost,
     duration,
@@ -139,7 +154,7 @@ export const editTour = async (
 
 //TODO
 export const duplicateTour = async (
-    settingsId,
+    tourSettingRef,
     categories,
     cost,
     duration,
@@ -226,4 +241,13 @@ export const getBooking = async(guideId, tourId, userId) => {
             });
         }
     );
+}
+
+/**
+ * 
+ * @param {*} id any valid id in user db
+ * @returns a user documentReference
+ */
+const user = (id) => {
+    return firestore().collection('users').doc(id)
 }

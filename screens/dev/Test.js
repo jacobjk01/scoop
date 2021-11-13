@@ -5,6 +5,7 @@ import { GoogleSigninButton } from '@react-native-google-signin/google-signin';
 import { changeIntro, changeName, getUser, createPrivateData } from '../../api/users';
 import { sendMessage, onConversationChange, getConversation } from '../../api/messaging';
 import { HeaderTitle } from '@react-navigation/stack';
+
 import {
     /* Visitor Functions */
     viewTourSettings,
@@ -32,7 +33,7 @@ export default function Test() {
     const [userType, setUserType] = useState('currently userType is not set');
     const [userName, setUserName] = useState('currently userName is not set')
     const [userIntro, setUserIntro] = useState('currently userIntro is not set');
-    
+    let visitorId = 'CBBI3gdPl2Q88GF1G6RGsO8pXpG3'; //Joshua
     useEffect(() => {
         var unsubscribe1 = onAuthStateChanged(async user => {
             if (user) {
@@ -80,7 +81,10 @@ export default function Test() {
                     title="book tour"
                     onPress={async () => {
                         try {
-                            bookTour(settingsId, partySize, visitorId);
+                            const tours = await viewAvailableTours();
+                            const tourSettings = await viewTourSettings(tours[0].id);
+                            let partySize = 1;
+                            bookTour(tourSettings[0].tourSettingRef, partySize, visitorId);
                         } catch (err) {
                             console.error(err)
                         }
@@ -90,7 +94,7 @@ export default function Test() {
                     title="cancel tour"
                     onPress={async () => {
                         try {
-                            cancelTour(settingsId, userId)
+                            cancelTour(tourSettingRef, userId)
 
                         } catch (err) {
                             console.error(err)
@@ -193,7 +197,7 @@ export default function Test() {
                     onPress={async () => {
                         try {
                             const tour = await editTour(
-                                settingsId,
+                                tourSettingRef,
                                 categories,
                                 cost,
                                 duration,
@@ -217,7 +221,7 @@ export default function Test() {
                     onPress={async () => {
                         try {
                             const tour = await duplicateTour(
-                                settingsId,
+                                tourSettingRef,
                                 categories,
                                 cost,
                                 duration,
