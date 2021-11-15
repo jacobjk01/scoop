@@ -60,6 +60,7 @@ export default  ({navigation}) => {
             rows.push(
                 <TouchableOpacity
                     style={{paddingVertical: 8, paddingLeft: 15, borderColor: grayDark, borderBottomWidth: i != options.length - 1?0.5:0}}
+                    key={i}
                     onPress={() => {
                         let temp = [...data]
                         temp[index] = options[i] 
@@ -180,11 +181,11 @@ export default  ({navigation}) => {
         }
         else {
             return (
-                <View style={{width: '80%', height: '60%', display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '40%', marginLeft: 'auto', marginRight: 'auto'}}>
+                <View style={{width: '80%', height: '50%', display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '40%', marginLeft: 'auto', marginRight: 'auto'}}>
                     <Text style={{fontFamily: 'Helvetica-Bold', fontSize: 20, width: '70%', textAlign: 'center', top: positionTop, position: 'absolute'}}>
                         {question}
                     </Text>
-                    <View style={{height: 20}}/>
+                    <View style={{height: 10}}/>
                     {inputType()}
                     <View style={{flexDirection: 'row', justifyContent: 'space-between', width: '100%'}}>
                         <TouchableOpacity 
@@ -226,10 +227,29 @@ export default  ({navigation}) => {
             </TouchableOpacity>
             {marks()}
             {mainSection()}
-            <Button onPress={() => {
-                setVisitorBone(true);   
-            }} title='skip Onboarding'/>
-            
+            {page >= 3 && page <= 4 &&
+                <TouchableOpacity 
+                    style={{color: grayMed, alignSelf:'center', padding: 10, display: 'flex', flexDirection: 'row', alignItems: 'center'}}
+                    onPress={() => setPage(page + 1)}
+                >
+                            <Text style={{color: grayDark, fontSize: 13}}>
+                                Skip Question
+                            </Text>
+                            {/* <Ionicons 
+                                name="chevron-forward-outline"
+                                color={grayDark}
+                                size={15}
+                                style={{top: 1}}
+                            /> */}
+                </TouchableOpacity>
+            }
+            {page == 1 &&
+                <Button
+                    onPress={() => {
+                        setVisitorBone(true)
+                    }} title={'Skip Onboarding'}
+                />
+            }
         </SafeAreaView>
     )
 }
