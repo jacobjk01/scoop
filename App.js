@@ -165,10 +165,11 @@ const App = () => {
               case 'ManageTours':
                 iconName = focused ? 'map' : 'map-outline';
                 break;
-              case 'Tours':
+              case 'TourList':
                 iconName = focused ? 'map' : 'map-outline';
                 break;
-              case 'AccountVisitor' || 'AccountGuide':
+              case 'AccountGuide':
+              case 'AccountVisitor':
                 iconName = focused ? 'person' : 'person-outline';
                 break;
               default:
@@ -192,10 +193,9 @@ const App = () => {
                 <Tab.Screen
                   name="Home"
                   component={HomeVisitor}
-                  options={{tabBarVisible: true}}
                 />
                 <Tab.Screen name="TourList" component={TourList} />
-                <Tab.Screen name="Account" component={AccountVisitor} />
+                <Tab.Screen name="AccountVisitor" component={AccountVisitor} />
               </>
             );
           } else if (mode === 'guide') {
@@ -203,7 +203,7 @@ const App = () => {
               <>
                 <Tab.Screen name="Home" component={HomeGuide} />
                 <Tab.Screen name="ManageTours" component={ManageTours} />
-                <Tab.Screen name="Account" component={AccountGuide} />
+                <Tab.Screen name="AccountGuide" component={AccountGuide} />
               </>
             );
           } else {
@@ -263,6 +263,7 @@ const App = () => {
               options={{headerShown: false}}
             />
           </Stack.Navigator>
+          
         </NavigationContainer>
       ) : (
         <NavigationContainer>
