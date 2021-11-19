@@ -5,7 +5,7 @@ import { GoogleSigninButton } from '@react-native-google-signin/google-signin';
 import { changeIntro, changeName, getUser, createPrivateData } from '../../api/users';
 import { sendMessage, onConversationChange, getConversation } from '../../api/messaging';
 import { HeaderTitle } from '@react-navigation/stack';
-
+import {tours} from '../../data/toursData';
 import {
     /* Visitor Functions */
     viewTourSettings,
@@ -16,6 +16,7 @@ import {
     getVisitorBookings,
     /* Guide Functions */
     viewAllTours,
+    viewMyTours,
     getAttractions,
     getMeetingPts,
     addTour,
@@ -34,6 +35,34 @@ export default function Test() {
     const [userName, setUserName] = useState('currently userName is not set')
     const [userIntro, setUserIntro] = useState('currently userIntro is not set');
     let visitorId = 'CBBI3gdPl2Q88GF1G6RGsO8pXpG3'; //Joshua
+    let userId = visitorId
+    let guideId = 'bVkVyZQ5cXTrw83zpBfpNvpVThX2'; //Josh
+    let tour = tours[0]
+    let [
+        tourId,
+        categories,
+        cost,
+        duration,
+        introduction,
+        isArchived,
+        isPublished,
+        maxPeople,
+        meetingPt,
+        timeAvailable,
+        transportation
+    ] = [
+        "4Wey5tUxBInxLq4tZRlS",
+        [],
+        100,
+        120,
+        "Hi yall, this is test generated",
+        false,
+        true,
+        10,
+        "A Statue",
+        [],
+        "walking"
+    ]
     useEffect(() => {
         var unsubscribe1 = onAuthStateChanged(async user => {
             if (user) {
@@ -142,6 +171,19 @@ export default function Test() {
                     }
                 />
                 <Button
+                    title="view my tours"
+                    onPress={async () => {
+                        try {
+                            const myTours = await viewMyTours(guideId)
+                            console.log(myTours)
+
+                        } catch (err) {
+                            console.error(err)
+                        }
+                    }
+                    }
+                />
+                <Button
                     title="get attractions"
                     onPress={async () => {
                         try {
@@ -170,6 +212,7 @@ export default function Test() {
                 <Button
                     title="add tour"
                     onPress={async () => {
+                        
                         try {
                             const tour = await addTour(
                                 guideId,

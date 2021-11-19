@@ -25,7 +25,7 @@ export const viewTourSettings = async (tourId) => {
 //TODO
 //pass in output of viewTourSettings fn to get basic info of tour
 export const convertToTourSummary = (processedTourSettings) => {
-    return 'Not Implemented'
+    throw 'Not Implemented'
 }
 
 
@@ -39,7 +39,8 @@ export const bookTour = async(tourSettingRef, partySize, visitorId) => {
     //console.log(booking.id)
     booking.set({
         visitor,
-        partySize
+        partySize,
+        isCancelled: false
     })
 }
 
@@ -55,7 +56,6 @@ export const viewAvailableTours = async () => {
 
 export const getVisitorBookings = async (visitorId) => {
     const queryTourSettingSnapshots = await db.collectionGroup("bookings").where("visitor", "==", user(visitorId)).get();
-    console.log(queryTourSettingSnapshots.docs)
     let visitorBookings = [];
     queryTourSettingSnapshots.forEach(tourSetting => {
         visitorBookings.push(tourSetting.data());
@@ -64,7 +64,7 @@ export const getVisitorBookings = async (visitorId) => {
 }
 
 //guide Functions
-//TODO
+
 export const viewAllTours = async () => {
     const queryTourSnapshots = await tours.where("title", "!=", "").get();
     if (queryTourSnapshots.empty) {
@@ -81,6 +81,23 @@ export const viewAllTours = async () => {
     return availableTours;
 }
 
+
+export const viewMyTours = async (guideId) => {
+    const queryTourSettingSnapshots = await db.collectionGroup("tourSettings")
+        .where("guide", "==", user(guideId))
+        // .where("isArchived", "==", false)
+        // .where("isPublished", "==", true)
+        .where("flags", "!=", ["published", "archived"])
+        //gets all tours for guide that only have published flag
+        .get()
+    let myTours = [];
+    console.log(queryTourSettingSnapshots.docs.length)
+    queryTourSettingSnapshots.forEach(tourSetting => {
+        myTours.push(tourSetting.data());
+    })
+    return myTours
+}
+
 //TODO
 export const getAttractions = async (tourId) => {
     throw new Error("Feature not implemented")
@@ -91,7 +108,7 @@ export const getMeetingPts = async (tourId) => {
     throw new Error("Feature not implemented")
 }
 
-//TODO
+//adds a tour setting and returns a tourSetting ref
 export const addTour = async (
     guideId,
     tourId,
@@ -106,27 +123,23 @@ export const addTour = async (
     timeAvailable,
     transportation
 ) => {
-    throw new Error("Feature not implemented")
-    if (!(guideId && picture && meetingPt && attractions && date && time && cost && duration && transportation && maxPeople && description && category)) {
-        console.log("required parameter not here")
-        return;
-    } else {
-        await tours.doc().set({
-            guideId,
-            picture,
-            meetingPt,
-            attractions,
-            date,
-            time,
-            cost,
-            duration,
-            transportation,
-            maxPeople,
-            description,
-            category,
-            archive: false,
-        });
-    }
+    const tour = tours.doc(tourId).collection("tourSettings").doc()
+    await tour.set({
+        guide: guideId,
+        meetingPt,
+        categories,
+        cost,
+        duration,
+        introduction,
+        isArchived: false,
+        isPublished: true,
+        maxPeople,
+        meetingPt,
+        timeAvailable,
+        transportation,
+        flags: ["published"]
+    });
+    return tour;
 }
 
 //TODO
