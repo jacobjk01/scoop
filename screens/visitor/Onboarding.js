@@ -233,14 +233,14 @@ export default  ({navigation}) => {
                     onPress={() => setPage(page + 1)}
                 >
                             <Text style={{color: grayDark, fontSize: 13}}>
-                                Skip Question
+                                skip
                             </Text>
-                            {/* <Ionicons 
+                            <Ionicons 
                                 name="chevron-forward-outline"
                                 color={grayDark}
                                 size={15}
                                 style={{top: 1}}
-                            /> */}
+                            />
                 </TouchableOpacity>
             }
             {page == 1 &&
