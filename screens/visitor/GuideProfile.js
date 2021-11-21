@@ -57,14 +57,6 @@ const GuideProfile = ({navigation, route}) => {
     );
   };
 
-  const bookTourButton = () => {
-    const handleOnPress = () => navigation.navigate('GuideBooking1');
-    return (
-      <TouchableOpacity onPress={handleOnPress} style={styles.roundButton2}>
-        <Text style={styles.messageFont}>Book Tour</Text>
-      </TouchableOpacity>
-    );
-  };
 
   return (
     <View style={{height: '100%'}}>
@@ -97,7 +89,6 @@ const GuideProfile = ({navigation, route}) => {
             }}>
             {renderGuideImage({item})}
             {messageButton()}
-            {bookTourButton()}
           </View>
 
           <View style={styles.divider} />
