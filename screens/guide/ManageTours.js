@@ -77,9 +77,8 @@ const ManageTours = ({navigation}) => {
                 <TouchableOpacity key={tour.id} style={styles.tourCard} onPress={() => navigation.navigate('TourEdit', {tour})}>
                   <Image style={styles.tourImage} source={tour.src}></Image>
                   <View style={styles.tourTextSection}>
-                    <Text style={{fontSize: 10, color: "#9B9BA7"}}>{tour.duration} min | <Ionicons name={'people'} size={12}/> Max {tour.maxPeople} people | <Ionicons name={tour.transportation} size={12}/></Text>
-                    <Text style={{fontWeight: '600'}}>{tour.name}</Text>
-                    <Text style={{fontSize: 12, marginTop: 5}}>{tour.description}</Text>
+                    <Text style={styles.tourTitle}>{tour.name}</Text>
+                    <Text style={styles.tourText}>{tour.duration} min | <Ionicons name={'people'} size={12}/> Max {tour.maxPeople} people | <Ionicons name={tour.transportation} size={12}/></Text>
                   </View>
                 </TouchableOpacity>
               )
@@ -116,14 +115,20 @@ const styles = StyleSheet.create({
     width: 120,
     height: 120,
   },
-  tourText: {
-    width: 200,
+  tourTitle: {
+    // width: 200,
     fontWeight: '600',
-    fontSize: 18,
+    // fontSize: 18,
     color: colors.white,
     position: 'absolute',
-    bottom: 50,
-    left: 20,
+    bottom: 45,
+    // left: 20,
+  },
+  tourText: {
+    position: 'absolute',
+    color: colors.white,
+    fontSize: 10,
+    bottom: 30,
   },
   guideText: {
     width: 120,
@@ -156,7 +161,7 @@ const styles = StyleSheet.create({
     // stroke-dasharray: "8, 3",
     borderColor: '#525252',
     width: '45%',
-    height: 250,
+    height: 160,
     margin: 8,
     borderRadius: 10,
     justifyContent: 'center',
@@ -166,7 +171,7 @@ const styles = StyleSheet.create({
   },
   tourCard: {
     width: '45%',
-    height: 250,
+    height: 160,
     margin: 8,
     borderRadius: 10,
     backgroundColor: 'white',
@@ -179,12 +184,12 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 0,
     width: '100%',
-    height: '50%',
+    height: '100%',
     borderRadius: 10,
   },
   tourTextSection: {
-    position: 'absolute',
-    top: '53%',
+    position: 'relative',
+    top: '110%',
     left: 10,
     right: 5,
   },

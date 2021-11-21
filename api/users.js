@@ -48,6 +48,19 @@ export const getUserData = async (userAuth) => {
 }
 
 /**
+ * Gets the profile picture of the user in the db and storage
+ * @param {string} uid 
+ * @returns true if successful, false if not
+ */
+export const getProfilePicture = async (uid) => {
+    try {
+        return await storage().ref(uid).getDownloadURL();
+    } catch (e) {
+        console.log(e);
+    }
+}
+
+/**
  * Creates private data for the user
  * @param {string} uid 
  * @returns true if successful, false if not

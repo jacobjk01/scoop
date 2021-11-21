@@ -12,15 +12,18 @@ import {
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { UserContext } from 'contexts'
 import { useIsFocused } from '@react-navigation/core';
+import { getProfilePicture } from 'api/users';
 
 const Account = ({ navigation }) => {
-  const {user} = useContext(UserContext);
+  const {user, userAuth} = useContext(UserContext);
   const isFocused = useIsFocused();
+  const [profilePicture, setProfilePicture] = useState(null);
 
-  useEffect(() => {},[user])
+  useEffect(() => {console.log(user)},[user])
 
-  useEffect(() => {
+  useEffect(async () => {
     // this.forceUpdate();
+    setProfilePicture(await getProfilePicture(userAuth.uid));
   }, [isFocused])
 
   return (
@@ -39,7 +42,7 @@ const Account = ({ navigation }) => {
               borderTopRightRadius: 20,
             }}
           >
-            {renderGuideImage(user.profilePicture)}
+            {renderGuideImage(profilePicture)}
             <SafeAreaView>
               {renderGuideBio(user ? user : "")}
               <TouchableOpacity
