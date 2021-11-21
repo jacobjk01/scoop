@@ -85,6 +85,7 @@ class TourBooking3 extends Component {
     if (this.state.selectedTime == index) {
       return (
         <TouchableOpacity
+          key={index}
           style={{
             backgroundColor: primary,
             borderRadius: 10,
@@ -102,6 +103,7 @@ class TourBooking3 extends Component {
     } else {
       return (
         <TouchableOpacity
+          key={index}
           style={{
             backgroundColor: white,
             borderColor: '#3154A5',
