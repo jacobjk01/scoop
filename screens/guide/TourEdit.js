@@ -27,7 +27,6 @@ class TourEdit extends Component {
   }
 
   renderForeground() {
-    // const tour = this.props.route.params.tour;
     return (
       <View style={{flex: 1, borderRadius: 15}}>
         <ImageBackground

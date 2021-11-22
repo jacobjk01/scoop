@@ -247,7 +247,7 @@ const App = () => {
           <Stack.Screen name="TourEdit" component={RequireAuth(TourEdit)} options={{headerShown: true}}/>
           <Stack.Screen name="TourEdit2" component={RequireAuth(TourEdit2)} options={{headerShown: true}}/>
           <Stack.Screen name="TourEdit3" component={RequireAuth(TourEdit3)} options={{headerShown: true}}/>
-          <Stack.Screen name="ViewTour" component={RequireAuth(ViewTour)} options={{headerShown: true}}/>
+          <Stack.Screen name="ViewTour" component={RequireAuth(ViewTour)} options={{headerShown: false}}/>
 
           {/* Visitor Routes */}
           <Stack.Screen name="AccountVisitor" component={AccountVisitor} options={{headerShown: false}}/>

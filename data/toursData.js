@@ -19,6 +19,7 @@ module.exports = {
       tourMonth: 'JUL',
       tourDay: '14',
       category: 'sightseeing',
+      visitors: 2,
     },
     {
       id: '2',
@@ -37,7 +38,8 @@ module.exports = {
       for now this bc easier for following screen mock ups */
       tourMonth: 'JUL',
       tourDay: '15',
-      category: 'sightseeing'
+      category: 'sightseeing',
+      visitors: 3,
     },
     {
       id: '3',
@@ -56,6 +58,7 @@ module.exports = {
       for now this bc easier for following screen mock ups */
       tourMonth: 'JUN',
       tourDay: '1',
+      visitors: 1,
     },
     {
       id: '4',
@@ -74,6 +77,7 @@ module.exports = {
       for now this bc easier for following screen mock ups */
       tourMonth: 'JUN',
       tourDay: '12',
+      visitors: 5,
     },
     {
       id: '6',
@@ -92,6 +96,7 @@ module.exports = {
       for now this bc easier for following screen mock ups */
       tourMonth: 'JUN',
       tourDay: '14',
+      visitors: 4,
     },
   ],
   guides: [

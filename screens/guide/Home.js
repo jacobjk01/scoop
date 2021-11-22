@@ -50,7 +50,7 @@ const Home = ({navigation}) => {
             {/* a tour list */}
           {tours.slice(1).map((tour) => {
             return(
-              <TouchableOpacity key={tour.id} style={styles.tourCard} onPress={() => navigation.navigate('TourEdit', {tour})}>
+              <TouchableOpacity key={tour.id} style={styles.tourCard} onPress={() => navigation.navigate('ViewTour', {tour})}>
                 {/* <Image style={styles.tourImage} source={tour.src}></Image> */}
                 <View style={styles.tourTextSection}>
                     <View style={styles.tourDateSection}>
