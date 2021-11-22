@@ -19,10 +19,9 @@ const Account = ({ navigation }) => {
   const isFocused = useIsFocused();
   const [profilePicture, setProfilePicture] = useState(null);
 
-  useEffect(() => {console.log(user)},[user])
+  useEffect(() => {},[user])
 
   useEffect(async () => {
-    // this.forceUpdate();
     setProfilePicture(await getProfilePicture(userAuth.uid));
   }, [isFocused])
 

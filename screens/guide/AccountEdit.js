@@ -11,10 +11,10 @@ import {
   ImageBackground,
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { UserContext } from 'contexts';
-import { getUser, getProfilePicture, changeName, changeProfilePicture, changeMajor, changeYear, changeIntro, changeLanguages, changeHometown } from 'api/users';
-import { onAuthStateChanged } from 'api/auth';
+import { useIsFocused } from '@react-navigation/core';
 import { useNavigation } from '@react-navigation/native';
+import { UserContext } from 'contexts';
+import { getProfilePicture, changeName, changeProfilePicture, changeMajor, changeYear, changeIntro, changeLanguages, changeHometown } from 'api/users';
 import {request, check, PERMISSIONS, RESULTS} from 'react-native-permissions';
 
 const AccountEdit = ({navigation}) => {
@@ -27,16 +27,11 @@ const AccountEdit = ({navigation}) => {
   const [hometown, setHometown] = useState(user.hometown);
   const [imageData, setImageData] = useState(null);
   const [profilePicture, setProfilePicture] = useState(null);
+  const isFocused = useIsFocused();
 
-  // useEffect(async () => {
-  //   if (userAuth) {
-  //     const currentUser = await getUser(userAuth);
-  //     setUser({...currentUser.data()})
-  //     profilePicture = await getProfilePicture(userAuth.uid);
-  //     setProfilePicture(profilePicture)
-  //     console.error(profilePicture)
-  //   }
-  // }, [userAuth]);
+  useEffect(async () => {
+    setProfilePicture(await getProfilePicture(userAuth.uid));
+  }, [isFocused])
 
   saveFields = () => {
     const uid = userAuth.uid;
