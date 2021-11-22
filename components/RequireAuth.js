@@ -17,7 +17,7 @@ export default RequireAuth = (Component) => {
                     <Text>Loading</Text> 
                     <Text>Loading</Text>
                     <Text>Loading</Text>  
-                </SafeAreaView> : user ? <Component/> : <Text>Not Registered</Text>} 
+                </SafeAreaView> : user ? <Component {...props}/> : <Text>Not Registered</Text>} 
             </>
         );
     };

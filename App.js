@@ -164,7 +164,7 @@ const App = () => {
                 case 'Tours':
                   iconName = focused ? 'map' : 'map-outline';
                   break;
-                case 'AccountVisitor' || 'AccountGuide':
+                case 'Account':
                   iconName = focused ? 'person' : 'person-outline';
                   break;
                 default:
