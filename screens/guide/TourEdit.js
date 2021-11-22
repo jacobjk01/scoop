@@ -61,7 +61,7 @@ class TourEdit extends Component {
 
   renderContent() {
     return (
-      <View style={{marginBottom: 70}}>
+      <View style={{marginBottom: 200}}>
         <TouchableOpacity
             onPress={() => this.navigation.navigate('TourEdit3', this.tour)}
             style={{position: 'absolute', right: 30, top: 30}}>
@@ -93,7 +93,7 @@ class TourEdit extends Component {
 
   render() {
     return (
-      <View>
+      <View style={{backgroundColor: 'white'}}>
         <StatusBar barStyle="dark-content" />
         <ScrollView>
           {this.renderForeground()}
@@ -182,7 +182,7 @@ const styles = StyleSheet.create({
   },
   continue: {
     position: 'absolute',
-    bottom: -80,
+    bottom: 50,
     left: 20,
     right: 20,
     backgroundColor: '#3154A5',

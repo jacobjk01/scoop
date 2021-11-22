@@ -56,12 +56,15 @@ const ManageTours = ({navigation}) => {
       );
   } else {
     return (
-      <SafeAreaView>
+      <SafeAreaView style={{backgroundColor: 'white'}}>
         <ScrollView style={{paddingRight: 20, paddingLeft: 20, height: '100%'}}>
           <View style={{marginTop: 50}}>
-            <Text style={{marginLeft: 20, fontSize: 24, fontWeight: '700', marginBottom: 20}}>
+            <Text style={{marginLeft: 20, fontSize: 24, fontWeight: '700', marginBottom: 40}}>
               Manage Tours
             </Text>
+            <TouchableOpacity style={styles.selectButton}>
+            <Text style={{color: '#007BBA'}}>Select</Text>
+            </TouchableOpacity>
           </View>
           <View style={{flexDirection: 'row', flexWrap: 'wrap'}}>
               <TouchableOpacity style={styles.addNewTourCard} onPress={async () => {
@@ -98,6 +101,11 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: '600',
     marginTop: 50,
+  },
+  selectButton: {
+    position: 'absolute',
+    top: 7,
+    right: 22,
   },
   sectionText: {
     fontSize: 20,

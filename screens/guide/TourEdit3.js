@@ -129,7 +129,7 @@ class TourEdit3 extends Component {
 
   render() {
     return (
-      <View>
+      <View style={{backgroundColor: 'white'}}>
         <StatusBar barStyle="dark-content" />
         <ScrollView>
           {this.renderForeground()}
@@ -160,19 +160,19 @@ class Counter extends React.Component {
     )
     
     addCount = () => this.setState(
-        prevState => ({ ...prevState, count: this.state.count + 1 })
+        prevState => ({ ...prevState, count: this.state.count < 10 ? this.state.count + 1 : this.state.count})
     )
   
     render() {
       const { count } = this.state;
       return (
         <View style={{flexDirection: 'row'}}>
-            <TouchableOpacity style={styles.removeButton} onPress={this.subtractCount}>
-                <Ionicons name={'remove'} size={16} style={{color: '#9B9BA7'}}/>
+            <TouchableOpacity style={count > 1 ? styles.removeButton : styles.removeButtonGray} onPress={this.subtractCount}>
+                <Ionicons name={'remove'} size={16} style={count > 1 ? {color: 'white'} : {color: '#9B9BA7'}}/>
             </TouchableOpacity>
             <Text style={{paddingHorizontal: 8}}>{count}</Text>
-            <TouchableOpacity style={styles.addButton} onPress={this.addCount}>
-                <Ionicons name={'add'} size={16} style={{color: 'white'}}/>
+            <TouchableOpacity style={count < 10 ? styles.addButton : styles.addButtonGray} onPress={this.addCount}>
+                <Ionicons name={'add'} size={16} style={count < 10 ? {color: 'white'} : {color: '#9B9BA7'}}/>
             </TouchableOpacity>
         </View>
       );
@@ -267,6 +267,15 @@ const styles = StyleSheet.create({
       marginHorizontal: 5,
   },
   removeButton: {
+    borderColor: '#3154A5',
+    borderWidth: 1,
+    paddingHorizontal: 2,
+    borderRadius: 5,
+    paddingVertical: 1,
+    marginLeft: 5,
+    backgroundColor: '#3154A5',
+  },
+  removeButtonGray: {
     borderColor: '#9B9BA7',
     borderWidth: 1,
     paddingHorizontal: 2,
@@ -280,10 +289,16 @@ const styles = StyleSheet.create({
     paddingHorizontal: 2,
     borderRadius: 5,
     backgroundColor: '#3154A5',
-    },
+  },
+  addButtonGray: {
+    borderColor: '#9B9BA7',
+    borderWidth: 1,
+    paddingHorizontal: 2,
+    borderRadius: 5,
+  },
   buttonText: {
       fontSize: 16,
-    },
+  },
   inputIntro: {
     alignSelf: 'center',
     height: 140,
