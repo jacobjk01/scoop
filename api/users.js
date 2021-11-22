@@ -49,12 +49,13 @@ export const getUserData = async (userAuth) => {
 
 /**
  * Gets the profile picture of the user in the db and storage
- * @param {string} uid 
+ * @param {string} uid
+ * @param {string} type can be profilePicture or backgroundPicture
  * @returns true if successful, false if not
  */
-export const getProfilePicture = async (uid) => {
+export const getPicture = async (uid, type) => {
     try {
-        return await storage().ref(uid).getDownloadURL();
+        return await storage().ref(uid + "/" + type).getDownloadURL();
     } catch (e) {
         console.log(e);
     }
@@ -90,15 +91,15 @@ export const changeName = async (uid, name) => {
 }
 
 /**
- * Updates the profile picture of the user in the db and storage
+ * Updates the profile or background picture of the user in the db and storage
  * @param {string} uid 
- * @param {string} profilePicture 
+ * @param {string} picture 
+ * @param {string} type can be profilePicture or backgroundPicture
  * @returns true if successful, false if not
  */
-export const changeProfilePicture = async (uid, profilePicture) => {
+export const changePicture = async (uid, picture, type) => {
     try {
-        await storage().ref(uid).putFile(profilePicture);
-        return await update(Users, uid, "profilePicture", profilePicture);
+        return await storage().ref(uid + "/" + type).putFile(picture);
     } catch (e) {
         console.log(e);
     }

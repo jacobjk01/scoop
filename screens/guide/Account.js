@@ -12,67 +12,69 @@ import {
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { UserContext } from 'contexts'
 import { useIsFocused } from '@react-navigation/core';
-import { getProfilePicture } from 'api/users';
+import { getPicture } from 'api/users';
 
 const Account = ({ navigation }) => {
   const {user, userAuth} = useContext(UserContext);
   const isFocused = useIsFocused();
   const [profilePicture, setProfilePicture] = useState(null);
+  const [backgroundPicture, setBackgroundPicture] = useState(null);
 
   useEffect(() => {},[user])
 
   useEffect(async () => {
-    setProfilePicture(await getProfilePicture(userAuth.uid));
+    setProfilePicture(await getPicture(userAuth.uid, "profilePicture"));
+    setBackgroundPicture(await getPicture(userAuth.uid, "backgroundPicture"));
   }, [isFocused])
 
   return (
     <ImageBackground
-      source={require('images/SantaMonica.png')}
+      source={{uri: backgroundPicture}}
       style={styles.backgroundImage}>
       <ScrollView>
-          <View
-            style={{
-              marginTop: '40%',
-              paddingRight: 20,
-              paddingLeft: 20,
-              height: '100%',
-              backgroundColor: 'white',
-              borderTopLeftRadius: 20,
-              borderTopRightRadius: 20,
-            }}
-          >
-            {renderGuideImage(profilePicture)}
-            <SafeAreaView>
-              {renderGuideBio(user ? user : "")}
-              <TouchableOpacity
-                onPress={() => navigation.navigate('AccountEdit')}
-                style={{position: 'absolute', right: 10, top: 20}}>
-                <View>
-                  <Text style={{color: '#9B9BA7'}}>Edit <Ionicons name={'pencil'} size={16}/></Text>
-                </View>
-              </TouchableOpacity>
-              <View style={styles.divider} />
-            </SafeAreaView>
-            <View>
-              <Text style={styles.titleText}>
-                {'Introduction'}
-              </Text>
-              <Text style={styles.subtitleText}>
-                {'Hometown: '} {user.hometown ? user.hometown : ""}
-              </Text>
-              <Text style={styles.bodyText}>
-                {user.intro ? user.intro : ""}
-              </Text>
-            </View>
+        <View
+          style={{
+            marginTop: '40%',
+            paddingRight: 20,
+            paddingLeft: 20,
+            height: '100%',
+            backgroundColor: 'white',
+            borderTopLeftRadius: 20,
+            borderTopRightRadius: 20,
+          }}
+        >
+          {renderGuideImage(profilePicture)}
+          <SafeAreaView>
+            {renderGuideBio(user ? user : "")}
+            <TouchableOpacity
+              onPress={() => navigation.navigate('AccountEdit')}
+              style={{position: 'absolute', right: 10, top: 20}}>
+              <View>
+                <Text style={{color: '#9B9BA7'}}>Edit <Ionicons name={'pencil'} size={16}/></Text>
+              </View>
+            </TouchableOpacity>
             <View style={styles.divider} />
-            <Text style={{fontSize: 20, fontWeight: '700', paddingBottom: 400}}>
-              {'Languages'}
-              {/* <View style={{flex: 1, height: 10}}> */}
-                {/* <Image source={require('images/languages/us.png')} style={{flex: 1}} resizeMode={"stretch"}></Image> */}
-              {/* </View> */}
+          </SafeAreaView>
+          <View>
+            <Text style={styles.titleText}>
+              {'Introduction'}
             </Text>
-            
+            <Text style={styles.subtitleText}>
+              {'Hometown:'} {user.hometown ? user.hometown : ""}
+            </Text>
+            <Text style={styles.bodyText}>
+              {user.intro ? user.intro : ""}
+            </Text>
           </View>
+          <View style={styles.divider} />
+          <Text style={{fontSize: 20, fontWeight: '700', paddingBottom: 400}}>
+            {'Languages'}
+            {/* <View style={{flex: 1, height: 10}}> */}
+              {/* <Image source={require('images/languages/us.png')} style={{flex: 1}} resizeMode={"stretch"}></Image> */}
+            {/* </View> */}
+          </Text>
+          
+        </View>
       </ScrollView>
     </ImageBackground>
   );
@@ -125,7 +127,7 @@ const styles = StyleSheet.create({
     width: 100,
     height: 100,
     borderRadius: 100,
-    backgroundColor: '#00BCD4',
+    backgroundColor: 'gray',
     position: 'absolute',
     bottom: 70,
   },
