@@ -62,13 +62,13 @@ class TourEdit3 extends Component {
   renderContent() {
     return (
       <View style={{marginBottom: 70}}>
-        <TouchableOpacity
+        {/* <TouchableOpacity
             onPress={() => this.navigation.navigate()}
             style={{position: 'absolute', right: 30, top: 30}}>
             <View>
               <Text style={{color: grayDark}}>Edit <Ionicons name={'pencil'} size={16}/></Text>
             </View>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
         <Text style={[styles.sectionText, {marginTop: 40}]}>Basic Info</Text>
         <View style={[styles.bodyText, {flexDirection: 'row', marginTop: 20}]}>
             <Text>

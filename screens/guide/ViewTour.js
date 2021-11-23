@@ -1,17 +1,29 @@
 import React from 'react'
 import { SafeAreaView, View, Text, StyleSheet, TouchableOpacity, Image, ScrollView } from 'react-native'
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { primary, white, grayDark, black, grayVeryLight } from 'config/colors';
+import { primary, white, grayDark, black, grayVeryLight, grayVeryDark, grayShadow } from 'config/colors';
 
-const ViewTour = ({navigation, route}) => {
+const ViewTour = ({ navigation, route }) => {
     const tour = route.params.tour;
+    const curTime = '12:00 PM';
+    const activeTour = tour.startTime == curTime ? true : false;
+    const itinerary = [
+        {'name': 'Diddy Riese', 'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'},
+        {'name': 'Regency Theater', 'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'},
+        {'name': 'Copymat', 'description': 'Integer lorem volutpat rhoncus, tellus neque, blandit et ut.'},
+        {'name': 'CVS', 'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'},
+        {'name': 'Target', 'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'},
+        {'name': 'Elyse Bakery', 'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'},
+    ]
     return (
         <SafeAreaView>
             {renderHeader(navigation, tour.name)}
             <ScrollView style={{height: '100%'}}>
-                {renderTourInfo(tour)}
+                {activeTour ? null : renderTourInfo(tour)}
                 {renderVisitorInfo(tour)}
+                {activeTour ? renderItinerary(itinerary) : null}
             </ScrollView>
+            {activeTour ? renderCompleteButton() : null}
         </SafeAreaView>
     )
 }
@@ -19,12 +31,12 @@ const ViewTour = ({navigation, route}) => {
 const renderHeader = (navigation, tourName) => {
     return (
         <View style={styles.header}>
+            <Text style={styles.headerText}>{tourName}</Text>
             <TouchableOpacity
                 style={styles.backIcon}
-                onPress={() => navigation.goBack(), console.error('clicked')}>
+                onPress={() => navigation.goBack()}>
                 <Ionicons name='chevron-back-outline' size={20} color={primary} />
             </TouchableOpacity>
-            <Text style={styles.headerText}>{tourName}</Text>
         </View>
     );
 };
@@ -86,6 +98,48 @@ function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
+const renderItinerary = (itinerary) => {
+    return (
+        <View style={styles.suggestedItineraryCard}>
+            <View style={styles.content}>
+            <Text style={[styles.sectionTitleText, {marginLeft: -20, marginBottom: 10}]}>Suggested Itinerary</Text>
+            {itinerary.map(function(item, index) {
+                return (
+                    <View style={{ marginBottom: 30 }}>
+                        <View style={styles.circle}/>
+                        {index != itinerary.length - 1 ?
+                            <View style={styles.verticalLine}/> : null
+                        }
+                        <View style={styles.textSection}>
+                            <Text style={styles.titleText}>
+                                {item.name}
+                            </Text>
+                            <Text style={styles.descriptionText}>
+                                {item.description}
+                            </Text>
+                        </View>
+                    </View>
+                );
+            })
+        }
+        </View>
+        </View>
+        
+    );
+};
+
+const renderCompleteButton = () => {
+    return (
+        <TouchableOpacity
+          style={styles.continue}
+          onPress={() => this.navigation.navigate('TourEdit2')}>
+          <Text style={{alignSelf: 'center', color: white, fontWeight: '700'}}>
+            {'Complete This Tour'}
+          </Text>
+        </TouchableOpacity>
+    );
+};
+
 const styles = StyleSheet.create({
     header: {
         width: '100%',
@@ -135,7 +189,21 @@ const styles = StyleSheet.create({
         shadowRadius: 5,
         marginHorizontal: 20,
         alignSelf: 'center',
+        marginTop: 20,
+        marginBottom: 5,
+    },
+    suggestedItineraryCard: {
+        width: '95%',
+        borderRadius: 20,
+        backgroundColor: white,
+        shadowColor: black,
+        shadowOffset: {width: 1, height: 1},
+        shadowOpacity: 0.3,
+        shadowRadius: 5,
+        marginHorizontal: 20,
+        alignSelf: 'center',
         marginVertical: 10,
+        marginBottom: 190,
     },
     sectionTitleText: {
         fontWeight: '700',
@@ -180,6 +248,55 @@ const styles = StyleSheet.create({
         borderBottomColor: grayDark,
         borderBottomWidth: 1,
         width: '100%',
+    },
+    content: {
+        marginLeft: 50,
+        marginRight: 30,
+        marginVertical: 30,
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+    },
+    circle: {
+        position: 'absolute',
+        backgroundColor: primary,
+        width: 15,
+        height: 15,
+        borderRadius: 15,
+    },
+    textSection: {
+        marginLeft: 35,
+    },
+    titleText: {
+        fontWeight: '700',
+        fontSize: 16,
+    },
+    descriptionText: {
+        fontWeight: '400',
+        fontSize: 14,
+        color: grayVeryDark,
+        marginTop: 10,
+    },
+    verticalLine: {
+        position: 'absolute',
+        backgroundColor: primary,
+        width: 2,
+        height: 90,
+        marginLeft: 6,
+        marginTop: 10,
+    },
+    continue: {
+        position: 'absolute',
+        bottom: 150,
+        left: 20,
+        right: 20,
+        backgroundColor: primary,
+        height: 50,
+        justifyContent: 'center',
+        borderRadius: 10,
+        shadowColor: grayShadow,
+        shadowOffset: {width: 2, height: 2},
+        shadowOpacity: 0.8,
+        shadowRadius: 3,
     },
 });
 

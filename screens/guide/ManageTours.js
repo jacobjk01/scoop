@@ -60,7 +60,7 @@ const ManageTours = ({navigation}) => {
       <SafeAreaView style={{backgroundColor: white}}>
         <ScrollView style={{paddingRight: 20, paddingLeft: 20, height: '100%'}}>
           <View style={{marginTop: 50}}>
-            <Text style={{marginLeft: 20, fontSize: 24, fontWeight: '700', marginBottom: 40}}>
+            <Text style={{marginLeft: 20, fontSize: 24, fontWeight: '700', marginBottom: 35}}>
               Manage Tours
             </Text>
             <TouchableOpacity style={styles.selectButton}>
