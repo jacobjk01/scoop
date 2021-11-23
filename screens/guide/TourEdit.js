@@ -36,7 +36,7 @@ class TourEdit extends Component {
           <LinearGradient
             colors={['transparent', black]}
             style={styles.linearGradTour}
-          />
+            />
           <View style={styles.imageOverlay}>
             <Text style={styles.titleText}>
               {this.tour.name}
