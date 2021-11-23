@@ -75,7 +75,7 @@ class TourBooking3 extends Component {
             return(
                 <TouchableOpacity style={{backgroundColor: primary, borderColor: primary, 
                 borderWidth: 2, borderRadius: 10, padding: 10, marginRight: 10, marginLeft: 10, marginBottom: 10}}>
-                    <Text style={{color: white}}>{moment(this.state.times[index]).format("LT")}</Text>
+                    <Text style={{color: white}}>{moment(this.state.times[index]).format('LT')}</Text>
                 </TouchableOpacity>
             )
         } else {
@@ -83,7 +83,7 @@ class TourBooking3 extends Component {
                 <TouchableOpacity style={{backgroundColor: white, borderColor: primary, 
                 borderWidth: 2, borderRadius: 10, padding: 10, marginRight: 10, marginLeft: 10, marginBottom: 10}}
                 onPress={() => this.setSelectedTime(index)}>
-                    <Text style={{color: primary}}>{moment(this.state.times[index]).format("LT")}</Text>
+                    <Text style={{color: primary}}>{moment(this.state.times[index]).format('LT')}</Text>
                 </TouchableOpacity>
             )
         }
@@ -144,7 +144,7 @@ class TourBooking3 extends Component {
         return(
             <SafeAreaView>
                 <Modal
-                    animationType="slide"
+                    animationType='slide'
                     visible={this.state.modalVisible}
                     onRequestClose={() => {
                         this.closeModal.bind(this);
@@ -152,7 +152,7 @@ class TourBooking3 extends Component {
                 >
                     <MapView
                         ref={map => { this.map = map }}
-                        style={{flex: 1, justifyContent: "center"}}
+                        style={{flex: 1, justifyContent: 'center'}}
                         provider={PROVIDER_GOOGLE}
                         showsUserLocation
                         initialRegion = {this.state.region}
@@ -162,12 +162,12 @@ class TourBooking3 extends Component {
                     <TouchableOpacity style={styles.backIcon} onPress={() => this.closeModal()}>
                         <Ionicons name='chevron-back-outline' size={20} color={white} />
                     </TouchableOpacity>
-                    <View pointerEvents='none' style={{position: "absolute", left: 0, right: 0, top: 0, bottom: 0, justifyContent: 'center', alignItems: 'center'}}>
+                    <View pointerEvents='none' style={{position: 'absolute', left: 0, right: 0, top: 0, bottom: 0, justifyContent: 'center', alignItems: 'center'}}>
                         <ImageBackground style={{width: 25, height: 40}} source={require('images/marker.png')}
                         ></ImageBackground> 
                     </View>
                 </Modal>
-                <ScrollView overScrollMode="never" style={{height: "100%"}}>
+                <ScrollView overScrollMode='never' style={{height: '100%'}}>
                     <View style={{height: 100, flex: 1, position: 'relative'}}>
                         <ImageBackground style={styles.imageHeader} source={require('images/Westwood_village.png')}>
                             <View style={styles.shader}></View>
@@ -213,7 +213,7 @@ class TourBooking3 extends Component {
                                 arrowColor: primary,
                                 todayTextColor: blueMed,
                                 monthTextColor: primary,
-                                textMonthFontWeight: "600",
+                                textMonthFontWeight: '600',
                             }}
     
                             markedDates={{
@@ -237,14 +237,14 @@ class TourBooking3 extends Component {
                     </View>
                     <View style={[styles.backCard, {paddingLeft: 40, paddingRight: 40, paddingBottom: 30}]}>
                         <Text style={styles.sectionText}>Meeting Point</Text>
-                        <View style={{flexDirection: "row", marginTop: 12}}>
+                        <View style={{flexDirection: 'row', marginTop: 12}}>
                             <TouchableOpacity style={styles.circle} onPress={() => this.setSelectedMeet(0)}>
                                 <View style={[styles.innerCircle, {backgroundColor: this.state.selectedMeet==0?primary:white}]}></View>
                             </TouchableOpacity>
                             <Text style={{marginLeft: 10, marginTop: 2}}>Recommended:</Text>
                             <Text style={{marginLeft: 10, marginTop: 2}}>Bruin Bear Statue</Text>
                         </View>
-                        <View pointerEvents="none" style={{height: 90, backgroundColor: "grey", marginTop: 10}}>
+                        <View pointerEvents='none' style={{height: 90, backgroundColor: 'grey', marginTop: 10}}>
                             <MapView
                                 style={{flex: 1}}
                                 provider={PROVIDER_GOOGLE}
@@ -258,21 +258,21 @@ class TourBooking3 extends Component {
                                 <Marker
                                     key={1}
                                     coordinate={{latitude: 34.07106828093279, longitude: -118.444993904947}}
-                                    title="Bruin Statue"
-                                    description="Recommended Meeting Point"
+                                    title='Bruin Statue'
+                                    description='Recommended Meeting Point'
                                 />
                             </MapView>
                             <Text style={{color: red, position: 'absolute', top: 10, left: 175, fontWeight: '500'}}>Bruin Bear</Text>
                         </View>
-                        <View style={{flexDirection: "row", marginTop: 25}}>
+                        <View style={{flexDirection: 'row', marginTop: 25}}>
                             <TouchableOpacity style={styles.circle} onPress={() => this.setSelectedMeet(1)}>
                                 <View style={[styles.innerCircle, {backgroundColor: this.state.selectedMeet==1?primary:white}]}></View>
                             </TouchableOpacity>
                             <Text style={{marginLeft: 10, marginTop: 2}}>Select:</Text>
                         </View>
-                        <TouchableOpacity style={{height: 90, backgroundColor: "grey", marginTop: 10}}
+                        <TouchableOpacity style={{height: 90, backgroundColor: 'grey', marginTop: 10}}
                         onPress={() => this.openModal()}>
-                            <MapView pointerEvents="none"
+                            <MapView pointerEvents='none'
                                 style={{flex: 1}}
                                 provider={PROVIDER_GOOGLE}
                                 region = {{
@@ -285,8 +285,8 @@ class TourBooking3 extends Component {
                                 <Marker
                                     key={2}
                                     coordinate={{latitude: this.state.region.latitude, longitude: this.state.region.longitude}}
-                                    title="Bruin Statue"
-                                    description="Recommended Meeting Point"
+                                    title='Bruin Statue'
+                                    description='Recommended Meeting Point'
                                 />
                             </MapView>
                             <View style={[styles.shader, {height: 90, opacity: 0.5}]}></View>
@@ -306,7 +306,7 @@ class TourBooking3 extends Component {
                             console.log(item)
                             this.props.navigation.navigate('BookingCheckout', {item})
                             }}>
-                            <Text style={{alignSelf: "center", color: white, fontWeight: '600'}}>Continue</Text>
+                            <Text style={{alignSelf: 'center', color: white, fontWeight: '600'}}>Continue</Text>
                         </TouchableOpacity>
                     </View>
                 </ScrollView>
@@ -318,7 +318,7 @@ class TourBooking3 extends Component {
 
 const styles = StyleSheet.create({
     baseText: {
-        fontFamily: "Helvetica"
+        fontFamily: 'Helvetica'
     },
     titleText: {
         fontSize: 28,
@@ -413,8 +413,8 @@ const styles = StyleSheet.create({
     },
     timeView: {
         flex: 3,
-        flexWrap: "wrap",
-        flexDirection: "row",
+        flexWrap: 'wrap',
+        flexDirection: 'row',
         marginTop: 15,
         justifyContent: 'center'
     },

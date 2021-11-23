@@ -21,8 +21,8 @@ const renderHeader = (navigation, tourName) => {
         <View style={styles.header}>
             <TouchableOpacity
                 style={styles.backIcon}
-                onPress={() => navigation.goBack(), console.error("clicked")}>
-                <Ionicons name="chevron-back-outline" size={20} color={primary} />
+                onPress={() => navigation.goBack(), console.error('clicked')}>
+                <Ionicons name='chevron-back-outline' size={20} color={primary} />
             </TouchableOpacity>
             <Text style={styles.headerText}>{tourName}</Text>
         </View>
@@ -34,11 +34,11 @@ const renderTourInfo = (tour) => {
         <View style={styles.tourInfoCard}>
             <View style={{padding: 30}}>
                 <Text style={styles.sectionTitleText}>Tour Info</Text>
-                <View style={{flexDirection: "row", flexWrap: 1, paddingLeft: 5}}>
-                    {renderTextQuadrant("Date", capitalizeFirstLetter(tour.tourMonth) + " " + tour.tourDay)}
-                    {renderTextQuadrant("Time", tour.startTime)}
-                    {renderTextQuadrant("Visitors", tour.visitors)}
-                    {renderTextQuadrant("Meetup Point", tour.meetPoint)}
+                <View style={{flexDirection: 'row', flexWrap: 1, paddingLeft: 5}}>
+                    {renderTextQuadrant('Date', capitalizeFirstLetter(tour.tourMonth) + ' ' + tour.tourDay)}
+                    {renderTextQuadrant('Time', tour.startTime)}
+                    {renderTextQuadrant('Visitors', tour.visitors)}
+                    {renderTextQuadrant('Meetup Point', tour.meetPoint)}
                 </View>
             </View>
         </View>
@@ -50,7 +50,7 @@ const renderVisitorInfo = (tour, img) => {
         <View style={styles.visitorInfoCard}>
             <View style={{padding: 30}}>
                 <Text style={styles.sectionTitleText}>Visitor Info</Text>
-                <View style={{flexDirection: "row", flexWrap: 1, paddingLeft: 5}}>
+                <View style={{flexDirection: 'row', flexWrap: 1, paddingLeft: 5}}>
                     <Image style={styles.profilePicture} source={require('images/trevor.png')}></Image>
                     <View style={{flex: 1, width: 225}}>
                         <Text style={styles.nameText}>Trevor</Text>
@@ -98,7 +98,7 @@ const styles = StyleSheet.create({
         fontSize: 18,
         color: white,
         top: 50,
-        fontWeight: "700",
+        fontWeight: '700',
     },
     backIcon: {
         backgroundColor: white,

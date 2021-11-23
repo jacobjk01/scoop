@@ -18,7 +18,7 @@ export const getUser = async (userAuth) => {
         const user = await get(Users, userAuth.uid);
         if (!user._exists) {
             await Users.doc(userAuth.uid).set({
-                type: "guide",
+                type: 'guide',
                 name: userAuth.displayName,
                 profilePicture: userAuth.photoURL,
             });
@@ -55,7 +55,7 @@ export const getUserData = async (userAuth) => {
  */
 export const getPicture = async (uid, type) => {
     try {
-        return await storage().ref(uid + "/" + type).getDownloadURL();
+        return await storage().ref(uid + '/' + type).getDownloadURL();
     } catch (e) {
         console.log(e);
     }
@@ -68,7 +68,7 @@ export const getPicture = async (uid, type) => {
  */
 export const createPrivateData = async (uid) => {
     try {
-        return await Users.doc(uid).collection("private-data").add({
+        return await Users.doc(uid).collection('private-data').add({
             payment: 100
         });
     } catch (e) {
@@ -84,7 +84,7 @@ export const createPrivateData = async (uid) => {
  */
 export const changeName = async (uid, name) => {
     try {
-        return await update(Users, uid, "name", name);
+        return await update(Users, uid, 'name', name);
     } catch (e) {
         console.log(e);
     }
@@ -99,7 +99,7 @@ export const changeName = async (uid, name) => {
  */
 export const changePicture = async (uid, picture, type) => {
     try {
-        return await storage().ref(uid + "/" + type).putFile(picture);
+        return await storage().ref(uid + '/' + type).putFile(picture);
     } catch (e) {
         console.log(e);
     }
@@ -113,7 +113,7 @@ export const changePicture = async (uid, picture, type) => {
  */
 export const changeMajor = async  (uid, major) => {
     try {
-        return await update(Users, uid, "major", major);
+        return await update(Users, uid, 'major', major);
     } catch (e) {
         console.log(e);
     }
@@ -127,7 +127,7 @@ export const changeMajor = async  (uid, major) => {
  */
 export const changeYear = async (uid, year) => {
     try {
-        return await update(Users, uid, "year", year);
+        return await update(Users, uid, 'year', year);
     } catch (e) {
         console.log(e);
     }
@@ -141,7 +141,7 @@ export const changeYear = async (uid, year) => {
  */
 export const changeIntro = async (uid, intro) => {
     try {
-        return await update(Users, uid, "intro", intro);
+        return await update(Users, uid, 'intro', intro);
     } catch (e) {
         console.log(e);
     }
@@ -157,7 +157,7 @@ export const changeIntro = async (uid, intro) => {
 // Represented as a list or from multi-selection
 export const changeLanguages = async (uid, languages) => {
     try {
-        return await update(Users, uid, "languages", languages);
+        return await update(Users, uid, 'languages', languages);
     } catch (e) {
         console.log(e);
     }
@@ -171,7 +171,7 @@ export const changeLanguages = async (uid, languages) => {
  */
 export const changeHometown = async (uid, hometown) => {
     try {
-        return await update(Users, uid, "hometown", hometown);
+        return await update(Users, uid, 'hometown', hometown);
     } catch (e) {
         console.log(e);
     }
@@ -187,7 +187,7 @@ export const changeHometown = async (uid, hometown) => {
  */
 export const changeTours = async (uid, tours) => {
     try {
-        return await update(Users, uid, "tours", tours);
+        return await update(Users, uid, 'tours', tours);
     } catch (e) {
         console.log(e);
     }

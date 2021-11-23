@@ -29,7 +29,7 @@ export default function Test() {
                 setUserAuth(null);
             }
         })
-        var unsubscribe2 = onConversationChange("VzHN35zMK9qXAk1vT82j", snapshot => {
+        var unsubscribe2 = onConversationChange('VzHN35zMK9qXAk1vT82j', snapshot => {
             snapshot.docChanges().forEach(change => {
                 console.log(change.doc.data())
                 // console.log(change)
@@ -59,7 +59,7 @@ export default function Test() {
                 disabled={userAuth ? true : false}
                 />
                 <Button
-                    title="Sign Out"
+                    title='Sign Out'
                     onPress={async ()=> {
                         await signOut();
                 }}
@@ -67,41 +67,41 @@ export default function Test() {
                 />
                 <HeaderTitle>Welcome back, {userName}</HeaderTitle>
                 <Button
-                    title="Change Name"
+                    title='Change Name'
                     onPress={async () => {
-                        if (await changeName(userAuth.uid, "Josh")) {
+                        if (await changeName(userAuth.uid, 'Josh')) {
                             const user = await getUser(userAuth);
                             setUserName(user.data().name)
-                            console.log("Name successfully changed")
+                            console.log('Name successfully changed')
                         } else {
-                            console.log("There was an error in changing the name")
+                            console.log('There was an error in changing the name')
                         }
                 }}
                 />
                 <Button
-                    title="Create Private Data"
+                    title='Create Private Data'
                     onPress={async () => {
                         if (await createPrivateData(userAuth.uid)) {
-                            console.log("Private data subcollection creation success")
+                            console.log('Private data subcollection creation success')
                         } else {
-                            console.log("There was an error creating private data")
+                            console.log('There was an error creating private data')
                         }
                 }}
                 />
                 <Button
-                    title="add tour"
+                    title='add tour'
                     onPress={async () => {
-                        let attractions = ["eiffel tower", "pyramid of giza", "ur house uwu"]
+                        let attractions = ['eiffel tower', 'pyramid of giza', 'ur house uwu']
                         let meetingPt = [36, 78]
-                        let category = ["food", "sightseeing"]
-                        addTour("cfkj29u4hu", "vm02thwrfa", "www.freepictures.com", attractions, meetingPt, "06/21", "5:00pm", 8, 20, "car", 5, "a bountiful cornucopia of elegance of the like your crystal eyes have even envisioned", category).catch((error)=>{
+                        let category = ['food', 'sightseeing']
+                        addTour('cfkj29u4hu', 'vm02thwrfa', 'www.freepictures.com', attractions, meetingPt, '06/21', '5:00pm', 8, 20, 'car', 5, 'a bountiful cornucopia of elegance of the like your crystal eyes have even envisioned', category).catch((error)=>{
                             console.log(error);
                         });
                     }
                     }
                 />
                 <Button
-                    title="unarchive tour"
+                    title='unarchive tour'
                     onPress={async () => {
                         let i =
                         [
@@ -114,7 +114,7 @@ export default function Test() {
                     }
                 />
                 <Button
-                    title="book tours"
+                    title='book tours'
                     onPress={async () => {
                         bookTour(2211, 2541, 4272, 3).catch((error)=>{
                             console.log(error);
@@ -123,7 +123,7 @@ export default function Test() {
                     }
                 />
                 <Button
-                    title="get tour Info"
+                    title='get tour Info'
                     onPress={async () => {
                         console.log(getTourInfo(2211, 2541).catch((error)=>{
                             console.log(error);
@@ -132,7 +132,7 @@ export default function Test() {
                     }
                 />
                 <Button
-                    title="get Booking Info"
+                    title='get Booking Info'
                     onPress={async () => {
                         console.log(getBookingInfo(2211, 2541, 62322222).catch((error)=>{
                             console.log(error);
@@ -147,15 +147,15 @@ export default function Test() {
                 </View>
                 <Text>{userIntro}</Text>
                 <Button 
-                    title="Change Intro"
+                    title='Change Intro'
                     onPress={async () => {
-                        if (await changeIntro(userAuth.uid, "test")) {
+                        if (await changeIntro(userAuth.uid, 'test')) {
                             const user = await getUser(userAuth);
                             setUserIntro(user.data().intro)
                         }
                     }}
                 />
-                <Button title="get public value firestore"
+                <Button title='get public value firestore'
                 onPress={async () => {
                     if (!userAuth) {
                         setUserType('currentUser is not detected')
@@ -174,13 +174,13 @@ export default function Test() {
                     }
                 }}/>
                 <Text>From firestore database: {userType}</Text>
-                <Button title="send Message"
+                <Button title='send Message'
                 onPress={async () => {
-                    await sendMessage("testing append", "123", "senderId123")
+                    await sendMessage('testing append', '123', 'senderId123')
                 }}/>
-                <Button title="get Messages"
+                <Button title='get Messages'
                 onPress={async () => {
-                    await getConversation("VzHN35zMK9qXAk1vT82j")
+                    await getConversation('VzHN35zMK9qXAk1vT82j')
                 }}/>
         </View>
     )

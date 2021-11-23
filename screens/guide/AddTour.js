@@ -140,7 +140,7 @@ class AddTour extends Component {
                     {'Recommended Meetup Point :'} {this.state.meetPoint}
                 </Text>
                 <Text>Add Dropdown Picker Here</Text>
-                <View pointerEvents="none" style={{height: 90, backgroundColor: "grey", marginTop: 10}}>
+                <View pointerEvents='none' style={{height: 90, backgroundColor: 'grey', marginTop: 10}}>
                     <MapView
                         style={{flex: 1}}
                         provider={PROVIDER_GOOGLE}
@@ -153,8 +153,8 @@ class AddTour extends Component {
                         <Marker
                             key={1}
                             coordinate={{latitude: 34.07106828093279, longitude: -118.444993904947}}
-                            title="Bruin Statue"
-                            description="Recommended Meeting Point"
+                            title='Bruin Statue'
+                            description='Recommended Meeting Point'
                         />
                     </MapView>
                     <Text style={{color: red, position: 'absolute', top: 10, left: 175, fontWeight: '500'}}>Bruin Bear</Text>
@@ -165,7 +165,7 @@ class AddTour extends Component {
             <TextInput
                 style={styles.inputIntro}
                 multiline={true}
-                placeholder="Write an intro about the tour!"
+                placeholder='Write an intro about the tour!'
                 onChangeText={introduction => this.setIntroduction(introduction)}>
             </TextInput>
         </View>
@@ -175,14 +175,14 @@ class AddTour extends Component {
 render() {
     return (
         <View style={{backgroundColor: white}}>
-            <StatusBar barStyle="dark-content" />
+            <StatusBar barStyle='dark-content' />
             <ScrollView>
                 {this.renderForeground()}
                 {this.renderContent()}
                 <TouchableOpacity
                 style={styles.backIcon}
                 onPress={() => this.navigation.goBack()}>
-                <Ionicons name="chevron-back-outline" size={20} color={white} />
+                <Ionicons name='chevron-back-outline' size={20} color={white} />
                 </TouchableOpacity>
             </ScrollView>
             <TouchableOpacity
@@ -332,7 +332,7 @@ const styles = StyleSheet.create({
   inputIntro: {
     alignSelf: 'center',
     height: 140,
-    width: "75%",
+    width: '75%',
     borderWidth: 1,
     borderColor: grayDark,
     borderRadius: 7,
@@ -345,7 +345,7 @@ const styles = StyleSheet.create({
   tourNameBox: {
     alignSelf: 'center',
     height: 35,
-    width: "80%",
+    width: '80%',
     borderWidth: 1,
     borderColor: grayDark,
     borderRadius: 7,

@@ -214,13 +214,13 @@ class TourInfo extends Component {
     const navigation = this.props.navigation;
     return (
       <View style={{marginBottom: 70}}>
-        {/* <Animated.View style={{flexDirection: "row", position: "absolute", 
-                top: -90, left: 25, opacity: buttonOpacity, alignItems: "center", zIndex: 10}}>
+        {/* <Animated.View style={{flexDirection: 'row', position: 'absolute', 
+                top: -90, left: 25, opacity: buttonOpacity, alignItems: 'center', zIndex: 10}}>
                     <TouchableOpacity style={{backgroundColor: white, marginRight: 10, borderRadius: 40}}>
                         <ImageBackground style={{width: 50, height: 50}} imageStyle={{borderRadius: 40}} source={require('images/brittany.png')}
                         ></ImageBackground> 
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.whiteButton} title="Message">
+                    <TouchableOpacity style={styles.whiteButton} title='Message'>
                         <Text style={{color: blueDark}}>Message</Text>
                     </TouchableOpacity>
                 </Animated.View> */}
@@ -258,14 +258,14 @@ class TourInfo extends Component {
     const navigation = this.props.navigation;
     return (
       <View>
-        <StatusBar barStyle="dark-content" />
+        <StatusBar barStyle='dark-content' />
         <ScrollView>
           {this.renderForeground()}
           {this.renderContent()}
           <TouchableOpacity
             style={styles.backIcon}
             onPress={() => navigation.goBack()}>
-            <Ionicons name="chevron-back-outline" size={20} color={white} />
+            <Ionicons name='chevron-back-outline' size={20} color={white} />
           </TouchableOpacity>
         </ScrollView>
         <TouchableOpacity

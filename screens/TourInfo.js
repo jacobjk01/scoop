@@ -18,8 +18,8 @@ class TourInfo extends Component {
         this.state={
             
             reviews: [
-                {stars: 4.8, tourName: "Westwood Tour", year: "Incoming Freshman", comment: "Brittany was really helpful!! She showed me where the students get groceries from and hangout in Westwood. She also shared a lot of interesting stories as we visit each places, highly recommend incoming freshman who want to familiarize themselves with the area sign up!! "},
-                {stars: 4.3, tourName: "Westwood Tour", year: "Incoming Junior", comment: "Being a sophomore, I kinda know what Westwood is like already; however, Brittany was able to show me interesting places I’ve never discovered!"},
+                {stars: 4.8, tourName: 'Westwood Tour', year: 'Incoming Freshman', comment: 'Brittany was really helpful!! She showed me where the students get groceries from and hangout in Westwood. She also shared a lot of interesting stories as we visit each places, highly recommend incoming freshman who want to familiarize themselves with the area sign up!! '},
+                {stars: 4.3, tourName: 'Westwood Tour', year: 'Incoming Junior', comment: 'Being a sophomore, I kinda know what Westwood is like already; however, Brittany was able to show me interesting places I’ve never discovered!'},
             ]
         }
         this.scrollY = new ValueXY();
@@ -56,7 +56,7 @@ class TourInfo extends Component {
                             <Text style={styles.detailText}>60 min | Max 6 people | person</Text>
                             <Text style={styles.subText}> $8 per person</Text>
                         </Animated.View>
-                        <Animated.Text style={[styles.summaryText, {opacity: textOpacity, position: "absolute", bottom: 0, left: 25, flex: 1, paddingRight: 20}]}>
+                        <Animated.Text style={[styles.summaryText, {opacity: textOpacity, position: 'absolute', bottom: 0, left: 25, flex: 1, paddingRight: 20}]}>
                             Get to know the neighborhood: where to grocery shop, where the best hangout places are, 
                             and where to grab a bite with your fellow hungry bruins.
                             </Animated.Text>
@@ -67,7 +67,7 @@ class TourInfo extends Component {
 
     renderHeader() {
         return(
-            <View style={{flex: 1, backgroundColor: white, alignItems: "center"}}></View>
+            <View style={{flex: 1, backgroundColor: white, alignItems: 'center'}}></View>
         )
     }
 
@@ -77,7 +77,7 @@ class TourInfo extends Component {
         console.log(decimal)
         let emptystars = Math.floor(5 - count - 0.1);
         return(
-            <View style={{flexDirection: "row"}}>
+            <View style={{flexDirection: 'row'}}>
                 {Array.from(Array(fullstars).keys()).map(() => {
                     return (
                         <Image 
@@ -189,13 +189,13 @@ class TourInfo extends Component {
         });
         return(
             <View style={{marginTop: 500}}>
-                <Animated.View style={{flexDirection: "row", position: "absolute", 
-                top: -90, left: 25, opacity: buttonOpacity, alignItems: "center", zIndex: 10}}>
+                <Animated.View style={{flexDirection: 'row', position: 'absolute', 
+                top: -90, left: 25, opacity: buttonOpacity, alignItems: 'center', zIndex: 10}}>
                     <TouchableOpacity style={{backgroundColor: white, marginRight: 10, borderRadius: 40}}>
                         <ImageBackground style={{width: 50, height: 50}} imageStyle={{borderRadius: 40}} source={require('images/brittany.png')}
                         ></ImageBackground> 
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.whiteButton} title="Message">
+                    <TouchableOpacity style={styles.whiteButton} title='Message'>
                         <Text style={{color: blueDark}}>Message</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.whiteButton} onPress={() => navigation.navigate('Booking')}>
@@ -251,7 +251,7 @@ class TourInfo extends Component {
 
 const styles = StyleSheet.create({
     baseText: {
-        fontFamily: "Helvetica"
+        fontFamily: 'Helvetica'
     },
     titleText: {
         fontSize: 32,
@@ -308,9 +308,9 @@ const styles = StyleSheet.create({
         borderRadius: 10
     },
     reviewCard: {
-        width: "90%",
+        width: '90%',
         backgroundColor: white,
-        alignSelf: "center",
+        alignSelf: 'center',
         padding: 20,
         marginBottom: 20,
         borderRadius: 10,

@@ -11,7 +11,7 @@ const GuideBooking3 = ({navigation, route}) => {
     return (
     <SafeAreaView>
         <Text>Guide Booking 3 Page</Text>
-        <Button title="BookingCheckout" onPress={() => navigation.navigate('BookingCheckout', {item})}/>
+        <Button title='BookingCheckout' onPress={() => navigation.navigate('BookingCheckout', {item})}/>
     </SafeAreaView>
     )
 };

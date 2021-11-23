@@ -32,15 +32,15 @@ const AccountEdit = ({navigation}) => {
   const isFocused = useIsFocused();
 
   useEffect(async () => {
-    setProfilePicture(await getPicture(userAuth.uid, "profilePicture"));
-    setBackgroundPicture(await getPicture(userAuth.uid, "backgroundPicture"));
+    setProfilePicture(await getPicture(userAuth.uid, 'profilePicture'));
+    setBackgroundPicture(await getPicture(userAuth.uid, 'backgroundPicture'));
   }, [isFocused])
 
   saveFields = () => {
     const uid = userAuth.uid;
     changeName(uid, name);
-    changePicture(uid, profilePicture, "profilePicture");
-    changePicture(uid, backgroundPicture, "backgroundPicture");
+    changePicture(uid, profilePicture, 'profilePicture');
+    changePicture(uid, backgroundPicture, 'backgroundPicture');
     changeMajor(uid, major);
     changeYear(uid, year);
     changeIntro(uid, intro);
@@ -92,9 +92,9 @@ const AccountEdit = ({navigation}) => {
         alert(response.customButton);
       } else {
         const data = response.assets[0];
-        if (type == "PROFILE") {
+        if (type == 'PROFILE') {
           setProfilePicture(data.uri);
-        } else if (type == "BACKGROUND") {
+        } else if (type == 'BACKGROUND') {
           setBackgroundPicture(data.uri);
         }
         setImageData({
@@ -165,7 +165,7 @@ const AccountEdit = ({navigation}) => {
       style={styles.backgroundImage}>
     <ScrollView>
       <TouchableOpacity
-        onPress={() => handlePhotoPicker("BACKGROUND")}
+        onPress={() => handlePhotoPicker('BACKGROUND')}
         style={{position: 'absolute', right: 25, top: 120}}>
         <Ionicons name={'camera'} size={25} color={grayDark}/>
       </TouchableOpacity>
@@ -191,7 +191,7 @@ const AccountEdit = ({navigation}) => {
 const renderGuideImage = (profilePicture) => {
   return (
     <TouchableOpacity
-      onPress={() => handlePhotoPicker("PROFILE")}
+      onPress={() => handlePhotoPicker('PROFILE')}
       style={{position: 'absolute', alignSelf: 'center', justifyContent: 'center', zIndex: 1}}>
       <View
         style={{
@@ -219,12 +219,12 @@ const styles = StyleSheet.create({
     marginBottom: 0,
     borderBottomColor: grayDark,
     borderBottomWidth: 1,
-    width: "92%",
+    width: '92%',
   },
   input: {
     alignSelf: 'center',
     height: 45,
-    width: "92%",
+    width: '92%',
     borderWidth: 1,
     borderColor: grayDark,
     borderRadius: 7,
@@ -235,7 +235,7 @@ const styles = StyleSheet.create({
   inputIntro: {
     alignSelf: 'center',
     height: 100,
-    width: "92%",
+    width: '92%',
     borderWidth: 1,
     borderColor: grayDark,
     borderRadius: 7,

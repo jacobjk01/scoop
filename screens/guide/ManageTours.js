@@ -167,7 +167,7 @@ const styles = StyleSheet.create({
   addNewTourCard: {
     borderWidth: 1,
     borderStyle: 'dashed',
-    // stroke-dasharray: "8, 3",
+    // stroke-dasharray: '8, 3',
     borderColor: grayVeryDark,
     width: '45%',
     height: 160,

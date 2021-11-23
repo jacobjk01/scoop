@@ -93,14 +93,14 @@ class TourEdit extends Component {
   render() {
     return (
       <View style={{backgroundColor: white}}>
-        <StatusBar barStyle="dark-content" />
+        <StatusBar barStyle='dark-content' />
         <ScrollView>
           {this.renderForeground()}
           {this.renderContent()}
           <TouchableOpacity
             style={styles.backIcon}
             onPress={() => this.navigation.goBack()}>
-            <Ionicons name="chevron-back-outline" size={20} color={white} />
+            <Ionicons name='chevron-back-outline' size={20} color={white} />
           </TouchableOpacity>
         </ScrollView>
         <TouchableOpacity

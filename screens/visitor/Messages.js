@@ -12,7 +12,7 @@ function Messages(props) {
     <SafeAreaView style={styles.container}>
       
       {/* <View style={styles.title}>
-        <Text style={{color: white, fontFamily: "Helvetica", fontSize: 20}}>Your Messages</Text>
+        <Text style={{color: white, fontFamily: 'Helvetica', fontSize: 20}}>Your Messages</Text>
       </View> */}
       {/* <BackButton /> */}
       <View style={styles.body}>
@@ -21,7 +21,7 @@ function Messages(props) {
         </View>
         
         <ScrollView>
-          <Text style={[{color: black, fontFamily: "Helvetica", fontSize: 18, fontWeight: 'bold', paddingTop: 20, paddingBottom: 20}]}>Messages</Text>
+          <Text style={[{color: black, fontFamily: 'Helvetica', fontSize: 18, fontWeight: 'bold', paddingTop: 20, paddingBottom: 20}]}>Messages</Text>
           <GuidesLastMsg tourGuides={tourGuides} navigation={navigation}/>
         </ScrollView>
       </View>
@@ -32,12 +32,12 @@ function Messages(props) {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: primary,
-    height: "100%",
+    height: '100%',
     
   },
   title: {
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: 'center',
+    justifyContent: 'center',
     height: 50,
 
   },

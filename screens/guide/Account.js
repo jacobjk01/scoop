@@ -24,8 +24,8 @@ const Account = ({ navigation }) => {
   useEffect(() => {},[user])
 
   useEffect(async () => {
-    setProfilePicture(await getPicture(userAuth.uid, "profilePicture"));
-    setBackgroundPicture(await getPicture(userAuth.uid, "backgroundPicture"));
+    setProfilePicture(await getPicture(userAuth.uid, 'profilePicture'));
+    setBackgroundPicture(await getPicture(userAuth.uid, 'backgroundPicture'));
   }, [isFocused])
 
   return (
@@ -46,7 +46,7 @@ const Account = ({ navigation }) => {
         >
           {renderGuideImage(profilePicture)}
           <SafeAreaView>
-            {renderGuideBio(user ? user : "")}
+            {renderGuideBio(user ? user : '')}
             <TouchableOpacity
               onPress={() => navigation.navigate('AccountEdit')}
               style={{position: 'absolute', right: 10, top: 20}}>
@@ -61,17 +61,17 @@ const Account = ({ navigation }) => {
               {'Introduction'}
             </Text>
             <Text style={styles.subtitleText}>
-              {'Hometown:'} {user.hometown ? user.hometown : ""}
+              {'Hometown:'} {user.hometown ? user.hometown : ''}
             </Text>
             <Text style={styles.bodyText}>
-              {user.intro ? user.intro : ""}
+              {user.intro ? user.intro : ''}
             </Text>
           </View>
           <View style={styles.divider} />
           <Text style={{fontSize: 20, fontWeight: '700', paddingBottom: 400}}>
             {'Languages'}
             {/* <View style={{flex: 1, height: 10}}> */}
-              {/* <Image source={require('images/languages/us.png')} style={{flex: 1}} resizeMode={"stretch"}></Image> */}
+              {/* <Image source={require('images/languages/us.png')} style={{flex: 1}} resizeMode={'stretch'}></Image> */}
             {/* </View> */}
           </Text>
           
@@ -106,7 +106,7 @@ const renderGuideBio = (user) => {
       }}>
       <Text style={styles.sectionText}>{user.name}</Text>
       <Text style={styles.baseText}>
-        {user.major && user.year ? user.major + ', ' + user.year : ""}
+        {user.major && user.year ? user.major + ', ' + user.year : ''}
       </Text>
     </View>
   );

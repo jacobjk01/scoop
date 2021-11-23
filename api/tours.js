@@ -7,7 +7,7 @@ const tours = firestore().collection('tours');
 //tourguide Functions
 export const addTour = async (guideId, picture, attractions, meetingPt, date, time, cost, duration, transportation, maxPeople, description, category) => {
     if (!(guideId && picture && meetingPt && attractions && date && time && cost && duration && transportation && maxPeople && description && category)) {
-        console.log("required parameter not here")
+        console.log('required parameter not here')
         return;
     } else {
         await tours.doc().set({
@@ -40,7 +40,7 @@ export const archiveTour = async(Id) => {
     {
         await tours.where('guideId', '==', Id[i][0]).where('tourId', '==', Id[i][1]).get().then(querySnapshot => {
                 querySnapshot.forEach((documentSnapshot) => {
-                       tours.doc(documentSnapshot.id).update("archive", true);
+                       tours.doc(documentSnapshot.id).update('archive', true);
                 });
         });
     }
@@ -50,7 +50,7 @@ export const unarchiveTour = async(Id) => {
     {
         await tours.where('guideId', '==', Id[i][0]).where('tourId', '==', Id[i][1]).get().then(querySnapshot => {
                 querySnapshot.forEach((documentSnapshot) => {
-                       tours.doc(documentSnapshot.id).update("archive", false);
+                       tours.doc(documentSnapshot.id).update('archive', false);
                 });
         });
     }
@@ -60,7 +60,7 @@ export const switchTour = async(guideId, tourId, tourId2) => {
     await tours.where('guideId', '==', guideId).where('tourId', '==', tourId).where('archive', '==', false).get().then(querySnapshot =>
     {
             querySnapshot.forEach((documentSnapshot) => {
-                tours.doc(documentSnapshot.id).update("tourId", tourId2);
+                tours.doc(documentSnapshot.id).update('tourId', tourId2);
             });
     });
 }
@@ -90,7 +90,7 @@ export const getBookingInfo = async(guideId, tourId, userId) => {
         {
             querySnapshot.forEach(documentSnapshot =>
             {
-                    tours.doc(documentSnapshot.id).collection("bookings").where("userId", '==', userId).get().then(querySnapshot2 =>
+                    tours.doc(documentSnapshot.id).collection('bookings').where('userId', '==', userId).get().then(querySnapshot2 =>
                     {
                             querySnapshot2.forEach(documentSnapshot2 =>
                             {

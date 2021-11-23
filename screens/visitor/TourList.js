@@ -11,7 +11,7 @@ const TourList = () => {
     return(
         <SafeAreaView>
             <ScrollView 
-            style={{paddingRight: 20, paddingLeft: 20, height: "100%"}}>
+            style={{paddingRight: 20, paddingLeft: 20, height: '100%'}}>
                 <Text style={styles.titleText}>Tour List Page</Text>
                 <View style={{marginTop: 30}}>
                     <TextInput style={styles.input} placeholder={'Search'}></TextInput>
@@ -25,7 +25,7 @@ const TourList = () => {
 
 const styles = StyleSheet.create({
     baseText: {
-        fontFamily: "Helvetica"
+        fontFamily: 'Helvetica'
     },
     titleText: {
         fontSize: 24,
@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         backgroundColor: white,
         height: 50,
-        width: "100%",
+        width: '100%',
         borderRadius: 7,
         paddingLeft: 20
     },

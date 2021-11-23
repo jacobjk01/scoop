@@ -3,7 +3,7 @@ import { Button, StyleSheet } from 'react-native';
 import { primary, white } from 'config/colors';
 function BackButton(props) {
     return (
-        <Button style={styles.button}  title="<"/>
+        <Button style={styles.button}  title='<'/>
     );
 }
 

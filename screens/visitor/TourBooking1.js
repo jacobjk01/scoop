@@ -31,7 +31,7 @@ const TourBooking1 = ({navigation}) => {
     selected: '',
   });
   const [time, setTime] = useState({
-    range: ["Morning", "Afternoon", "Night", "All"],
+    range: ['Morning', 'Afternoon', 'Night', 'All'],
     selectedTime: [false,false,false,false],
   })
   const [guideimages, setGuideImages] = useState([
@@ -155,7 +155,7 @@ const TourBooking1 = ({navigation}) => {
                 arrowColor: primary,
                 todayTextColor: blueMed,
                 monthTextColor: primary,
-                textMonthFontWeight: "600",
+                textMonthFontWeight: '600',
             }}
 
             markedDates={{
@@ -172,7 +172,7 @@ const TourBooking1 = ({navigation}) => {
         {/*Select Time*/}
         <View style={styles.timeView}>
           {time.range.map((date, index) => {
-            let times = ["8:00 - 12:00", "12:00 - 5:00","5:00 - 10:00","- - - -"]
+            let times = ['8:00 - 12:00', '12:00 - 5:00','5:00 - 10:00','- - - -']
               if (time.selectedTime[index] == true) {
                 return(
                     <TouchableOpacity style={{backgroundColor: primary, padding: 10, marginRight: 10, marginLeft: 10, marginBottom: 5, marginTop: 5, width: 150, elevation: 10,}}
@@ -214,8 +214,8 @@ const TourBooking1 = ({navigation}) => {
           </View>
           {checkDate()}
         </View>
-        {/* <TouchableOpacity style={styles.continue} onPress={() => navigation.navigate("GuideProfile2")}>
-            <Text style={{alignSelf: "center", color: white, fontWeight: '600'}}>Book Now</Text>
+        {/* <TouchableOpacity style={styles.continue} onPress={() => navigation.navigate('GuideProfile2')}>
+            <Text style={{alignSelf: 'center', color: white, fontWeight: '600'}}>Book Now</Text>
         </TouchableOpacity> */}
       </View>
       }

@@ -44,7 +44,7 @@ const Home = ({navigation}) => {
                         <Text style={{marginTop: 5}}>{currentTour.meetPoint}</Text>
                     </View>
                     <View style={[styles.forwardIcon, {right: 10}]}>
-                        <Ionicons name="chevron-forward-outline" size={20} color={grayDark} />
+                        <Ionicons name='chevron-forward-outline' size={20} color={grayDark} />
                     </View>
                 </View>
             </TouchableOpacity> */}
@@ -64,7 +64,7 @@ const Home = ({navigation}) => {
                         <Text style={{marginTop: 5}}>{tour.meetPoint}</Text>
                     </View>
                     <View style={styles.forwardIcon}>
-                        <Ionicons name="chevron-forward-outline" size={20} color={grayDark} />
+                        <Ionicons name='chevron-forward-outline' size={20} color={grayDark} />
                     </View>
                 </View>
                 {/* <View style={styles.divider}></View> */}
