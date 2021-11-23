@@ -14,6 +14,7 @@ import toursData from 'data/toursData';
 import { onAuthStateChanged } from 'api/auth';
 import { getUser } from 'api/users';
 import { UserContext } from 'contexts';
+import { primary, grayDark, white, black } from 'config/colors';
 
 const Home = ({navigation}) => {
   const tours = toursData.tours;
@@ -21,7 +22,7 @@ const Home = ({navigation}) => {
   const {userAuth, setUserAuth, user, setUser} = useContext(UserContext);
 
   return (
-    <SafeAreaView backgroundColor='white'>
+    <SafeAreaView backgroundColor={white}>
       <ScrollView style={{height: '100%'}}>
         <View style={{marginTop: 50}}>
           <Text style={{marginLeft: 30, fontSize: 24, fontWeight: '700'}}>
@@ -43,7 +44,7 @@ const Home = ({navigation}) => {
                         <Text style={{marginTop: 5}}>{currentTour.meetPoint}</Text>
                     </View>
                     <View style={[styles.forwardIcon, {right: 10}]}>
-                        <Ionicons name="chevron-forward-outline" size={20} color={'gray'} />
+                        <Ionicons name="chevron-forward-outline" size={20} color={grayDark} />
                     </View>
                 </View>
             </TouchableOpacity> */}
@@ -63,7 +64,7 @@ const Home = ({navigation}) => {
                         <Text style={{marginTop: 5}}>{tour.meetPoint}</Text>
                     </View>
                     <View style={styles.forwardIcon}>
-                        <Ionicons name="chevron-forward-outline" size={20} color={'gray'} />
+                        <Ionicons name="chevron-forward-outline" size={20} color={grayDark} />
                     </View>
                 </View>
                 {/* <View style={styles.divider}></View> */}
@@ -90,7 +91,7 @@ const styles = StyleSheet.create({
   tourDateText: {
     fontWeight: '700',
     fontSize: 18,
-    color: '#3154A5',
+    color: primary,
     alignSelf: 'center',
   },
   tourNameText: {
@@ -101,8 +102,8 @@ const styles = StyleSheet.create({
     width: '85%',
     height: 300,
     borderRadius: 10,
-    backgroundColor: 'white',
-    shadowColor: "#000000",
+    backgroundColor: white,
+    shadowColor: black,
     shadowOffset: {width: 1, height: 1},
     shadowOpacity: 0.2,
     shadowRadius: 5,
@@ -113,7 +114,7 @@ const styles = StyleSheet.create({
   tourCard: {
     width: '100%',
     height: 100,
-    backgroundColor: 'white',
+    backgroundColor: white,
     justifyContent: 'flex-end',
   },
   currentTourImage: {
@@ -143,7 +144,7 @@ const styles = StyleSheet.create({
     right: 30,
   },
   divider: {
-    borderBottomColor: '#9B9BA7',
+    borderBottomColor: grayDark,
     borderBottomWidth: 1,
     width: '100%',
     },

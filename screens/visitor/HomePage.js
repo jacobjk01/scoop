@@ -14,10 +14,11 @@ import {
 import {withSafeAreaInsets} from 'react-native-safe-area-context';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import LinearGradient from 'react-native-linear-gradient';
-import colors from 'config/colors';
+import { primary, white } from 'config/colors';
 import {color} from 'react-native-reanimated';
 import GuideProfile from './GuideProfile';
 import toursData from 'data/toursData';
+import { black, grayVeryDark, tappableBlue } from 'config/colors';
 
 const HomePage = ({navigation}) => {
   const [tours, setTours] = useState(toursData.tours);
@@ -32,7 +33,7 @@ const HomePage = ({navigation}) => {
             style={styles.searchicon}
             name={'search-outline'}
             size={25}
-            color={'#656565'}
+            color={grayVeryDark}
           />
         </View>
         {/* <Text style={styles.sectionText}>Category</Text>
@@ -72,7 +73,7 @@ const HomePage = ({navigation}) => {
             onPress={() => navigation.navigate('TourList')}
             style={{position: 'absolute', right: 10, top: 3}}>
             <View>
-              <Text style={{color: '#3D68CC'}}>View All &gt;</Text>
+              <Text style={{color: tappableBlue}}>View All &gt;</Text>
             </View>
           </TouchableOpacity>
         </View>
@@ -89,7 +90,7 @@ const HomePage = ({navigation}) => {
                 imageStyle={{borderRadius: 10}}
                 source={item.src}>
                 <LinearGradient
-                  colors={['transparent', 'black']}
+                  colors={['transparent', black]}
                   style={styles.linearGradTour}
                 />
               </ImageBackground>
@@ -105,7 +106,7 @@ const HomePage = ({navigation}) => {
             style={{position: 'absolute', right: 10, top: 3}}
             onPress={() => navigation.navigate('GuideList', {item})}>
             <View>
-              <Text style={{color: '#3D68CC'}}>View All &gt;</Text>
+              <Text style={{color: tappableBlue}}>View All &gt;</Text>
             </View>
           </TouchableOpacity>
         </View>
@@ -120,7 +121,7 @@ const HomePage = ({navigation}) => {
                   imageStyle={{borderRadius: 10}}
                   source={item.src}>
                   <LinearGradient
-                    colors={['transparent', 'black']}
+                    colors={['transparent', black]}
                     style={styles.linearGradGuide}
                   />
                 </ImageBackground>
@@ -153,11 +154,9 @@ const styles = StyleSheet.create({
   },
   input: {
     alignSelf: 'center',
-    backgroundColor: colors.white,
+    backgroundColor: white,
     height: 50,
     width: '100%',
-    // borderWidth: 1,
-    // borderColor: '#656565',
     borderRadius: 7,
     paddingLeft: 20,
   },
@@ -168,21 +167,21 @@ const styles = StyleSheet.create({
   },
   recommendationbuttonleft: {
     flex: 1,
-    backgroundColor: colors.primary,
+    backgroundColor: primary,
     borderRadius: 7,
     height: 100,
     marginRight: 15,
   },
   recommendationbuttonright: {
     flex: 1,
-    backgroundColor: colors.primary,
+    backgroundColor: primary,
     borderRadius: 7,
     height: 100,
   },
   recommendationTitle: {
     marginTop: 15,
     marginLeft: 15,
-    color: colors.white,
+    color: white,
     fontWeight: '600',
     fontSize: 16,
   },
@@ -200,7 +199,7 @@ const styles = StyleSheet.create({
     width: 200,
     fontWeight: '600',
     fontSize: 18,
-    color: colors.white,
+    color: white,
     position: 'absolute',
     bottom: 50,
     left: 20,
@@ -210,7 +209,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 10,
     left: 10,
-    color: colors.white,
+    color: white,
   },
   linearGradTour: {
     position: 'absolute',

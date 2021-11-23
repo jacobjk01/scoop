@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button, StyleSheet } from 'react-native';
-import colors from 'config/colors';
+import { primary, white } from 'config/colors';
 function BackButton(props) {
     return (
         <Button style={styles.button}  title="<"/>
@@ -9,8 +9,8 @@ function BackButton(props) {
 
 const styles = StyleSheet.create({
     button: {
-        backgroundColor: colors.primary,
-        color: colors.white,
+        backgroundColor: primary,
+        color: white,
         position: 'absolute',
         width: 100,
         height: 100,

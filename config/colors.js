@@ -7,7 +7,14 @@ module.exports = {
     black: "#000000",
     white: "#ffffff",
     grayMed: "#8f8f8f",
-    grayDark: "#656565",
+    grayDark: "#9B9BA7",
     grayLight: "#d8d8d8",
-    grayLightBlue: '#F7F7F8' //tint of blue
+    grayLightBlue: "#F7F7F8", //tint of blue
+    blueDark: "#41479B",
+    red: "EA4336",
+    grayVeryDark: "#525252",
+    blueMed: "#3D68CC",
+    grayShadow: "#adadad",
+    grayVeryLight: "#D9D9D9",
+    tappableBlue: "#3D68CC",
 }

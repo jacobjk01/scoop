@@ -34,7 +34,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 //config imports
-import colors from 'config/colors';
+import { primary } from 'config/colors';
 import { localState } from 'config/initialState';
 
 //contexts imports
@@ -175,8 +175,8 @@ const App = () => {
             },
           })}
           tabBarOptions={{
-            activeTintColor: colors.primary,
-            inactiveTintColor: colors.primary,
+            activeTintColor: primary,
+            inactiveTintColor: primary,
           }}
           initialRouteName={mode === 'visitor' ? "Home" : mode === 'guide' ? "Home" : "Home" }>
             

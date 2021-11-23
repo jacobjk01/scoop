@@ -14,7 +14,7 @@ import {
 import {withSafeAreaInsets} from 'react-native-safe-area-context';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import LinearGradient from 'react-native-linear-gradient';
-import colors, { black } from 'config/colors';
+import { primary, white, grayLight, black, blueMed, grayVeryLight } from 'config/colors';
 import {color} from 'react-native-reanimated';
 import GuideProfile from './GuideProfile';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
@@ -127,7 +127,7 @@ const TourBooking1 = ({navigation}) => {
   }
   
   return (
-    <SafeAreaView style={{backgroundColor: colors.grayLight}}>
+    <SafeAreaView style={{backgroundColor: grayLight}}>
       <FlatList style={{height: '100%'}}
       ListHeaderComponent={
         <View style={{marginTop: 90,marginRight: 10, marginLeft: 10,}}>
@@ -152,9 +152,9 @@ const TourBooking1 = ({navigation}) => {
             enableSwipeMonths={true}
 
             theme={{
-                arrowColor: "#3154A5",
-                todayTextColor: "#3D68CC",
-                monthTextColor: "#3154A5",
+                arrowColor: primary,
+                todayTextColor: blueMed,
+                monthTextColor: primary,
                 textMonthFontWeight: "600",
             }}
 
@@ -162,8 +162,8 @@ const TourBooking1 = ({navigation}) => {
                 [calender.selected]: {
                   selected: true,
                   disableTouchEvent: true,
-                  selectedColor: '#3154A5',
-                  selectedTextColor: 'white'
+                  selectedColor: primary,
+                  selectedTextColor: white
                 }
             }}
           >
@@ -175,28 +175,28 @@ const TourBooking1 = ({navigation}) => {
             let times = ["8:00 - 12:00", "12:00 - 5:00","5:00 - 10:00","- - - -"]
               if (time.selectedTime[index] == true) {
                 return(
-                    <TouchableOpacity style={{backgroundColor: colors.primary, padding: 10, marginRight: 10, marginLeft: 10, marginBottom: 5, marginTop: 5, width: 150, elevation: 10,}}
+                    <TouchableOpacity style={{backgroundColor: primary, padding: 10, marginRight: 10, marginLeft: 10, marginBottom: 5, marginTop: 5, width: 150, elevation: 10,}}
                     onPress={() => {
                       updateSelectedTime(index, false)
                     }}>
-                    <Text style={{color: colors.white, fontSize: 18, fontFamily: 'Helvetica-Bold', marginLeft: 'auto', marginRight: 'auto'}}>
+                    <Text style={{color: white, fontSize: 18, fontFamily: 'Helvetica-Bold', marginLeft: 'auto', marginRight: 'auto'}}>
                       {time.range[index]}
                     </Text>
-                    <Text style={{color: colors.white, alignSelf: 'center'}}>
+                    <Text style={{color: white, alignSelf: 'center'}}>
                         {times[index]}
                       </Text>
                     </TouchableOpacity>
                 )
               } else {
                   return(
-                      <TouchableOpacity style={{backgroundColor: colors.white, padding: 10, marginRight: 10, marginLeft: 10, marginBottom: 5, marginTop: 5, width: 150, elevation: 10,}}
+                      <TouchableOpacity style={{backgroundColor: white, padding: 10, marginRight: 10, marginLeft: 10, marginBottom: 5, marginTop: 5, width: 150, elevation: 10,}}
                       onPress={() => {
                         updateSelectedTime(index, true)
                       }}>
-                      <Text style={{color: colors.black, fontSize: 18,fontFamily: 'Helvetica-Bold', marginLeft: 'auto', marginRight: 'auto'}}>
+                      <Text style={{color: black, fontSize: 18,fontFamily: 'Helvetica-Bold', marginLeft: 'auto', marginRight: 'auto'}}>
                         {time.range[index]}
                       </Text>
-                      <Text style={{color: colors.black, alignSelf: 'center'}}>
+                      <Text style={{color: black, alignSelf: 'center'}}>
                         {times[index]}
                       </Text>
                       </TouchableOpacity>
@@ -215,17 +215,17 @@ const TourBooking1 = ({navigation}) => {
           {checkDate()}
         </View>
         {/* <TouchableOpacity style={styles.continue} onPress={() => navigation.navigate("GuideProfile2")}>
-            <Text style={{alignSelf: "center", color: 'white', fontWeight: '600'}}>Book Now</Text>
+            <Text style={{alignSelf: "center", color: white, fontWeight: '600'}}>Book Now</Text>
         </TouchableOpacity> */}
       </View>
       }
       
       />
-      <View style={{backgroundColor: colors.primary, height: 80, width: '100%', position: 'absolute'}}>
+      <View style={{backgroundColor: primary, height: 80, width: '100%', position: 'absolute'}}>
         <Text style={[styles.titleText, {marginTop: 20}]}>Select Date</Text>
       </View>
       <TouchableOpacity style={styles.backIcon} onPress={() => navigation.goBack()}>
-          <Ionicons name='chevron-back-outline' size={20} color={colors.primary} />
+          <Ionicons name='chevron-back-outline' size={20} color={primary} />
       </TouchableOpacity>
     </SafeAreaView>
   );
@@ -233,9 +233,9 @@ const TourBooking1 = ({navigation}) => {
 
 const styles = StyleSheet.create({
   greyText: {
-    color: colors.grayLight,
+    color: grayLight,
     borderWidth: 2,
-    borderColor: colors.grayLight,
+    borderColor: grayLight,
     marginTop: 20,
     paddingTop: 10,
     paddingLeft: 20,
@@ -256,7 +256,7 @@ const styles = StyleSheet.create({
     marginRight: 'auto',
   },
   line: {
-    borderBottomColor: colors.grayLight,
+    borderBottomColor: grayLight,
     borderBottomWidth: 1,
     width: '90%',
     marginLeft: 'auto',
@@ -264,11 +264,11 @@ const styles = StyleSheet.create({
   },
   backCard: {
     flex: 1,
-    backgroundColor: colors.white, 
+    backgroundColor: white, 
     marginTop: 10, 
     borderRadius: 25, 
     //ios only
-    shadowColor: "#000000",
+    shadowColor: black,
     shadowOffset: {width: 1, height: 1},
     shadowOpacity: 0.2,
     shadowRadius: 5,
@@ -282,7 +282,7 @@ const styles = StyleSheet.create({
     marginLeft: 'auto',
     marginRight: 'auto',
     fontSize: 24,
-    color: colors.white,
+    color: white,
     fontFamily: 'Helvetica-Bold'
   },
   sectionText: {
@@ -292,11 +292,9 @@ const styles = StyleSheet.create({
 },
   input: {
     alignSelf: 'center',
-    backgroundColor: colors.white,
+    backgroundColor: white,
     height: 50,
     width: '100%',
-    // borderWidth: 1,
-    // borderColor: '#656565',
     borderRadius: 7,
     paddingLeft: 20,
   },
@@ -307,21 +305,21 @@ const styles = StyleSheet.create({
   },
   recommendationbuttonleft: {
     flex: 1,
-    backgroundColor: colors.primary,
+    backgroundColor: primary,
     borderRadius: 7,
     height: 100,
     marginRight: 15,
   },
   recommendationbuttonright: {
     flex: 1,
-    backgroundColor: colors.primary,
+    backgroundColor: primary,
     borderRadius: 7,
     height: 100,
   },
   recommendationTitle: {
     marginTop: 15,
     marginLeft: 15,
-    color: colors.white,
+    color: white,
     fontWeight: '600',
     fontSize: 16,
   },
@@ -342,19 +340,19 @@ const styles = StyleSheet.create({
     width: 200,
     fontWeight: '600',
     fontSize: 18,
-    color: colors.white,
+    color: white,
     position: 'absolute',
     bottom: 50,
     left: 20,
   },
   guideBox: {
-    backgroundColor: colors.white,
+    backgroundColor: white,
     borderRadius: 25,
     marginBottom: 10,
     minHeight: 160,
     //ios only
     shadowOffset:{  width: 10,  height: 20,  },
-    shadowColor: 'black',
+    shadowColor: black,
     shadowOpacity: 1.0,
     //android only
     elevation: 10,
@@ -366,7 +364,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 20,
     left: 100,
-    color: colors.black,
+    color: black,
   },
   guideTitle: {
     fontSize: 18,
@@ -374,7 +372,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 20,
     left: 100,
-    color: colors.black,
+    color: black,
   },
   linearGradTour: {
     position: 'absolute',
@@ -395,9 +393,9 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   backIcon: {
-    backgroundColor: colors.white,
+    backgroundColor: white,
     borderRadius: 10,
-    borderColor: 'white',
+    borderColor: white,
     borderWidth: 1,
     position: 'absolute',
     left: 20,
@@ -410,7 +408,7 @@ const styles = StyleSheet.create({
   calenderLine: {
     width: '95%',
     height: 1,
-    backgroundColor: '#D9D9D9',
+    backgroundColor: grayVeryLight,
     position: 'absolute',
     top: 125,
     alignSelf: 'center',

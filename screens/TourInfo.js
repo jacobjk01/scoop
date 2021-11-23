@@ -8,7 +8,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import LinearGradient from 'react-native-linear-gradient';
 
 import StickyParallaxHeader from 'react-native-sticky-parallax-header';
-import { black, white } from 'config/colors';
+import { primary, black, white, grayDark, blueDark, red } from 'config/colors';
 
 const { event, ValueXY } = Animated;
 class TourInfo extends Component {
@@ -48,9 +48,9 @@ class TourInfo extends Component {
             extrapolate: 'clamp',
         });
         return(
-            <View style={{backgroundColor: "#d92726", flex: 1, borderRadius: 10}}>
+            <View style={{backgroundColor: red, flex: 1, borderRadius: 10}}>
                 <ImageBackground style={styles.imageHeader} source={require('images/Westwood_village.png')}>
-                    <LinearGradient colors={['transparent', 'black']} style={styles.linearGradTour}/>
+                    <LinearGradient colors={['transparent', black]} style={styles.linearGradTour}/>
                         <Animated.View style={[styles.imageOverlay, {paddingBottom: openSpace}]}>
                             <Text style={styles.titleText}>Westwood Tour</Text>
                             <Text style={styles.detailText}>60 min | Max 6 people | person</Text>
@@ -67,7 +67,7 @@ class TourInfo extends Component {
 
     renderHeader() {
         return(
-            <View style={{flex: 1, backgroundColor: "white", alignItems: "center"}}></View>
+            <View style={{flex: 1, backgroundColor: white, alignItems: "center"}}></View>
         )
     }
 
@@ -191,21 +191,21 @@ class TourInfo extends Component {
             <View style={{marginTop: 500}}>
                 <Animated.View style={{flexDirection: "row", position: "absolute", 
                 top: -90, left: 25, opacity: buttonOpacity, alignItems: "center", zIndex: 10}}>
-                    <TouchableOpacity style={{backgroundColor: "white", marginRight: 10, borderRadius: 40}}>
+                    <TouchableOpacity style={{backgroundColor: white, marginRight: 10, borderRadius: 40}}>
                         <ImageBackground style={{width: 50, height: 50}} imageStyle={{borderRadius: 40}} source={require('images/brittany.png')}
                         ></ImageBackground> 
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.whiteButton} title="Message">
-                        <Text style={{color: "#41479B"}}>Message</Text>
+                        <Text style={{color: blueDark}}>Message</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.whiteButton} onPress={() => navigation.navigate('Booking')}>
-                        <Text style={{color: "#41479B"}}>Book Now</Text>
+                        <Text style={{color: blueDark}}>Book Now</Text>
                     </TouchableOpacity>
                 </Animated.View>
                 {this.state.reviews.map((item) => 
                     <View style={styles.reviewCard}>
                         {this.renderStars(item.stars)}
-                        <Text style={{marginTop: 5, fontSize: 14, color: "#9B9BA7", fontStyle: 'italic'}}>{item.tourName} - {item.year}</Text>
+                        <Text style={{marginTop: 5, fontSize: 14, color: grayDark, fontStyle: 'italic'}}>{item.tourName} - {item.year}</Text>
                         <Text style={{marginTop: 5}}>{item.comment}</Text>
                     </View>
                 )}
@@ -256,24 +256,24 @@ const styles = StyleSheet.create({
     titleText: {
         fontSize: 32,
         fontWeight: '600',
-        color: "white"
+        color: white,
     },
     detailText: {
         fontSize: 14,
         fontWeight: '200',
-        color: "white"
+        color: white,
     },
     subText: {
         fontSize: 20,
         fontWeight: '400',
-        color: "white",
+        color: white,
         marginTop: 20,
         marginBottom: 20
     },
     summaryText: {
         fontSize: 18,
         fontWeight: '200',
-        color: "white",
+        color: white,
         marginBottom: 30
     },
     headerView: {
@@ -309,12 +309,12 @@ const styles = StyleSheet.create({
     },
     reviewCard: {
         width: "90%",
-        backgroundColor: "white",
+        backgroundColor: white,
         alignSelf: "center",
         padding: 20,
         marginBottom: 20,
         borderRadius: 10,
-        shadowColor: "#000000",
+        shadowColor: black,
         shadowOffset: {width: 1, height: 1},
         shadowOpacity: 0.2,
         shadowRadius: 5,
@@ -322,7 +322,7 @@ const styles = StyleSheet.create({
     whiteButton: {
         backgroundColor: white,
         borderRadius: 10,
-        color: '#41479B',
+        color: blueDark,
         alignItems: 'center',
         justifyContent: 'center',
         height: 30,
@@ -331,7 +331,7 @@ const styles = StyleSheet.create({
         marginRight: 10
     },
     backIcon: {
-        backgroundColor: '#3154A5',
+        backgroundColor: primary,
         borderRadius: 10,
         borderColor: white,
         borderWidth: 1,

@@ -14,7 +14,7 @@ import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
 import { Marker } from 'react-native-maps';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import LinearGradient from 'react-native-linear-gradient';
-import { white } from 'config/colors';
+import { primary, white, grayDark, black, red, grayShadow } from 'config/colors';
 
 const {event, ValueXY} = Animated;
 class AddTour extends Component {
@@ -75,13 +75,13 @@ class AddTour extends Component {
                 style={styles.imageHeader}
                 source={require('images/Westwood_village.png')}>
                 <LinearGradient
-                colors={['transparent', 'black']}
+                colors={['transparent', black]}
                 style={styles.linearGradTour}
                 />
             </ImageBackground>
             <TouchableOpacity
                 style={{position: 'absolute', right: 25, top: 120}}>
-                <Ionicons name={'camera'} size={25} color={'#9B9BA7'}/>
+                <Ionicons name={'camera'} size={25} color={grayDark}/>
             </TouchableOpacity>
         </View>
     );
@@ -93,7 +93,7 @@ class AddTour extends Component {
             style={{
                 flex: 1,
                 backgroundColor:
-                'white', alignItems:
+                white, alignItems:
                 'center'
                 }}
             >
@@ -157,7 +157,7 @@ class AddTour extends Component {
                             description="Recommended Meeting Point"
                         />
                     </MapView>
-                    <Text style={{color: "#EA4336", position: 'absolute', top: 10, left: 175, fontWeight: '500'}}>Bruin Bear</Text>
+                    <Text style={{color: red, position: 'absolute', top: 10, left: 175, fontWeight: '500'}}>Bruin Bear</Text>
                 </View>
             </View>
             <View style={styles.divider} />
@@ -174,7 +174,7 @@ class AddTour extends Component {
 
 render() {
     return (
-        <View style={{backgroundColor: 'white'}}>
+        <View style={{backgroundColor: white}}>
             <StatusBar barStyle="dark-content" />
             <ScrollView>
                 {this.renderForeground()}
@@ -213,11 +213,11 @@ class Counter extends React.Component {
       return (
         <View style={{flexDirection: 'row'}}>
             <TouchableOpacity style={count > 1 ? styles.removeButton : styles.removeButtonGray} onPress={this.subtractCount}>
-                <Ionicons name={'remove'} size={16} style={count > 1 ? {color: 'white'} : {color: '#9B9BA7'}}/>
+                <Ionicons name={'remove'} size={16} style={count > 1 ? {color: white} : {color: grayDark}}/>
             </TouchableOpacity>
             <Text style={{paddingHorizontal: 8}}>{count}</Text>
             <TouchableOpacity style={count < 10 ? styles.addButton : styles.addButtonGray} onPress={this.addCount}>
-                <Ionicons name={'add'} size={16} style={count < 10 ? {color: 'white'} : {color: '#9B9BA7'}}/>
+                <Ionicons name={'add'} size={16} style={count < 10 ? {color: white} : {color: grayDark}}/>
             </TouchableOpacity>
         </View>
       );
@@ -229,7 +229,7 @@ const styles = StyleSheet.create({
         position: 'relative',
         marginTop: 5,
         marginBottom: 20,
-        borderBottomColor: '#9B9BA7',
+        borderBottomColor: grayDark,
         borderBottomWidth: 1,
         alignSelf: 'center',
         width: '80%',
@@ -237,7 +237,7 @@ const styles = StyleSheet.create({
   titleText: {
     fontSize: 32,
     fontWeight: '600',
-    color: 'white',
+    color: white,
     top: 80,
   },
   sectionText: {
@@ -249,7 +249,7 @@ const styles = StyleSheet.create({
   bodyText: {
     fontSize: 14,
     fontWeight: '200',
-    color: 'black',
+    color: black,
     marginBottom: 15,
     fontFamily: 'Helvetica',
     paddingLeft: 45,
@@ -261,7 +261,7 @@ const styles = StyleSheet.create({
     zIndex: -10,
   },
   backIcon: {
-    backgroundColor: '#3154A5',
+    backgroundColor: primary,
     borderRadius: 10,
     borderColor: white,
     borderWidth: 1,
@@ -278,17 +278,17 @@ const styles = StyleSheet.create({
     bottom: -80,
     left: 20,
     right: 20,
-    backgroundColor: '#3154A5',
+    backgroundColor: primary,
     height: 50,
     justifyContent: 'center',
     borderRadius: 10,
-    shadowColor: '#adadad',
+    shadowColor: grayShadow,
     shadowOffset: {width: 2, height: 2},
     shadowOpacity: 0.8,
     shadowRadius: 3,
   },
   input: {
-      borderColor: '#9B9BA7',
+      borderColor: grayDark,
       borderWidth: 1,
       borderRadius: 5,
       width: 35,
@@ -297,16 +297,16 @@ const styles = StyleSheet.create({
       marginHorizontal: 5,
   },
   removeButton: {
-    borderColor: '#3154A5',
+    borderColor: primary,
     borderWidth: 1,
     paddingHorizontal: 2,
     borderRadius: 5,
     paddingVertical: 1,
     marginLeft: 5,
-    backgroundColor: '#3154A5',
+    backgroundColor: primary,
   },
   removeButtonGray: {
-    borderColor: '#9B9BA7',
+    borderColor: grayDark,
     borderWidth: 1,
     paddingHorizontal: 2,
     borderRadius: 5,
@@ -314,14 +314,14 @@ const styles = StyleSheet.create({
     marginLeft: 5,
   },
   addButton: {
-    borderColor: '#3154A5',
+    borderColor: primary,
     borderWidth: 1,
     paddingHorizontal: 2,
     borderRadius: 5,
-    backgroundColor: '#3154A5',
+    backgroundColor: primary,
   },
   addButtonGray: {
-    borderColor: '#9B9BA7',
+    borderColor: grayDark,
     borderWidth: 1,
     paddingHorizontal: 2,
     borderRadius: 5,
@@ -334,7 +334,7 @@ const styles = StyleSheet.create({
     height: 140,
     width: "75%",
     borderWidth: 1,
-    borderColor: '#9B9BA7',
+    borderColor: grayDark,
     borderRadius: 7,
     paddingLeft: 10,
     marginTop: 10,
@@ -347,7 +347,7 @@ const styles = StyleSheet.create({
     height: 35,
     width: "80%",
     borderWidth: 1,
-    borderColor: '#9B9BA7',
+    borderColor: grayDark,
     borderRadius: 7,
     paddingLeft: 10,
     marginTop: 10,

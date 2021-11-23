@@ -1,6 +1,6 @@
 import React from 'react';
 import {View, ScrollView, SafeAreaView, Text, StyleSheet} from 'react-native';
-import colors from 'config/colors';
+import { primary, white, grayDark, black } from 'config/colors';
 import BackButton from 'components/BackButton';
 import GuidesMsgSection from 'components/GuidesMsgSection';
 import tourGuides from 'data/tourGuides';
@@ -12,7 +12,7 @@ function Messages(props) {
     <SafeAreaView style={styles.container}>
       
       {/* <View style={styles.title}>
-        <Text style={{color: colors.white, fontFamily: "Helvetica", fontSize: 20}}>Your Messages</Text>
+        <Text style={{color: white, fontFamily: "Helvetica", fontSize: 20}}>Your Messages</Text>
       </View> */}
       {/* <BackButton /> */}
       <View style={styles.body}>
@@ -21,7 +21,7 @@ function Messages(props) {
         </View>
         
         <ScrollView>
-          <Text style={[{color: colors.black, fontFamily: "Helvetica", fontSize: 18, fontWeight: 'bold', paddingTop: 20, paddingBottom: 20}]}>Messages</Text>
+          <Text style={[{color: black, fontFamily: "Helvetica", fontSize: 18, fontWeight: 'bold', paddingTop: 20, paddingBottom: 20}]}>Messages</Text>
           <GuidesLastMsg tourGuides={tourGuides} navigation={navigation}/>
         </ScrollView>
       </View>
@@ -31,7 +31,7 @@ function Messages(props) {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: colors.primary,
+    backgroundColor: primary,
     height: "100%",
     
   },
@@ -42,14 +42,14 @@ const styles = StyleSheet.create({
 
   },
   body: {
-    backgroundColor: colors.white,
+    backgroundColor: white,
     padding: 20,
     height: '100%'
     
   },
   bottomLine: {
     paddingBottom: 20,
-    borderBottomColor: colors.grayDark,
+    borderBottomColor: grayDark,
     borderBottomWidth: 1,
   }
 })

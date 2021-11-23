@@ -5,7 +5,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import LinearGradient from 'react-native-linear-gradient';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-
+import { primary, white, grayVeryDark } from 'config/colors';
 
 const TourList = () => {
     return(
@@ -15,7 +15,7 @@ const TourList = () => {
                 <Text style={styles.titleText}>Tour List Page</Text>
                 <View style={{marginTop: 30}}>
                     <TextInput style={styles.input} placeholder={'Search'}></TextInput>
-                    <Ionicons style={styles.searchicon} name={'search-outline'} size={25} color={'#656565'} />
+                    <Ionicons style={styles.searchicon} name={'search-outline'} size={25} color={grayVeryDark} />
                 </View>
             </ScrollView>
         </SafeAreaView>
@@ -40,11 +40,9 @@ const styles = StyleSheet.create({
     },
     input: {
         alignSelf: 'center',
-        backgroundColor: 'white',
+        backgroundColor: white,
         height: 50,
         width: "100%",
-        // borderWidth: 1,
-        // borderColor: '#656565',
         borderRadius: 7,
         paddingLeft: 20
     },
@@ -55,21 +53,21 @@ const styles = StyleSheet.create({
     },
     recommendationbuttonleft: {
         flex: 1,
-        backgroundColor: "#3154A5",
+        backgroundColor: primary,
         borderRadius: 7,
         height: 100,
         marginRight: 15
     }, 
     recommendationbuttonright: {
         flex: 1,
-        backgroundColor: "#3154A5",
+        backgroundColor: primary,
         borderRadius: 7,
         height: 100,
     },
     recommendationTitle: {
         marginTop: 15,
         marginLeft: 15,
-        color: 'white',
+        color: white,
         fontWeight: '600',
         fontSize: 16
     },
@@ -87,7 +85,7 @@ const styles = StyleSheet.create({
         width: 200,
         fontWeight: '600',
         fontSize: 18,
-        color: 'white',
+        color: white,
         position: 'absolute',
         bottom: 50,
         left: 20
@@ -97,7 +95,7 @@ const styles = StyleSheet.create({
         position: 'absolute',
         bottom: 10,
         left: 10,
-        color: 'white'
+        color: white,
     },
     linearGradTour: {
         position: 'absolute',

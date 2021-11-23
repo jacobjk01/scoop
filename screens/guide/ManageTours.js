@@ -20,6 +20,7 @@ import {color} from 'react-native-reanimated';
 import GuideProfile from '../visitor/GuideProfile';
 import { getUser } from 'api/users';
 import { onAuthStateChanged } from 'api/auth';
+import { white, black, grayVeryDark, tappableBlue } from 'config/colors';
 
 const ManageTours = ({navigation}) => {
   const tours = toursData.tours;
@@ -56,22 +57,22 @@ const ManageTours = ({navigation}) => {
       );
   } else {
     return (
-      <SafeAreaView style={{backgroundColor: 'white'}}>
+      <SafeAreaView style={{backgroundColor: white}}>
         <ScrollView style={{paddingRight: 20, paddingLeft: 20, height: '100%'}}>
           <View style={{marginTop: 50}}>
             <Text style={{marginLeft: 20, fontSize: 24, fontWeight: '700', marginBottom: 40}}>
               Manage Tours
             </Text>
             <TouchableOpacity style={styles.selectButton}>
-            <Text style={{color: '#007BBA'}}>Select</Text>
+            <Text style={{color: tappableBlue}}>Select</Text>
             </TouchableOpacity>
           </View>
           <View style={{flexDirection: 'row', flexWrap: 'wrap'}}>
               <TouchableOpacity style={styles.addNewTourCard} onPress={async () => {
                 navigation.navigate('AddTour')
               }}>
-              <Ionicons name={'add'} size={24} style={{color: "#525252", position: 'absolute', left: 8}}/>
-              <Text style={{fontSize: 16, fontWeight: '400', color: '#525252', textAlign: 'center', left: 8, top: 1}}>
+              <Ionicons name={'add'} size={24} style={{color: grayVeryDark, position: 'absolute', left: 8}}/>
+              <Text style={{fontSize: 16, fontWeight: '400', color: grayVeryDark, textAlign: 'center', left: 8, top: 1}}>
                 Add a new tour
               </Text>
               </TouchableOpacity>
@@ -127,14 +128,14 @@ const styles = StyleSheet.create({
     // width: 200,
     fontWeight: '600',
     // fontSize: 18,
-    color: colors.white,
+    color: white,
     position: 'absolute',
     bottom: 45,
     // left: 20,
   },
   tourText: {
     position: 'absolute',
-    color: colors.white,
+    color: white,
     fontSize: 10,
     bottom: 30,
   },
@@ -143,7 +144,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 10,
     left: 10,
-    color: colors.white,
+    color: white,
   },
   linearGradTour: {
     position: 'absolute',
@@ -167,7 +168,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderStyle: 'dashed',
     // stroke-dasharray: "8, 3",
-    borderColor: '#525252',
+    borderColor: grayVeryDark,
     width: '45%',
     height: 160,
     margin: 8,
@@ -182,8 +183,8 @@ const styles = StyleSheet.create({
     height: 160,
     margin: 8,
     borderRadius: 10,
-    backgroundColor: 'white',
-    shadowColor: "#000000",
+    backgroundColor: white,
+    shadowColor: black,
     shadowOffset: {width: 1, height: 1},
     shadowOpacity: 0.2,
     shadowRadius: 5,

@@ -1,8 +1,7 @@
 import React, { Component }from 'react';
 import {View, Text, SafeAreaView, ScrollView, StyleSheet, 
     TouchableOpacity, Image, ImageBackground, Modal} from 'react-native';
-import { black, white } from 'config/colors';
-
+import { primary, black, white, grayDark, red, blueMed, grayShadow, grayVeryLight } from 'config/colors';
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
 import { Marker } from 'react-native-maps';
 import { Calendar } from 'react-native-calendars';
@@ -74,17 +73,17 @@ class TourBooking3 extends Component {
     timeSelect (index) {
         if (this.state.selectedTime == index) {
             return(
-                <TouchableOpacity style={{backgroundColor: "#3154A5", borderColor: "#3154A5", 
+                <TouchableOpacity style={{backgroundColor: primary, borderColor: primary, 
                 borderWidth: 2, borderRadius: 10, padding: 10, marginRight: 10, marginLeft: 10, marginBottom: 10}}>
-                    <Text style={{color: "white"}}>{moment(this.state.times[index]).format("LT")}</Text>
+                    <Text style={{color: white}}>{moment(this.state.times[index]).format("LT")}</Text>
                 </TouchableOpacity>
             )
         } else {
             return(
-                <TouchableOpacity style={{backgroundColor: white, borderColor: "#3154A5", 
+                <TouchableOpacity style={{backgroundColor: white, borderColor: primary, 
                 borderWidth: 2, borderRadius: 10, padding: 10, marginRight: 10, marginLeft: 10, marginBottom: 10}}
                 onPress={() => this.setSelectedTime(index)}>
-                    <Text style={{color: "#3154A5"}}>{moment(this.state.times[index]).format("LT")}</Text>
+                    <Text style={{color: primary}}>{moment(this.state.times[index]).format("LT")}</Text>
                 </TouchableOpacity>
             )
         }
@@ -183,7 +182,7 @@ class TourBooking3 extends Component {
                         <TouchableOpacity style={this.state.visitorCount==0?styles.minusDisabled:styles.minus} 
                         onPress={() => this.setVisitorCount(this.state.visitorCount-1)}
                         disabled={this.state.visitorCount==0?true:false}>
-                            <Text style={{color: this.state.visitorCount==0?"#9B9BA7":"white", alignSelf: 'center'}}>-</Text>
+                            <Text style={{color: this.state.visitorCount==0?grayDark:white, alignSelf: 'center'}}>-</Text>
                         </TouchableOpacity>
                         <Text style={styles.number}>{this.state.visitorCount}</Text>
                         <TouchableOpacity style={styles.plus} onPress={() => this.setVisitorCount(this.state.visitorCount+1)}>
@@ -211,9 +210,9 @@ class TourBooking3 extends Component {
                             enableSwipeMonths={true}
                             
                             theme={{
-                                arrowColor: "#3154A5",
-                                todayTextColor: "#3D68CC",
-                                monthTextColor: "#3154A5",
+                                arrowColor: primary,
+                                todayTextColor: blueMed,
+                                monthTextColor: primary,
                                 textMonthFontWeight: "600",
                             }}
     
@@ -221,8 +220,8 @@ class TourBooking3 extends Component {
                                 [this.state.selected]: {
                                   selected: true,
                                   disableTouchEvent: true,
-                                  selectedColor: '#3154A5',
-                                  selectedTextColor: 'white'
+                                  selectedColor: primary,
+                                  selectedTextColor: white
                                 }
                               }}
                         >
@@ -240,7 +239,7 @@ class TourBooking3 extends Component {
                         <Text style={styles.sectionText}>Meeting Point</Text>
                         <View style={{flexDirection: "row", marginTop: 12}}>
                             <TouchableOpacity style={styles.circle} onPress={() => this.setSelectedMeet(0)}>
-                                <View style={[styles.innerCircle, {backgroundColor: this.state.selectedMeet==0?"#3154A5":"white"}]}></View>
+                                <View style={[styles.innerCircle, {backgroundColor: this.state.selectedMeet==0?primary:white}]}></View>
                             </TouchableOpacity>
                             <Text style={{marginLeft: 10, marginTop: 2}}>Recommended:</Text>
                             <Text style={{marginLeft: 10, marginTop: 2}}>Bruin Bear Statue</Text>
@@ -263,11 +262,11 @@ class TourBooking3 extends Component {
                                     description="Recommended Meeting Point"
                                 />
                             </MapView>
-                            <Text style={{color: "#EA4336", position: 'absolute', top: 10, left: 175, fontWeight: '500'}}>Bruin Bear</Text>
+                            <Text style={{color: red, position: 'absolute', top: 10, left: 175, fontWeight: '500'}}>Bruin Bear</Text>
                         </View>
                         <View style={{flexDirection: "row", marginTop: 25}}>
                             <TouchableOpacity style={styles.circle} onPress={() => this.setSelectedMeet(1)}>
-                                <View style={[styles.innerCircle, {backgroundColor: this.state.selectedMeet==1?"#3154A5":"white"}]}></View>
+                                <View style={[styles.innerCircle, {backgroundColor: this.state.selectedMeet==1?primary:white}]}></View>
                             </TouchableOpacity>
                             <Text style={{marginLeft: 10, marginTop: 2}}>Select:</Text>
                         </View>
@@ -291,12 +290,12 @@ class TourBooking3 extends Component {
                                 />
                             </MapView>
                             <View style={[styles.shader, {height: 90, opacity: 0.5}]}></View>
-                            <Text style={{color: 'white', fontWeight: '700', fontSize: 18, position: 'absolute', top: 35, left: 100}}>Tap to Choose</Text>
+                            <Text style={{color: white, fontWeight: '700', fontSize: 18, position: 'absolute', top: 35, left: 100}}>Tap to Choose</Text>
                         </TouchableOpacity>
                     </View>
                     <View style={[styles.backCard, {paddingLeft: 30, paddingRight: 30, paddingBottom: 30}]}>
                         <Text style={styles.sectionText}>Additional Requirements</Text>
-                        <View style={{flex: 1, borderColor: "#9B9BA7", borderRadius: 10, borderWidth: 2, marginTop: 20, padding: 20, alignItems: 'center', justifyContent: 'center'}}>
+                        <View style={{flex: 1, borderColor: grayDark, borderRadius: 10, borderWidth: 2, marginTop: 20, padding: 20, alignItems: 'center', justifyContent: 'center'}}>
                             <Text>None</Text>
                         </View>
                     </View>
@@ -371,7 +370,7 @@ const styles = StyleSheet.create({
         height: 20,
         top: 20,
         right: 80,
-        backgroundColor: '#3154A5',
+        backgroundColor: primary,
         color: white,
         borderRadius: 4
     },
@@ -381,8 +380,8 @@ const styles = StyleSheet.create({
         height: 20,
         top: 20,
         right: 80,
-        backgroundColor: 'white',
-        borderColor: '#9B9BA7',
+        backgroundColor: white,
+        borderColor: grayDark,
         borderWidth: 1,
         borderRadius: 4
     },
@@ -397,7 +396,7 @@ const styles = StyleSheet.create({
         height: 20,
         right: 30,
         top: 20,
-        backgroundColor: '#3154A5',
+        backgroundColor: primary,
         borderRadius: 4
     },
     backCard: {
@@ -407,7 +406,7 @@ const styles = StyleSheet.create({
         borderRadius: 20, 
         marginLeft: 10, 
         marginRight: 10,
-        shadowColor: "#000000",
+        shadowColor: black,
         shadowOffset: {width: 1, height: 1},
         shadowOpacity: 0.2,
         shadowRadius: 5
@@ -423,7 +422,7 @@ const styles = StyleSheet.create({
         width: 20,
         height: 20,
         borderWidth: 1,
-        borderColor: "#9B9BA7",
+        borderColor: grayDark,
         borderRadius: 50,
         justifyContent: 'center',
         alignContent: 'center'
@@ -435,17 +434,17 @@ const styles = StyleSheet.create({
         alignSelf: 'center'
     },
     continue: {
-        backgroundColor: "#3154A5",
+        backgroundColor: primary,
         height: 50,
         justifyContent: 'center',
         borderRadius: 10,
-        shadowColor: "#adadad",
+        shadowColor: grayShadow,
         shadowOffset: {width: 2, height: 2},
         shadowOpacity: 0.8,
         shadowRadius: 3
     },
     backIcon: {
-        backgroundColor: '#3154A5',
+        backgroundColor: primary,
         borderRadius: 10,
         borderColor: white,
         borderWidth: 1,
@@ -460,7 +459,7 @@ const styles = StyleSheet.create({
     line: {
         width: '95%',
         height: 1,
-        backgroundColor: '#D9D9D9',
+        backgroundColor: grayVeryLight,
         position: 'absolute',
         top: 125,
         alignSelf: 'center',

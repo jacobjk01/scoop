@@ -13,6 +13,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import { UserContext } from 'contexts'
 import { useIsFocused } from '@react-navigation/core';
 import { getPicture } from 'api/users';
+import { grayDark, white } from 'config/colors';
 
 const Account = ({ navigation }) => {
   const {user, userAuth} = useContext(UserContext);
@@ -38,7 +39,7 @@ const Account = ({ navigation }) => {
             paddingRight: 20,
             paddingLeft: 20,
             height: '100%',
-            backgroundColor: 'white',
+            backgroundColor: white,
             borderTopLeftRadius: 20,
             borderTopRightRadius: 20,
           }}
@@ -50,7 +51,7 @@ const Account = ({ navigation }) => {
               onPress={() => navigation.navigate('AccountEdit')}
               style={{position: 'absolute', right: 10, top: 20}}>
               <View>
-                <Text style={{color: '#9B9BA7'}}>Edit <Ionicons name={'pencil'} size={16}/></Text>
+                <Text style={{color: grayDark}}>Edit <Ionicons name={'pencil'} size={16}/></Text>
               </View>
             </TouchableOpacity>
             <View style={styles.divider} />
@@ -120,14 +121,14 @@ const styles = StyleSheet.create({
     position: 'relative',
     marginTop: 20,
     marginBottom: 20,
-    borderBottomColor: '#9B9BA7',
+    borderBottomColor: grayDark,
     borderBottomWidth: 1,
   },
   guideImage: {
     width: 100,
     height: 100,
     borderRadius: 100,
-    backgroundColor: 'gray',
+    backgroundColor: grayDark,
     position: 'absolute',
     bottom: 70,
   },
@@ -149,7 +150,7 @@ const styles = StyleSheet.create({
     fontWeight: '400',
     marginTop: 5,
     fontStyle: 'italic',
-    color: '#9B9BA7'
+    color: grayDark,
   },
   bodyText: {
     fontSize: 16,

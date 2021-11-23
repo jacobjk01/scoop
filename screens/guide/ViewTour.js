@@ -1,7 +1,7 @@
 import React from 'react'
 import { SafeAreaView, View, Text, StyleSheet, TouchableOpacity, Image, ScrollView } from 'react-native'
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { primary, white, grayDark } from 'config/colors';
+import { primary, white, grayDark, black, grayVeryLight } from 'config/colors';
 
 const ViewTour = ({navigation, route}) => {
     const tour = route.params.tour;
@@ -103,7 +103,7 @@ const styles = StyleSheet.create({
     backIcon: {
         backgroundColor: white,
         borderRadius: 10,
-        borderColor: '#D9D9D9',
+        borderColor: grayVeryLight,
         borderWidth: 1,
         position: 'absolute',
         left: 20,
@@ -116,8 +116,8 @@ const styles = StyleSheet.create({
     tourInfoCard: {
         width: '95%',
         borderRadius: 20,
-        backgroundColor: 'white',
-        shadowColor: "#000000",
+        backgroundColor: white,
+        shadowColor: black,
         shadowOffset: {width: 1, height: 1},
         shadowOpacity: 0.3,
         shadowRadius: 5,
@@ -128,8 +128,8 @@ const styles = StyleSheet.create({
     visitorInfoCard: {
         width: '95%',
         borderRadius: 20,
-        backgroundColor: 'white',
-        shadowColor: "#000000",
+        backgroundColor: white,
+        shadowColor: black,
         shadowOffset: {width: 1, height: 1},
         shadowOpacity: 0.3,
         shadowRadius: 5,
@@ -141,19 +141,16 @@ const styles = StyleSheet.create({
         fontWeight: '700',
         fontSize: 18,
         paddingBottom: 15,
-        // backgroundColor: 'gray',
     },
     nameText: {
         fontWeight: '700',
         fontSize: 18,
         paddingBottom: 5,
-        // backgroundColor: 'gray',
     },
     subtext: {
         fontWeight: '300',
         fontSize: 12,
         paddingBottom: 5,
-        // backgroundColor: 'gray',
     },
     sectionInfoSubtitleText: {
         fontWeight: '400',
@@ -180,7 +177,7 @@ const styles = StyleSheet.create({
     divider: {
         marginTop: 20,
         marginBottom: 20,
-        borderBottomColor: '#9B9BA7',
+        borderBottomColor: grayDark,
         borderBottomWidth: 1,
         width: '100%',
     },

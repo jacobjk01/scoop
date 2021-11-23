@@ -12,6 +12,7 @@ import {
   Image,
   ImageBackground,
 } from 'react-native';
+import { primary, white } from 'config/colors';
 
 const BookingCheckout = ({navigation, route}) => {
   const {item} = route.params;
@@ -56,7 +57,7 @@ const styles = StyleSheet.create({
     left: 17,
     top: 10,
     borderRadius: 20,
-    backgroundColor: 'white',
+    backgroundColor: white,
   },
   bottomContainer: {
     position: 'absolute',
@@ -65,14 +66,14 @@ const styles = StyleSheet.create({
     left: 17,
     top: 330,
     borderRadius: 20,
-    backgroundColor: 'white',
+    backgroundColor: white,
   },
   confirmContainter: {
     position: 'absolute',
     width: 500,
     height: 178,
     top: 528,
-    backgroundColor: 'white',
+    backgroundColor: white,
   },
   confirmButton: {
     position: 'absolute',
@@ -80,7 +81,7 @@ const styles = StyleSheet.create({
     height: 60,
     left: 22,
     top: 575,
-    backgroundColor: '#3154A5',
+    backgroundColor: primary,
     borderRadius: 20,
   },
   confirmationText: {
@@ -90,7 +91,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     left: 130,
     top: 20,
-    color: 'white',
+    color: white,
   },
   tourNameText: {
     position: 'absolute',

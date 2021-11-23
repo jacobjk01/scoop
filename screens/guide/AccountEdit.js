@@ -16,6 +16,7 @@ import { useNavigation } from '@react-navigation/native';
 import { UserContext } from 'contexts';
 import { getPicture, changeName, changePicture, changeMajor, changeYear, changeIntro, changeLanguages, changeHometown } from 'api/users';
 import {request, check, PERMISSIONS, RESULTS} from 'react-native-permissions';
+import { primary, grayDark, white, black, grayShadow, grayVeryDark } from 'config/colors';
 
 const AccountEdit = ({navigation}) => {
   const nav = useNavigation();
@@ -151,7 +152,7 @@ const AccountEdit = ({navigation}) => {
         <TouchableOpacity
           style={styles.saveButton}
           onPress={() => (nav.goBack(), saveFields())}>
-          <Text style={{alignSelf: 'center', color: "white", fontWeight: '700'}}>
+          <Text style={{alignSelf: 'center', color: white, fontWeight: '700'}}>
             {'Save'}
           </Text>
         </TouchableOpacity>
@@ -166,7 +167,7 @@ const AccountEdit = ({navigation}) => {
       <TouchableOpacity
         onPress={() => handlePhotoPicker("BACKGROUND")}
         style={{position: 'absolute', right: 25, top: 120}}>
-        <Ionicons name={'camera'} size={25} color={'#9B9BA7'}/>
+        <Ionicons name={'camera'} size={25} color={grayDark}/>
       </TouchableOpacity>
       <View
         style={{
@@ -174,7 +175,7 @@ const AccountEdit = ({navigation}) => {
           paddingRight: 20,
           paddingLeft: 20,
           height: '100%',
-          backgroundColor: 'white',
+          backgroundColor: white,
           borderTopLeftRadius: 20,
           borderTopRightRadius: 20,
         }}
@@ -200,7 +201,7 @@ const renderGuideImage = (profilePicture) => {
         }}>
         <Image style={styles.guideImage} source={{uri: profilePicture}} />
         <View style={styles.circleOverlay}/>
-        <Ionicons style={{position: 'absolute', bottom: 105}} name={'camera'} size={35} color={'white'}/>
+        <Ionicons style={{position: 'absolute', bottom: 105}} name={'camera'} size={35} color={white}/>
       </View>
     </TouchableOpacity>
   );
@@ -216,7 +217,7 @@ const styles = StyleSheet.create({
     position: 'relative',
     marginTop: 20,
     marginBottom: 0,
-    borderBottomColor: '#9B9BA7',
+    borderBottomColor: grayDark,
     borderBottomWidth: 1,
     width: "92%",
   },
@@ -225,7 +226,7 @@ const styles = StyleSheet.create({
     height: 45,
     width: "92%",
     borderWidth: 1,
-    borderColor: '#9B9BA7',
+    borderColor: grayDark,
     borderRadius: 7,
     paddingLeft: 15,
     marginTop: 10,
@@ -236,7 +237,7 @@ const styles = StyleSheet.create({
     height: 100,
     width: "92%",
     borderWidth: 1,
-    borderColor: '#9B9BA7',
+    borderColor: grayDark,
     borderRadius: 7,
     paddingHorizontal: 15,
     marginTop: 10,
@@ -248,7 +249,7 @@ const styles = StyleSheet.create({
     width: 100,
     height: 100,
     borderRadius: 100,
-    backgroundColor: 'gray',
+    backgroundColor: grayDark,
     position: 'absolute',
     bottom: 70,
   },
@@ -256,7 +257,7 @@ const styles = StyleSheet.create({
     width: 100,
     height: 100,
     borderRadius: 100,
-    backgroundColor: 'black',
+    backgroundColor: black,
     position: 'absolute',
     bottom: 70,
     opacity: 0.2,
@@ -280,18 +281,18 @@ const styles = StyleSheet.create({
     fontWeight: '400',
     marginTop: 5,
     fontStyle: 'italic',
-    color: '#9B9BA7'
+    color: grayDark,
   },
   bodyText: {
     fontSize: 16,
     fontWeight: '400',
     left: 52,
-    color: '#525252',
+    color: grayVeryDark,
     top: -5,
     paddingBottom: 40,
   },
   addIcon: {
-    color: '#525252',
+    color: grayVeryDark,
     fontSize: 25,
     position: 'relative',
     left: 25,
@@ -299,11 +300,11 @@ const styles = StyleSheet.create({
   },
   saveButton: {
     marginHorizontal: 20,
-    backgroundColor: '#3154A5',
+    backgroundColor: primary,
     height: 50,
     justifyContent: 'center',
     borderRadius: 10,
-    shadowColor: '#adadad',
+    shadowColor: grayShadow,
     shadowOffset: {width: 2, height: 2},
     shadowOpacity: 0.8,
     shadowRadius: 3,
