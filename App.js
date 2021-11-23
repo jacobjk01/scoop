@@ -55,6 +55,7 @@ import ManageTours from './screens/guide/ManageTours';
 import TourEdit from './screens/guide/TourEdit';
 import TourEdit2 from './screens/guide/TourEdit2';
 import TourEdit3 from './screens/guide/TourEdit3';
+import ProfileOptionsGuide from './screens/guide/ProfileOptions';
 import AccountGuide from './screens/guide/Account';
 import AccountEdit from './screens/guide/AccountEdit';
 import AddTour from './screens/guide/AddTour';
@@ -164,7 +165,7 @@ const App = () => {
                 case 'Tours':
                   iconName = focused ? 'map' : 'map-outline';
                   break;
-                case 'Account':
+                case 'ProfileOptions':
                   iconName = focused ? 'person' : 'person-outline';
                   break;
                 default:
@@ -192,7 +193,7 @@ const App = () => {
               return <>
                 <Tab.Screen name='Home' component={HomeGuide} />
                 <Tab.Screen name='ManageTours' component={ManageTours} />
-                <Tab.Screen name='Account' component={AccountGuide} />
+                <Tab.Screen name='ProfileOptions' component={ProfileOptionsGuide} />
               </>
             } else {
               return <>
@@ -239,13 +240,14 @@ const App = () => {
           <Stack.Screen name='Test' component={Test} options={{headerShown: false}}/>
 
           {/* Guide Routes */}
+          <Stack.Screen name='ProfileOptionsGuide' component={RequireAuth(ProfileOptionsGuide)} options={{headerShown: true}}/>
           <Stack.Screen name='AccountGuide' component={RequireAuth(AccountGuide)} options={{headerShown: true}}/>
           <Stack.Screen name='AccountEdit' component={RequireAuth(AccountEdit)} options={{headerShown: true}}/>
           <Stack.Screen name='AddTour' component={RequireAuth(AddTour)} options={{headerShown: true}}/>
           <Stack.Screen name='EditTour' component={RequireAuth(EditTour)} options={{headerShown: true}}/>
           <Stack.Screen name='ManageTours' component={RequireAuth(ManageTours)} options={{headerShown: true}}/>
           <Stack.Screen name='TourEdit' component={RequireAuth(TourEdit)} options={{headerShown: true}}/>
-          <Stack.Screen name='TourEdit2' component={RequireAuth(TourEdit2)} options={{headerShown: true}}/>
+          <Stack.Screen name='TourEdit2' component={RequireAuth(TourEdit2)} options={{headerShown: false}}/>
           <Stack.Screen name='TourEdit3' component={RequireAuth(TourEdit3)} options={{headerShown: true}}/>
           <Stack.Screen name='ViewTour' component={RequireAuth(ViewTour)} options={{headerShown: false}}/>
 
