@@ -79,7 +79,12 @@ const ManageTours = ({navigation}) => {
             {tours.map((tour) => {
               return(
                 <TouchableOpacity key={tour.id} style={styles.tourCard} onPress={() => navigation.navigate('TourEdit', {tour})}>
-                  <Image style={styles.tourImage} source={tour.src}></Image>
+                  <ImageBackground style={styles.tourImage} source={tour.src} imageStyle={{borderRadius: 10}}>
+                    <LinearGradient
+                      colors={['transparent', black]}
+                      style={styles.linearGradTour}
+                      />
+                  </ImageBackground>
                   <View style={styles.tourTextSection}>
                     <Text style={styles.tourTitle}>{tour.name}</Text>
                     <Text style={styles.tourText}>{tour.duration} min | <Ionicons name={'people'} size={12}/> Max {tour.maxPeople} people | <Ionicons name={tour.transportation} size={12}/></Text>
@@ -201,6 +206,15 @@ const styles = StyleSheet.create({
     top: '110%',
     left: 10,
     right: 5,
+  },
+  linearGradTour: {
+    position: 'absolute',
+    top: 100,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    backgroundColor: 'transparent',
+    borderRadius: 10,
   },
 });
 
