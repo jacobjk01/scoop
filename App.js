@@ -84,6 +84,7 @@ import RequireAuth from './components/RequireAuth';
 //api
 import {onAuthStateChanged} from './api/auth';
 import {getUser} from './api/users';
+import { viewAvailableTours } from './api/tours';
 
 /**
  *
@@ -108,9 +109,11 @@ const App = () => {
   const [visitorDone, setVisitorDone] = useState(localState.visitorDone);
   const [visitorBone, setVisitorBone] = useState(localState.visitorBone);
   const hasNotFinishedBareOnboarding =
-    mode === 'new' ||
+    (mode === 'new' ||
     (mode === 'visitor' && !visitorBone) ||
-    (mode === 'guide' && !guideDone);
+    (mode === 'guide' && !guideDone)) && 
+    mode !== 'dev'
+    ;
 
   useEffect(() => {
     if (hasNotFinishedBareOnboarding) {
@@ -243,8 +246,21 @@ const App = () => {
         visitorBone,
         setVisitorBone,
       }}>
-      {/* Has not finished basic onboarding */}
-      {hasNotFinishedBareOnboarding ? (
+
+      {
+      mode === 'dev' ? (
+      <NavigationContainer>
+        <Stack.Navigator>
+          <Stack.Screen
+            name="Test"
+            component={Test}
+            options={{headerShown: true}}
+          /> 
+        </Stack.Navigator>
+      </NavigationContainer>
+      ) :
+      /* Has not finished basic onboarding */
+      hasNotFinishedBareOnboarding ? (
         <NavigationContainer>
           <Stack.Navigator>
             <Stack.Screen

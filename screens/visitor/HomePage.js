@@ -1,4 +1,4 @@
-import React, {useState, Component} from 'react';
+import React, {useState, useEffect, Component} from 'react';
 import {
   View,
   Text,
@@ -18,9 +18,10 @@ import {black, grayDark, grayLight, grayMed, white, primary} from '../../config/
 import {color} from 'react-native-reanimated';
 import GuideProfile from './GuideProfile';
 import toursData from '../../data/toursData';
+import { viewAvailableTours } from '../../api/tours';
 
 const HomePage = ({navigation}) => {
-  const [tours, setTours] = useState(toursData.tours);
+  const [tours, setTours] = useState([]);
   const [guideimages, setGuideImages] = useState(toursData.guides);
 
   const viewAll = (text) => {
