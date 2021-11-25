@@ -36,6 +36,7 @@ export default function Test() {
     const [userIntro, setUserIntro] = useState('currently userIntro is not set');
     let visitorId = 'CBBI3gdPl2Q88GF1G6RGsO8pXpG3'; //Joshua
     let userId = visitorId
+    let guideId2 = visitorId;
     let guideId = 'bVkVyZQ5cXTrw83zpBfpNvpVThX2'; //Josh
     let tour = tours[0]
     let [
@@ -100,7 +101,19 @@ export default function Test() {
                             const tours = await viewAvailableTours();
                             const tourSettings = await viewTourSettings(tours[0].id);
                             console.log(tourSettings)
-                            console.log("Tour Summary data is: " + convertToTourSummary(tourSettings))
+                        } catch (err) {
+                            console.error(err)
+                        }
+                    }}
+                />
+                <Button
+                    title="convert to tour summary"
+                    onPress={async () => {
+                        //This gets the available tours and views the first tour setting list
+                        try {
+                            const tours = await viewAvailableTours();
+                            const tourSettings = await viewTourSettings(tours[0].id);
+                            console.log(convertToTourSummary(tourSettings))
                         } catch (err) {
                             console.error(err)
                         }
@@ -113,7 +126,8 @@ export default function Test() {
                             const tours = await viewAvailableTours();
                             const tourSettings = await viewTourSettings(tours[0].id);
                             let partySize = 1;
-                            bookTour(tourSettings[0].tourSettingRef, partySize, visitorId);
+                            console.log(tourSettings[0])
+                            bookTour(tourSettings[0].ref, partySize, visitorId);
                         } catch (err) {
                             console.error(err)
                         }
@@ -200,8 +214,8 @@ export default function Test() {
                     title="get meeting points"
                     onPress={async () => {
                         try {
-                            const attractions = await getMeetingPts(tourId)
-                            console.log(attractions)
+                            const meetingPts = await getMeetingPts(tourId)
+                            console.log(meetingPts)
 
                         } catch (err ) {
                             console.error(err)
@@ -239,14 +253,19 @@ export default function Test() {
                     title="edit tour"
                     onPress={async () => {
                         try {
+                            const tours = await viewAvailableTours();
+                            const tourSettings = await viewTourSettings(tours[0].id);
+                            console.log(tours[0].id)
+                            console.log(tourSettings)
+                            const tourSettingRef = tourSettings[0].ref
                             const tour = await editTour(
                                 tourSettingRef,
+                                guideId2,
+                                tours[0].id,
                                 categories,
                                 cost,
                                 duration,
                                 introduction,
-                                isArchived,
-                                isPublished,
                                 maxPeople,
                                 meetingPt,
                                 timeAvailable,
@@ -288,7 +307,7 @@ export default function Test() {
                     onPress={async () => {
                         try {
                             const guideBookings = await getGuideBookings(
-                                guideId
+                                guideId2
                             )
                             console.log(guideBookings)
                         } catch (err) {

@@ -1,5 +1,4 @@
 import firestore from '@react-native-firebase/firestore';
-import uuid from 'react-native-uuid';
 
 const db = firestore();
 const tours = db.collection('tours');
@@ -8,18 +7,10 @@ const tours = db.collection('tours');
 
 export const viewTourSettings = async (tourId) => {
     const tourSettingsSnapshot = await tours.doc(tourId).collection('tourSettings').where('isPublished', '==', true).where('isArchived', '==', false).get()
-    const processedTourSettings = []
-    tourSettingsSnapshot.forEach(queryDocSnapshot => {
-        processedTourSettings.push({
-            tourSettingRef: queryDocSnapshot.ref,
-            id: queryDocSnapshot.id,
-            queryDocSnapshot, //extra
-            ...queryDocSnapshot.data(),
-        })
-    })
-    //const guideDoc = processedTourSettings[0].guide;
-    //console.log(await guideDoc.get())
-    return processedTourSettings
+    if (tourSettingsSnapshot.empty) {
+        console.warn(`call to viewTourSettings with tourId ${tourId} has 0 or only archived tours` )
+    }
+    return querySnapshotFormatter(tourSettingsSnapshot)
 }
 
 //TODO
@@ -34,13 +25,15 @@ export const bookTour = async(tourSettingRef, partySize, visitorId) => {
         throw new Error("visitor is not defined")
     }
     const visitor = user(visitorId);
-
     const booking = tourSettingRef.collection("bookings").doc(); 
     //console.log(booking.id)
     booking.set({
         visitor,
         partySize,
-        isCancelled: false
+        isCancelled: false,
+        //TODO: do time
+        time: new Date(),
+        isCompleted: false
     })
 }
 
@@ -60,55 +53,49 @@ export const getVisitorBookings = async (visitorId) => {
     queryTourSettingSnapshots.forEach(tourSetting => {
         visitorBookings.push(tourSetting.data());
     })
-    return visitorBookings
+    return querySnapshotFormatter(queryTourSettingSnapshots)
 }
 
 //guide Functions
 
 export const viewAllTours = async () => {
-    const queryTourSnapshots = await tours.where("title", "!=", "").get();
+    const queryTourSnapshots = await tours.get();
     if (queryTourSnapshots.empty) {
         console.warn("No tours found!")
     }
     const docTourSnapshots = queryTourSnapshots.docs;
     //AFTER-MVP: limit documents seen for performance
-    const availableTours = [];
-    for (let i = 0; i < docTourSnapshots.length; i++) {
-        let tourData = docTourSnapshots[i].data();
-        tourData.id = docTourSnapshots[i].id;
-        availableTours.push(tourData)
-    }
-    return availableTours;
+    return querySnapshotFormatter(queryTourSnapshots);
 }
 
 
 export const viewMyTours = async (guideId) => {
+    console.log(guideId)
+
     const queryTourSettingSnapshots = await db.collectionGroup("tourSettings")
         .where("guide", "==", user(guideId))
         // .where("isArchived", "==", false)
         // .where("isPublished", "==", true)
-        .where("flags", "!=", ["published", "archived"])
+        .where("flags", "==", ["published"])
         //gets all tours for guide that only have published flag
         .get()
-    let myTours = [];
-    console.log(queryTourSettingSnapshots.docs.length)
-    queryTourSettingSnapshots.forEach(tourSetting => {
-        myTours.push(tourSetting.data());
-    })
-    return myTours
+
+    return querySnapshotFormatter(queryTourSettingSnapshots)
 }
 
-//TODO
+// get attractions of a tour
 export const getAttractions = async (tourId) => {
-    throw new Error("Feature not implemented")
+    const attractions = await tours.doc(tourId).collection("attractions").get()
+    return querySnapshotFormatter(attractions)
 }
 
-//TODO
+// get meetingPts of a tour
 export const getMeetingPts = async (tourId) => {
-    throw new Error("Feature not implemented")
+    const meetingPts = await tours.doc(tourId).collection("availableMeetingPts").get()
+    return querySnapshotFormatter(meetingPts)
 }
 
-//adds a tour setting and returns a tourSetting ref
+//adds a tour setting and returns a tourSetting ref (untested)
 export const addTour = async (
     guideId,
     tourId,
@@ -116,8 +103,6 @@ export const addTour = async (
     cost,
     duration,
     introduction,
-    isArchived,
-    isPublished,
     maxPeople,
     meetingPt,
     timeAvailable,
@@ -125,7 +110,7 @@ export const addTour = async (
 ) => {
     const tour = tours.doc(tourId).collection("tourSettings").doc()
     await tour.set({
-        guide: guideId,
+        guide: user(guideId),
         meetingPt,
         categories,
         cost,
@@ -142,30 +127,52 @@ export const addTour = async (
     return tour;
 }
 
-//TODO
+// in order to solve for the guide changing problem, we are actually archiving old tour and returning new tourSetting - TODO: not tested
 export const editTour = async (
     tourSettingRef,
+    guideId,
+    tourId,
     categories,
     cost,
     duration,
     introduction,
-    isArchived,
-    isPublished,
     maxPeople,
     meetingPt,
     timeAvailable,
     transportation
 ) => {
-    throw new Error("Feature not implemented")
-    await tours.where('guideId', '==', guideId).where('tourId', '==', tourId).get().then(querySnapshot =>
-    {
-        querySnapshot.forEach((documentSnapshot) => {
-               tours.doc(documentSnapshot.id).update(field, fieldValue);
-        });
+    //archive old tour
+    await tourSettingRef.update({
+        guide: guideId,
+        meetingPt,
+        categories,
+        cost,
+        duration,
+        introduction,
+        isArchived: true,
+        isPublished: true,
+        maxPeople,
+        meetingPt,
+        timeAvailable,
+        transportation,
+        flags: ["published", "archived"]
     });
+    //return new tourSettingRef
+    return await addTour(
+        guideId,
+        tourId,
+        categories,
+        cost,
+        duration,
+        introduction,
+        maxPeople,
+        meetingPt,
+        timeAvailable,
+        transportation
+    );
 }
 
-//TODO
+//TODO - select button on manage tours? need to talk to Emily about this
 export const duplicateTour = async (
     tourSettingRef,
     categories,
@@ -182,9 +189,19 @@ export const duplicateTour = async (
     throw new Error("Feature not implemented")
 }
 
-//TODO
+
 export const getGuideBookings = async (guideId) => {
-    throw new Error("Feature not implemented")
+    const tourSettingsSnapshot = await db.collectionGroup("tourSettings").where("guide", "==", user(guideId)).get()
+    console.log(tourSettingsSnapshot.size)
+    var guideBookings = []
+    for (let i = 0; i < tourSettingsSnapshot.docs.length; i++) {
+        let queryDocumentSnapshot = tourSettingsSnapshot.docs[i];
+        let c = await queryDocumentSnapshot.ref.collection("bookings").where("isCompleted", "==", false).get()
+        guideBookings = guideBookings.concat(querySnapshotFormatter(c));
+
+    }
+    
+    return guideBookings
 }
 
 
@@ -256,6 +273,16 @@ export const getBooking = async(guideId, tourId, userId) => {
     );
 }
 
+export const querySnapshotFormatter = (querySnapshotSnapshots) => {
+    return querySnapshotSnapshots.docs.map((queryDocSnapshot) => {
+        return {
+            id: queryDocSnapshot.id,
+            ...queryDocSnapshot.data(),
+            ref: queryDocSnapshot.ref
+        }
+    })
+}
+
 /**
  * 
  * @param {*} id any valid id in user db
@@ -264,3 +291,4 @@ export const getBooking = async(guideId, tourId, userId) => {
 const user = (id) => {
     return firestore().collection('users').doc(id)
 }
+
