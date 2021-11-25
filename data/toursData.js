@@ -1,7 +1,7 @@
 module.exports = {
   tours: [
     {
-      id: '1',
+      id: '0',
       name: 'Santa Monica',
       src: require('../images/Santa_Monica.png'),
       image:
@@ -24,7 +24,7 @@ module.exports = {
       category: 'sightseeing',
     },
     {
-      id: '2',
+      id: '1',
       name: 'Westwood Tour',
       src: require('../images/Westwood_village.png'),
       image:
@@ -46,7 +46,7 @@ module.exports = {
       category: 'sightseeing',
     },
     {
-      id: '3',
+      id: '2',
       name: 'Happy Tour',
       src: require('../images/Westwood_village.png'),
       image:
@@ -67,7 +67,7 @@ module.exports = {
       tourDay: '1',
     },
     {
-      id: '4',
+      id: '3',
       name: 'Santa Monica',
       src: require('../images/Santa_Monica.png'),
       image:
@@ -88,7 +88,7 @@ module.exports = {
       tourDay: '12',
     },
     {
-      id: '6',
+      id: '4',
       name: 'Day in Life of an Engineering Student',
       src: require('../images/Santa_Monica.png'),
       image:
@@ -111,21 +111,21 @@ module.exports = {
   ],
   guides: [
     {
-      id: '1',
+      id: '0',
       name: 'Natalie',
       year: 'Junior',
       major: 'Psychobiology',
       src: require('../images/natalie.png'),
     },
     {
-      id: '2',
+      id: '1',
       name: 'Trevor',
       year: 'Senior',
       major: 'Marketing',
       src: require('../images/trevor.png'),
     },
     {
-      id: '3',
+      id: '2',
       name: 'Brittany',
       year: 'Junior',
       major: 'Mechanical Eng.',

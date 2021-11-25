@@ -102,6 +102,7 @@ const App = () => {
   const [userAuth, setUserAuth] = useState(null);
   //user is a object with the user document data
   const [user, setUser] = useState(null);
+  const [bookTourInfo, setBookTourInfo] = useState(null)
   const [isUserLoading, setIsUserLoading] = useState(true);
   const [mode, setMode] = useState(localState.currentMode);
   const [guideDone, setGuideDone] = useState(localState.guideDone);
@@ -232,6 +233,8 @@ const App = () => {
         setUserAuth,
         user,
         setUser,
+        bookTourInfo,
+        setBookTourInfo,
         isUserLoading,
         setIsUserLoading,
         mode,

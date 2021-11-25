@@ -12,20 +12,17 @@ import {
   Animated,
   TouchableWithoutFeedback,
 } from 'react-native';
-import {withSafeAreaInsets} from 'react-native-safe-area-context';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import LinearGradient from 'react-native-linear-gradient';
 import {black, grayDark, grayLight, grayMed, white, primary} from '../../config/colors';
 import {Calendar} from 'react-native-calendars';
 import moment, {duration} from 'moment';
 import DatePicker from 'react-native-date-picker';
-import {nativeViewProps} from 'react-native-gesture-handler/lib/typescript/handlers/NativeViewGestureHandler';
+import toursData from '../../data/toursDatav2';
 
-const TourBooking1 = ({navigation}) => {
-  const [tourimages, setImages] = useState([
-    {name: 'Santa Monica', src: require('../../images/Santa_Monica.png')},
-    {name: 'Westwood Tour', src: require('../../images/Westwood_village.png')},
-  ]);
+const TourBooking1 = ({navigation, route}) => {
+
+  const generalTours = route.params
+  const guides = toursData.guides
   const [marks, setMarks] = useState([
     '2012-05-16',
     '2021-10-18',
@@ -50,26 +47,7 @@ const TourBooking1 = ({navigation}) => {
   const [customEndTime, setCustomEndTime] = useState('Please Select');
   const [isModalVisible, setModalVisible] = useState(false);
   const [startOrEnd, setStartOrEnd] = useState(false);
-  const [guideimages, setGuideImages] = useState([
-    {
-      name: 'Natalie',
-      year: 'Junior',
-      major: 'Psychobiology',
-      src: require('../../images/natalie.png'),
-    },
-    {
-      name: 'Trevor',
-      year: 'Senior',
-      major: 'Marketing',
-      src: require('../../images/trevor.png'),
-    },
-    {
-      name: 'Brittany',
-      year: 'Junior',
-      major: 'Mechanical Eng.',
-      src: require('../../images/brittany.png'),
-    },
-  ]);
+
   const formatTime = selectedTime => {
     if (startOrEnd) {
       setCustomEndTime(selectedTime);
@@ -123,7 +101,7 @@ const TourBooking1 = ({navigation}) => {
         <FlatList
           style={{}}
           vertical={true}
-          data={guideimages}
+          data={generalTours.tours}
           renderItem={renderItem}
           keyExtractor={(item, index) => index.toString()}
         />
@@ -136,18 +114,23 @@ const TourBooking1 = ({navigation}) => {
       );
     }
   };
-  const renderItem = ({item}) => {
-    const handleOnPress = () => navigation.navigate('TourBooking2', {item});
+  const renderItem = ({item, index}) => {
+
+    let guideInfo = guides[item.guide]
+    const handleOnPress = () => {
+      navigation.navigate('TourBooking2', {generalTours, index})
+    };
+
     return (
       <TouchableOpacity onPress={handleOnPress}>
         <View>
           <ImageBackground
             style={styles.listGuideImage}
             imageStyle={{borderRadius: 60}}
-            source={item.src}></ImageBackground>
-          <Text style={styles.guideName}>{item.name}</Text>
+            source={guideInfo.src}></ImageBackground>
+          <Text style={styles.guideName}>{guideInfo.name}</Text>
           <Text style={styles.guideTitle}>
-            {item.major}, {item.year}
+            {guideInfo.major}, {guideInfo.year}
           </Text>
           <View style={styles.line}></View>
         </View>

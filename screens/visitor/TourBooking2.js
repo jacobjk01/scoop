@@ -23,9 +23,11 @@ import {createStackNavigator} from '@react-navigation/stack';
 import toursData from '../../data/toursData';
 
 const TourBooking2 = ({navigation, route}) => {
-  const [tours, setTours] = useState(toursData);
+  const chosenTourIndex = route.params.index
+  const generalTour = route.params.generalTours
+  const tour = generalTour.tours[chosenTourIndex]
+  const guideInfo = toursData.guides[tour.guide]
 
-  const {item} = route.params;
   const messageButton = () => {
     return (
       <TouchableOpacity
@@ -40,7 +42,7 @@ const TourBooking2 = ({navigation, route}) => {
 
 
   const bookTourButton = () => {
-    const handleOnPress = () => navigation.navigate('TourBooking3');
+    const handleOnPress = () => navigation.navigate('TourBooking3', {generalTour, chosenTourIndex});
     return (
       <TouchableOpacity onPress={handleOnPress} style={styles.roundButton2}>
         <Text style={styles.messageFont}>Book Tour</Text>
@@ -48,11 +50,43 @@ const TourBooking2 = ({navigation, route}) => {
     );
   };
 
+  const renderGuideImage = () => {
+    return (
+      <View
+        style={{
+          paddingTop: 30,
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}>
+        <Image style={styles.listGuideImage} source={guideInfo.src} />
+        <Text style={styles.sectionText}>{guideInfo.name}</Text>
+        <Text style={styles.baseText}>
+          {guideInfo.major + ','} {guideInfo.year}
+        </Text>
+      </View>
+    );
+  };
+  const renderTourImage = () => {
+    return (
+      <TouchableOpacity>
+        <ImageBackground
+          style={styles.listTourImage}
+          imageStyle={{borderRadius: 10}}
+          source={route.params.generalTours.src}>
+          <LinearGradient
+            colors={['transparent', 'black']}
+            style={styles.linearGradTour}
+          />
+        </ImageBackground>
+        <Text style={styles.tourText}>{guideInfo.name}</Text>
+      </TouchableOpacity>
+    );
+  };
   return (
     <View style={{height: '100%'}}>
       <ImageBackground
         style={styles.imageHeader}
-        source={require('../../images/Westwood_village.png')}
+        source={route.params.generalTours.src}
       />
       <ScrollView
         style={{
@@ -77,13 +111,13 @@ const TourBooking2 = ({navigation, route}) => {
               marginTop: -80,
               justifyContent: 'center',
             }}>
-            {renderGuideImage({item})}
+            {renderGuideImage()}
             {messageButton()}
             {bookTourButton()}
           </View>
 
           <Text style={{marginTop: 30, fontSize: 20, fontWeight: '700'}}>
-            {"Hi, I'm " + item.name + '!'}
+            {"Hi, I'm " + guideInfo.name + '!'}
           </Text>
 
           <Text style={{marginTop: 5}}></Text>
@@ -113,40 +147,6 @@ const TourBooking2 = ({navigation, route}) => {
         onPress={() => navigation.goBack()}>
         <Ionicons name="chevron-back-outline" size={20} color={'white'} />
       </TouchableOpacity>
-    </View>
-  );
-};
-
-const renderTourImage = ({item}) => {
-  return (
-    <TouchableOpacity>
-      <ImageBackground
-        style={styles.listTourImage}
-        imageStyle={{borderRadius: 10}}
-        source={item.src}>
-        <LinearGradient
-          colors={['transparent', 'black']}
-          style={styles.linearGradTour}
-        />
-      </ImageBackground>
-      <Text style={styles.tourText}>{item.name}</Text>
-    </TouchableOpacity>
-  );
-};
-
-const renderGuideImage = ({item}) => {
-  return (
-    <View
-      style={{
-        paddingTop: 30,
-        justifyContent: 'center',
-        alignItems: 'center',
-      }}>
-      <Image style={styles.listGuideImage} source={item.src} />
-      <Text style={styles.sectionText}>{item.name}</Text>
-      <Text style={styles.baseText}>
-        {item.major + ','} {item.year}
-      </Text>
     </View>
   );
 };
