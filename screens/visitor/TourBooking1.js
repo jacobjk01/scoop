@@ -15,10 +15,7 @@ import {
 import {withSafeAreaInsets} from 'react-native-safe-area-context';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import LinearGradient from 'react-native-linear-gradient';
-import colors, {black, grayDark} from '../../config/colors';
-import {color} from 'react-native-reanimated';
-import GuideProfile from './GuideProfile';
-import {Colors} from 'react-native/Libraries/NewAppScreen';
+import {black, grayDark, grayLight, grayMed, white, primary} from '../../config/colors';
 import {Calendar} from 'react-native-calendars';
 import moment, {duration} from 'moment';
 import DatePicker from 'react-native-date-picker';
@@ -256,8 +253,8 @@ const TourBooking1 = ({navigation}) => {
           <Text
             style={{
               fontSize: 14,
-              color: colors.white,
-              backgroundColor: colors.primary,
+              color: white,
+              backgroundColor: primary,
               borderRadius: 8,
               paddingHorizontal: 14,
               paddingVertical: 6,
@@ -273,9 +270,9 @@ const TourBooking1 = ({navigation}) => {
           <Text
             style={{
               fontSize: 14,
-              color: colors.grayDark,
+              color: grayDark,
               borderWidth: 1,
-              borderColor: colors.grayDark,
+              borderColor: grayDark,
               borderRadius: 8,
               paddingHorizontal: 14,
               paddingVertical: 5,
@@ -358,12 +355,12 @@ const TourBooking1 = ({navigation}) => {
                         style={{
                           borderWidth: 1,
                           borderRadius: 20,
-                          borderColor: colors.grayLight,
+                          borderColor: grayLight,
                         }}>
                         <Ionicons
                           name="chevron-back-outline"
                           size={11}
-                          color={colors.primary}
+                          color={primary}
                           style={{padding: 4}}
                         />
                       </View>
@@ -374,12 +371,12 @@ const TourBooking1 = ({navigation}) => {
                         style={{
                           borderWidth: 1,
                           borderRadius: 20,
-                          borderColor: colors.grayLight,
+                          borderColor: grayLight,
                         }}>
                         <Ionicons
                           name="chevron-forward-outline"
                           size={11}
-                          color={colors.primary}
+                          color={primary}
                           style={{padding: 4}}
                         />
                       </View>
@@ -387,19 +384,19 @@ const TourBooking1 = ({navigation}) => {
                   }
                 }}
                 theme={{
-                  arrowColor: colors.primary,
-                  todayTextColor: colors.black,
+                  arrowColor: primary,
+                  todayTextColor: black,
                   textDayFontFamily: 'Roboto-Medium',
                   textDayFontSize: 16,
-                  monthTextColor: colors.black,
+                  monthTextColor: black,
                   textMonthFontSize: 17,
                   textMonthFontFamily: 'Raleway-SemiBold',
-                  dotColor: colors.primary,
-                  selectedDotColor: colors.primary,
-                  dayTextColor: colors.black,
-                  selectedDayTextColor: colors.white,
+                  dotColor: primary,
+                  selectedDotColor: primary,
+                  dayTextColor: black,
+                  selectedDayTextColor: white,
                   selectedDayBackgroundSize: 20,
-                  selectedDotColor: colors.white,
+                  selectedDotColor: white,
                   textDayHeaderFontFamily: 'Raleway-Medium',
 
                   'stylesheet.day.basic': {
@@ -412,7 +409,7 @@ const TourBooking1 = ({navigation}) => {
                     },
                     selected: {
                       borderRadius: 25,
-                      backgroundColor: colors.primary,
+                      backgroundColor: primary,
                     },
                   },
                   'stylesheet.calendar.main': {
@@ -420,7 +417,7 @@ const TourBooking1 = ({navigation}) => {
                       marginTop: 10,
                       paddingLeft: 20,
                       paddingRight: 20,
-                      backgroundColor: colors.white,
+                      backgroundColor: white,
                       borderRadius: 25,
                     },
                     week: {
@@ -441,7 +438,7 @@ const TourBooking1 = ({navigation}) => {
                     monthText: {
                       fontSize: 17,
                       fontFamily: 'Raleway-SemiBold',
-                      color: colors.black,
+                      color: black,
                       margin: 10,
                       marginBottom: 17,
                     },
@@ -460,7 +457,7 @@ const TourBooking1 = ({navigation}) => {
                 }}>
                 <View
                   style={{
-                    backgroundColor: colors.white,
+                    backgroundColor: white,
                     height: '42.5%',
                     width: '53%',
                     marginTop: 'auto',
@@ -495,14 +492,14 @@ const TourBooking1 = ({navigation}) => {
                           style={{
                             fontSize: 14,
                             fontWeight: '700',
-                            color: colors.black,
+                            color: black,
                           }}>
                           Start
                         </Text>
                         <Text
                           style={{
                             fontSize: 10,
-                            color: colors.black,
+                            color: black,
                             width: 61,
                           }}>
                           {checkStart()}
@@ -519,14 +516,14 @@ const TourBooking1 = ({navigation}) => {
                           style={{
                             fontSize: 14,
                             fontWeight: '700',
-                            color: colors.black,
+                            color: black,
                           }}>
                           End
                         </Text>
                         <Text
                           style={{
                             fontSize: 10,
-                            color: colors.black,
+                            color: black,
                             width: 61,
                           }}>
                           {checkEnd()}
@@ -534,7 +531,7 @@ const TourBooking1 = ({navigation}) => {
                       </View>
                       <Animated.View
                         style={{
-                          backgroundColor: colors.white,
+                          backgroundColor: white,
                           position: 'absolute',
                           top: '6%',
                           left: slideAnim,
@@ -574,14 +571,14 @@ const TourBooking1 = ({navigation}) => {
                       }}
                       style={{
                         fontSize: 14,
-                        color: colors.white,
-                        backgroundColor: colors.primary,
+                        color: white,
+                        backgroundColor: primary,
                         borderRadius: 8,
                         paddingHorizontal: 14,
                         paddingVertical: 6,
                         marginVertical: 3,
                       }}>
-                      <Text style={{color: colors.white}}>Cancel</Text>
+                      <Text style={{color: white}}>Cancel</Text>
                     </TouchableOpacity>
                     {/* Confirm button________________________________________ */}
                     {confirm()}
@@ -596,16 +593,17 @@ const TourBooking1 = ({navigation}) => {
                 let range = ['Morning', 'Afternoon', 'Night', 'Custom'];
                 let backColor, textColor, subTextColor;
                 if (times.selectedTimes[index] == true) {
-                  backColor = colors.primary;
-                  textColor = colors.white;
-                  subTextColor = colors.white;
+                  backColor = primary;
+                  textColor = white;
+                  subTextColor = white;
                 } else {
-                  backColor = colors.white;
-                  textColor = colors.black;
-                  subTextColor = colors.grayDark;
+                  backColor = white;
+                  textColor = black;
+                  subTextColor = grayDark;
                 }
                 return (
                   <TouchableOpacity
+                    key={index}
                     style={{
                       backgroundColor: backColor,
                       padding: 8,
@@ -655,7 +653,7 @@ const TourBooking1 = ({navigation}) => {
                 <View style={styles.line}></View>
               </View>
               {checkDate()}
-              {/* extra White space at bottom */}
+
               <View style={{width: '100%', height: 45}}></View>
             </View>
           </View>
@@ -664,7 +662,7 @@ const TourBooking1 = ({navigation}) => {
       {/*Header______________________________________________________________________________ */}
       <View
         style={{
-          backgroundColor: colors.primary,
+          backgroundColor: primary,
           height: 80,
           width: '100%',
           position: 'absolute',
@@ -677,7 +675,7 @@ const TourBooking1 = ({navigation}) => {
         <Ionicons
           name="chevron-back-outline"
           size={20}
-          color={colors.primary}
+          color={primary}
         />
       </TouchableOpacity>
     </SafeAreaView>
@@ -689,13 +687,13 @@ const styles = StyleSheet.create({
     marginLeft: 'auto',
   },
   modalButtonText: {
-    color: colors.white,
+    color: white,
     fontSize: 12,
   },
   greyText: {
-    color: colors.grayLight,
+    color: grayLight,
     borderWidth: 2,
-    borderColor: colors.grayLight,
+    borderColor: grayLight,
     marginTop: 20,
     paddingHorizontal: 17,
     paddingVertical: 10,
@@ -711,7 +709,7 @@ const styles = StyleSheet.create({
     marginBottom: 15,
   },
   line: {
-    borderBottomColor: colors.grayLight,
+    borderBottomColor: grayLight,
     borderBottomWidth: 1,
     width: '90%',
     marginLeft: 'auto',
@@ -719,11 +717,11 @@ const styles = StyleSheet.create({
   },
   backCard: {
     flex: 1,
-    backgroundColor: colors.white,
+    backgroundColor: white,
     marginTop: 10,
     borderRadius: 25,
     //ios only
-    shadowColor: '#000000',
+    shadowColor: black,
     shadowOffset: {width: 1, height: 1},
     shadowOpacity: 0.2,
     shadowRadius: 5,
@@ -737,7 +735,7 @@ const styles = StyleSheet.create({
     marginLeft: 'auto',
     marginRight: 'auto',
     fontSize: 27,
-    color: colors.white,
+    color: white,
     fontFamily: 'Helvetica-Bold',
   },
   sectionText: {
@@ -747,7 +745,7 @@ const styles = StyleSheet.create({
   },
   input: {
     alignSelf: 'center',
-    backgroundColor: colors.white,
+    backgroundColor: white,
     height: 50,
     width: '100%',
     // borderWidth: 1,
@@ -762,21 +760,21 @@ const styles = StyleSheet.create({
   },
   recommendationbuttonleft: {
     flex: 1,
-    backgroundColor: colors.primary,
+    backgroundColor: primary,
     borderRadius: 7,
     height: 100,
     marginRight: 15,
   },
   recommendationbuttonright: {
     flex: 1,
-    backgroundColor: colors.primary,
+    backgroundColor: primary,
     borderRadius: 7,
     height: 100,
   },
   recommendationTitle: {
     marginTop: 15,
     marginLeft: 15,
-    color: colors.white,
+    color: white,
     fontWeight: '600',
     fontSize: 16,
   },
@@ -797,13 +795,13 @@ const styles = StyleSheet.create({
     width: 200,
     fontWeight: '600',
     fontSize: 18,
-    color: colors.white,
+    color: white,
     position: 'absolute',
     bottom: 50,
     left: 20,
   },
   guideBox: {
-    backgroundColor: colors.white,
+    backgroundColor: white,
     borderRadius: 25,
     marginBottom: 10,
     minHeight: 160,
@@ -820,7 +818,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 20,
     left: 100,
-    color: colors.black,
+    color: black,
   },
   guideTitle: {
     fontSize: 18,
@@ -828,7 +826,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 20,
     left: 100,
-    color: colors.black,
+    color: black,
   },
   linearGradTour: {
     position: 'absolute',
@@ -849,15 +847,15 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   backIcon: {
-    backgroundColor: colors.white,
+    backgroundColor: white,
     borderRadius: 10,
     borderColor: 'white',
     borderWidth: 1,
     position: 'absolute',
     left: 20,
     top: 22,
-    width: 40,
-    height: 40,
+    width: 45,
+    height: 45,
     alignItems: 'center',
     justifyContent: 'center',
   },

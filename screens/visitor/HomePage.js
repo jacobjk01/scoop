@@ -14,7 +14,7 @@ import {
 import {withSafeAreaInsets} from 'react-native-safe-area-context';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import LinearGradient from 'react-native-linear-gradient';
-import colors from '../../config/colors';
+import {black, grayDark, grayLight, grayMed, white, primary} from '../../config/colors';
 import {color} from 'react-native-reanimated';
 import GuideProfile from './GuideProfile';
 import toursData from '../../data/toursData';
@@ -23,33 +23,42 @@ import { viewAvailableTours } from '../../api/tours';
 const HomePage = ({navigation}) => {
   const [tours, setTours] = useState([]);
   const [guideimages, setGuideImages] = useState(toursData.guides);
-  useEffect(() => {
-    let isMounted = true
-    viewAvailableTours().then(tours => {
-      //https://stackoverflow.com/questions/53949393/cant-perform-a-react-state-update-on-an-unmounted-component
-      //You are not suppose to use async/await functions in useEffect
-      //jon has no idea how these 3 isMounted are connected...
-        if (isMounted) {
-        setTours(tours)
-        }
-      });
-    return () => {
-      isMounted = false
-    }
-  }, [])
+
+  const viewAll = (text) => {
+
+    return (
+      <View style={{paddingHorizontal: 30, marginTop: 30, marginBottom: 10, display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
+        <Text style={{ fontSize: 23, fontWeight: '700'}}>
+          {text}
+        </Text>
+        <TouchableOpacity
+          onPress={() => navigation.navigate('TourList')}
+          style={{marginLeft: 'auto'}}>
+          <View>
+            <Text style={{color: '#3D68CC'}}>view all</Text>
+          </View>
+        </TouchableOpacity>
+        <Ionicons
+          size={15}
+          name={'chevron-forward-sharp'}
+          color='#3D68CC'
+        />
+      </View>
+    )
+  }
+
   return (
     <SafeAreaView>
-      <ScrollView style={{paddingRight: 20, paddingLeft: 20, height: '100%'}}>
+      <ScrollView style={{height: '100%', backgroundColor: white}}>
         <Text style={styles.titleText}>Explore around UCLA!</Text>
-        <View style={{marginTop: 30}}>
-          <TextInput style={styles.input} placeholder={'Search'}></TextInput>
+        <TextInput style={styles.input}/>
           <Ionicons
-            style={styles.searchicon}
-            name={'search-outline'}
-            size={25}
-            color={'#656565'}
+            name={'search-sharp'}
+            size={32}
+            color={grayMed}
+            fontFamily='Raleway-Bold'
+            style={{left: 35, position: 'absolute', top: 137, zIndex: 100, elevation: 100}}
           />
-        </View>
         {/* <Text style={styles.sectionText}>Category</Text>
         <View style={{width: '100%', flexDirection: 'column', marginTop: 10}}>
           <View style={{flexDirection: 'row'}}>
@@ -79,53 +88,36 @@ const HomePage = ({navigation}) => {
             </TouchableOpacity>
           </View>
         </View> */}
-        <View style={{marginTop: 30}}>
-          <Text style={{marginLeft: 10, fontSize: 20, fontWeight: '700'}}>
-            Popular Tours
-          </Text>
-          <TouchableOpacity
-            onPress={() => navigation.navigate('TourList')}
-            style={{position: 'absolute', right: 10, top: 3}}>
-            <View>
-              <Text style={{color: '#3D68CC'}}>View All &gt;</Text>
-            </View>
-          </TouchableOpacity>
-        </View>
+        {viewAll('Popular Tours')}
         <FlatList
-          style={{marginTop: 10}}
+          style={{marginTop: 10, marginLeft: 20,}}
           horizontal={true}
           data={tours}
           renderItem={({item}) => {
             return (
               //TODO: make tourinfo get the tour info, this can be done in this screen or in tourinfo screen
-            <TouchableOpacity key={item.id} onPress={() => navigation.navigate('TourInfo', item)}>
+            <TouchableOpacity 
+              key={item.id} 
+              onPress={() => navigation.navigate('TourInfo', tours[item.id].name)}
+            >
               <ImageBackground
                 style={styles.listTourImage}
-                imageStyle={{width: '100%', height: '100%'}}
-                source={{uri: item.picture}}>
+                imageStyle={{borderRadius: 10}}
+                source={item.src}
+              >
                 <LinearGradient
-                  colors={['transparent', 'black']}
+                  colors={['transparent', 'rgba(0,0,0,0.6)']}
                   style={styles.linearGradTour}
-                />
+                >
+                  <Text style={styles.tourText}>{item.name}</Text>
+                </LinearGradient>
               </ImageBackground>
-              <Text style={styles.tourText}>{item.title}</Text>
             </TouchableOpacity>
           )}}
         />
-        <View style={{marginTop: 30}}>
-          <Text style={{marginLeft: 10, fontSize: 20, fontWeight: '700'}}>
-            Tour Guides
-          </Text>
-          <TouchableOpacity
-            style={{position: 'absolute', right: 10, top: 3}}
-            onPress={() => navigation.navigate('GuideList', {item})}>
-            <View>
-              <Text style={{color: '#3D68CC'}}>View All &gt;</Text>
-            </View>
-          </TouchableOpacity>
-        </View>
+        {viewAll('Tour Guides')}
         <FlatList
-          style={{marginTop: 10, marginBottom: 30}}
+          style={{marginTop: 10, margin: 20}}
           horizontal={true}
           data={guideimages}
           renderItem={({item}) => (
@@ -137,13 +129,19 @@ const HomePage = ({navigation}) => {
                 imageStyle={{borderRadius: 10}}
                 source={item.src}>
                 <LinearGradient
-                  colors={['transparent', 'black']}
+                  colors={['transparent', 'rgba(0,0,0,0.6)']}
                   style={styles.linearGradGuide}
-                />
+                >
+                  <View style={{display: 'flex', flexDirection: 'row', marginTop: 'auto', margin: 10}}>
+                    <Text style={{color: white, fontFamily: 'Helvetica-Bold'}}>
+                      {item.name},{' '}
+                    </Text>
+                    <Text style={{color: white, fontFamily: 'Helvetica-Oblique'}}>
+                      {item.year}
+                    </Text>
+                  </View>
+                </LinearGradient>
               </ImageBackground>
-              <Text style={styles.guideText}>
-                {item.name}, {item.year}, {item.major}
-              </Text>
             </TouchableOpacity>
           )}
         />
@@ -157,55 +155,31 @@ const styles = StyleSheet.create({
     fontFamily: 'Helvetica',
   },
   titleText: {
-    fontSize: 24,
+    paddingLeft: 30,
+    fontSize: 27,
     fontWeight: '600',
     marginTop: 50,
-  },
-  sectionText: {
-    fontSize: 20,
-    fontWeight: '700',
-    marginTop: 30,
-    marginLeft: 10,
+    fontFamily: 'Helvetica-Bold'
   },
   input: {
+    lineHeight: 50,
+    marginTop: 30,
     alignSelf: 'center',
-    backgroundColor: colors.white,
-    height: 50,
-    width: '100%',
+    backgroundColor: white,
+    height: 60,
+    width: '90%',
     // borderWidth: 1,
     // borderColor: '#656565',
-    borderRadius: 7,
-    paddingLeft: 20,
-  },
-  searchicon: {
-    position: 'absolute',
-    right: 10,
-    top: 11,
-  },
-  recommendationbuttonleft: {
-    flex: 1,
-    backgroundColor: colors.primary,
-    borderRadius: 7,
-    height: 100,
-    marginRight: 15,
-  },
-  recommendationbuttonright: {
-    flex: 1,
-    backgroundColor: colors.primary,
-    borderRadius: 7,
-    height: 100,
-  },
-  recommendationTitle: {
-    marginTop: 15,
-    marginLeft: 15,
-    color: colors.white,
-    fontWeight: '600',
-    fontSize: 16,
+    borderRadius: 10,
+    paddingLeft: 60,
+    fontSize: 22,
+
+    elevation: 20,
   },
   listTourImage: {
     marginRight: 15,
-    width: 200,
-    height: 300,
+    width: 210,
+    height: 310,
   },
   listGuideImage: {
     marginRight: 10,
@@ -213,36 +187,26 @@ const styles = StyleSheet.create({
     height: 120,
   },
   tourText: {
-    width: 200,
     fontWeight: '600',
     fontSize: 18,
-    color: colors.white,
-    position: 'absolute',
-    bottom: 50,
+    color: white,
+    marginTop: 'auto',
     left: 20,
-  },
-  guideText: {
-    width: 120,
-    position: 'absolute',
-    bottom: 10,
-    left: 10,
-    color: colors.white,
+    bottom: 50,
+    fontFamily: 'Helvetica-Bold',
+    zIndex: 100
   },
   linearGradTour: {
-    position: 'absolute',
-    top: 150,
-    bottom: 0,
-    left: 0,
-    right: 0,
     backgroundColor: 'transparent',
     borderRadius: 10,
+    marginTop: 'auto',
+    height: '70%',
+    width: '100%',
   },
   linearGradGuide: {
-    position: 'absolute',
-    top: 60,
-    bottom: 0,
-    left: 0,
-    right: 0,
+    marginTop: 'auto',
+    height: '70%',
+    width: '100%',
     backgroundColor: 'transparent',
     borderRadius: 10,
   },

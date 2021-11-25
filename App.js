@@ -66,9 +66,7 @@ import ViewTour from './screens/guide/ViewTour';
 import AccountVisitor from './screens/visitor/Account';
 import TourList from './screens/visitor/TourList';
 import Conversation from './screens/visitor/Conversation';
-import GuideBooking1 from './screens/visitor/GuideBooking1';
-import GuideBooking2 from './screens/visitor/GuideBooking2';
-import GuideBooking3 from './screens/visitor/GuideBooking3';
+import GuideBooking from './screens/visitor/GuideBooking';
 import TourBooking1 from './screens/visitor/TourBooking1';
 import TourBooking2 from './screens/visitor/TourBooking2';
 import TourBooking3 from './screens/visitor/TourBooking3';
@@ -170,10 +168,11 @@ const App = () => {
               case 'ManageTours':
                 iconName = focused ? 'map' : 'map-outline';
                 break;
-              case 'Tours':
+              case 'TourList':
                 iconName = focused ? 'map' : 'map-outline';
                 break;
-              case 'AccountVisitor' || 'AccountGuide':
+              case 'AccountGuide':
+              case 'AccountVisitor':
                 iconName = focused ? 'person' : 'person-outline';
                 break;
               default:
@@ -197,10 +196,9 @@ const App = () => {
                 <Tab.Screen
                   name="Home"
                   component={HomeVisitor}
-                  options={{tabBarVisible: true}}
                 />
                 <Tab.Screen name="TourList" component={TourList} />
-                <Tab.Screen name="Account" component={AccountVisitor} />
+                <Tab.Screen name="AccountVisitor" component={AccountVisitor} />
               </>
             );
           } else if (mode === 'guide') {
@@ -208,7 +206,7 @@ const App = () => {
               <>
                 <Tab.Screen name="Home" component={HomeGuide} />
                 <Tab.Screen name="ManageTours" component={ManageTours} />
-                <Tab.Screen name="Account" component={AccountGuide} />
+                <Tab.Screen name="AccountGuide" component={AccountGuide} />
               </>
             );
           } else {
@@ -281,6 +279,7 @@ const App = () => {
               options={{headerShown: false}}
             />
           </Stack.Navigator>
+          
         </NavigationContainer>
       ) : (
         <NavigationContainer>
@@ -299,6 +298,11 @@ const App = () => {
             />
 
             {/* Guide Routes */}
+            <Stack.Screen 
+              name="HomePage"
+              component={HomeVisitor}
+              options={{headerShown: false}}
+            />
             <Stack.Screen
               name="AccountGuide"
               component={RequireAuth(AccountGuide)}
@@ -362,18 +366,8 @@ const App = () => {
               options={{headerShown: false}}
             />
             <Stack.Screen
-              name="GuideBooking1"
-              component={GuideBooking1}
-              options={{headerShown: false}}
-            />
-            <Stack.Screen
-              name="GuideBooking2"
-              component={GuideBooking2}
-              options={{headerShown: false}}
-            />
-            <Stack.Screen
-              name="GuideBooking3"
-              component={GuideBooking3}
+              name="GuideBooking"
+              component={GuideBooking}
               options={{headerShown: false}}
             />
             <Stack.Screen
@@ -409,7 +403,7 @@ const App = () => {
             <Stack.Screen
               name="GuideProfile"
               component={GuideProfile}
-              options={{headerShown: true}}
+              options={{headerShown: false}}
             />
             <Stack.Screen
               name="GuideProfile2"

@@ -24,7 +24,6 @@ const {event, ValueXY} = Animated;
 class TourInfo extends Component {
   constructor(props) {
     super(props);
-    console.log(props.route.params)
     this.state = {
       tour: props.route.params,
       name: props.route.params.title,
@@ -159,7 +158,7 @@ class TourInfo extends Component {
         <TouchableOpacity
           style={styles.backIcon}
           onPress={() => navigation.goBack()}>
-          <Ionicons name="chevron-back-outline" size={20} color={'white'} />
+          <Ionicons name="chevron-back-outline" size={22} color={'white'} />
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.continue}
@@ -269,8 +268,8 @@ const styles = StyleSheet.create({
     position: 'absolute',
     left: 20,
     top: 40,
-    width: 40,
-    height: 40,
+    width: 45,
+    height: 45,
     alignItems: 'center',
     justifyContent: 'center',
   },
