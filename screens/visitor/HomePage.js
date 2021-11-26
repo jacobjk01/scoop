@@ -1,4 +1,5 @@
 import React, {useState, useContext} from 'react';
+
 import {
   View,
   Text,
@@ -17,9 +18,11 @@ import LinearGradient from 'react-native-linear-gradient';
 import {black, grayDark, grayLight, grayMed, white, primary} from '../../config/colors';
 import {color} from 'react-native-reanimated';
 import GuideProfile from './GuideProfile';
+
 import toursData from '../../data/toursDatav2';
 
 const HomePage = ({navigation}) => {
+
 
   const [tours, setTours] = useState(toursData.generalTours);
   const [guides, setGuides] = useState(toursData.guides);
