@@ -1,4 +1,5 @@
-import React, {useState, useEffect, Component} from 'react';
+import React, {useState, useContext} from 'react';
+
 import {
   View,
   Text,
@@ -17,17 +18,17 @@ import LinearGradient from 'react-native-linear-gradient';
 import {black, grayDark, grayLight, grayMed, white, primary} from '../../config/colors';
 import {color} from 'react-native-reanimated';
 import GuideProfile from './GuideProfile';
-import toursData from '../../data/toursData';
-import { viewAvailableTours } from '../../api/tours';
+
+import toursData from '../../data/toursDatav2';
 
 const HomePage = ({navigation}) => {
-  const [tours, setTours] = useState([]);
-  const [guideimages, setGuideImages] = useState(toursData.guides);
 
+
+  const [tours, setTours] = useState(toursData.generalTours);
+  const [guides, setGuides] = useState(toursData.guides);
   const viewAll = (text) => {
-
     return (
-      <View style={{paddingHorizontal: 30, marginTop: 30, marginBottom: 10, display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
+      <View style={{paddingHorizontal: 30, marginTop: 15, marginBottom: 10, display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
         <Text style={{ fontSize: 23, fontWeight: '700'}}>
           {text}
         </Text>
@@ -90,15 +91,18 @@ const HomePage = ({navigation}) => {
         </View> */}
         {viewAll('Popular Tours')}
         <FlatList
-          style={{marginTop: 10, marginLeft: 20,}}
+          style={{marginTop: 10}}
           horizontal={true}
           data={tours}
-          renderItem={({item}) => {
+          renderItem={({item, index}) => {
             return (
               //TODO: make tourinfo get the tour info, this can be done in this screen or in tourinfo screen
             <TouchableOpacity 
               key={item.id} 
-              onPress={() => navigation.navigate('TourInfo', tours[item.id].name)}
+              style={{marginBottom: 15, marginLeft: item.id == 0?20:0}}
+              onPress={() => {
+                navigation.navigate('TourInfo', {item})
+              }}
             >
               <ImageBackground
                 style={styles.listTourImage}
@@ -117,16 +121,17 @@ const HomePage = ({navigation}) => {
         />
         {viewAll('Tour Guides')}
         <FlatList
-          style={{marginTop: 10, margin: 20}}
+          style={{marginTop: 10, marginBottom: 30}}
           horizontal={true}
-          data={guideimages}
+          data={guides}
           renderItem={({item}) => (
             <TouchableOpacity
               key={item.id}
+              style={{marginLeft: item.id == 0?20:0, marginBottom: 10}}
               onPress={() => navigation.navigate('GuideProfile', {item})}>
               <ImageBackground
                 style={styles.listGuideImage}
-                imageStyle={{borderRadius: 10}}
+                imageStyle={{borderRadius: 10,}}
                 source={item.src}>
                 <LinearGradient
                   colors={['transparent', 'rgba(0,0,0,0.6)']}
@@ -168,6 +173,7 @@ const styles = StyleSheet.create({
     backgroundColor: white,
     height: 60,
     width: '90%',
+    marginBottom: 15,
     // borderWidth: 1,
     // borderColor: '#656565',
     borderRadius: 10,
@@ -177,14 +183,14 @@ const styles = StyleSheet.create({
     elevation: 20,
   },
   listTourImage: {
-    marginRight: 15,
+    marginRight: 20,
     width: 210,
     height: 310,
   },
   listGuideImage: {
     marginRight: 10,
-    width: 120,
-    height: 120,
+    width: 125,
+    height: 125,
   },
   tourText: {
     fontWeight: '600',

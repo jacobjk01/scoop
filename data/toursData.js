@@ -88,7 +88,7 @@ module.exports = {
       tourDay: '12',
     },
     {
-      id: '6',
+      id: '5',
       name: 'Day in Life of an Engineering Student',
       src: require('../images/Santa_Monica.png'),
       image:

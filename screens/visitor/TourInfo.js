@@ -19,14 +19,18 @@ import LinearGradient from 'react-native-linear-gradient';
 import StickyParallaxHeader from 'react-native-sticky-parallax-header';
 import {Calendar} from 'react-native-calendars';
 import renderReviews from '../../components/Reviews';
-import {tours} from '../../data/toursData';
+
+
 const {event, ValueXY} = Animated;
+
 class TourInfo extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      tour: props.route.params,
-      name: props.route.params.title,
+
+      route: props.route,
+      tour: props.route.params.item,
+
       reviews: [
         {
           stars: 4.8,
@@ -44,7 +48,6 @@ class TourInfo extends Component {
     };
     this.scrollY = new ValueXY();
   }
-
   componentDidMount() {
     this.scrollY.addListener(({value}) => (this._value = value));
   }
@@ -128,7 +131,6 @@ class TourInfo extends Component {
 
 
   renderCards = item => {
-    //console.log(item.item);
     return (
       <View style={styles.reviewCard}>
         {this.renderStars(item.item.stars)}
@@ -162,7 +164,10 @@ class TourInfo extends Component {
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.continue}
-          onPress={() => this.props.navigation.navigate('TourBooking1')}>
+          onPress={() => {
+            this.props.navigation.navigate('TourBooking1', this.state.route.params.item)
+            }}
+          >
           <Text
             style={{alignSelf: 'center', color: 'white', fontWeight: '600'}}>
             Find A Tour Guide

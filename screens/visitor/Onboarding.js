@@ -135,11 +135,11 @@ export default  ({navigation}) => {
         // For the Text that is 2 lines
         switch (page) {
             case 1:
-                positionTop = 10
+                positionTop = 4
                 question = 'Enter your name'
                 break;
             case 2:
-                positionTop = 10
+                positionTop = 4
                 question = 'Select Your School'
                 break
             case 3:
@@ -274,8 +274,7 @@ const styles = StyleSheet.create({
     },
     inputStyle: {
         borderWidth: 0.75,
-        borderLeftWidth: 1.25,
-        borderRightWidth: 1.25,
+
         borderRadius: 5,
         borderColor: grayDark,
         paddingHorizontal: 20,
