@@ -51,70 +51,70 @@ class TourInfo extends Component {
     this.scrollY.addListener(({value}) => (this._value = value));
   }
 
-  renderForeground() {
-    const scrollPosition = x => x;
-    const [startTextFade, finishTextFade] = [
-      scrollPosition(30),
-      scrollPosition(200),
-    ];
-    const textOpacity = this.scrollY.y.interpolate({
-      inputRange: [startTextFade, finishTextFade],
-      outputRange: [1, 0],
-      extrapolate: 'clamp',
-    });
-    const openSpace = this.scrollY.y.interpolate({
-      inputRange: [startTextFade, finishTextFade],
-      outputRange: [120, 70],
-      extrapolate: 'clamp',
-    });
-    return (
-      <View style={{backgroundColor: '#d92726', flex: 1, borderRadius: 10}}>
-        <ImageBackground
-          style={styles.imageHeader}
-          source={require('../images/Westwood_village.png')}>
-          <LinearGradient
-            colors={['transparent', 'black']}
-            style={styles.linearGradTour}
-          />
-          <Animated.View
-            style={[styles.imageOverlay, {paddingBottom: openSpace}]}>
-            <Text style={styles.titleText}>Westwood Tour</Text>
-            <Text style={styles.detailText}>
-              60 min | Max 6 people | person
-            </Text>
-            <Text style={styles.subText}> $8 per person</Text>
-          </Animated.View>
-          <Animated.Text
-            style={[
-              styles.summaryText,
-              {
-                opacity: textOpacity,
-                position: 'absolute',
-                bottom: 0,
-                left: 25,
-                flex: 1,
-                paddingRight: 20,
-              },
-            ]}>
-            Get to know the neighborhood: where to grocery shop, where the best
-            hangout places are, and where to grab a bite with your fellow hungry
-            bruins.
-          </Animated.Text>
-        </ImageBackground>
-      </View>
-    );
-  }
+  // renderForeground() {
+  //   const scrollPosition = x => x;
+  //   const [startTextFade, finishTextFade] = [
+  //     scrollPosition(30),
+  //     scrollPosition(200),
+  //   ];
+  //   const textOpacity = this.scrollY.y.interpolate({
+  //     inputRange: [startTextFade, finishTextFade],
+  //     outputRange: [1, 0],
+  //     extrapolate: 'clamp',
+  //   });
+  //   const openSpace = this.scrollY.y.interpolate({
+  //     inputRange: [startTextFade, finishTextFade],
+  //     outputRange: [120, 70],
+  //     extrapolate: 'clamp',
+  //   });
+  //   return (
+  //     <View style={{backgroundColor: '#d92726', flex: 1, borderRadius: 10}}>
+  //       <ImageBackground
+  //         style={styles.imageHeader}
+  //         source={require('../images/Westwood_village.png')}>
+  //         <LinearGradient
+  //           colors={['transparent', 'black']}
+  //           style={styles.linearGradTour}
+  //         />
+  //         <Animated.View
+  //           style={[styles.imageOverlay, {paddingBottom: openSpace}]}>
+  //           <Text style={styles.titleText}>Westwood Tour</Text>
+  //           <Text style={styles.detailText}>
+  //             60 min | Max 6 people | person
+  //           </Text>
+  //           <Text style={styles.subText}> $8 per person</Text>
+  //         </Animated.View>
+  //         <Animated.Text
+  //           style={[
+  //             styles.summaryText,
+  //             {
+  //               opacity: textOpacity,
+  //               position: 'absolute',
+  //               bottom: 0,
+  //               left: 25,
+  //               flex: 1,
+  //               paddingRight: 20,
+  //             },
+  //           ]}>
+  //           Get to know the neighborhood: where to grocery shop, where the best
+  //           hangout places are, and where to grab a bite with your fellow hungry
+  //           bruins.
+  //         </Animated.Text>
+  //       </ImageBackground>
+  //     </View>
+  //   );
+  // }
 
-  renderHeader() {
-    return (
-      <View
-        style={{
-          flex: 1,
-          backgroundColor: 'white',
-          alignItems: 'center',
-        }}></View>
-    );
-  }
+  // renderHeader() {
+  //   return (
+  //     <View
+  //       style={{
+  //         flex: 1,
+  //         backgroundColor: 'white',
+  //         alignItems: 'center',
+  //       }}></View>
+  //   );
+  // }
 
   renderStars(count) {
     let fullstars = Math.floor(count);
@@ -288,13 +288,16 @@ class TourInfo extends Component {
     return (
       <React.Fragment>
         <StickyParallaxHeader
+          headerType="AvatarHeader"
+          backgroundColor="black"
           foreground={this.renderForeground()}
           header={this.renderHeader()}
-          parallaxHeight={300}
-          headerHeight={500}
+          parallaxHeight={400}
+          transparentHeader={true}
           deviceWidth={Dimensions.get('window').width}
-          headerSize={() => {}}
-          onEndReached={() => {}}
+          snapStartThreshold={50}
+          snapStopThreshold={250}
+          snapValue={167}
           scrollEvent={event(
             [{nativeEvent: {contentOffset: {y: this.scrollY.y}}}],
             {useNativeDriver: false},

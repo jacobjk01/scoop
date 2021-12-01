@@ -1,4 +1,4 @@
-import React, {Component, useState} from 'react';
+import React, {Component, useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -21,47 +21,39 @@ import {Calendar} from 'react-native-calendars';
 import renderReviews from '../../components/Reviews';
 import {tours} from '../../data/toursData';
 const {event, ValueXY} = Animated;
-class TourInfo extends Component {
-  constructor(props) {
-    super(props);
+const TourInfo = name => {
+  const [tour, setTour] = useState(tours[0]);
+  const [tourName, setName] = useState(name);
+  const [reviews, setReviews] = useState([
+    {
+      stars: 4.8,
+      year: 'Incoming Freshman',
+      comment:
+        'Brittany was really helpful!! She showed me where the students get groceries from and hangout in Westwood. She also shared a lot of interesting stories as we visit each places, highly recommend incoming freshman who want to familiarize themselves with the area sign up!! ',
+    },
+    {
+      stars: 4.3,
+      year: 'Incoming Junior',
+      comment:
+        'Being a sophomore, I kinda know what Westwood is like already; however, Brittany was able to show me interesting places I’ve never discovered!',
+    },
+  ]);
+  const scrollY = new ValueXY();
 
-    this.state = {
-      tour: tours[0],
-      name: props.params,
-      reviews: [
-        {
-          stars: 4.8,
-          year: 'Incoming Freshman',
-          comment:
-            'Brittany was really helpful!! She showed me where the students get groceries from and hangout in Westwood. She also shared a lot of interesting stories as we visit each places, highly recommend incoming freshman who want to familiarize themselves with the area sign up!! ',
-        },
-        {
-          stars: 4.3,
-          year: 'Incoming Junior',
-          comment:
-            'Being a sophomore, I kinda know what Westwood is like already; however, Brittany was able to show me interesting places I’ve never discovered!',
-        },
-      ],
-    };
-    this.scrollY = new ValueXY();
-  }
+  useEffect(() => {
+    scrollY.addListener(({value}) => (this._value = value));
+  });
 
-  componentDidMount() {
-    this.scrollY.addListener(({value}) => (this._value = value));
-  }
-
-  renderForeground() {
+  const renderForeground = () => {
     return (
       <View style={{backgroundColor: '#d92726', flex: 1, borderRadius: 10}}>
-        <ImageBackground
-          style={styles.imageHeader}
-          source={this.state.tour.src}>
+        <ImageBackground style={styles.imageHeader} source={tour.src}>
           <LinearGradient
             colors={['transparent', 'black']}
             style={styles.linearGradTour}
           />
           <View style={styles.imageOverlay}>
-            <Text style={styles.titleText}>{this.state.tour.name}</Text>
+            <Text style={styles.titleText}>{tour.name}</Text>
             <Text style={styles.detailText}>
               60 min | Max 6 people | person
             </Text>
@@ -91,9 +83,9 @@ class TourInfo extends Component {
         </Text>
       </View>
     );
-  }
+  };
 
-  renderHeader() {
+  const renderHeader = () => {
     return (
       <View
         style={{
@@ -102,73 +94,65 @@ class TourInfo extends Component {
           alignItems: 'center',
         }}></View>
     );
-  }
+  };
 
-  renderContent() {
-    const navigation = this.props.navigation;
+  const renderContent = () => {
+    const navigation = navigation;
     return (
       <View style={{marginBottom: 70}}>
-        {/* <Animated.View style={{flexDirection: "row", position: "absolute", 
-                top: -90, left: 25, opacity: buttonOpacity, alignItems: "center", zIndex: 10}}>
-                    <TouchableOpacity style={{backgroundColor: "white", marginRight: 10, borderRadius: 40}}>
-                        <ImageBackground style={{width: 50, height: 50}} imageStyle={{borderRadius: 40}} source={require('../images/brittany.png')}
-                        ></ImageBackground> 
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.whiteButton} title="Message">
-                        <Text style={{color: "#41479B"}}>Message</Text>
-                    </TouchableOpacity>
-                </Animated.View> */}
-        <Text style={[styles.sectionText, {marginTop: 40}]}>Reviews</Text>
-        {renderReviews(this.state.reviews)}
-      </View>
-    );
-  }
-
-  renderCards = item => {
-    //console.log(item.item);
-    return (
-      <View style={styles.reviewCard}>
-        {this.renderStars(item.item.stars)}
-        <Text
+        {/* <Animated.View
           style={{
-            marginTop: 5,
-            fontSize: 14,
-            color: '#9B9BA7',
-            fontStyle: 'italic',
+            flexDirection: 'row',
+            position: 'absolute',
+            top: -90,
+            left: 25,
+            opacity: buttonOpacity,
+            alignItems: 'center',
+            zIndex: 10,
           }}>
-          {item.name} - {item.item.year}
-        </Text>
-        <Text style={{marginTop: 5}}>{item.item.comment}</Text>
+          <TouchableOpacity
+            style={{
+              backgroundColor: 'white',
+              marginRight: 10,
+              borderRadius: 40,
+            }}>
+            <ImageBackground
+              style={{width: 50, height: 50}}
+              imageStyle={{borderRadius: 40}}
+              source={require('../images/brittany.png')}></ImageBackground>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.whiteButton} title="Message">
+            <Text style={{color: '#41479B'}}>Message</Text>
+          </TouchableOpacity>
+        </Animated.View> */}
+        <Text style={[styles.sectionText, {marginTop: 40}]}>Reviews</Text>
+        {renderReviews(reviews)}
       </View>
     );
   };
 
-  render() {
-    const navigation = this.props.navigation;
-    return (
-      <View>
-        <StatusBar barStyle="dark-content" />
-        <ScrollView>
-          {this.renderForeground()}
-          {this.renderContent()}
-        </ScrollView>
-        <TouchableOpacity
-          style={styles.backIcon}
-          onPress={() => navigation.goBack()}>
-          <Ionicons name="chevron-back-outline" size={20} color={'white'} />
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.continue}
-          onPress={() => this.props.navigation.navigate('TourBooking1')}>
-          <Text
-            style={{alignSelf: 'center', color: 'white', fontWeight: '600'}}>
-            Find A Tour Guide
-          </Text>
-        </TouchableOpacity>
-      </View>
-    );
-  }
-}
+  return (
+    <View>
+      <StatusBar barStyle="dark-content" />
+      <ScrollView>
+        {renderForeground()}
+        {renderContent()}
+      </ScrollView>
+      <TouchableOpacity
+        style={styles.backIcon}
+        onPress={() => navigation.goBack()}>
+        <Ionicons name="chevron-back-outline" size={20} color={'white'} />
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.continue}
+        onPress={() => navigation.navigate('TourBooking1')}>
+        <Text style={{alignSelf: 'center', color: 'white', fontWeight: '600'}}>
+          Find A Tour Guide
+        </Text>
+      </TouchableOpacity>
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
   baseText: {
