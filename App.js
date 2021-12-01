@@ -283,7 +283,7 @@ const App = () => {
             />
 
             {/* Guide Routes */}
-            <Stack.Screen 
+            <Stack.Screen
               name="HomePage"
               component={HomeVisitor}
               options={{headerShown: false}}
@@ -398,7 +398,7 @@ const App = () => {
             <Stack.Screen
               name="GuideProfile"
               component={GuideProfile}
-              options={{headerShown: true}}
+              options={{headerShown: false}}
             />
             <Stack.Screen
               name="GuideProfile2"

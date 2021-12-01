@@ -119,11 +119,10 @@ class TourInfo extends Component {
                     </TouchableOpacity>
                 </Animated.View> */}
         <Text style={[styles.sectionText, {marginTop: 40}]}>Reviews</Text>
-        {/* {renderReviews(this.state.reviews)} */}
+        {renderReviews(this.state.reviews)}
       </View>
     );
   }
-
 
   renderCards = item => {
     //console.log(item.item);
