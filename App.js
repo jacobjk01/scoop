@@ -78,6 +78,7 @@ import GuideProfile from './screens/visitor/GuideProfile';
 import Messages from './screens/visitor/Messages';
 import GuideList from './screens/visitor/GuideList';
 import SelectSchool from './screens/visitor/SelectSchool';
+import MyTrips from './screens/visitor/MyTrips'
 
 //authorization
 import RequireAuth from './components/RequireAuth';
@@ -111,28 +112,21 @@ const App: () => Node = () => {
   const [visitorDone, setVisitorDone] = useState(localState.visitorDone);
   const [visitorBone, setVisitorBone] = useState(localState.visitorBone);
   const hasNotFinishedBareOnboarding =
-    (mode === 'new' ||
-    (mode === 'visitor' && !visitorBone) ||
-    (mode === 'guide' && !guideDone)) && 
-    mode !== 'dev'
+    (mode === 'new' || (mode === 'visitor' && !visitorBone) || (mode === 'guide' && !guideDone)) && mode !== 'dev'
     ;
-
+  // this useEffect causing flickering
   useEffect(() => {
+    console.log(mode)
     if (hasNotFinishedBareOnboarding) {
       return;
     }
-    console.log('onAuthStateChanged called');
     var unsubscribeAuth = onAuthStateChanged(async newUserAuth => {
       //if userAuth exists,
       if (newUserAuth && userAuth == null) {
         // userAuth is null, so definitely unique
         setUserAuth(newUserAuth);
         // userAuth exists and doesn't match with with newUserAuth.uid
-      } else if (
-        userAuth &&
-        userAuth.uid &&
-        newUserAuth &&
-        userAuth.uid != newUserAuth.uid
+      } else if (userAuth && userAuth.uid && newUserAuth && userAuth.uid != newUserAuth.uid
       ) {
         setUserAuth(newUserAuth);
       }
@@ -150,7 +144,6 @@ const App: () => Node = () => {
       return;
     }
     if (userAuth) {
-      console.log('user logged in');
       const currentUser = await getUser(userAuth);
       setUser({...currentUser.data()});
     }
@@ -427,6 +420,11 @@ const App: () => Node = () => {
             <Stack.Screen
               name="SelectSchool"
               component={SelectSchool}
+              options={{headerShown: false}}
+            />
+            <Stack.Screen
+              name="MyTrips"
+              component={MyTrips}
               options={{headerShown: false}}
             />
           </Stack.Navigator>
