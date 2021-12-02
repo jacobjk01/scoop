@@ -1,4 +1,4 @@
-import React, {useState, useContext} from 'react';
+import React, {useState, useContext, useEffect, useRef} from 'react';
 
 import {
   View,
@@ -18,14 +18,36 @@ import LinearGradient from 'react-native-linear-gradient';
 import {black, grayDark, grayLight, grayMed, white, primary} from '../../config/colors';
 import {color} from 'react-native-reanimated';
 import GuideProfile from './GuideProfile';
+import {viewTourSettings, viewAvailableTours, viewAllTours, convertToTourSummary} from '../../api/tours'
+import { UserContext } from '../../contexts'
 
 import toursData from '../../data/toursDatav2';
 
 const HomePage = ({navigation}) => {
+  const {
+    user, setUser,
+  } = useContext(UserContext)
 
-
-  const [tours, setTours] = useState(toursData.generalTours);
+  const [tours, setTours] = useState();
   const [guides, setGuides] = useState(toursData.guides);
+
+  useEffect(() => {
+    let isMounted = true
+    console.log('useEffect')
+    viewAvailableTours().then(tours => {
+      //https://stackoverflow.com/questions/53949393/cant-perform-a-react-state-update-on-an-unmounted-component
+      //You are not suppose to use async/await functions in useEffect
+      //jon has no idea how these 3 isMounted are connected...
+        if (isMounted) {
+        setTours(tours)
+        }
+      });
+      
+    return () => {
+      isMounted = false
+    }
+  }, [])
+  console.log('homepage')
   const viewAll = (text) => {
     return (
       <View style={{paddingHorizontal: 30, marginTop: 15, marginBottom: 10, display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
@@ -89,6 +111,44 @@ const HomePage = ({navigation}) => {
             </TouchableOpacity>
           </View>
         </View> */}
+        <View style={{backgroundColor: primary, marginHorizontal: '5%', width: '90%', paddingVertical: 15, paddingHorizontal: 20,
+        borderRadius: 15, elevation: 5, display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginVertical: 15}}
+        >
+          <View style={{display: 'flex', flexWrap:'wrap',flexDirection: 'column', justifyContent:'space-between',}}>
+            <View style={{margin: 5}}>
+              <Text style={styles.tourNotifSubText}>
+                Upcoming Tour</Text>
+              <Text style={styles.tourNotifText}>
+                Westwood Tour</Text>
+            </View>
+            <View style={{margin: 5}}>
+              <Text style={styles.tourNotifSubText}>
+                Date</Text>
+              <Text style={styles.tourNotifText}>
+                Jul 14</Text>
+            </View>
+          </View>
+          <View style={{display: 'flex', flexWrap:'wrap', flexDirection: 'column',}}>
+            <View style={{margin: 5, display: 'flex', flexDirection: 'row'}}>
+              <View>
+                <Text style={styles.tourNotifSubText}>
+                  Tour Guide</Text>
+                <Text style={styles.tourNotifText}>
+                  Brittany</Text>
+              </View>
+              <Image
+                style={{height: 50, width: 50, borderRadius: 25}}
+                source={require('../../images/brittany.png')}
+              />
+            </View>
+            <View style={{margin: 5}}>
+              <Text style={styles.tourNotifSubText}>
+                Time</Text>
+              <Text style={styles.tourNotifText}>
+                12:00 PM</Text>
+            </View>
+          </View>
+        </View>
         {viewAll('Popular Tours')}
         <FlatList
           style={{marginTop: 10}}
@@ -98,22 +158,23 @@ const HomePage = ({navigation}) => {
             return (
               //TODO: make tourinfo get the tour info, this can be done in this screen or in tourinfo screen
             <TouchableOpacity 
-              key={item.id} 
-              style={{marginBottom: 15, marginLeft: item.id == 0?20:0}}
+              style={{marginBottom: 15, marginLeft: index == 0?20:0}}
               onPress={() => {
-                navigation.navigate('TourInfo', {item})
+                const itemInfo = {title: item.title, picture: item.picture, id: item.id, description: item.description}
+
+                navigation.navigate('TourInfo', {itemInfo})
               }}
             >
               <ImageBackground
                 style={styles.listTourImage}
                 imageStyle={{borderRadius: 10}}
-                source={item.src}
+                source={{uri: item.picture}}
               >
                 <LinearGradient
                   colors={['transparent', 'rgba(0,0,0,0.6)']}
                   style={styles.linearGradTour}
                 >
-                  <Text style={styles.tourText}>{item.name}</Text>
+                  <Text style={styles.tourText}>{item.title}</Text>
                 </LinearGradient>
               </ImageBackground>
             </TouchableOpacity>
@@ -156,6 +217,15 @@ const HomePage = ({navigation}) => {
 };
 
 const styles = StyleSheet.create({
+  tourNotifText: {
+    color: white,
+    fontFamily: 'Helvetica-Bold',
+    fontSize: 18
+  },
+  tourNotifSubText: {
+    color: grayLight,
+    fontSize: 15
+  },
   baseText: {
     fontFamily: 'Helvetica',
   },

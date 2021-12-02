@@ -26,10 +26,11 @@ const {event, ValueXY} = Animated;
 class TourInfo extends Component {
   constructor(props) {
     super(props);
+
     this.state = {
 
       route: props.route,
-      tour: props.route.params.item,
+      tour: props.route.params.itemInfo,
 
       reviews: [
         {
@@ -84,9 +85,7 @@ class TourInfo extends Component {
                 paddingRight: 20,
               },
             ]}>
-            Get to know the neighborhood: where to grocery shop, where the best
-            hangout places are, and where to grab a bite with your fellow hungry
-            bruins.
+            {this.state.tour.description}
           </Text>
         </ImageBackground>
         <Text>TODO: Make Tour Info Page a functional component</Text>
@@ -165,7 +164,8 @@ class TourInfo extends Component {
         <TouchableOpacity
           style={styles.continue}
           onPress={() => {
-            this.props.navigation.navigate('TourBooking1', this.state.route.params.item)
+
+            this.props.navigation.navigate('TourBooking1', this.state.tour)
             }}
           >
           <Text
