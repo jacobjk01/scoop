@@ -9,7 +9,8 @@
 //react imports
 import 'react-native-gesture-handler';
 import React, {useState, useEffect} from 'react';
-// import type {Node} from 'react';
+import type {Node} from 'react';
+
 import {
   SafeAreaView,
   ScrollView,
@@ -96,7 +97,7 @@ const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
 //bulk of navigation
-const App = () => {
+const App: () => Node = () => {
   /**
    * Authentication
    */

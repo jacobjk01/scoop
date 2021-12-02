@@ -39,7 +39,7 @@ const testingState = {
 //if you are familar with localstorage for web, this is the same concept
 // eventually this would be moved to reactnative localstorage (look at readme.md)
 export const localState = {
-    ...testingState
+    ...firstTimeLoggingInState
 }
 
 

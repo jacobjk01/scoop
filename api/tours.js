@@ -38,6 +38,7 @@ export const bookTour = async(tourSettingRef, partySize, visitorId) => {
 }
 
 //TODO? cancel a tour setting? cancel a tour? or cancel a booking?
+// for visitor and guide 
 export const cancelTour = async (tourSettingRef) => {
     throw new Error("Feature not implemented")
 }
