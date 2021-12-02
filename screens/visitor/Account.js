@@ -21,14 +21,15 @@ const Account = ({navigation}) => {
     const [modal, setModal] = useState(false)
     const [interests, setInterests] = useState(['Publication', 'Biology Research', 'Dance', 'Photography', 'Art'])
     if (!user) {
-        return <SafeAreaView>
+        return
+        <SafeAreaView>
             <Text>You are not logged in</Text>
             <SigninButton/>
             <SignoutButton/>
         </SafeAreaView>
     }
 
-    const renderOptions = (icon, text) => {
+    const renderOptions = (icon, text, destination) => {
         return(
             <TouchableOpacity 
                 style={{display: 'flex', flexDirection: 'row', padding: 20}}
@@ -36,6 +37,9 @@ const Account = ({navigation}) => {
                     switch (text) {
                         case 'Become A Tour Guide':
                             setModal(true)
+                            break
+                        case 'My Trips':
+                            navigation.navigate(destination)
                             break
                     }
 
@@ -140,7 +144,7 @@ const Account = ({navigation}) => {
                 </View>
                 <View style={styles.divider}/>
                 <View style={{width: '90%', marginLeft: 'auto', marginRight: 'auto'}}>
-                    {renderOptions('compass-outline', 'My Trips')}
+                    {renderOptions('compass-outline', 'My Trips', 'MyTrips')}
                     {renderOptions('chatbubble-ellipses-outline', 'Feedback')}
                 </View>
                 <View style={styles.divider}/>
