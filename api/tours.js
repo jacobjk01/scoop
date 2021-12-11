@@ -4,7 +4,7 @@ const db = firestore();
 const tours = db.collection('tours');
 
 //user functions
-
+//returns processedTourSettings
 export const viewTourSettings = async (tourId) => {
     const tourSettingsSnapshot = await tours.doc(tourId).collection('tourSettings').where('isPublished', '==', true).where('isArchived', '==', false).get()
     if (tourSettingsSnapshot.empty) {
@@ -69,10 +69,6 @@ export const getVisitorBookings = async (visitorId) => {
     return querySnapshotFormatter(queryTourSettingSnapshots)
 }
 
-export const byTimeTourSettings = async (tourSettingRef, start, end) => {
-    throw 'Not Implemented'
-}
-
 //guide Functions
 
 export const viewAllTours = async () => {
@@ -120,6 +116,7 @@ export const addTour = async (
     cost,
     duration,
     introduction,
+    isPublished,
     maxPeople,
     meetingPt,
     timeAvailable,
@@ -134,12 +131,12 @@ export const addTour = async (
         duration,
         introduction,
         isArchived: false,
-        isPublished: true,
+        isPublished,
         maxPeople,
         meetingPt,
         timeAvailable,
         transportation,
-        flags: ["published"]
+        flags: isPublished ? ["published"] : []
     });
     return tour;
 }
@@ -153,6 +150,7 @@ export const editTour = async (
     cost,
     duration,
     introduction,
+    isPublished,
     maxPeople,
     meetingPt,
     timeAvailable,
@@ -160,7 +158,7 @@ export const editTour = async (
 ) => {
     //archive old tour
     await tourSettingRef.update({
-        guide: guideId,
+        guide: user(guideId),
         meetingPt,
         categories,
         cost,
@@ -182,13 +180,20 @@ export const editTour = async (
         cost,
         duration,
         introduction,
+        isPublished,
         maxPeople,
         meetingPt,
         timeAvailable,
-        transportation
+        transportation,
     );
 }
-
+export const archiveTour = async (tourSettingRef) => {
+    tourSettingRef.update({
+        isArchived: true,
+        isPublished: true,
+        flags: ["published", "archived"]
+    })
+}
 //TODO - select button on manage tours? need to talk to Emily about this
 export const duplicateTour = async (
     tourSettingRef,
@@ -225,18 +230,6 @@ export const addTimeRanges = async (guideId) => {
     throw 'Not Implemented'
 }
 
-
-//AFTER-MVP
-export const archiveTour = async(Id) => {
-    for(var i = 0; i < Id.length; i++)
-    {
-        await tours.where('guideId', '==', Id[i][0]).where('tourId', '==', Id[i][1]).get().then(querySnapshot => {
-                querySnapshot.forEach((documentSnapshot) => {
-                    tours.doc(documentSnapshot.id).update("archive", true);
-                });
-        });
-    }
-}
 //AFTER-MVP
 export const unarchiveTour = async(Id) => {
     for(var i = 0; i < Id.length; i++)
@@ -268,7 +261,7 @@ export const switchTour = async(guideId, tourId, tourId2) => {
 
 //utility functions
 export const getTour = async(guideId, tourId) => {
-    await tours.where('guideId', '==', guideId).where('tourId', '==', tourId).where('archive', '==', false).get().then(querySnapshot =>
+    await tours.where("guide", "==", user(guideId)).where('tourId', '==', tourId).where('archive', '==', false).get().then(querySnapshot =>
     {
         querySnapshot.forEach((documentSnapshot) => {
             return documentSnapshot;
@@ -276,7 +269,7 @@ export const getTour = async(guideId, tourId) => {
     });
 }
 export const getBooking = async(guideId, tourId, userId) => {
-    await tours.where('guideId', '==', guideId).where('tourId', '==', tourId).where('archive', '==', false).get().then(querySnapshot =>
+    await tours.where("guide", "==", user(guideId)).where('tourId', '==', tourId).where('archive', '==', false).get().then(querySnapshot =>
         {
             querySnapshot.forEach(documentSnapshot =>
             {
