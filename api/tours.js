@@ -14,6 +14,18 @@ export const viewTourSettings = async (tourId) => {
 }
 
 //TODO
+//returns array of guideIds
+export const convertToGuides = async () => {
+    throw 'Not Implemented'
+}
+
+//TODO
+//return meeting pt info
+export const getMeetingPt = async (tourSettingRef) => {
+    throw 'Not Implemented'
+}
+
+//TODO
 //pass in output of viewTourSettings fn to get basic info of tour
 export const convertToTourSummary = (processedTourSettings) => {
     throw 'Not Implemented'
@@ -39,7 +51,7 @@ export const bookTour = async(tourSettingRef, partySize, visitorId) => {
 
 //TODO? cancel a tour setting? cancel a tour? or cancel a booking?
 // for visitor and guide 
-export const cancelTour = async (tourSettingRef) => {
+export const cancelTour = async (tourSettingRef, userId) => {
     throw new Error("Feature not implemented")
 }
 
@@ -55,6 +67,10 @@ export const getVisitorBookings = async (visitorId) => {
         visitorBookings.push(tourSetting.data());
     })
     return querySnapshotFormatter(queryTourSettingSnapshots)
+}
+
+export const byTimeTourSettings = async (tourSettingRef, start, end) => {
+    throw 'Not Implemented'
 }
 
 //guide Functions
@@ -205,7 +221,9 @@ export const getGuideBookings = async (guideId) => {
     return guideBookings
 }
 
-
+export const addTimeRanges = async (guideId) => {
+    throw 'Not Implemented'
+}
 
 
 //AFTER-MVP
@@ -214,7 +232,7 @@ export const archiveTour = async(Id) => {
     {
         await tours.where('guideId', '==', Id[i][0]).where('tourId', '==', Id[i][1]).get().then(querySnapshot => {
                 querySnapshot.forEach((documentSnapshot) => {
-                       tours.doc(documentSnapshot.id).update("archive", true);
+                    tours.doc(documentSnapshot.id).update("archive", true);
                 });
         });
     }
@@ -225,7 +243,7 @@ export const unarchiveTour = async(Id) => {
     {
         await tours.where('guideId', '==', Id[i][0]).where('tourId', '==', Id[i][1]).get().then(querySnapshot => {
                 querySnapshot.forEach((documentSnapshot) => {
-                       tours.doc(documentSnapshot.id).update("archive", false);
+                    tours.doc(documentSnapshot.id).update("archive", false);
                 });
         });
     }
