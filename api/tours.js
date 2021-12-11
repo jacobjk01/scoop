@@ -1,5 +1,5 @@
 import firestore from '@react-native-firebase/firestore';
-
+import {querySnapshotFormatter} from './utilities';
 const db = firestore();
 const tours = db.collection('tours');
 
@@ -292,15 +292,6 @@ export const getBooking = async(guideId, tourId, userId) => {
     );
 }
 
-export const querySnapshotFormatter = (querySnapshotSnapshots) => {
-    return querySnapshotSnapshots.docs.map((queryDocSnapshot) => {
-        return {
-            id: queryDocSnapshot.id,
-            ...queryDocSnapshot.data(),
-            ref: queryDocSnapshot.ref
-        }
-    })
-}
 
 /**
  * 

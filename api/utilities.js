@@ -43,3 +43,13 @@ export async function deleteC(field1, query1, field2, query2) {
         )
     })
 }
+
+export const querySnapshotFormatter = (querySnapshotSnapshots) => {
+    return querySnapshotSnapshots.docs.map((queryDocSnapshot) => {
+        return {
+            id: queryDocSnapshot.id,
+            ...queryDocSnapshot.data(),
+            ref: queryDocSnapshot.ref
+        }
+    })
+}
