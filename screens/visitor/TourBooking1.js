@@ -1,4 +1,4 @@
-import React, {useState, useRef} from 'react';
+import React, {useState, useRef, useEffect} from 'react';
 import {
   View,
   Text,
@@ -18,21 +18,13 @@ import {Calendar} from 'react-native-calendars';
 import moment, {duration} from 'moment';
 import DatePicker from 'react-native-date-picker';
 import toursData from '../../data/toursDatav2';
+import { viewTourSettings } from '../../api/tours';
 
 const TourBooking1 = ({navigation, route}) => {
 
   const generalTours = route.params
   const guides = toursData.guides
-  const [marks, setMarks] = useState([
-    '2012-05-16',
-    '2021-10-18',
-    '2021-10-19',
-    '2021-10-21',
-    '2021-10-22',
-    '2021-10-23',
-    '2021-10-26',
-    '2021-10-27',
-  ]);
+  const [marks, setMarks] = useState([]);
   const [selectedDate, setSelectedDate] = useState('');
   const [times, setTimes] = useState({
     timeRanges: [
@@ -42,11 +34,42 @@ const TourBooking1 = ({navigation, route}) => {
       ['- - - -', ''],
     ],
     selectedTimes: [false, false, false, false],
+    disabledTimes: [true,true,true,true]
   });
   const [customStartTime, setCustomStartTime] = useState('Please Select');
   const [customEndTime, setCustomEndTime] = useState('Please Select');
   const [isModalVisible, setModalVisible] = useState(false);
   const [startOrEnd, setStartOrEnd] = useState(false);
+
+  useEffect(() => {
+    let isMounted = true
+    console.log('useEffect')
+    viewTourSettings(route.params.id).then(tours => {
+      //https://stackoverflow.com/questions/53949393/cant-perform-a-react-state-update-on-an-unmounted-component
+      //You are not suppose to use async/await functions in useEffect
+      //jon has no idea how these 3 isMounted are connected...
+      if (isMounted) {
+        let markings = []
+        let guideIds = []
+        for(let i = 0; i < tours.length; i++) {
+          for (let j = 0; j < tours[i].timeAvailable.length; j++) {
+            markings[markings.length] = moment(tours[i].timeAvailable[j]).format("YYYY" + "-" + "MM" + "-" + "DD")
+            if (selectedDate == markings[markings.length]) {
+              console.log(moment(tours[i].timeAvailable[j]).hour())
+              console.log('hi')
+            }
+          }
+          guideIds = tours[i].guide
+
+        }
+        setMarks(markings)
+      }
+    });
+    
+    return () => {
+      isMounted = false
+    }
+  }, [selectedDate])
 
   const formatTime = selectedTime => {
     if (startOrEnd) {
@@ -61,6 +84,7 @@ const TourBooking1 = ({navigation, route}) => {
     setTimes({
       timeRanges: [...times.timeRanges],
       selectedTimes: marker,
+      disabledTimes: [...times.disabledTimes]
     });
   };
   const viewModal = index => {
@@ -225,12 +249,12 @@ const TourBooking1 = ({navigation, route}) => {
           onPress={() => {
             setModalVisible(false);
             let timeRanges = [...times.timeRanges];
-            let selectedTimes = [...times.selectedTimes];
             timeRanges[3][0] = customStartTime;
             timeRanges[3][1] = customEndTime;
             setTimes({
               timeRanges,
-              selectedTimes,
+              selectedTimes: [...times.selectedTimes],
+              disabledTimes: [...times.disabledTimes]
             });
           }}>
           <Text
@@ -427,7 +451,8 @@ const TourBooking1 = ({navigation, route}) => {
                     },
                   },
                 }}
-                markedDates={createMarkings()}></Calendar>
+                markedDates={createMarkings()}>
+              </Calendar>
             </View>
 
             {/*Modal____________________________________________________________________*/}
@@ -545,6 +570,7 @@ const TourBooking1 = ({navigation, route}) => {
                         setTimes({
                           timeRanges,
                           selectedTimes,
+                          disabledTimes: [...times.disabledTimes]
                         });
                         //if cancel, set custom time state to previous times
                         if (times.timeRanges[3][0] != '- - - -') {
@@ -575,17 +601,22 @@ const TourBooking1 = ({navigation, route}) => {
               {times.selectedTimes.map((date, index) => {
                 let range = ['Morning', 'Afternoon', 'Night', 'Custom'];
                 let backColor, textColor, subTextColor;
-                if (times.selectedTimes[index] == true) {
+                if (times.disabledTimes[index]) {
+                  backColor = white
+                  textColor = grayLight
+                  subTextColor = grayLight
+                } else if (times.selectedTimes[index] == true) {
                   backColor = primary;
                   textColor = white;
                   subTextColor = white;
-                } else {
+                } else{
                   backColor = white;
                   textColor = black;
                   subTextColor = grayDark;
                 }
                 return (
                   <TouchableOpacity
+                    disabled={times.disabledTimes[index]}
                     key={index}
                     style={{
                       backgroundColor: backColor,
