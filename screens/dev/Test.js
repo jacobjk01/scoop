@@ -110,6 +110,20 @@ export default function Test() {
                     }}
                 />
                 <Button
+                    title="convertToGuides"
+                    onPress={async () => {
+                        //This gets the available tours and views the first tour setting list
+                        try {
+                            const tours = await viewAvailableTours();
+                            const processedTourSettings = await viewTourSettings(tours[0].id);
+                            const guides = await convertToGuides(processedTourSettings)
+                            guides.forEach(console.log)
+                        } catch (err) {
+                            console.error(err)
+                        }
+                    }}
+                />
+                <Button
                     title="convertToTourSummary"
                     onPress={async () => {
                         //This gets the available tours and views the first tour setting list
@@ -167,22 +181,6 @@ export default function Test() {
                         try {
                             const visitorBookings = await getVisitorBookings(visitorId)
                             console.log(visitorBookings)
-
-                        } catch (err) {
-                            console.error(err)
-                        }
-                    }
-                    }
-                />
-                <Button
-                    title="byTimeTourSettings"
-                    onPress={async () => {
-                        try {
-                            const range = ["12:00 PM", "12:00 AM"]
-                            const tours = await viewAvailableTours();
-                            const processedTourSettings = await viewTourSettings(tours[0].id);
-                            const availableTourSettings = await byTimeTour(processedTourSettings, ...range)
-                            console.log(availableTourSettings)
 
                         } catch (err) {
                             console.error(err)
@@ -341,7 +339,7 @@ export default function Test() {
                     onPress={async () => {
                         try {
                             const guideBookings = await getGuideBookings(
-                                guideId2
+                                guideId
                             )
                             console.log(guideBookings)
                         } catch (err) {

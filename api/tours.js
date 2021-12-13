@@ -1,5 +1,8 @@
 import firestore from '@react-native-firebase/firestore';
-import {querySnapshotFormatter} from './utilities';
+import {
+    querySnapshotFormatter,
+    docSnapshotFormatter
+} from './utilities';
 const db = firestore();
 const tours = db.collection('tours');
 
@@ -13,10 +16,16 @@ export const viewTourSettings = async (tourId) => {
     return querySnapshotFormatter(tourSettingsSnapshot)
 }
 
-//TODO
-//returns array of guideIds
-export const convertToGuides = async () => {
-    throw 'Not Implemented'
+
+//returns array of guides
+export const convertToGuides = async (processedTourSettings) => {
+    const guides = []
+    for (let i = 0; i < processedTourSettings.length; i++) {
+        let tourSetting = processedTourSettings[i]
+        let guideSnapshot = await db.collection('users').doc(tourSetting.guide.id).get();
+        guides.push(docSnapshotFormatter(guideSnapshot))
+    }
+    return guides
 }
 
 //TODO
@@ -214,10 +223,11 @@ export const duplicateTour = async (
 
 export const getGuideBookings = async (guideId) => {
     const tourSettingsSnapshot = await db.collectionGroup("tourSettings").where("guide", "==", user(guideId)).get()
-    console.log(tourSettingsSnapshot.size)
+    console.log("Number of tourSettings with " + guideId + ": " + tourSettingsSnapshot.size)
     var guideBookings = []
     for (let i = 0; i < tourSettingsSnapshot.docs.length; i++) {
         let queryDocumentSnapshot = tourSettingsSnapshot.docs[i];
+        //adds only bookings that are not completed
         let c = await queryDocumentSnapshot.ref.collection("bookings").where("isCompleted", "==", false).get()
         guideBookings = guideBookings.concat(querySnapshotFormatter(c));
 
