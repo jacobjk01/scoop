@@ -9,11 +9,14 @@ import {tours} from '../../data/toursData';
 import {
     /* Visitor Functions */
     viewTourSettings,
+    convertToGuides,
+    getMeetingPt,
     convertToTourSummary,
     bookTour,
     cancelTour,
     viewAvailableTours,
     getVisitorBookings,
+    archiveTour,
     /* Guide Functions */
     viewAllTours,
     viewMyTours,
@@ -94,7 +97,7 @@ export default function Test() {
 
                 <Text>Tour Api</Text>
                 <Button
-                    title="view tour settings"
+                    title="viewTourSettings"
                     onPress={async () => {
                         //This gets the available tours and views the first tour setting list
                         try {
@@ -107,7 +110,21 @@ export default function Test() {
                     }}
                 />
                 <Button
-                    title="convert to tour summary"
+                    title="convertToGuides"
+                    onPress={async () => {
+                        //This gets the available tours and views the first tour setting list
+                        try {
+                            const tours = await viewAvailableTours();
+                            const processedTourSettings = await viewTourSettings(tours[0].id);
+                            const guides = await convertToGuides(processedTourSettings)
+                            guides.forEach(console.log)
+                        } catch (err) {
+                            console.error(err)
+                        }
+                    }}
+                />
+                <Button
+                    title="convertToTourSummary"
                     onPress={async () => {
                         //This gets the available tours and views the first tour setting list
                         try {
@@ -120,7 +137,7 @@ export default function Test() {
                     }}
                 />
                 <Button
-                    title="book tour"
+                    title="bookTour"
                     onPress={async () => {
                         try {
                             const tours = await viewAvailableTours();
@@ -134,7 +151,7 @@ export default function Test() {
                     }}
                 />
                 <Button
-                    title="cancel tour"
+                    title="cancelTour"
                     onPress={async () => {
                         try {
                             cancelTour(tourSettingRef, userId)
@@ -146,7 +163,7 @@ export default function Test() {
                     }
                 />
                 <Button
-                    title="view available tours"
+                    title="viewAvailableTours"
                     onPress={async () => {
                         try {
                             const available = await viewAvailableTours();
@@ -159,7 +176,7 @@ export default function Test() {
                     }
                 />
                 <Button
-                    title="get visitor bookings"
+                    title="getVisitorBookings"
                     onPress={async () => {
                         try {
                             const visitorBookings = await getVisitorBookings(visitorId)
@@ -235,8 +252,7 @@ export default function Test() {
                                 cost,
                                 duration,
                                 introduction,
-                                isArchived,
-                                isPublished,
+                                true, //isPublished
                                 maxPeople,
                                 meetingPt,
                                 timeAvailable,
@@ -255,8 +271,6 @@ export default function Test() {
                         try {
                             const tours = await viewAvailableTours();
                             const tourSettings = await viewTourSettings(tours[0].id);
-                            console.log(tours[0].id)
-                            console.log(tourSettings)
                             const tourSettingRef = tourSettings[0].ref
                             const tour = await editTour(
                                 tourSettingRef,
@@ -266,10 +280,28 @@ export default function Test() {
                                 cost,
                                 duration,
                                 introduction,
+                                true,
                                 maxPeople,
                                 meetingPt,
                                 timeAvailable,
                                 transportation
+                            )
+                            console.log(tour)
+                        } catch (err) {
+                            console.error(err)
+                        }
+                    }
+                    }
+                />
+                <Button
+                    title="archive tour"
+                    onPress={async () => {
+                        try {
+                            const tours = await viewAvailableTours();
+                            const tourSettings = await viewTourSettings(tours[0].id);
+                            const tourSettingRef = tourSettings[0].ref
+                            const tour = await archiveTour(
+                                tourSettingRef
                             )
                             console.log(tour)
                         } catch (err) {
@@ -307,7 +339,7 @@ export default function Test() {
                     onPress={async () => {
                         try {
                             const guideBookings = await getGuideBookings(
-                                guideId2
+                                guideId
                             )
                             console.log(guideBookings)
                         } catch (err) {
