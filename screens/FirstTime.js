@@ -33,6 +33,9 @@ export default  ({navigation}) => {
                 //setFirstTimeOpen(false);
                 //TODO: go to login account page
             }} title='Already have an account'/>
+            <Button onPress={() => {
+                navigation.navigate('Feedback')
+            }} title='Feedback'/>
 
             <SigninButton/>
             <SignoutButton/>

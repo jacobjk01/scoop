@@ -51,6 +51,9 @@ import FirstTime from './screens/FirstTime';
 import OnboardingVisitor from './screens/visitor/Onboarding';
 import OnboardingGuide from './screens/guide/Onboarding';
 
+//visitor & guide imports
+import Feedback from './screens/Feedback';
+
 //guide imports
 import ManageTours from './screens/guide/ManageTours';
 import TourEdit from './screens/guide/TourEdit';
@@ -275,6 +278,11 @@ const App: () => Node = () => {
               component={OnboardingGuide}
               options={{headerShown: false}}
             />
+            <Stack.Screen
+              name="Feedback"
+              component={Feedback}
+              options={{headerShown: false}}
+            />
           </Stack.Navigator>
           
         </NavigationContainer>
@@ -425,6 +433,11 @@ const App: () => Node = () => {
             <Stack.Screen
               name="MyTrips"
               component={MyTrips}
+              options={{headerShown: false}}
+            />
+            <Stack.Screen
+              name="Feedback"
+              component={Feedback}
               options={{headerShown: false}}
             />
           </Stack.Navigator>
