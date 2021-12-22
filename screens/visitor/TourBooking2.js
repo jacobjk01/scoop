@@ -23,9 +23,9 @@ import {createStackNavigator} from '@react-navigation/stack';
 import toursData from '../../data/toursData';
 
 const TourBooking2 = ({navigation, route}) => {
-  const chosenTourIndex = route.params.index
   const generalTour = route.params.generalTours
-  const tour = generalTour.tours[chosenTourIndex]
+  console.log(route.params)
+  const tour = route.params.item
   const guideInfo = toursData.guides[tour.guide]
 
   const messageButton = () => {

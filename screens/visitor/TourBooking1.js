@@ -6,7 +6,6 @@ import {
   StyleSheet,
   TouchableOpacity,
   FlatList,
-  Image,
   ImageBackground,
   Modal,
   Animated,
@@ -15,99 +14,119 @@ import {
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {black, grayDark, grayLight, grayMed, white, primary} from '../../config/colors';
 import {Calendar} from 'react-native-calendars';
-import moment, {duration} from 'moment';
+import moment from 'moment';
 import DatePicker from 'react-native-date-picker';
-import toursData from '../../data/toursDatav2';
-import { viewTourSettings } from '../../api/tours';
+import { viewTourSettings, convertToGuides } from '../../api/tours';
 
 const TourBooking1 = ({navigation, route}) => {
 
   const generalTours = route.params
-  const guides = toursData.guides
-  const [marks, setMarks] = useState([]);
-  const [selectedDate, setSelectedDate] = useState('');
-  const [times, setTimes] = useState({
-    timeRanges: [
-      '8:00 AM - 12:00 PM',
-      '12:00 PM - 5:00 PM',
-      '5:00 PM - 10:00 PM',
-      ['- - - -', ''],
-    ],
-    selectedTimes: [false, false, false, false],
-    disabledTimes: [true,true,true,true]
-  });
-  const [customStartTime, setCustomStartTime] = useState('Please Select');
-  const [customEndTime, setCustomEndTime] = useState('Please Select');
+  let globalFilteredDates = []
+  const [guides, setGuides] = useState([])
+  //Array of objects with properties: ID and Dates. Dates is an array of dates, ID is the guideID
+  const [info, setInfo] = useState([]);
+  const [selectedDate, setSelectedDate] = useState('')
+  const [selectedTimes, setSelectedTimes] = useState([false, false, false, false])
+  const [disabledTimes, setDisabledTimes] = useState([false, false, false, false])
+
+  //We need these 3 state because there is no other way to set time value unless it is changed, and we need to revert it if user cancels
+  const [officialTimes, setOfficialTimes] = useState(['- - - -','- - - -'])
+  const [customStartTime, setCustomStartTime] = useState('- - - -');
+  const [customEndTime, setCustomEndTime] = useState('- - - -');
+
   const [isModalVisible, setModalVisible] = useState(false);
+  //is user inputting a start custom time or an end custom time in the modal
   const [startOrEnd, setStartOrEnd] = useState(false);
+
+  // console.log(moment(dates[0]).format('LT' + ' ' + 'DD MM'))
+  // console.log(moment(dates[1]).format('LT' + ' ' + 'DD MM'))
+  // console.log(moment(dates[2]).format('LT' + ' ' + 'DD MM'))
+  // console.log(moment(dates[3]).format('LT' + ' ' + 'DD MM'))
 
   useEffect(() => {
     let isMounted = true
-    console.log('useEffect')
     viewTourSettings(route.params.id).then(tours => {
       //https://stackoverflow.com/questions/53949393/cant-perform-a-react-state-update-on-an-unmounted-component
       //You are not suppose to use async/await functions in useEffect
       //jon has no idea how these 3 isMounted are connected...
       if (isMounted) {
-        let markings = []
-        let guideIds = []
+        let temp = []
         for(let i = 0; i < tours.length; i++) {
-          for (let j = 0; j < tours[i].timeAvailable.length; j++) {
-            markings[markings.length] = moment(tours[i].timeAvailable[j]).format("YYYY" + "-" + "MM" + "-" + "DD")
-            if (selectedDate == markings[markings.length]) {
-              console.log(moment(tours[i].timeAvailable[j]).hour())
-              console.log('hi')
-            }
-          }
-          guideIds = tours[i].guide
-
+          let tempObject = {}
+          tempObject.id = tours[i].guide._documentPath._parts[1]
+          tempObject.dates = tours[i].timeAvailable
+          temp[i] = tempObject
         }
-        setMarks(markings)
+        console.log(temp)
+
+        setInfo(temp)
+        convertToGuides(tours).then(guide => {
+          setGuides(guide)
+        })
       }
     });
     
     return () => {
       isMounted = false
     }
-  }, [selectedDate])
+  }, [])
 
-  const formatTime = selectedTime => {
+  const isStartOrEnd = selectedTime => {
     if (startOrEnd) {
       setCustomEndTime(selectedTime);
     } else {
       setCustomStartTime(selectedTime);
     }
   };
+  //set timeRange to selected if not or not selected if it is
   const updateSelectedTime = index => {
-    let marker = [...times.selectedTimes];
-    marker[index] = !times.selectedTimes[index];
-    setTimes({
-      timeRanges: [...times.timeRanges],
-      selectedTimes: marker,
-      disabledTimes: [...times.disabledTimes]
-    });
+    let temp = [...selectedTimes];
+    temp[index] = !selectedTimes[index];
+    setSelectedTimes(temp)
   };
   const viewModal = index => {
-    if (index == 3 && times.selectedTimes[3] == false) {
+    if (index == 3 && selectedTimes[3] == false) {
       setModalVisible(true);
     }
   };
+  const filterGuides = () => {
+    //array of guide IDS
+    let filteredGuides = []
+    //guideIds converted into guideInfo
+    let guideInfo = []
+    //dates filtered by timerange and day
+    let fullyFilteredDates = []
+    // console.log(moment(globalFilteredDates[0]).format('LT') + ' ' + selectedDate)
 
+    fullyFilteredDates = globalFilteredDates.filter((item) => {
+      if (moment(item).format("YYYY" + "-" + "MM" + "-" + "DD") == selectedDate) {
+        return item
+      }
+    })
+
+    // for(let i = 0; i < info.length; i++) {
+    //   if (info[i].dates.some((item) => {fullyFilteredDates.some((item2) => {item == item2})})) {
+    //     filteredGuides[i] = info[i].id
+    //   }
+    // }
+    // console.log(filteredGuides)
+    return guides
+  }
   const checkDate = () => {
     let text;
     if (
-      (times.selectedTimes[0] == true ||
-        times.selectedTimes[1] == true ||
-        times.selectedTimes[2] == true ||
-        times.selectedTimes[3] == true) &&
+      (selectedTimes[0] == true ||
+        selectedTimes[1] == true ||
+        selectedTimes[2] == true ||
+        selectedTimes[3] == true) &&
       selectedDate == ''
     ) {
       text = 'Please select a date';
     } else if (
-      times.selectedTimes[0] == false &&
-      times.selectedTimes[1] == false &&
-      times.selectedTimes[2] == false &&
-      times.selectedTimes[3] == false &&
+      selectedTimes[0] == false &&
+      selectedTimes[1] == false &&
+      selectedTimes[2] == false &&
+      selectedTimes[3] == false &&
       selectedDate != ''
     ) {
       text = 'Please select a time';
@@ -115,18 +134,18 @@ const TourBooking1 = ({navigation, route}) => {
       text = 'Please Select a Time and Date';
     }
     if (
-      (times.selectedTimes[0] == true ||
-        times.selectedTimes[1] == true ||
-        times.selectedTimes[2] == true ||
-        times.selectedTimes[3] == true) &&
+      (selectedTimes[0] == true ||
+        selectedTimes[1] == true ||
+        selectedTimes[2] == true ||
+        selectedTimes[3] == true) &&
       selectedDate != ''
     ) {
       return (
         <FlatList
           style={{}}
           vertical={true}
-          data={generalTours.tours}
-          renderItem={renderItem}
+          data={filterGuides()}
+          renderItem={renderGuide}
           keyExtractor={(item, index) => index.toString()}
         />
       );
@@ -138,11 +157,9 @@ const TourBooking1 = ({navigation, route}) => {
       );
     }
   };
-  const renderItem = ({item, index}) => {
-
-    let guideInfo = guides[item.guide]
+  const renderGuide = ({item, index}) => {
     const handleOnPress = () => {
-      navigation.navigate('TourBooking2', {generalTours, index})
+      navigation.navigate('TourBooking2', {generalTours, item})
     };
 
     return (
@@ -151,24 +168,125 @@ const TourBooking1 = ({navigation, route}) => {
           <ImageBackground
             style={styles.listGuideImage}
             imageStyle={{borderRadius: 60}}
-            source={guideInfo.src}></ImageBackground>
-          <Text style={styles.guideName}>{guideInfo.name}</Text>
+            source={{uri: item.profilePicture}}></ImageBackground>
+          <Text style={styles.guideName}>{item.name}</Text>
           <Text style={styles.guideTitle}>
-            {guideInfo.major}, {guideInfo.year}
+            {item.major}, {item.year}
           </Text>
           <View style={styles.line}></View>
         </View>
       </TouchableOpacity>
     );
   };
-
+  //checks if time of date1 is in between time of date2 and date3
+  const checkIfInRange = (date1, date2, date3) => {
+    let date1M = moment(date1).format('A')
+    let date2M = moment(date2).format('A')
+    let date3M = moment(date3).format('A')
+    date1 = parseInt(moment(date1).format('hh'+'mm'))
+    date2 = parseInt(moment(date2).format('hh'+'mm'))
+    date3 = parseInt(moment(date3).format('hh'+'mm'))
+    //converts times 12:00PM-12:59 to 0:00PM-0:59, nessecary for easy time logic since AM switches to PM at 12:00, and 12:00 to 12:59 is larger than everything
+    if (Math.trunc(date1/100) == 12) {
+      date1 = date1 % 100
+    }
+    if (Math.trunc(date2/100) == 12) {
+      date2 = date2 % 100
+    }
+    if (Math.trunc(date3/100) == 12) {
+      date3 = date3 % 100
+    }
+    //If you are confused about the time Logic, just ask ryan he made a whole diagram for himself so that his brain wouldnt fry
+    if (date2M == date3M) {
+      if(date2 <= date3) {
+        if(date2 <= date1 && date1 <= date3 && date1M == date2M) return true
+        else return false
+      }
+      else if(date2 >= date3) {
+        if(date3 < date1 && date1 < date2 && date1M == date2M) return false
+        else return true
+      }
+    }
+    else if(date2M != date3M) {
+      if(date2M == 'AM') {
+        if(date1M == date3M) {
+          if (date1 <= date3) return true
+          else return false
+        }
+        else if(date1M == date2M) {
+          if(date1 >= date2) return true
+          else return false
+        }
+      }
+      else if(date3M == 'AM') {
+        if(date1M == date3M) {
+          if (date1 > date3) return false
+          else return true
+        }
+        else if(date1M == date2M) {
+          if(date1 < date2) return false
+          else return true
+        }
+      }
+    }
+  }
+  const convertInfoToDates = () => {
+    let dates = []
+    for(let i = 0; i < info.length; i++) {
+      for(let j = 0; j < info[i].dates.length; j++) {
+        dates[dates.length] = info[i].dates[j]
+      }
+    }
+    return dates
+  }
   const createMarkings = () => {
-    let calenderMarkings = {};
-    for (let i = 0; i < marks.length; i++) {
-      calenderMarkings[marks[i]] = {};
-      calenderMarkings[marks[i]].marked = true;
-      if (marks[i] == selectedDate) {
-        calenderMarkings[marks[i]].selected = true;
+    let dates = convertInfoToDates()
+    let filteredDates = []
+    let calenderMarkings = {}
+
+    let time1 = '2021-12-13T16:00:40.142Z' //8:00 AM
+    let time2 = '2021-12-13T20:00:40.142Z' //12:00 PM
+    let time3 = '2021-12-13T01:00:40.142Z' //5:00 PM
+    let time4 = '2021-12-13T06:00:40.142Z' //10:00 PM
+    
+    
+    //filter dates and then turn into calender format
+    if (selectedTimes.some(value => value == true)) {
+      for (let i = 0; i < dates.length; i++) {
+        if (selectedTimes[0] == true) {
+          if(checkIfInRange(dates[i], time1, time2)) {
+            filteredDates[filteredDates.length] = dates[i]
+          }
+        }
+        if (selectedTimes[1] == true) {
+          if(checkIfInRange(dates[i], time2, time3)) {
+            filteredDates[filteredDates.length] = dates[i]
+          }
+        }
+        if (selectedTimes[2] == true) {
+          if(checkIfInRange(dates[i], time3, time4)) {
+            filteredDates[filteredDates.length] = dates[i]
+          }
+        }
+        if (selectedTimes[3] == true && officialTimes[0] != '- - - -' && officialTimes[1] != '- - - -') {
+          if(checkIfInRange(dates[i], officialTimes[0], officialTimes[1])) {
+            filteredDates[filteredDates.length] = dates[i]
+          }
+        }
+      }
+    } else {
+      for(let i = 0; i < dates.length; i++) {
+        filteredDates[i] = dates[i]
+      }
+    }
+    globalFilteredDates = filteredDates
+    filteredDates = filteredDates.map((item) => {return moment(item).format("YYYY" + "-" + "MM" + "-" + "DD")})
+    //this is the formatt needed by the calender, selected will have circle, marked will have dot
+    for (let i = 0; i < dates.length; i++) {
+      calenderMarkings[filteredDates[i]] = {};
+      calenderMarkings[filteredDates[i]].marked = true;
+      if (filteredDates[i] == selectedDate) {
+        calenderMarkings[filteredDates[i]].selected = true;
       }
     }
     return calenderMarkings;
@@ -177,85 +295,55 @@ const TourBooking1 = ({navigation, route}) => {
   const displayTimePicker = () => {
     let date;
     // If start time has not been chosen yet, default time is set to 12:00PM, else it is the Start time
-    if (customStartTime == 'Please Select') {
+    if (customStartTime == '- - - -') {
       date = new Date('2000-01-01T20:00:00Z');
     } else {
       date = customStartTime;
     }
-    // If Start Time is chosen, End time cannot be lower then start time, and vice versa
-    if (customStartTime != 'Please Select' && startOrEnd == true) {
-      return (
-        <DatePicker
-          date={date}
-          mode={'time'}
-          style={{
-            height: 160,
-            marginLeft: 'auto',
-            marginRight: 'auto',
-            width: 180,
-          }}
-          onDateChange={selectedTime => formatTime(selectedTime)}
-          minuteInterval={5}
-          androidVariant={'nativeAndroid'}
-          minimumDate={customStartTime}
-        />
-      );
-    } else if (customEndTime != 'Please Select' && startOrEnd == false) {
-      return (
-        <DatePicker
-          date={date}
-          mode={'time'}
-          style={{
-            height: 160,
-            marginLeft: 'auto',
-            marginRight: 'auto',
-            width: 180,
-          }}
-          onDateChange={selectedTime => formatTime(selectedTime)}
-          minuteInterval={5}
-          androidVariant={'nativeAndroid'}
-          maximumDate={customEndTime}
-        />
-      );
-    } else
-      return (
-        <DatePicker
-          date={date}
-          mode={'time'}
-          style={{
-            height: 160,
-            marginLeft: 'auto',
-            marginRight: 'auto',
-            width: 180,
-          }}
-          onDateChange={selectedTime => formatTime(selectedTime)}
-          minuteInterval={5}
-          androidVariant={'nativeAndroid'}
-        />
-      );
+    return (
+      <DatePicker
+        date={date}
+        mode={'time'}
+        style={{
+          height: 160,
+          marginLeft: 'auto',
+          marginRight: 'auto',
+          width: 180,
+        }}
+        onDateChange={selectedTime => isStartOrEnd(selectedTime)}
+        minuteInterval={5}
+        androidVariant={'nativeAndroid'}
+      />
+    );
   };
   const onDayPress = day => {
-    for (let i = 0; i < marks.length; i++) {
-      if (day == marks[i]) setSelectedDate(day);
+    let dates = convertInfoToDates()
+    let time1 = '2021-12-13T16:00:40.142Z' //8:00 AM
+    let time2 = '2021-12-13T20:00:40.142Z' //12:00 PM
+    let time3 = '2021-12-13T01:00:40.142Z' //5:00 PM
+    let time4 = '2021-12-13T06:00:40.142Z' //10:00 PM
+    let temp = [true,true,true,false]
+    for (let i = 0; i < dates.length; i++) {
+      if (day == moment(dates[i]).format("YYYY" + "-" + "MM" + "-" + "DD")){
+        setSelectedDate(day)
+        if (checkIfInRange(dates[i], time1, time2)) temp[0] = false
+        if (checkIfInRange(dates[i], time2, time3)) temp[1] = false
+        if (checkIfInRange(dates[i], time3, time4)) temp[2] = false
+      };
     }
+    setDisabledTimes(temp)
   };
   const confirm = () => {
     if (
-      customStartTime != 'Please Select' &&
-      customEndTime != 'Please Select'
+      customStartTime != '- - - -' &&
+      customEndTime != '- - - -'
     ) {
       return (
         <TouchableOpacity
           onPress={() => {
             setModalVisible(false);
-            let timeRanges = [...times.timeRanges];
-            timeRanges[3][0] = customStartTime;
-            timeRanges[3][1] = customEndTime;
-            setTimes({
-              timeRanges,
-              selectedTimes: [...times.selectedTimes],
-              disabledTimes: [...times.disabledTimes]
-            });
+            let times = [customStartTime, customEndTime]
+            setOfficialTimes(times)
           }}>
           <Text
             style={{
@@ -292,25 +380,36 @@ const TourBooking1 = ({navigation, route}) => {
     }
   };
   const checkStart = () => {
-    if (customStartTime == 'Please Select') {
+    if (customStartTime == '- - - -') {
       return customStartTime;
     } else return moment(customStartTime).format('LT');
   };
   const checkEnd = () => {
-    if (customEndTime == 'Please Select') {
+    if (customEndTime == '- - - -') {
       return customEndTime;
     } else return moment(customEndTime).format('LT');
   };
 
-  const checkIfCustom = index => {
-    if (index == 3 && times.timeRanges[3][0] != '- - - -')
-      return (
-        moment(times.timeRanges[3][0]).format('LT') +
-        ' - ' +
-        moment(times.timeRanges[3][1]).format('LT')
-      );
-    else return times.timeRanges[index];
+  const displayTimeRanges = index => {
+    let timeRanges
+    if (officialTimes[0] == '- - - -' || officialTimes[1] == '- - - -') {
+      timeRanges = [
+        '8:00 AM - 12:00 PM',
+        '12:00 PM - 5:00 PM',
+        '5:00 PM - 10:00 PM',
+        '- - - -'
+      ]
+    } else {
+      timeRanges = [
+        '8:00 AM - 12:00 PM',
+        '12:00 PM - 5:00 PM',
+        '5:00 PM - 10:00 PM',
+        moment(officialTimes[0]).format('LT') + ' - ' + moment(officialTimes[1]).format('LT')
+      ]
+    }
+    return timeRanges[index]
   };
+
   const slideAnim = useRef(new Animated.Value(3)).current;
   const animation = () => {
     if (!startOrEnd) {
@@ -561,22 +660,16 @@ const TourBooking1 = ({navigation, route}) => {
                       borderRadius: 10,
                       justifyContent: 'space-evenly',
                     }}>
+                    {/*Cancel Button */}
                     <TouchableOpacity
                       onPress={() => {
                         setModalVisible(false);
-                        let timeRanges = [...times.timeRanges];
-                        let selectedTimes = [...times.selectedTimes];
-                        selectedTimes[3] = false;
-                        setTimes({
-                          timeRanges,
-                          selectedTimes,
-                          disabledTimes: [...times.disabledTimes]
-                        });
-                        //if cancel, set custom time state to previous times
-                        if (times.timeRanges[3][0] != '- - - -') {
-                          setCustomStartTime(times.timeRanges[3][0]);
-                          setCustomEndTime(times.timeRanges[3][1]);
-                        }
+                        let temp = [...selectedTimes];
+                        temp[3] = false;
+                        setSelectedTimes(temp)
+                        setCustomStartTime(officialTimes[0]);
+                        setCustomEndTime(officialTimes[1]);
+
                       }}
                       style={{
                         fontSize: 14,
@@ -598,14 +691,14 @@ const TourBooking1 = ({navigation, route}) => {
 
             {/*Select times____________________________________________________________*/}
             <View style={styles.timeView}>
-              {times.selectedTimes.map((date, index) => {
+              {selectedTimes.map((date, index) => {
                 let range = ['Morning', 'Afternoon', 'Night', 'Custom'];
                 let backColor, textColor, subTextColor;
-                if (times.disabledTimes[index]) {
+                if (disabledTimes[index]) {
                   backColor = white
                   textColor = grayLight
                   subTextColor = grayLight
-                } else if (times.selectedTimes[index] == true) {
+                } else if (selectedTimes[index] == true) {
                   backColor = primary;
                   textColor = white;
                   subTextColor = white;
@@ -616,7 +709,7 @@ const TourBooking1 = ({navigation, route}) => {
                 }
                 return (
                   <TouchableOpacity
-                    disabled={times.disabledTimes[index]}
+                    disabled={disabledTimes[index]}
                     key={index}
                     style={{
                       backgroundColor: backColor,
@@ -651,7 +744,7 @@ const TourBooking1 = ({navigation, route}) => {
                         fontSize: 12,
                         fontWeight: '400',
                       }}>
-                      {checkIfCustom(index)}
+                      {displayTimeRanges(index)}
                     </Text>
                   </TouchableOpacity>
                 );
@@ -697,13 +790,6 @@ const TourBooking1 = ({navigation, route}) => {
 };
 
 const styles = StyleSheet.create({
-  modalButtons: {
-    marginLeft: 'auto',
-  },
-  modalButtonText: {
-    color: white,
-    fontSize: 12,
-  },
   greyText: {
     color: grayLight,
     borderWidth: 2,
@@ -742,9 +828,6 @@ const styles = StyleSheet.create({
     //android only
     elevation: 10,
   },
-  baseText: {
-    fontFamily: 'Helvetica',
-  },
   titleText: {
     marginLeft: 'auto',
     marginRight: 'auto',
@@ -757,46 +840,6 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     alignSelf: 'center',
   },
-  input: {
-    alignSelf: 'center',
-    backgroundColor: white,
-    height: 50,
-    width: '100%',
-    // borderWidth: 1,
-    // borderColor: '#656565',
-    borderRadius: 7,
-    paddingLeft: 20,
-  },
-  searchicon: {
-    position: 'absolute',
-    right: 10,
-    top: 11,
-  },
-  recommendationbuttonleft: {
-    flex: 1,
-    backgroundColor: primary,
-    borderRadius: 7,
-    height: 100,
-    marginRight: 15,
-  },
-  recommendationbuttonright: {
-    flex: 1,
-    backgroundColor: primary,
-    borderRadius: 7,
-    height: 100,
-  },
-  recommendationTitle: {
-    marginTop: 15,
-    marginLeft: 15,
-    color: white,
-    fontWeight: '600',
-    fontSize: 16,
-  },
-  listTourImage: {
-    marginRight: 15,
-    width: 200,
-    height: 300,
-  },
   listGuideImage: {
     marginLeft: 15,
     marginTop: 10,
@@ -804,15 +847,6 @@ const styles = StyleSheet.create({
 
     width: 70,
     height: 70,
-  },
-  tourText: {
-    width: 200,
-    fontWeight: '600',
-    fontSize: 18,
-    color: white,
-    position: 'absolute',
-    bottom: 50,
-    left: 20,
   },
   guideBox: {
     backgroundColor: white,
@@ -841,24 +875,6 @@ const styles = StyleSheet.create({
     bottom: 20,
     left: 100,
     color: black,
-  },
-  linearGradTour: {
-    position: 'absolute',
-    top: 150,
-    bottom: 0,
-    left: 0,
-    right: 0,
-    backgroundColor: 'transparent',
-    borderRadius: 10,
-  },
-  linearGradGuide: {
-    position: 'absolute',
-    top: 60,
-    bottom: 0,
-    left: 0,
-    right: 0,
-    backgroundColor: 'transparent',
-    borderRadius: 10,
   },
   backIcon: {
     backgroundColor: white,
