@@ -1,4 +1,4 @@
-import React, {Component, useState} from 'react';
+import React, {Component, useState, useEffect} from 'react';
 import {
   View,
   Text,
@@ -28,7 +28,7 @@ class TourInfo extends Component {
     super(props);
 
     this.state = {
-
+      navigation: props.navigation,
       route: props.route,
       tour: props.route.params.itemInfo,
 
@@ -49,6 +49,7 @@ class TourInfo extends Component {
     };
     this.scrollY = new ValueXY();
   }
+  
   componentDidMount() {
     this.scrollY.addListener(({value}) => (this._value = value));
   }
@@ -148,7 +149,7 @@ class TourInfo extends Component {
   };
 
   render() {
-    const navigation = this.props.navigation;
+    
     return (
       <View>
         <StatusBar barStyle="dark-content" />
@@ -158,7 +159,7 @@ class TourInfo extends Component {
         </ScrollView>
         <TouchableOpacity
           style={styles.backIcon}
-          onPress={() => navigation.goBack()}>
+          onPress={() => this.state.navigation.goBack()}>
           <Ionicons name="chevron-back-outline" size={22} color={'white'} />
         </TouchableOpacity>
         <TouchableOpacity
