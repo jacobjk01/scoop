@@ -9,7 +9,7 @@ const SelectSchool = ({navigation}) => {
     return (
     <SafeAreaView>
         <Text>Select School Page</Text>
-        <Button title="view tour" onPress={() => navigation.navigate('HomeVisitor')} />
+        <Button title='view tour' onPress={() => navigation.navigate('HomeVisitor')} />
     </SafeAreaView>
     )
 };

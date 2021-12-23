@@ -11,7 +11,7 @@ import {
   Image,
   Modal
 } from 'react-native';
-import { primary, white, black, grayDark, grayLight, grayMed } from '../../config/colors';
+import { primary, white, black, grayDark, grayMed } from 'config/colors';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import toursData from '../../data/toursData';
 
@@ -217,8 +217,7 @@ const styles = StyleSheet.create({
     marginLeft: 'auto',
     marginRight: 'auto',
     borderRadius: 20,
-    backgroundColor: 'white',
-
+    backgroundColor: white,
     //android only
     elevation: 10
   },
@@ -230,8 +229,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginBottom: 115,
     borderRadius: 20,
-    backgroundColor: 'white',
-
+    backgroundColor: white,
     //android only
     elevation: 10,
   },

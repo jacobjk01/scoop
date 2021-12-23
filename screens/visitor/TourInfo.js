@@ -12,14 +12,14 @@ import {
   Animated,
   StatusBar,
 } from 'react-native';
-import {withSafeAreaInsets} from 'react-native-safe-area-context';
+import { withSafeAreaInsets } from 'react-native-safe-area-context';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import LinearGradient from 'react-native-linear-gradient';
 
 import StickyParallaxHeader from 'react-native-sticky-parallax-header';
-import {Calendar} from 'react-native-calendars';
+import { Calendar } from 'react-native-calendars';
+import { primary, black, white, grayDark, blueDark, grayShadow, red } from 'config/colors';
 import renderReviews from '../../components/Reviews';
-
 
 const {event, ValueXY} = Animated;
 
@@ -59,12 +59,12 @@ class TourInfo extends Component {
 
   renderForeground() {
     return (
-      <View style={{backgroundColor: '#d92726', flex: 1, borderRadius: 10}}>
+      <View style={{backgroundColor: red, flex: 1, borderRadius: 10}}>
         <ImageBackground
           style={styles.imageHeader}
           source={{uri: this.state.tour.picture}}>
           <LinearGradient
-            colors={['transparent', 'black']}
+            colors={['transparent', black]}
             style={styles.linearGradTour}
           />
           <View style={styles.imageOverlay}>
@@ -103,24 +103,127 @@ class TourInfo extends Component {
       <View
         style={{
           flex: 1,
-          backgroundColor: 'white',
+          backgroundColor: white,
           alignItems: 'center',
         }}></View>
     );
+  }
+
+  renderStars(count) {
+    let fullstars = Math.floor(count);
+    var decimal = Math.ceil(10 * (count - Math.floor(count)));
+    let emptystars = Math.floor(5 - count - 0.1);
+    return (
+      <View style={{flexDirection: 'row'}}>
+        {Array.from(Array(fullstars).keys()).map(() => {
+          return (
+            <Image
+              style={{width: 16, height: 16, marginRight: 4}}
+              source={require('images/stars/filledstar.png')}
+            />
+          );
+        })}
+
+        {this.renderPartialStar(decimal)}
+        {Array.from(Array(emptystars).keys()).map(() => {
+          return (
+            <Image
+              style={{width: 16, height: 16, marginRight: 4}}
+              source={require('images/stars/star0.png')}
+            />
+          );
+        })}
+      </View>
+    );
+  }
+
+  renderPartialStar(decimal) {
+    switch (decimal) {
+      case 0:
+        return (
+          <Image
+            style={{width: 16, height: 16, marginRight: 4}}
+            source={require('images/stars/star0.png')}
+          />
+        );
+      case 1:
+        return (
+          <Image
+            style={{width: 16, height: 16, marginRight: 4}}
+            source={require('images/stars/star1.png')}
+          />
+        );
+      case 2:
+        return (
+          <Image
+            style={{width: 16, height: 16, marginRight: 4}}
+            source={require('images/stars/star2.png')}
+          />
+        );
+      case 3:
+        return (
+          <Image
+            style={{width: 16, height: 16, marginRight: 4}}
+            source={require('images/stars/star3.png')}
+          />
+        );
+      case 4:
+        return (
+          <Image
+            style={{width: 16, height: 16, marginRight: 4}}
+            source={require('images/stars/star4.png')}
+          />
+        );
+      case 5:
+        return (
+          <Image
+            style={{width: 16, height: 16, marginRight: 4}}
+            source={require('images/stars/star5.png')}
+          />
+        );
+      case 6:
+        return (
+          <Image
+            style={{width: 16, height: 16, marginRight: 4}}
+            source={require('images/stars/star6.png')}
+          />
+        );
+      case 7:
+        return (
+          <Image
+            style={{width: 16, height: 16, marginRight: 4}}
+            source={require('images/stars/star7.png')}
+          />
+        );
+      case 8:
+        return (
+          <Image
+            style={{width: 16, height: 16, marginRight: 4}}
+            source={require('images/stars/star8.png')}
+          />
+        );
+      case 9:
+        return (
+          <Image
+            style={{width: 16, height: 16, marginRight: 4}}
+            source={require('images/stars/star9.png')}
+          />
+        );
+    }
   }
 
   renderContent() {
     const navigation = this.props.navigation;
     return (
       <View style={{marginBottom: 70}}>
-        {/* <Animated.View style={{flexDirection: "row", position: "absolute", 
-                top: -90, left: 25, opacity: buttonOpacity, alignItems: "center", zIndex: 10}}>
-                    <TouchableOpacity style={{backgroundColor: "white", marginRight: 10, borderRadius: 40}}>
-                        <ImageBackground style={{width: 50, height: 50}} imageStyle={{borderRadius: 40}} source={require('../images/brittany.png')}
+        {/* <Animated.View style={{flexDirection: 'row', position: 'absolute', 
+                top: -90, left: 25, opacity: buttonOpacity, alignItems: 'center', zIndex: 10}}>
+                    <TouchableOpacity style={{backgroundColor: white, marginRight: 10, borderRadius: 40}}>
+                        <ImageBackground style={{width: 50, height: 50}} imageStyle={{borderRadius: 40}} source={require('images/brittany.png')}
                         ></ImageBackground> 
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.whiteButton} title="Message">
-                        <Text style={{color: "#41479B"}}>Message</Text>
+                    <TouchableOpacity style={styles.whiteButton} title='Message'>
+                        <Text style={{color: blueDark}}>Message</Text>
                     </TouchableOpacity>
                 </Animated.View> */}
         <Text style={[styles.sectionText, {marginTop: 40}]}>Reviews</Text>
@@ -138,7 +241,7 @@ class TourInfo extends Component {
           style={{
             marginTop: 5,
             fontSize: 14,
-            color: '#9B9BA7',
+            color: grayDark,
             fontStyle: 'italic',
           }}>
           {item.name} - {item.item.year}
@@ -152,10 +255,15 @@ class TourInfo extends Component {
     
     return (
       <View>
-        <StatusBar barStyle="dark-content" />
+        <StatusBar barStyle='dark-content' />
         <ScrollView>
           {this.renderForeground()}
           {this.renderContent()}
+          <TouchableOpacity
+            style={styles.backIcon}
+            onPress={() => navigation.goBack()}>
+            <Ionicons name='chevron-back-outline' size={20} color={white} />
+          </TouchableOpacity>
         </ScrollView>
         <TouchableOpacity
           style={styles.backIcon}
@@ -186,12 +294,12 @@ const styles = StyleSheet.create({
   titleText: {
     fontSize: 32,
     fontWeight: '600',
-    color: 'white',
+    color: white,
   },
   detailText: {
     fontSize: 14,
     fontWeight: '200',
-    color: 'white',
+    color: white,
   },
   sectionText: {
     fontSize: 18,
@@ -202,14 +310,14 @@ const styles = StyleSheet.create({
   subText: {
     fontSize: 20,
     fontWeight: '400',
-    color: 'white',
+    color: white,
     marginTop: 20,
     marginBottom: 20,
   },
   summaryText: {
     fontSize: 18,
     fontWeight: '200',
-    color: 'white',
+    color: white,
     marginBottom: 30,
   },
   headerView: {
@@ -241,7 +349,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     marginLeft: 20,
     marginRight: 20,
-    shadowColor: '#000000',
+    shadowColor: black,
     shadowOffset: {width: 1, height: 1},
     shadowOpacity: 0.2,
     shadowRadius: 5,
@@ -255,10 +363,25 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
     borderRadius: 10,
   },
+  reviewCard: {
+    width: Dimensions.get('window').width - 40,
+    backgroundColor: white,
+    alignSelf: 'center',
+    padding: 20,
+    marginBottom: 20,
+    marginLeft: 20,
+    marginRight: 20,
+    marginTop: 20,
+    borderRadius: 10,
+    shadowColor: black,
+    shadowOffset: {width: 1, height: 1},
+    shadowOpacity: 0.2,
+    shadowRadius: 5,
+  },
   whiteButton: {
     backgroundColor: 'white',
     borderRadius: 10,
-    color: '#41479B',
+    color: blueDark,
     alignItems: 'center',
     justifyContent: 'center',
     height: 30,
@@ -267,7 +390,7 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   backIcon: {
-    backgroundColor: '#3154A5',
+    backgroundColor: primary,
     borderRadius: 10,
     borderColor: 'white',
     borderWidth: 1,
@@ -284,11 +407,11 @@ const styles = StyleSheet.create({
     bottom: 20,
     left: 20,
     right: 20,
-    backgroundColor: '#3154A5',
+    backgroundColor: primary,
     height: 50,
     justifyContent: 'center',
     borderRadius: 10,
-    shadowColor: '#adadad',
+    shadowColor: grayShadow,
     shadowOffset: {width: 2, height: 2},
     shadowOpacity: 0.8,
     shadowRadius: 3,
@@ -296,7 +419,7 @@ const styles = StyleSheet.create({
   floatCard: {
     position: 'absolute',
     bottom: 0,
-    backgroundColor: 'white',
+    backgroundColor: white,
     height: 80,
   },
 });

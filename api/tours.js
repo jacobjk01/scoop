@@ -243,7 +243,7 @@ export const unarchiveTour = async(Id) => {
     {
         await tours.where('guideId', '==', Id[i][0]).where('tourId', '==', Id[i][1]).get().then(querySnapshot => {
                 querySnapshot.forEach((documentSnapshot) => {
-                    tours.doc(documentSnapshot.id).update("archive", false);
+                    tours.doc(documentSnapshot.id).update('archive', false);
                 });
         });
     }
@@ -254,7 +254,7 @@ export const switchTour = async(guideId, tourId, tourId2) => {
     await tours.where('guideId', '==', guideId).where('tourId', '==', tourId).where('archive', '==', false).get().then(querySnapshot =>
     {
             querySnapshot.forEach((documentSnapshot) => {
-                tours.doc(documentSnapshot.id).update("tourId", tourId2);
+                tours.doc(documentSnapshot.id).update('tourId', tourId2);
             });
     });
 }
@@ -280,7 +280,7 @@ export const getBooking = async(guideId, tourId, userId) => {
         {
             querySnapshot.forEach(documentSnapshot =>
             {
-                    tours.doc(documentSnapshot.id).collection("bookings").where("userId", '==', userId).get().then(querySnapshot2 =>
+                    tours.doc(documentSnapshot.id).collection('bookings').where('userId', '==', userId).get().then(querySnapshot2 =>
                     {
                             querySnapshot2.forEach(documentSnapshot2 =>
                             {

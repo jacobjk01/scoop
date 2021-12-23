@@ -9,9 +9,9 @@ import {
     ScrollView,
     Modal,
 } from 'react-native';
-import {UserContext} from '../../contexts';
-import SigninButton from '../../components/SigninButton';
-import SignoutButton from '../../components/SignoutButton';
+import {UserContext} from 'contexts';
+import SigninButton from 'components/SigninButton';
+import SignoutButton from 'components/SignoutButton';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {black, white, primary, grayLight, grayDark, grayMed} from '../../config/colors';
 
