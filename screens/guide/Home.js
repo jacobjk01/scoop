@@ -67,7 +67,7 @@ const renderActiveTour = (navigation, currentTour) => {
             <View style={{padding: 30}}>
               <Text style={[styles.sectionInfoSubtitleText, {paddingBottom: 0}]}>Current Tour</Text>
                 <Text style={styles.sectionTitleText}>{currentTour.name}</Text>
-                <View style={{flexDirection: 'row', flexWrap: 1, paddingLeft: 0}}>
+                <View style={{flexDirection: 'row', flexWrap: 'wrap', paddingLeft: 0}}>
                     {renderTextQuadrant('Date', capitalizeFirstLetter(currentTour.tourMonth) + ' ' + currentTour.tourDay)}
                     {renderTextQuadrant('Time', currentTour.startTime)}
                     {renderTextQuadrant('Visitors', currentTour.visitors)}
