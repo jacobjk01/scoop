@@ -28,10 +28,11 @@ export const convertToGuides = async (processedTourSettings) => {
     return guides
 }
 
-//TODO
-//return meeting pt info
-export const getMeetingPt = async (tourSettingRef) => {
-    throw 'Not Implemented'
+
+//return meeting pt info for a tourSetting
+export const getMeetingPt = async (meetingPtRef) => {
+    const meetingPt = await meetingPtRef.get();
+    return docSnapshotFormatter(meetingPt)
 }
 
 //TODO
@@ -71,10 +72,6 @@ export const viewAvailableTours = async () => {
 
 export const getVisitorBookings = async (visitorId) => {
     const queryTourSettingSnapshots = await db.collectionGroup("bookings").where("visitor", "==", user(visitorId)).get();
-    let visitorBookings = [];
-    queryTourSettingSnapshots.forEach(tourSetting => {
-        visitorBookings.push(tourSetting.data());
-    })
     return querySnapshotFormatter(queryTourSettingSnapshots)
 }
 

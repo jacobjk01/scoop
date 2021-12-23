@@ -124,6 +124,19 @@ export default function Test() {
                     }}
                 />
                 <Button
+                    title="getMeetingPt"
+                    onPress={async () => {
+                        try {
+                            const tours = await viewAvailableTours();
+                            const processedTourSettings = await viewTourSettings(tours[0].id);
+                            const meetingPt = await getMeetingPt(processedTourSettings[0].meetingPt)
+                            console.log(meetingPt)
+                        } catch (err) {
+                            console.error(err)
+                        }
+                    }}
+                />
+                <Button
                     title="convertToTourSummary"
                     onPress={async () => {
                         //This gets the available tours and views the first tour setting list
