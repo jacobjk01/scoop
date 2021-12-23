@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import LinearGradient from 'react-native-linear-gradient';
-import {white} from '../../config/colors';
+import { primary, white, grayDark, black, grayShadow } from 'config/colors';
 
 const {event, ValueXY} = Animated;
 class TourEdit extends Component {
@@ -27,17 +27,16 @@ class TourEdit extends Component {
   }
 
   renderForeground() {
-    // const tour = this.props.route.params.tour;
     return (
       <View style={{flex: 1, borderRadius: 15}}>
         <ImageBackground
           style={styles.imageHeader}
           imageStyle={{borderBottomLeftRadius: 15, borderBottomRightRadius: 15}}
-          source={require('../../images/Westwood_village.png')}>
+          source={require('images/Westwood_village.png')}>
           <LinearGradient
-            colors={['transparent', 'black']}
+            colors={['transparent', black]}
             style={styles.linearGradTour}
-          />
+            />
           <View style={styles.imageOverlay}>
             <Text style={styles.titleText}>
               {this.tour.name}
@@ -53,7 +52,7 @@ class TourEdit extends Component {
       <View
         style={{
           flex: 1,
-          backgroundColor: 'white',
+          backgroundColor: white,
           alignItems: 'center',
         }}></View>
     );
@@ -61,12 +60,12 @@ class TourEdit extends Component {
 
   renderContent() {
     return (
-      <View style={{marginBottom: 70}}>
+      <View style={{marginBottom: 200}}>
         <TouchableOpacity
             onPress={() => this.navigation.navigate('TourEdit3', this.tour)}
             style={{position: 'absolute', right: 30, top: 30}}>
             <View>
-              <Text style={{color: '#9B9BA7'}}>Edit <Ionicons name={'pencil'} size={16}/></Text>
+              <Text style={{color: grayDark}}>Edit <Ionicons name={'pencil'} size={16}/></Text>
             </View>
         </TouchableOpacity>
         <Text style={[styles.sectionText, {marginTop: 40}]}>Basic Info</Text>
@@ -93,15 +92,15 @@ class TourEdit extends Component {
 
   render() {
     return (
-      <View>
-        <StatusBar barStyle="dark-content" />
+      <View style={{backgroundColor: white}}>
+        <StatusBar barStyle='dark-content' />
         <ScrollView>
           {this.renderForeground()}
           {this.renderContent()}
           <TouchableOpacity
             style={styles.backIcon}
             onPress={() => this.navigation.goBack()}>
-            <Ionicons name="chevron-back-outline" size={20} color={white} />
+            <Ionicons name='chevron-back-outline' size={20} color={white} />
           </TouchableOpacity>
         </ScrollView>
         <TouchableOpacity
@@ -121,7 +120,7 @@ const styles = StyleSheet.create({
         position: 'relative',
         marginTop: 5,
         marginBottom: 20,
-        borderBottomColor: '#9B9BA7',
+        borderBottomColor: grayDark,
         borderBottomWidth: 1,
         alignSelf: 'center',
         width: '80%',
@@ -129,7 +128,7 @@ const styles = StyleSheet.create({
   titleText: {
     fontSize: 32,
     fontWeight: '600',
-    color: 'white',
+    color: white,
     top: 80,
   },
   sectionText: {
@@ -141,7 +140,7 @@ const styles = StyleSheet.create({
   bodyText: {
     fontSize: 14,
     fontWeight: '200',
-    color: 'black',
+    color: black,
     marginBottom: 15,
     fontFamily: 'Helvetica',
     paddingLeft: 45,
@@ -168,7 +167,7 @@ const styles = StyleSheet.create({
     borderRadius: 15,
   },
   backIcon: {
-    backgroundColor: '#3154A5',
+    backgroundColor: primary,
     borderRadius: 10,
     borderColor: white,
     borderWidth: 1,
@@ -182,14 +181,14 @@ const styles = StyleSheet.create({
   },
   continue: {
     position: 'absolute',
-    bottom: -80,
+    bottom: 50,
     left: 20,
     right: 20,
-    backgroundColor: '#3154A5',
+    backgroundColor: primary,
     height: 50,
     justifyContent: 'center',
     borderRadius: 10,
-    shadowColor: '#adadad',
+    shadowColor: grayShadow,
     shadowOffset: {width: 2, height: 2},
     shadowOpacity: 0.8,
     shadowRadius: 3,

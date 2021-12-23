@@ -9,48 +9,33 @@ import {
   Image,
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import colors from '../../config/colors';
-import toursData from '../../data/toursData';
-import { onAuthStateChanged } from '../../api/auth';
-import { getUser } from '../../api/users';
-import { UserContext } from '../../contexts';
+import colors from 'config/colors';
+import toursData from 'data/toursData';
+import { onAuthStateChanged } from 'api/auth';
+import { getUser } from 'api/users';
+import { UserContext } from 'contexts';
+import { primary, grayDark, white, black, grayVeryLight } from 'config/colors';
 
 const Home = ({navigation}) => {
-  const tours = toursData.tours;
-  const currentTour = tours[0];
+  const curTime = '12:00 PM';
+  const activeTour = toursData.tours[0].startTime == curTime ? toursData.tours[0] : null;
+  const tours = activeTour ? toursData.tours.slice(1) : toursData.tours;
   const {userAuth, setUserAuth, user, setUser} = useContext(UserContext);
 
   return (
-    <SafeAreaView backgroundColor='white'>
+    <SafeAreaView backgroundColor={white}>
       <ScrollView style={{height: '100%'}}>
-        <View style={{marginTop: 50}}>
-          <Text style={{marginLeft: 30, fontSize: 24, fontWeight: '700'}}>
+        {activeTour ? renderActiveTour(navigation, activeTour) : null}
+        <View style={activeTour ? {marginTop: 20} : {marginTop: 50}}>
+          <Text style={[activeTour ? null : {marginBottom: 30}, {marginLeft: 30, fontSize: 24, fontWeight: '700'}]}>
             Upcoming Tours
           </Text>
+          {activeTour ? <View style={[styles.divider, {paddingTop: 20}]}></View> : null}
         </View>
         <View style={{flexWrap: 'wrap', alignContent: 'center'}}>
-          {/* Current tour? */}
-            {/* <TouchableOpacity style={styles.currentTourCard} onPress={() => navigation.navigate('TourEdit', {tour: currentTour})}>
-                <Image style={styles.currentTourImage} source={currentTour.src}></Image>
-                <View style={[styles.tourTextSection, {top: '72%'}]}>
-                    <View style={styles.tourDateSection}>
-                        <Text style={styles.tourDateText}>{currentTour.tourMonth}</Text>
-                        <Text style={styles.tourDateText}>{currentTour.tourDay}</Text>
-                    </View>
-                    <View style={[styles.tourInfoSection, {marginLeft: '15%'}]}>
-                        <Text style={styles.tourNameText}>{currentTour.name}</Text>
-                        <Text style={{marginTop: 5}}>{currentTour.startTime}</Text>
-                        <Text style={{marginTop: 5}}>{currentTour.meetPoint}</Text>
-                    </View>
-                    <View style={[styles.forwardIcon, {right: 10}]}>
-                        <Ionicons name="chevron-forward-outline" size={20} color={'gray'} />
-                    </View>
-                </View>
-            </TouchableOpacity> */}
-            {/* a tour list */}
-          {tours.slice(1).map((tour) => {
+          {tours.map((tour) => {
             return(
-              <TouchableOpacity key={tour.id} style={styles.tourCard} onPress={() => navigation.navigate('TourEdit', {tour})}>
+              <TouchableOpacity key={tour.id} style={styles.tourCard} onPress={() => navigation.navigate('ViewTour', {tour})}>
                 {/* <Image style={styles.tourImage} source={tour.src}></Image> */}
                 <View style={styles.tourTextSection}>
                     <View style={styles.tourDateSection}>
@@ -63,10 +48,10 @@ const Home = ({navigation}) => {
                         <Text style={{marginTop: 5}}>{tour.meetPoint}</Text>
                     </View>
                     <View style={styles.forwardIcon}>
-                        <Ionicons name="chevron-forward-outline" size={20} color={'gray'} />
+                        <Ionicons name='chevron-forward-outline' size={20} color={grayDark} />
                     </View>
                 </View>
-                {/* <View style={styles.divider}></View> */}
+                <View style={styles.divider}></View>
               </TouchableOpacity>
             )
           })}
@@ -75,6 +60,37 @@ const Home = ({navigation}) => {
     </SafeAreaView>
   );
 };
+
+const renderActiveTour = (navigation, currentTour) => {
+  return (
+    <TouchableOpacity style={styles.currentTourCard} onPress={() => navigation.navigate('ViewTour', {tour: currentTour})}>
+            <View style={{padding: 30}}>
+              <Text style={[styles.sectionInfoSubtitleText, {paddingBottom: 0}]}>Current Tour</Text>
+                <Text style={styles.sectionTitleText}>{currentTour.name}</Text>
+                <View style={{flexDirection: 'row', flexWrap: 'wrap', paddingLeft: 0}}>
+                    {renderTextQuadrant('Date', capitalizeFirstLetter(currentTour.tourMonth) + ' ' + currentTour.tourDay)}
+                    {renderTextQuadrant('Time', currentTour.startTime)}
+                    {renderTextQuadrant('Visitors', currentTour.visitors)}
+                    {renderTextQuadrant('Meetup Point', currentTour.meetPoint)}
+                </View>
+            </View>
+    </TouchableOpacity>
+  );
+};
+
+const renderTextQuadrant = (name, info) => {
+  return (
+      <View style={styles.textQuadrant}>
+          <Text style={styles.sectionInfoSubtitleText}>{name}</Text>
+          <Text style={styles.sectionInfoText}>{info}</Text>
+      </View>
+  );
+};
+
+function capitalizeFirstLetter(string) {
+  string = string.toLowerCase();
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
 
 const styles = StyleSheet.create({
   tourDateSection: {
@@ -90,7 +106,7 @@ const styles = StyleSheet.create({
   tourDateText: {
     fontWeight: '700',
     fontSize: 18,
-    color: '#3154A5',
+    color: primary,
     alignSelf: 'center',
   },
   tourNameText: {
@@ -99,21 +115,20 @@ const styles = StyleSheet.create({
   },
   currentTourCard: {
     width: '85%',
-    height: 300,
     borderRadius: 10,
-    backgroundColor: 'white',
-    shadowColor: "#000000",
+    backgroundColor: white,
+    shadowColor: black,
     shadowOffset: {width: 1, height: 1},
-    shadowOpacity: 0.2,
+    shadowOpacity: 0.3,
     shadowRadius: 5,
     marginHorizontal: 20,
     alignSelf: 'center',
-    marginVertical: 10
+    marginVertical: 20,
   },
   tourCard: {
     width: '100%',
-    height: 100,
-    backgroundColor: 'white',
+    // height: 100,
+    backgroundColor: white,
     justifyContent: 'flex-end',
   },
   currentTourImage: {
@@ -131,11 +146,12 @@ const styles = StyleSheet.create({
 //     bottom: '15%',
 //   },
   tourTextSection: {
-    position: 'absolute',
-    top: '15%',
+    // position: 'absolute',
+    // top: '15%',
     left: 10,
     right: 5,
     flexDirection: 'row',
+    marginVertical: 10,
   },
   forwardIcon: {
     alignSelf: 'center',
@@ -143,10 +159,31 @@ const styles = StyleSheet.create({
     right: 30,
   },
   divider: {
-    borderBottomColor: '#9B9BA7',
+    borderBottomColor: grayVeryLight,
     borderBottomWidth: 1,
     width: '100%',
     },
+  sectionTitleText: {
+    fontWeight: '700',
+    fontSize: 18,
+    paddingBottom: 5,
+    color: primary,
+  },
+  sectionInfoSubtitleText: {
+    fontWeight: '400',
+    fontSize: 14,
+    color: grayDark,
+    paddingVertical: 5,
+  },
+  sectionInfoText: {
+      fontWeight: '700',
+      fontSize: 16,
+      paddingBottom: 15,
+  },
+  textQuadrant: {
+      position: 'relative',
+      width: '50%',
+  },
 });
 
 export default Home;

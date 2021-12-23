@@ -1,8 +1,8 @@
-import React, { useContext, useEffect, useState} from 'react'
-import { View, SafeAreaView, Text, Button, TextInput, StyleSheet, Image} from 'react-native'
-import { TouchableOpacity} from 'react-native-gesture-handler'
-import { UserContext } from '../../contexts'
-import {black, white, grayMed, grayDark, grayLight, primary} from '../../config/colors.js'
+import React, { useContext, useEffect, useState } from 'react'
+import { View, SafeAreaView, Text, Button, TextInput, StyleSheet, Image } from 'react-native'
+import { TouchableOpacity } from 'react-native-gesture-handler'
+import { UserContext } from 'contexts'
+import { black, white, grayMed, grayDark, primary } from '../../config/colors.js'
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 export default  ({navigation}) => {

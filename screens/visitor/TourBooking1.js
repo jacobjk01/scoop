@@ -12,8 +12,12 @@ import {
   TouchableWithoutFeedback,
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import {black, grayDark, grayLight, grayMed, white, primary} from '../../config/colors';
-import {Calendar} from 'react-native-calendars';
+import LinearGradient from 'react-native-linear-gradient';
+import { primary, white, grayLight, black, blueMed, grayVeryLight, grayMed, grayDark } from 'config/colors';
+import {color} from 'react-native-reanimated';
+import GuideProfile from './GuideProfile';
+import { Colors } from 'react-native/Libraries/NewAppScreen';
+import { Calendar } from 'react-native-calendars';
 import moment from 'moment';
 import DatePicker from 'react-native-date-picker';
 import { viewTourSettings, convertToGuides } from '../../api/tours';
@@ -854,8 +858,8 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     minHeight: 160,
     //ios only
-    shadowOffset: {width: 10, height: 20},
-    shadowColor: 'black',
+    shadowOffset:{  width: 10,  height: 20,  },
+    shadowColor: black,
     shadowOpacity: 1.0,
     //android only
     elevation: 10,
@@ -879,7 +883,7 @@ const styles = StyleSheet.create({
   backIcon: {
     backgroundColor: white,
     borderRadius: 10,
-    borderColor: 'white',
+    borderColor: white,
     borderWidth: 1,
     position: 'absolute',
     left: 20,
@@ -892,7 +896,7 @@ const styles = StyleSheet.create({
   calenderLine: {
     width: '90%',
     height: 0.75,
-    backgroundColor: '#D9D9D9',
+    backgroundColor: grayMed,
     position: 'absolute',
     top: 95,
     alignSelf: 'center',

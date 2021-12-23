@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import {
   View,
   Text,
@@ -11,11 +11,11 @@ import {
   FlatList,
   TextInput,
 } from 'react-native';
-import {black, white, primary, grayLight, grayDark} from '../../config/colors';
+import { black, white, primary, grayLight, grayDark } from '../../config/colors';
 
-import MapView, {PROVIDER_GOOGLE} from 'react-native-maps';
-import {Marker} from 'react-native-maps';
-import {Calendar} from 'react-native-calendars';
+import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
+import { Marker } from 'react-native-maps';
+import { Calendar } from 'react-native-calendars';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import moment from 'moment';
 import toursData from '../../data/toursData';

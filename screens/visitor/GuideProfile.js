@@ -20,6 +20,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import LinearGradient from 'react-native-linear-gradient';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
+import { primary, grayDark, white, black, tappableBlue } from 'config/colors';
 import toursData from '../../data/toursData';
 
 const GuideProfile = ({navigation, route}) => {
@@ -48,7 +49,7 @@ const GuideProfile = ({navigation, route}) => {
           imageStyle={{borderRadius: 10}}
           source={item.src}>
           <LinearGradient
-            colors={['transparent', 'black']}
+            colors={['transparent', black]}
             style={styles.linearGradTour}
           />
         </ImageBackground>
@@ -153,7 +154,7 @@ const renderTourImage = ({item}) => {
         imageStyle={{borderRadius: 10}}
         source={item.src}>
         <LinearGradient
-          colors={['transparent', 'black']}
+          colors={['transparent', black]}
           style={styles.linearGradTour}
         />
       </ImageBackground>
@@ -196,14 +197,14 @@ const styles = StyleSheet.create({
     position: 'relative',
     marginTop: 50,
 
-    borderBottomColor: '#9B9BA7',
+    borderBottomColor: grayDark,
     borderBottomWidth: 1,
   },
   divider2: {
     position: 'relative',
     marginTop: 20,
 
-    borderBottomColor: '#9B9BA7',
+    borderBottomColor: grayDark,
     borderBottomWidth: 1,
   },
   backgroundRectangle: {
@@ -211,7 +212,7 @@ const styles = StyleSheet.create({
     left: '0%',
     right: '0%',
     top: '10.8%',
-    backgroundColor: '#FFFFFF',
+    backgroundColor: white,
     // box-shadow: 0px -2px 10px rgba(151, 151, 151, 0.3);
     // borderRadius: '20px',
   },
@@ -223,7 +224,7 @@ const styles = StyleSheet.create({
     fontWeight: 'normal',
     fontSize: 14,
     lineHeight: 16,
-    color: '#FFFFFF',
+    color: white,
   },
   roundButton1: {
     justifyContent: 'center',
@@ -232,7 +233,7 @@ const styles = StyleSheet.create({
 
     width: 77,
     height: 28,
-    backgroundColor: '#3154A5',
+    backgroundColor: primary,
     borderRadius: 10,
 
     position: 'absolute',
@@ -246,7 +247,7 @@ const styles = StyleSheet.create({
 
     width: 77,
     height: 28,
-    backgroundColor: '#3154A5',
+    backgroundColor: primary,
     borderRadius: 10,
 
     position: 'absolute',
@@ -257,7 +258,7 @@ const styles = StyleSheet.create({
     width: 100,
     height: 100,
     borderRadius: 100,
-    backgroundColor: '#00BCD4',
+    backgroundColor: grayDark,
   },
   baseText: {
     fontFamily: 'Helvetica',
@@ -275,11 +276,9 @@ const styles = StyleSheet.create({
   },
   input: {
     alignSelf: 'center',
-    backgroundColor: 'white',
+    backgroundColor: white,
     height: 50,
     width: '100%',
-    // borderWidth: 1,
-    // borderColor: '#656565',
     borderRadius: 7,
     paddingLeft: 20,
   },
@@ -290,21 +289,21 @@ const styles = StyleSheet.create({
   },
   recommendationbuttonleft: {
     flex: 1,
-    backgroundColor: '#3154A5',
+    backgroundColor: primary,
     borderRadius: 7,
     height: 100,
     marginRight: 15,
   },
   recommendationbuttonright: {
     flex: 1,
-    backgroundColor: '#3154A5',
+    backgroundColor: primary,
     borderRadius: 7,
     height: 100,
   },
   recommendationTitle: {
     marginTop: 15,
     marginLeft: 15,
-    color: 'white',
+    color: white,
     fontWeight: '600',
     fontSize: 16,
   },
@@ -330,7 +329,7 @@ const styles = StyleSheet.create({
     width: 200,
     fontWeight: '600',
     fontSize: 18,
-    color: 'white',
+    color: white,
     position: 'absolute',
     bottom: 50,
     left: 20,
@@ -340,7 +339,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 10,
     left: 10,
-    color: 'white',
+    color: white,
   },
   linearGradTour: {
     position: 'absolute',

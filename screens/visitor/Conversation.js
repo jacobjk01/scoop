@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {Text, View, StyleSheet, TextInput, TouchableOpacity} from 'react-native'
 import InvertibleScrollView from 'react-native-invertible-scroll-view';
-import colors from '../../config/colors';
+import { primary, white, black, grayMed, grayLightBlue } from 'config/colors';
 import Ionicons from 'react-native-vector-icons/Ionicons'
 
 function Conversation(props) {
@@ -53,7 +53,7 @@ function Conversation(props) {
                         setText('')
                     }
                 }}>
-                    <Ionicons name='send' size={25} color={colors.primary} style={styles.send}/>
+                    <Ionicons name='send' size={25} color={primary} style={styles.send}/>
                 </TouchableOpacity>
             </View>
         </View>
@@ -96,16 +96,16 @@ const styles = StyleSheet.create({
         lineHeight: 20
     },
     hero: {
-        backgroundColor: colors.primary,
+        backgroundColor: primary,
         alignSelf: 'flex-end'
     },
     heroText: {
-        color: colors.white
+        color: white
     },
     enemy: {
-        backgroundColor: colors.white,
+        backgroundColor: white,
         alignSelf: 'flex-start',
-        shadowColor: colors.grayMed,
+        shadowColor: grayMed,
         shadowOpacity: 0.2,
         shadowOffset: {
             width: 0,
@@ -115,10 +115,10 @@ const styles = StyleSheet.create({
         
     },
     enemyText: {
-        color: colors.black
+        color: black
     },
     inputContainer: {
-        backgroundColor: colors.white,
+        backgroundColor: white,
         height: 100,
         alignItems: 'center',
         flexDirection: 'row',
@@ -133,8 +133,8 @@ const styles = StyleSheet.create({
         paddingBottom: 10,
         marginRight: 10,
         borderRadius: 25,
-        borderColor: colors.white,
-        backgroundColor: colors.grayLightBlue
+        borderColor: white,
+        backgroundColor: grayLightBlue
     },
     send: {
     }
