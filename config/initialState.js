@@ -7,6 +7,14 @@ const firstTimeLoggingInState = {
     currentMode: 'new'
 }
 
+const devState = {
+    userType: 'dev', 
+    guideDone: false,
+    visitorDone: false,
+    visitorBone: false,
+    currentMode: 'dev'
+}
+
 /**
  * ^^^^ Don't modify above ^^^^ but you can create your own test states
  */
@@ -31,7 +39,7 @@ const testingState = {
 //if you are familar with localstorage for web, this is the same concept
 // eventually this would be moved to reactnative localstorage (look at readme.md)
 export const localState = {
-    ...testingState
+    ...firstTimeLoggingInState
 }
 
 

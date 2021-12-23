@@ -4,131 +4,285 @@ import {
   View,
   Text,
   SafeAreaView,
-  ScrollView,
   StyleSheet,
-  TextInput,
   TouchableOpacity,
+  TouchableWithoutFeedback,
   FlatList,
   Image,
-  ImageBackground,
+  Modal
 } from 'react-native';
-import { primary, white } from 'config/colors';
+import { primary, white, black, grayDark, grayMed } from 'config/colors';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import toursData from '../../data/toursData';
 
-const BookingCheckout = ({navigation, route}) => {
-  const {item} = route.params;
 
+const Checkout = ({navigation, route}) => {
+
+  const generalTour = route.params[0]
+  const tour = generalTour.tours[route.params[1]]
+  const guideInfo = toursData.guides[tour.guide]
+  const [payOption, setPayOption] = useState();
+  const [isModalVisible, setModalVisible] = useState(false);
+  const showDot = (option) => {
+    if (payOption == option) {
+      return (
+        <View
+          style={{height: 13, width: 13, backgroundColor: primary, borderRadius: 10, marginLeft: 'auto', marginRight: 'auto', marginTop: 'auto', marginBottom: 'auto'}}
+        ></View>
+      )
+    }
+  }
   return (
-    <SafeAreaView>
-      {/* {console.log(item)} */}
-      <Text>TODO: LET IT TAKE THE ITEM, if possible</Text>
-      <View style={styles.topContainer}>
-        <Image style={styles.image} source={item.src}></Image>
-        <Text style={styles.tourNameText}>{item.name}</Text>
-        <Text style={styles.regularText1}>Tour Guide: Brittany</Text>
-        <Text style={styles.regularText2}>Duration: 60 min</Text>
-        <Text style={styles.regularText3}>Transportation: Walking</Text>
+    <SafeAreaView style={{backgroundColor: '#E5E5E5', fontFamily: 'Helvetica'}}>
+      <FlatList style={{height: '100%'}}
+        ListHeaderComponent={
+          <View>
+            {/*Top Container___________________________________________________________ */}
+            <View style={styles.topContainer}>
+              <View style={{display: 'flex', flexDirection: 'row', marginLeft: '5%', marginTop: '10%'}}>
+                <Image
+                  style={{width: 180, height: 115, resizeMode: 'cover', borderRadius: 10}}
+                  source={generalTour.src}
+                />
+                <View style={{marginTop: 'auto', marginBottom: 'auto', marginLeft: 10}}>
+                  <Text style={{fontFamily: 'Helvetica-Bold', color: black, fontSize: 18}}>{generalTour.name}</Text>
+                  <Text style={{fontSize: 15, color: grayMed}}>{guideInfo.name}</Text>
+                </View>
+              </View>
+              <View style={{display: 'flex', flexDirection: 'row', marginTop: 30, marginLeft: '10%'}}>
+                <View style={{width: '50%'}}>
+                  <Text style={styles.infoTitle}>Date</Text>
+                  <Text style={styles.info}>July 14</Text>
+                </View>
+                <View style={{width: '50%'}}>
+                  <Text style={styles.infoTitle}>Time</Text>
+                  <Text style={styles.info}>10:00 AM</Text>
+                </View>
+              </View>
+              <View style={{display: 'flex', flexDirection: 'row', marginTop: 20, marginLeft: '10%', marginBottom: 30}}>
+                <View style={{width: '50%'}}>
+                  <Text style={styles.infoTitle}>Visitors</Text>
+                  <Text style={styles.info}>2</Text>
+                </View>
+                <View style={{width: '50%'}}>
+                  <Text style={styles.infoTitle}>Meetup Point</Text>
+                  <Text style={styles.info}>{tour.meetPoint}</Text>
+                </View>
+              </View>
+              <View style={styles.divider}>
+
+              </View>
+              <View style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginLeft: 'auto', marginRight: 'auto', width: '80%', marginTop: 33, marginBottom: 33}}>
+                <Text style={styles.info}>Total</Text>
+                <Text style={styles.info}>${tour.cost}</Text>
+              </View>
+            </View>
+
+            {/*Bottom area*/}
+            <View style={styles.bottomContainer}>
+              <Text style={{fontSize: 18, fontFamily: 'Helvetica-Bold', color: black, marginTop: 40, marginLeft: 30, marginRight: 'auto'}}>
+                Select Payment Method
+              </Text>
+              <TouchableOpacity 
+                style={{display: 'flex', flexDirection: 'row', marginLeft: 40, marginTop: 17, marginBottom: 5}}
+                onPress={() => setPayOption(false)}
+              >
+                <View style={{width: 22, height: 22, borderRadius: 25, borderWidth: 1, borderColor: grayDark}}>
+                  {showDot(false)}
+                </View>
+                <Text style={{fontSize: 15, color: black, marginLeft: 10}}>Venmo</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={{display: 'flex', flexDirection: 'row', marginLeft: 40, marginTop: 15, marginBottom: 43}}
+                onPress={() => setPayOption(true)}
+              >
+                <View style={{width: 22, height: 22, borderRadius: 25, borderWidth: 1, borderColor: grayDark}}>
+                  {showDot(true)}
+                </View>
+                <Text style={{fontSize: 15, color: black, marginLeft: 10}}>Cash</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        }/>
+      {/* Confirmation_________________________________ */}
+      <View style={styles.confirmContainer}>
+        <TouchableOpacity
+          style={payOption==null?styles.disabledConfirmButton:styles.confirmButton}
+          onPress={() => {if (payOption != null){setModalVisible(true)}}}  
+          disabled={payOption == null}
+        >
+          <Text style={payOption==null?styles.disabledConfirmText:styles.confirmText}>Confirm</Text>
+        </TouchableOpacity>
       </View>
-      <View style={styles.bottomContainer}></View>
+      {/*Modal____________________________________________________________________*/}
+      <Modal
+        visible={isModalVisible}
+        transparent={true}
+      >
+        <View style={{backgroundColor: 'rgba(0,0,0,0.5)', width: '100%', height: '100%'}}>
+          <View style={{backgroundColor: white, width: '90%', marginTop: 'auto', marginBottom: 'auto', marginRight: 'auto', marginLeft: 'auto', borderRadius: 15}}>
+            <Ionicons
+              name={"checkmark-circle-outline"}
+              color={primary}
+              size={40}
+              style={{marginLeft: 'auto', marginRight:'auto', marginTop: 13}}
+            >
+            </Ionicons>
+            <Text style={{color: primary, fontSize: 16, fontFamily: 'Helvetica-Bold', marginLeft: 'auto', marginRight: 'auto', marginBottom: 5}}>
+              Confirmed!
+            </Text>
+            <View style={[styles.divider, {borderBottomWidth: 1.5, borderColor: grayMed}]}></View>
+            <Text style={{fontSize: 15, width: 250, marginLeft: 'auto', marginRight: 'auto', textAlign: 'center', marginTop: 20, marginBottom: 10}}>
+              <Text style={{}}>
+                Your tour on 
+              </Text>
+              <Text style={{fontFamily: 'Helvetica-Bold'}}> July 14, 10:00 AM </Text>
+              <Text>
+                has been confirmed!
+              </Text>
+            </Text>
 
-      <View style={styles.confirmContainter}></View>
-
-      <TouchableOpacity
-        style={styles.confirmButton}
-        onPress={() => navigation.popToTop('HomeVisitor')}>
-        <Text style={styles.confirmationText}>Confirm</Text>
+            <TouchableOpacity
+              onPress={() => navigation.popToTop()}
+              style={{backgroundColor: primary, paddingVertical: 10, paddingHorizontal: 20, borderRadius: 13, marginLeft: 'auto', marginRight: 'auto', marginBottom: 20}}
+            >
+              <Text style={{fontSize: 15, color: white, marginLeft: 'auto', marginRight: 'auto', fontFamily: 'Helvetica-Bold'}}>
+                OK
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
+      {/*Header______________________________________________________________________________ */}
+      <View style={{backgroundColor: primary, height: 80, width: '100%', position: 'absolute'}}>
+        <Text style={[styles.titleText, {marginTop: 20}]}>Checkout</Text>
+      </View>
+      <TouchableOpacity style={styles.backIcon} onPress={() => navigation.goBack()}>
+        <Ionicons name='chevron-back-outline' size={20} color={primary} />
       </TouchableOpacity>
     </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
+  infoBox: {
+
+  },
+  infoTitle: {
+    fontSize: 16,
+    color: grayMed
+  },
+  info: {
+    fontSize: 18,
+    fontFamily: 'Helvetica-Bold'
+  },
+  backIcon: {
+    backgroundColor: white,
+    borderRadius: 10,
+    borderColor: 'white',
+    borderWidth: 1,
+    position: 'absolute',
+    left: 20,
+    top: 22,
+    width: 40,
+    height: 40,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  titleText: {
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    fontSize: 27,
+    color: white,
+    fontFamily: 'Helvetica-Bold'
+  },
+  divider: {
+    width: '80%',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    borderBottomColor: grayMed,
+    borderBottomWidth: 1,
+  },
   image: {
     position: 'absolute',
     resizeMode: 'contain',
-    top: 30,
+    top: 20,
     left: 0,
     height: 120,
     width: 200,
   },
   topContainer: {
-    position: 'absolute',
-    width: 355,
-    height: 300,
-    left: 17,
-    top: 10,
+    width: 390,
+    marginTop: 90,
+    marginLeft: 'auto',
+    marginRight: 'auto',
     borderRadius: 20,
     backgroundColor: white,
+    //android only
+    elevation: 10
   },
   bottomContainer: {
-    position: 'absolute',
-    width: 355,
-    height: 178,
-    left: 17,
-    top: 330,
+
+    width: 390,
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    marginTop: 10,
+    marginBottom: 115,
     borderRadius: 20,
     backgroundColor: white,
+    //android only
+    elevation: 10,
   },
-  confirmContainter: {
+  confirmContainer: {
     position: 'absolute',
-    width: 500,
-    height: 178,
-    top: 528,
+    bottom: 0,
+    width: '100%',
+    height: 105,
     backgroundColor: white,
+    
   },
   confirmButton: {
-    position: 'absolute',
-    width: 331,
-    height: 60,
-    left: 22,
-    top: 575,
+    height: '60%',
+    width: '90%',
     backgroundColor: primary,
-    borderRadius: 20,
+    borderRadius: 17,
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    marginBottom: 'auto',
+    marginTop: 'auto',
+
+    // Android only
+    elevation: 10,
   },
-  confirmationText: {
-    fontFamily: 'Helvetica',
-    fontStyle: 'normal',
-    fontWeight: 'bold',
-    fontSize: 18,
-    left: 130,
-    top: 20,
+  disabledConfirmButton: {
+    height: '60%',
+    width: '90%',
+    backgroundColor: white,
+    borderRadius: 17,
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    marginBottom: 'auto',
+    marginTop: 'auto',
+    borderWidth: 1,
+    borderColor: grayMed,
+
+  },
+  confirmText: {
     color: white,
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    marginTop: 'auto',
+    marginBottom: 'auto', fontSize: 19,
+    fontFamily: 'Helvetica-Bold'
   },
-  tourNameText: {
-    position: 'absolute',
-    fontFamily: 'Helvetica',
-    fontStyle: 'normal',
-    fontWeight: 'bold',
-    fontSize: 16,
-    left: 190,
-    top: 40,
-  },
-  regularText1: {
-    position: 'absolute',
-    fontFamily: 'Arial',
-    fontStyle: 'normal',
-    fontWeight: 'normal',
-    fontSize: 10,
-    left: 190,
-    top: 70,
-  },
-  regularText2: {
-    position: 'absolute',
-    fontFamily: 'Arial',
-    fontStyle: 'normal',
-    fontWeight: 'normal',
-    fontSize: 10,
-    left: 190,
-    top: 85,
-  },
-  regularText3: {
-    position: 'absolute',
-    fontFamily: 'Arial',
-    fontStyle: 'normal',
-    fontWeight: 'normal',
-    fontSize: 10,
-    left: 190,
-    top: 100,
-  },
+  disabledConfirmText: {
+    color: grayMed,
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    marginTop: 'auto',
+    marginBottom: 'auto', fontSize: 19,
+    fontFamily: 'Helvetica-Bold'
+  }
 });
 
-export default BookingCheckout;
+export default Checkout;

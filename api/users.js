@@ -55,7 +55,7 @@ export const getUserData = async (userAuth) => {
  */
 export const getPicture = async (uid, type) => {
     try {
-        return await storage().ref(uid + '/' + type).getDownloadURL();
+        return await storage().ref('/' + uid + '/' + type).getDownloadURL();
     } catch (e) {
         console.log(e);
     }

@@ -1,12 +1,9 @@
-import React, {Component, useState} from 'react';
+import React, {Component, useState, useEffect} from 'react';
 import {
   View,
   Text,
-  SafeAreaView,
   ScrollView,
-  Button,
   StyleSheet,
-  TextInput,
   TouchableOpacity,
   FlatList,
   Image,
@@ -22,24 +19,28 @@ import LinearGradient from 'react-native-linear-gradient';
 import StickyParallaxHeader from 'react-native-sticky-parallax-header';
 import { Calendar } from 'react-native-calendars';
 import { primary, black, white, grayDark, blueDark, grayShadow, red } from 'config/colors';
+import renderReviews from '../../components/Reviews';
 
 const {event, ValueXY} = Animated;
+
 class TourInfo extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
+      navigation: props.navigation,
+      route: props.route,
+      tour: props.route.params.itemInfo,
+
       reviews: [
         {
           stars: 4.8,
-          tourName: 'Westwood Tour', 
           year: 'Incoming Freshman',
           comment:
             'Brittany was really helpful!! She showed me where the students get groceries from and hangout in Westwood. She also shared a lot of interesting stories as we visit each places, highly recommend incoming freshman who want to familiarize themselves with the area sign up!! ',
         },
         {
           stars: 4.3,
-          tourName: 'Westwood Tour',
           year: 'Incoming Junior',
           comment:
             'Being a sophomore, I kinda know what Westwood is like already; however, Brittany was able to show me interesting places I’ve never discovered!',
@@ -48,9 +49,12 @@ class TourInfo extends Component {
     };
     this.scrollY = new ValueXY();
   }
-
+  
   componentDidMount() {
     this.scrollY.addListener(({value}) => (this._value = value));
+  }
+  componentWillUnmount() {
+    this.scrollY.removeAllListeners();
   }
 
   renderForeground() {
@@ -58,19 +62,19 @@ class TourInfo extends Component {
       <View style={{backgroundColor: red, flex: 1, borderRadius: 10}}>
         <ImageBackground
           style={styles.imageHeader}
-          source={require('images/Westwood_village.png')}>
+          source={{uri: this.state.tour.picture}}>
           <LinearGradient
             colors={['transparent', black]}
             style={styles.linearGradTour}
           />
           <View style={styles.imageOverlay}>
-            <Text style={styles.titleText}>Westwood Tour</Text>
+            <Text style={styles.titleText}>{this.state.tour.title}</Text>
             <Text style={styles.detailText}>
               60 min | Max 6 people | person
             </Text>
             <Text style={styles.subText}> $8 per person</Text>
           </View>
-          
+
           <Text
             style={[
               styles.summaryText,
@@ -82,15 +86,13 @@ class TourInfo extends Component {
                 paddingRight: 20,
               },
             ]}>
-            Get to know the neighborhood: where to grocery shop, where the best
-            hangout places are, and where to grab a bite with your fellow hungry
-            bruins.
+            {this.state.tour.description}
           </Text>
         </ImageBackground>
         <Text>TODO: Make Tour Info Page a functional component</Text>
         <Text>
-            TODO: Make Tour Info Page accept data instead of
-            it being hard coded so that multiple tours work
+          TODO: Make Tour Info Page accept data instead of it being hard coded
+          so that multiple tours work
         </Text>
       </View>
     );
@@ -225,18 +227,13 @@ class TourInfo extends Component {
                     </TouchableOpacity>
                 </Animated.View> */}
         <Text style={[styles.sectionText, {marginTop: 40}]}>Reviews</Text>
-        <FlatList
-          style={{paddingBottom: 10}}
-          horizontal={true}
-          data={this.state.reviews}
-          renderItem={this.renderCards}
-        />
+        {/* {renderReviews(this.state.reviews)} */}
       </View>
     );
   }
 
+
   renderCards = item => {
-    console.log(item.item);
     return (
       <View style={styles.reviewCard}>
         {this.renderStars(item.item.stars)}
@@ -247,7 +244,7 @@ class TourInfo extends Component {
             color: grayDark,
             fontStyle: 'italic',
           }}>
-          {item.item.tourName} - {item.item.year}
+          {item.name} - {item.item.year}
         </Text>
         <Text style={{marginTop: 5}}>{item.item.comment}</Text>
       </View>
@@ -255,7 +252,7 @@ class TourInfo extends Component {
   };
 
   render() {
-    const navigation = this.props.navigation;
+    
     return (
       <View>
         <StatusBar barStyle='dark-content' />
@@ -269,9 +266,19 @@ class TourInfo extends Component {
           </TouchableOpacity>
         </ScrollView>
         <TouchableOpacity
+          style={styles.backIcon}
+          onPress={() => this.state.navigation.goBack()}>
+          <Ionicons name="chevron-back-outline" size={22} color={'white'} />
+        </TouchableOpacity>
+        <TouchableOpacity
           style={styles.continue}
-          onPress={() => this.props.navigation.navigate('TourBooking1')}>
-          <Text style={{alignSelf: 'center', color: white, fontWeight: '600'}}>
+          onPress={() => {
+
+            this.props.navigation.navigate('TourBooking1', this.state.tour)
+            }}
+          >
+          <Text
+            style={{alignSelf: 'center', color: 'white', fontWeight: '600'}}>
             Find A Tour Guide
           </Text>
         </TouchableOpacity>
@@ -337,7 +344,7 @@ const styles = StyleSheet.create({
   },
   backCard: {
     flex: 1,
-    backgroundColor: white,
+    backgroundColor: 'white',
     marginTop: 10,
     borderRadius: 20,
     marginLeft: 20,
@@ -372,7 +379,7 @@ const styles = StyleSheet.create({
     shadowRadius: 5,
   },
   whiteButton: {
-    backgroundColor: white,
+    backgroundColor: 'white',
     borderRadius: 10,
     color: blueDark,
     alignItems: 'center',
@@ -385,13 +392,13 @@ const styles = StyleSheet.create({
   backIcon: {
     backgroundColor: primary,
     borderRadius: 10,
-    borderColor: white,
+    borderColor: 'white',
     borderWidth: 1,
     position: 'absolute',
     left: 20,
     top: 40,
-    width: 40,
-    height: 40,
+    width: 45,
+    height: 45,
     alignItems: 'center',
     justifyContent: 'center',
   },

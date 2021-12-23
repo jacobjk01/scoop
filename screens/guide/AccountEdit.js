@@ -243,7 +243,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginBottom: 30,
     paddingBottom: 50,
-    paddingTop: 10
+    paddingTop: 10,
   },
   guideImage: {
     width: 100,

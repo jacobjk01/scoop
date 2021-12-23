@@ -28,6 +28,7 @@
     "react-native": "0.64.2",
     "react-native-calendars": "^1.1264.0",
     "react-native-image-picker": "4.1.2",
+    "react-native-date-picker": "^4.1.0",
     "react-native-invertible-scroll-view": "^2.0.0",
     "react-native-linear-gradient": "^2.5.6",
     "react-native-maps": "^0.27.1",
@@ -42,7 +43,6 @@
     "react-native-vector-icons": "^8.1.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.12.9",
     "@babel/runtime": "^7.12.5",
     "@react-native-community/eslint-config": "^2.0.0",
     "@testing-library/jest-native": "^4.0.2",
@@ -55,6 +55,13 @@
     "react-test-renderer": "^17.0.1"
   },
   "jest": {
-    "preset": "react-native"
+    "preset": "react-native",
+    "setupFiles": [
+      "./node_modules/react-native-gesture-handler/jestSetup.js",
+      "./jestSetup.js"
+    ],
+    "transformIgnorePatterns": [
+      "node_modules/(?!react-native|react-navigation)/"
+    ]
   }
 }

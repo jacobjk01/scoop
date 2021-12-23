@@ -87,7 +87,7 @@ const renderGuideImage = (profilePicture) => {
       style={{
         top: 120,
         alignItems: 'center',
-        zIndex: 1
+        zIndex: 1,
       }}>
       <Image style={styles.guideImage} source={{
           uri: profilePicture
@@ -138,7 +138,7 @@ const styles = StyleSheet.create({
   },
   titleText: {
     fontSize: 20,
-    fontWeight: '700'
+    fontWeight: '700',
   },
   sectionText: {
     fontSize: 24,
