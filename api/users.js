@@ -4,6 +4,7 @@ import { update, get } from './utilities';
 const Users = db().collection('users');
 
 /**
+ * This for new users
  * Gets the user. If no document exists for the user, it is the user's first time and creates a new document
  * Signers may not have a user in the users collection
  * In this case, getUser will create a basic document for the user
@@ -24,6 +25,10 @@ export const getUser = async (userAuth) => {
     // TODO update profile pic (right now only sets image once profile made, won't work when image updated after)
     // console.log(userAuth.photoURL) // <- this is the photo URL
     return user;
+}
+
+export const getUserById = async (userId) => {
+    return await Users.doc(userId).get()
 }
 
 export const createPrivateData = async (uid) => {
