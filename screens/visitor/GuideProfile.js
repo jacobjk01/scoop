@@ -195,12 +195,6 @@ const GuideProfile = ({navigation, route}) => {
               </Text>
             </View>
           </View>
-
-          {/* <SeeMore numberOfLines={5} style={styles.baseText}>
-            {
-              'Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description '
-            }
-          </SeeMore> */}
           <View style={styles.divider} />
           <Text
             style={{

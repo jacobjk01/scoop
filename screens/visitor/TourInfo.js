@@ -21,7 +21,7 @@ import {Calendar} from 'react-native-calendars';
 import renderReviews from '../../components/Reviews';
 import {tours} from '../../data/toursData';
 const {event, ValueXY} = Animated;
-const TourInfo = name => {
+const TourInfo = ({navigation, name}) => {
   const [tour, setTour] = useState(tours[0]);
   const [tourName, setName] = useState(name);
   const [reviews, setReviews] = useState([
