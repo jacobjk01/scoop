@@ -21,36 +21,60 @@ import {renderStars} from '../../components/Stars';
 
 const TourList = ({navigation, route}) => {
   const [guideimages, setGuideImages] = useState(toursData.guides);
-  console.log(route.params);
+  const [tours, setTours] = useState(toursData.tours);
+  const {item} = route.params;
 
   return (
     <SafeAreaView>
       <ScrollView style={{paddingRight: 20, paddingLeft: 20, height: '100%'}}>
         <Text style={styles.titleText}>Tour List</Text>
-        <View>
-          <FlatList
-            style={{marginTop: 10, marginBottom: 10}}
-            horizontal={true}
-            data={guideimages}
-            renderItem={({item}) => (
+        <FlatList
+          style={{marginBottom: 10}}
+          horizontal={false}
+          data={tours}
+          renderItem={touritem => (
+            <View>
+              {console.log(touritem.item.name)}
+              <FlatList
+                style={{marginTop: 30, marginBottom: 15}}
+                horizontal={true}
+                data={guideimages}
+                renderItem={({item}) => (
+                  <TouchableOpacity
+                    key={item.id}
+                    onPress={() => {
+                      const itemInfo = {
+                        title: touritem.item.name,
+                        picture: '',
+                        id: touritem.item.id,
+                        description: touritem.item.introduction,
+                      };
+                      navigation.navigate('TourInfo', {itemInfo});
+                    }}>
+                    <ImageBackground
+                      style={styles.listGuideImage}
+                      imageStyle={{borderRadius: 10}}
+                      source={item.src}></ImageBackground>
+                  </TouchableOpacity>
+                )}
+              />
               <TouchableOpacity
-                key={item.id}
-                onPress={() => navigation.navigate('TourInfo', {item})}>
-                <ImageBackground
-                  style={styles.listGuideImage}
-                  imageStyle={{borderRadius: 10}}
-                  source={item.src}></ImageBackground>
+                onPress={() => {
+                  const itemInfo = {
+                    title: touritem.item.name,
+                    picture: '',
+                    id: touritem.item.id,
+                    description: touritem.item.introduction,
+                  };
+                  navigation.navigate('TourInfo', {itemInfo});
+                }}>
+                <Text style={styles.sectionText}>{touritem.item.name}</Text>
+                {renderStars(4.5)}
+                <Text style={{marginTop: 5}}>Duration: 60 min</Text>
+                <Text style={{marginTop: 5}}>Transportation: Walking</Text>
               </TouchableOpacity>
-            )}
-          />
-          <TouchableOpacity
-            onPress={() => navigation.navigate('TourInfo', {item})}>
-            <Text style={styles.sectionText}>Westwood Tour</Text>
-            {renderStars(4.5)}
-            <Text style={{marginTop: 5}}>Duration: 60 min</Text>
-            <Text style={{marginTop: 5}}>Transportation: Walking</Text>
-          </TouchableOpacity>
-        </View>
+            </View>
+          )}></FlatList>
       </ScrollView>
       <TouchableOpacity
         style={styles.backIcon}
@@ -69,7 +93,6 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: '700',
     marginTop: 50,
-    marginBottom: 30,
   },
   sectionText: {
     fontSize: 20,

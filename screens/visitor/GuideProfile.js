@@ -38,7 +38,15 @@ const GuideProfile = ({navigation, route}) => {
     console.log(item);
     return (
       <TouchableOpacity
-        onPress={() => navigation.navigate('TourInfo', {tour: item})}>
+        onPress={() => {
+          const itemInfo = {
+            title: item.name,
+            picture: '',
+            id: item.id,
+            description: item.introduction,
+          };
+          navigation.navigate('TourInfo', {itemInfo});
+        }}>
         <ImageBackground
           style={styles.listTourImage}
           imageStyle={{borderRadius: 10}}
@@ -77,7 +85,7 @@ const GuideProfile = ({navigation, route}) => {
             <Text style={styles.messageFont}>Message</Text>
           </TouchableOpacity>
           <TouchableOpacity
-            onPress={() => navigation.navigate('TourList')}
+            onPress={() => navigation.navigate('TourList', {item})}
             style={styles.roundButton2}>
             <Text style={styles.messageFont}>Book Tour</Text>
           </TouchableOpacity>

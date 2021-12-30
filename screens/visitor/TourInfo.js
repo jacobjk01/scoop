@@ -32,6 +32,7 @@ import renderReviews from '../../components/Reviews';
 const {event, ValueXY} = Animated;
 
 const TourInfo = ({navigation, route}) => {
+  const {title, picture, id, description} = route.params.itemInfo;
   const [tourInfo, setTourInfo] = useState(route.params.tour);
   const [reviews, setReviews] = useState([
     {
@@ -84,13 +85,13 @@ const TourInfo = ({navigation, route}) => {
   const renderForeground = () => {
     return (
       <View style={{backgroundColor: red, flex: 1, borderRadius: 10}}>
-        <ImageBackground style={styles.imageHeader} source={tourInfo.src}>
+        <ImageBackground style={styles.imageHeader} source={{uri: picture}}>
           <LinearGradient
             colors={['transparent', black]}
             style={styles.linearGradTour}
           />
           <View style={styles.imageOverlay}>
-            <Text style={styles.titleText}>{tourInfo.name}</Text>
+            <Text style={styles.titleText}>{title}</Text>
             <Text style={styles.detailText}>
               60 min | Max 6 people | person
             </Text>
@@ -108,7 +109,7 @@ const TourInfo = ({navigation, route}) => {
                 paddingRight: 20,
               },
             ]}>
-            {tourInfo.introduction}
+            {description}
           </Text>
         </ImageBackground>
         <Text>TODO: Make Tour Info Page a functional component</Text>
@@ -144,7 +145,6 @@ const TourInfo = ({navigation, route}) => {
 
   return (
     <View>
-      {console.log(tourInfo.introduction)}
       <StatusBar barStyle="dark-content" />
       <ScrollView>
         {renderForeground()}
