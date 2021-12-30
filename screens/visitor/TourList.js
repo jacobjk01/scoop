@@ -21,6 +21,7 @@ import {renderStars} from '../../components/Stars';
 
 const TourList = ({navigation, route}) => {
   const [guideimages, setGuideImages] = useState(toursData.guides);
+  console.log(route.params);
 
   return (
     <SafeAreaView>
@@ -42,7 +43,8 @@ const TourList = ({navigation, route}) => {
               </TouchableOpacity>
             )}
           />
-          <TouchableOpacity onPress={() => navigation.navigate('TourInfo')}>
+          <TouchableOpacity
+            onPress={() => navigation.navigate('TourInfo', {item})}>
             <Text style={styles.sectionText}>Westwood Tour</Text>
             {renderStars(4.5)}
             <Text style={{marginTop: 5}}>Duration: 60 min</Text>

@@ -26,7 +26,7 @@ import toursData from '../../data/toursData';
 import reviewData from '../../data/reviews';
 
 const GuideProfile = ({navigation, route}) => {
-  const [tours, setTours] = useState(toursData);
+  const [tours, setTours] = useState(toursData.tours);
   const [reviews, setReviews] = useState(reviewData);
   const [seeMore, setSeeMore] = useState(false);
   const {item} = route.params;
@@ -35,8 +35,10 @@ const GuideProfile = ({navigation, route}) => {
     if (item === null) {
       throw Error('checkout item cannot be null');
     }
+    console.log(item);
     return (
-      <TouchableOpacity onPress={() => navigation.navigate('TourInfo', {item})}>
+      <TouchableOpacity
+        onPress={() => navigation.navigate('TourInfo', {tour: item})}>
         <ImageBackground
           style={styles.listTourImage}
           imageStyle={{borderRadius: 10}}
@@ -129,8 +131,8 @@ const GuideProfile = ({navigation, route}) => {
           <FlatList
             style={{marginTop: 10, paddingLeft: 20}}
             horizontal={true}
-            data={tours.tours}
-            renderItem={({item}) => navigateCheckout({item})}
+            data={tours}
+            renderItem={item => navigateCheckout(item)}
           />
 
           <View style={styles.divider} />
