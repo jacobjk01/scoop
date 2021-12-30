@@ -11,12 +11,16 @@ import {
   Image,
   Modal
 } from 'react-native';
-import { primary, white, black, grayDark, grayLight, grayMed } from '../../config/colors';
+import { primary, white, black, grayDark, grayMed } from 'config/colors';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import toursData from '../../data/toursData';
 
 
-const Checkout = ({navigation}) => {
+const Checkout = ({navigation, route}) => {
 
+  const generalTour = route.params[0]
+  const tour = generalTour.tours[route.params[1]]
+  const guideInfo = toursData.guides[tour.guide]
   const [payOption, setPayOption] = useState();
   const [isModalVisible, setModalVisible] = useState(false);
   const showDot = (option) => {
@@ -38,11 +42,11 @@ const Checkout = ({navigation}) => {
               <View style={{display: 'flex', flexDirection: 'row', marginLeft: '5%', marginTop: '10%'}}>
                 <Image
                   style={{width: 180, height: 115, resizeMode: 'cover', borderRadius: 10}}
-                  source={require('../../images/Westwood_village.png')}
+                  source={generalTour.src}
                 />
                 <View style={{marginTop: 'auto', marginBottom: 'auto', marginLeft: 10}}>
-                  <Text style={{fontFamily: 'Helvetica-Bold', color: black, fontSize: 18}}>Westwood Tour</Text>
-                  <Text style={{fontSize: 15, color: grayMed}}>with Natalie</Text>
+                  <Text style={{fontFamily: 'Helvetica-Bold', color: black, fontSize: 18}}>{generalTour.name}</Text>
+                  <Text style={{fontSize: 15, color: grayMed}}>{guideInfo.name}</Text>
                 </View>
               </View>
               <View style={{display: 'flex', flexDirection: 'row', marginTop: 30, marginLeft: '10%'}}>
@@ -62,7 +66,7 @@ const Checkout = ({navigation}) => {
                 </View>
                 <View style={{width: '50%'}}>
                   <Text style={styles.infoTitle}>Meetup Point</Text>
-                  <Text style={styles.info}>Bruin Bear Statue</Text>
+                  <Text style={styles.info}>{tour.meetPoint}</Text>
                 </View>
               </View>
               <View style={styles.divider}>
@@ -70,7 +74,7 @@ const Checkout = ({navigation}) => {
               </View>
               <View style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginLeft: 'auto', marginRight: 'auto', width: '80%', marginTop: 33, marginBottom: 33}}>
                 <Text style={styles.info}>Total</Text>
-                <Text style={styles.info}>$16</Text>
+                <Text style={styles.info}>${tour.cost}</Text>
               </View>
             </View>
 
@@ -139,10 +143,10 @@ const Checkout = ({navigation}) => {
             </Text>
 
             <TouchableOpacity
-              onPress={() => navigation.navigate('HomePage')}
+              onPress={() => navigation.popToTop()}
               style={{backgroundColor: primary, paddingVertical: 10, paddingHorizontal: 20, borderRadius: 13, marginLeft: 'auto', marginRight: 'auto', marginBottom: 20}}
             >
-              <Text style={{fontSize: 15, color: white, marginLeft: 'auto', marginRight: 'auto', fontFamilt: 'Helvetica-Bold'}}>
+              <Text style={{fontSize: 15, color: white, marginLeft: 'auto', marginRight: 'auto', fontFamily: 'Helvetica-Bold'}}>
                 OK
               </Text>
             </TouchableOpacity>
@@ -213,8 +217,7 @@ const styles = StyleSheet.create({
     marginLeft: 'auto',
     marginRight: 'auto',
     borderRadius: 20,
-    backgroundColor: 'white',
-
+    backgroundColor: white,
     //android only
     elevation: 10
   },
@@ -226,8 +229,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginBottom: 115,
     borderRadius: 20,
-    backgroundColor: 'white',
-
+    backgroundColor: white,
     //android only
     elevation: 10,
   },

@@ -1,4 +1,4 @@
-import React, {Component, useEffect, useState} from 'react';
+import React, {Component, useState, useEffect} from 'react';
 import {
   View,
   Text,
@@ -18,12 +18,21 @@ import LinearGradient from 'react-native-linear-gradient';
 
 import StickyParallaxHeader from 'react-native-sticky-parallax-header';
 import {Calendar} from 'react-native-calendars';
+import {
+  primary,
+  black,
+  white,
+  grayDark,
+  blueDark,
+  grayShadow,
+  red,
+} from 'config/colors';
 import renderReviews from '../../components/Reviews';
-import {tours} from '../../data/toursData';
+
 const {event, ValueXY} = Animated;
-const TourInfo = ({navigation, name}) => {
-  const [tour, setTour] = useState(tours[0]);
-  const [tourName, setName] = useState(name);
+
+const TourInfo = ({navigation, route}) => {
+  const [tourInfo, setTourInfo] = useState(route.params.itemInfo);
   const [reviews, setReviews] = useState([
     {
       stars: 4.8,
@@ -38,22 +47,52 @@ const TourInfo = ({navigation, name}) => {
         'Being a sophomore, I kinda know what Westwood is like already; however, Brittany was able to show me interesting places I’ve never discovered!',
     },
   ]);
-  const scrollY = new ValueXY();
+  const [scrollY, setScrollY] = useState(new ValueXY());
 
-  useEffect(() => {
-    scrollY.addListener(({value}) => (this._value = value));
-  });
+  // constructor(props) {
+  //   super(props);
+
+  //   this.state = {
+  //     navigation: props.navigation,
+  //     route: props.route,
+  //     tour: props.route.params.itemInfo,
+
+  //     reviews: [
+  //       {
+  //         stars: 4.8,
+  //         year: 'Incoming Freshman',
+  //         comment:
+  //           'Brittany was really helpful!! She showed me where the students get groceries from and hangout in Westwood. She also shared a lot of interesting stories as we visit each places, highly recommend incoming freshman who want to familiarize themselves with the area sign up!! ',
+  //       },
+  //       {
+  //         stars: 4.3,
+  //         year: 'Incoming Junior',
+  //         comment:
+  //           'Being a sophomore, I kinda know what Westwood is like already; however, Brittany was able to show me interesting places I’ve never discovered!',
+  //       },
+  //     ],
+  //   };
+  // this.scrollY = new ValueXY();
+
+  // componentDidMount() {
+  //   this.scrollY.addListener(({value}) => (this._value = value));
+  // }
+  // componentWillUnmount() {
+  //   this.scrollY.removeAllListeners();
+  // }
 
   const renderForeground = () => {
     return (
-      <View style={{backgroundColor: '#d92726', flex: 1, borderRadius: 10}}>
-        <ImageBackground style={styles.imageHeader} source={tour.src}>
+      <View style={{backgroundColor: red, flex: 1, borderRadius: 10}}>
+        <ImageBackground
+          style={styles.imageHeader}
+          source={{uri: tourInfo.picture}}>
           <LinearGradient
-            colors={['transparent', 'black']}
+            colors={['transparent', black]}
             style={styles.linearGradTour}
           />
           <View style={styles.imageOverlay}>
-            <Text style={styles.titleText}>{tour.name}</Text>
+            <Text style={styles.titleText}>{tourInfo.title}</Text>
             <Text style={styles.detailText}>
               60 min | Max 6 people | person
             </Text>
@@ -71,9 +110,7 @@ const TourInfo = ({navigation, name}) => {
                 paddingRight: 20,
               },
             ]}>
-            Get to know the neighborhood: where to grocery shop, where the best
-            hangout places are, and where to grab a bite with your fellow hungry
-            bruins.
+            {tourInfo.description}
           </Text>
         </ImageBackground>
         <Text>TODO: Make Tour Info Page a functional component</Text>
@@ -85,46 +122,22 @@ const TourInfo = ({navigation, name}) => {
     );
   };
 
-  const renderHeader = () => {
-    return (
-      <View
-        style={{
-          flex: 1,
-          backgroundColor: 'white',
-          alignItems: 'center',
-        }}></View>
-    );
-  };
-
   const renderContent = () => {
-    const navigation = navigation;
     return (
       <View style={{marginBottom: 70}}>
-        {/* <Animated.View
-          style={{
-            flexDirection: 'row',
-            position: 'absolute',
-            top: -90,
-            left: 25,
-            opacity: buttonOpacity,
-            alignItems: 'center',
-            zIndex: 10,
-          }}>
-          <TouchableOpacity
-            style={{
-              backgroundColor: 'white',
-              marginRight: 10,
-              borderRadius: 40,
-            }}>
-            <ImageBackground
-              style={{width: 50, height: 50}}
-              imageStyle={{borderRadius: 40}}
-              source={require('../images/brittany.png')}></ImageBackground>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.whiteButton} title="Message">
-            <Text style={{color: '#41479B'}}>Message</Text>
-          </TouchableOpacity>
-        </Animated.View> */}
+        {/* 
+          Attempts at manually implementing the animated sticky header. 
+        */}
+        {/* <Animated.View style={{flexDirection: 'row', position: 'absolute', 
+                top: -90, left: 25, opacity: buttonOpacity, alignItems: 'center', zIndex: 10}}>
+                    <TouchableOpacity style={{backgroundColor: white, marginRight: 10, borderRadius: 40}}>
+                        <ImageBackground style={{width: 50, height: 50}} imageStyle={{borderRadius: 40}} source={require('images/brittany.png')}
+                        ></ImageBackground> 
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.whiteButton} title='Message'>
+                        <Text style={{color: blueDark}}>Message</Text>
+                    </TouchableOpacity>
+                </Animated.View> */}
         <Text style={[styles.sectionText, {marginTop: 40}]}>Reviews</Text>
         {renderReviews(reviews)}
       </View>
@@ -141,11 +154,13 @@ const TourInfo = ({navigation, name}) => {
       <TouchableOpacity
         style={styles.backIcon}
         onPress={() => navigation.goBack()}>
-        <Ionicons name="chevron-back-outline" size={20} color={'white'} />
+        <Ionicons name="chevron-back-outline" size={22} color={'white'} />
       </TouchableOpacity>
       <TouchableOpacity
         style={styles.continue}
-        onPress={() => navigation.navigate('TourBooking1')}>
+        onPress={() => {
+          navigation.navigate('TourBooking1', tourInfo);
+        }}>
         <Text style={{alignSelf: 'center', color: 'white', fontWeight: '600'}}>
           Find A Tour Guide
         </Text>
@@ -161,12 +176,12 @@ const styles = StyleSheet.create({
   titleText: {
     fontSize: 32,
     fontWeight: '600',
-    color: 'white',
+    color: white,
   },
   detailText: {
     fontSize: 14,
     fontWeight: '200',
-    color: 'white',
+    color: white,
   },
   sectionText: {
     fontSize: 18,
@@ -177,14 +192,14 @@ const styles = StyleSheet.create({
   subText: {
     fontSize: 20,
     fontWeight: '400',
-    color: 'white',
+    color: white,
     marginTop: 20,
     marginBottom: 20,
   },
   summaryText: {
     fontSize: 18,
     fontWeight: '200',
-    color: 'white',
+    color: white,
     marginBottom: 30,
   },
   headerView: {
@@ -216,7 +231,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     marginLeft: 20,
     marginRight: 20,
-    shadowColor: '#000000',
+    shadowColor: black,
     shadowOffset: {width: 1, height: 1},
     shadowOpacity: 0.2,
     shadowRadius: 5,
@@ -230,10 +245,25 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
     borderRadius: 10,
   },
+  reviewCard: {
+    width: Dimensions.get('window').width - 40,
+    backgroundColor: white,
+    alignSelf: 'center',
+    padding: 20,
+    marginBottom: 20,
+    marginLeft: 20,
+    marginRight: 20,
+    marginTop: 20,
+    borderRadius: 10,
+    shadowColor: black,
+    shadowOffset: {width: 1, height: 1},
+    shadowOpacity: 0.2,
+    shadowRadius: 5,
+  },
   whiteButton: {
     backgroundColor: 'white',
     borderRadius: 10,
-    color: '#41479B',
+    color: blueDark,
     alignItems: 'center',
     justifyContent: 'center',
     height: 30,
@@ -242,15 +272,15 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   backIcon: {
-    backgroundColor: '#3154A5',
+    backgroundColor: primary,
     borderRadius: 10,
     borderColor: 'white',
     borderWidth: 1,
     position: 'absolute',
     left: 20,
     top: 40,
-    width: 40,
-    height: 40,
+    width: 45,
+    height: 45,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -259,11 +289,11 @@ const styles = StyleSheet.create({
     bottom: 20,
     left: 20,
     right: 20,
-    backgroundColor: '#3154A5',
+    backgroundColor: primary,
     height: 50,
     justifyContent: 'center',
     borderRadius: 10,
-    shadowColor: '#adadad',
+    shadowColor: grayShadow,
     shadowOffset: {width: 2, height: 2},
     shadowOpacity: 0.8,
     shadowRadius: 3,
@@ -271,7 +301,7 @@ const styles = StyleSheet.create({
   floatCard: {
     position: 'absolute',
     bottom: 0,
-    backgroundColor: 'white',
+    backgroundColor: white,
     height: 80,
   },
 });

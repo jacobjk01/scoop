@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import {
   View,
   Text,
@@ -11,22 +11,27 @@ import {
   FlatList,
   TextInput,
 } from 'react-native';
-import {black, white, primary, grayLight, grayDark} from '../../config/colors';
+import { black, white, primary, grayLight, grayDark } from '../../config/colors';
 
-import MapView, {PROVIDER_GOOGLE} from 'react-native-maps';
-import {Marker} from 'react-native-maps';
-import {Calendar} from 'react-native-calendars';
+import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
+import { Marker } from 'react-native-maps';
+import { Calendar } from 'react-native-calendars';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import moment from 'moment';
+import toursData from '../../data/toursData';
 
 class TourBooking3 extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
+      chosenTourIndex: props.route.params.chosenTourIndex,
+      generalTour: props.route.params.generalTour,
+      tour: props.route.params.generalTour.tours[props.route.params.chosenTourIndex],
+      guide: toursData.guides[props.route.params.generalTour.tours[props.route.params.chosenTourIndex].guide],
       visitorCount: 1,
       selectedDate: '',
-      times: [Date(), Date(), Date(), Date(), Date()],
+      times: [new Date(), new Date(), new Date(), new Date(), new Date()],
       selectedTime: -1,
       selectedMeet: 0,
       modalVisible: false,
@@ -85,6 +90,7 @@ class TourBooking3 extends Component {
     if (this.state.selectedTime == index) {
       return (
         <TouchableOpacity
+          key={index}
           style={{
             backgroundColor: primary,
             borderRadius: 10,
@@ -102,6 +108,7 @@ class TourBooking3 extends Component {
     } else {
       return (
         <TouchableOpacity
+          key={index}
           style={{
             backgroundColor: white,
             borderColor: '#3154A5',
@@ -132,7 +139,6 @@ class TourBooking3 extends Component {
       //     longitudeDelta: 0.0011,
       // }
     });
-    // console.log(this.state.region)
   };
 
   takeDefaultSnapshot() {
@@ -170,7 +176,7 @@ class TourBooking3 extends Component {
     snapshot.then(uri => {
       this.setState({customSnapshot: uri});
     });
-    // console.log(this.state.customSnapshot)
+
   }
   createMarkings = () => {
     let calenderMarkings = {};
@@ -319,6 +325,9 @@ class TourBooking3 extends Component {
       );
     }
   };
+
+  
+
   render() {
     return (
       <SafeAreaView style={{backgroundColor: '#E5E5E5'}}>
@@ -365,7 +374,7 @@ class TourBooking3 extends Component {
               <View style={{height: 100, flex: 1, position: 'relative'}}>
                 <ImageBackground
                   style={styles.imageHeader}
-                  source={require('../../images/Westwood_village.png')}>
+                  source={this.state.generalTour.src}>
                   <View style={styles.shader}></View>
                   <Text
                     style={{
@@ -376,13 +385,13 @@ class TourBooking3 extends Component {
                       fontSize: 30,
                       fontFamily: 'Helvetica-Bold',
                     }}>
-                    Westwood Tour
+                    {this.state.generalTour.name}
                   </Text>
-                  <Text style={styles.tourGuideText}>Tour Guide: Brittany</Text>
+                  <Text style={styles.tourGuideText}>Tour Guide: {this.state.guide.name}</Text>
                   <ImageBackground
                     style={styles.tourGuideProfile}
                     imageStyle={{borderRadius: 40}}
-                    source={require('../../images/brittany.png')}></ImageBackground>
+                    source={this.state.guide.src}></ImageBackground>
                 </ImageBackground>
               </View>
               <View
@@ -601,11 +610,7 @@ class TourBooking3 extends Component {
                   style={styles.continue}
                   onPress={item => {
                     //TODO: fix this
-                    console.log(
-                      'vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv',
-                    );
-                    console.log(item);
-                    this.props.navigation.navigate('BookingCheckout', {item});
+                    this.props.navigation.navigate('BookingCheckout', [this.state.generalTour, this.state.chosenTourIndex]);
                   }}>
                   <Text
                     style={{
@@ -634,7 +639,7 @@ class TourBooking3 extends Component {
         <TouchableOpacity
           style={styles.backIcon}
           onPress={() => this.props.navigation.goBack()}>
-          <Ionicons name="chevron-back-outline" size={20} color={primary} />
+          <Ionicons name="chevron-back-outline" size={22} color={primary} />
         </TouchableOpacity>
       </SafeAreaView>
     );
@@ -778,9 +783,9 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     position: 'absolute',
     left: 20,
-    top: 22,
-    width: 40,
-    height: 40,
+    top: 20,
+    width: 45,
+    height: 45,
     alignItems: 'center',
     justifyContent: 'center',
   },

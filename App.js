@@ -9,7 +9,8 @@
 //react imports
 import 'react-native-gesture-handler';
 import React, {useState, useEffect} from 'react';
-// import type {Node} from 'react';
+import type {Node} from 'react';
+
 import {
   SafeAreaView,
   ScrollView,
@@ -34,11 +35,11 @@ import {createStackNavigator} from '@react-navigation/stack';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 //config imports
-import colors from './config/colors';
-import {localState} from './config/initialState';
+import {primary} from 'config/colors';
+import {localState} from 'config/initialState';
 
 //contexts imports
-import {UserContext} from './contexts';
+import {UserContext} from 'contexts';
 
 //dev imports
 import Test from './screens/dev/Test';
@@ -55,6 +56,7 @@ import ManageTours from './screens/guide/ManageTours';
 import TourEdit from './screens/guide/TourEdit';
 import TourEdit2 from './screens/guide/TourEdit2';
 import TourEdit3 from './screens/guide/TourEdit3';
+import ProfileOptionsGuide from './screens/guide/ProfileOptions';
 import AccountGuide from './screens/guide/Account';
 import AccountEdit from './screens/guide/AccountEdit';
 import AddTour from './screens/guide/AddTour';
@@ -66,9 +68,7 @@ import ViewTour from './screens/guide/ViewTour';
 import AccountVisitor from './screens/visitor/Account';
 import TourList from './screens/visitor/TourList';
 import Conversation from './screens/visitor/Conversation';
-import GuideBooking1 from './screens/visitor/GuideBooking1';
-import GuideBooking2 from './screens/visitor/GuideBooking2';
-import GuideBooking3 from './screens/visitor/GuideBooking3';
+import GuideBooking from './screens/visitor/GuideBooking';
 import TourBooking1 from './screens/visitor/TourBooking1';
 import TourBooking2 from './screens/visitor/TourBooking2';
 import TourBooking3 from './screens/visitor/TourBooking3';
@@ -79,13 +79,15 @@ import GuideProfile from './screens/visitor/GuideProfile';
 import Messages from './screens/visitor/Messages';
 import GuideList from './screens/visitor/GuideList';
 import SelectSchool from './screens/visitor/SelectSchool';
+import MyTrips from './screens/visitor/MyTrips';
 
 //authorization
 import RequireAuth from './components/RequireAuth';
 
 //api
-import {onAuthStateChanged} from './api/auth';
-import {getUser} from './api/users';
+import {onAuthStateChanged} from 'api/auth';
+import {getUser} from 'api/users';
+import {viewAvailableTours} from './api/tours';
 
 /**
  *
@@ -96,7 +98,7 @@ const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
 //bulk of navigation
-const App = () => {
+const App: () => Node = () => {
   /**
    * Authentication
    */
@@ -104,21 +106,23 @@ const App = () => {
   const [userAuth, setUserAuth] = useState(null);
   //user is a object with the user document data
   const [user, setUser] = useState(null);
+  const [bookTourInfo, setBookTourInfo] = useState(null);
   const [isUserLoading, setIsUserLoading] = useState(true);
   const [mode, setMode] = useState(localState.currentMode);
   const [guideDone, setGuideDone] = useState(localState.guideDone);
   const [visitorDone, setVisitorDone] = useState(localState.visitorDone);
   const [visitorBone, setVisitorBone] = useState(localState.visitorBone);
   const hasNotFinishedBareOnboarding =
-    mode === 'new' ||
-    (mode === 'visitor' && !visitorBone) ||
-    (mode === 'guide' && !guideDone);
-
+    (mode === 'new' ||
+      (mode === 'visitor' && !visitorBone) ||
+      (mode === 'guide' && !guideDone)) &&
+    mode !== 'dev';
+  // this useEffect causing flickering
   useEffect(() => {
+    console.log(mode);
     if (hasNotFinishedBareOnboarding) {
       return;
     }
-    console.log('onAuthStateChanged called');
     var unsubscribeAuth = onAuthStateChanged(async newUserAuth => {
       //if userAuth exists,
       if (newUserAuth && userAuth == null) {
@@ -147,7 +151,6 @@ const App = () => {
       return;
     }
     if (userAuth) {
-      console.log('user logged in');
       const currentUser = await getUser(userAuth);
       setUser({...currentUser.data()});
     }
@@ -170,7 +173,7 @@ const App = () => {
               case 'Tours':
                 iconName = focused ? 'map' : 'map-outline';
                 break;
-              case 'AccountVisitor' || 'AccountGuide':
+              case 'ProfileOptions' || 'AccountGuide' || 'AccountVisitor':
                 iconName = focused ? 'person' : 'person-outline';
                 break;
               default:
@@ -181,8 +184,8 @@ const App = () => {
           },
         })}
         tabBarOptions={{
-          activeTintColor: colors.primary,
-          inactiveTintColor: colors.primary,
+          activeTintColor: primary,
+          inactiveTintColor: primary,
         }}
         initialRouteName={
           mode === 'visitor' ? 'Home' : mode === 'guide' ? 'Home' : 'Home'
@@ -205,7 +208,10 @@ const App = () => {
               <>
                 <Tab.Screen name="Home" component={HomeGuide} />
                 <Tab.Screen name="ManageTours" component={ManageTours} />
-                <Tab.Screen name="Account" component={AccountGuide} />
+                <Tab.Screen
+                  name="ProfileOptions"
+                  component={ProfileOptionsGuide}
+                />
               </>
             );
           } else {
@@ -234,6 +240,8 @@ const App = () => {
         setUserAuth,
         user,
         setUser,
+        bookTourInfo,
+        setBookTourInfo,
         isUserLoading,
         setIsUserLoading,
         mode,
@@ -245,8 +253,18 @@ const App = () => {
         visitorBone,
         setVisitorBone,
       }}>
-      {/* Has not finished basic onboarding */}
-      {hasNotFinishedBareOnboarding ? (
+      {mode === 'dev' ? (
+        <NavigationContainer>
+          <Stack.Navigator>
+            <Stack.Screen
+              name="Test"
+              component={Test}
+              options={{headerShown: true}}
+            />
+          </Stack.Navigator>
+        </NavigationContainer>
+      ) : /* Has not finished basic onboarding */
+      hasNotFinishedBareOnboarding ? (
         <NavigationContainer>
           <Stack.Navigator>
             <Stack.Screen
@@ -284,9 +302,9 @@ const App = () => {
 
             {/* Guide Routes */}
             <Stack.Screen
-              name="HomePage"
-              component={HomeVisitor}
-              options={{headerShown: false}}
+              name="ProfileOptionsGuide"
+              component={RequireAuth(ProfileOptionsGuide)}
+              options={{headerShown: true}}
             />
             <Stack.Screen
               name="AccountGuide"
@@ -321,7 +339,7 @@ const App = () => {
             <Stack.Screen
               name="TourEdit2"
               component={RequireAuth(TourEdit2)}
-              options={{headerShown: true}}
+              options={{headerShown: false}}
             />
             <Stack.Screen
               name="TourEdit3"
@@ -331,7 +349,7 @@ const App = () => {
             <Stack.Screen
               name="ViewTour"
               component={RequireAuth(ViewTour)}
-              options={{headerShown: true}}
+              options={{headerShown: false}}
             />
 
             {/* Visitor Routes */}
@@ -351,18 +369,8 @@ const App = () => {
               options={{headerShown: false}}
             />
             <Stack.Screen
-              name="GuideBooking1"
-              component={GuideBooking1}
-              options={{headerShown: false}}
-            />
-            <Stack.Screen
-              name="GuideBooking2"
-              component={GuideBooking2}
-              options={{headerShown: false}}
-            />
-            <Stack.Screen
-              name="GuideBooking3"
-              component={GuideBooking3}
+              name="GuideBooking"
+              component={GuideBooking}
               options={{headerShown: false}}
             />
             <Stack.Screen
@@ -418,6 +426,11 @@ const App = () => {
             <Stack.Screen
               name="SelectSchool"
               component={SelectSchool}
+              options={{headerShown: false}}
+            />
+            <Stack.Screen
+              name="MyTrips"
+              component={MyTrips}
               options={{headerShown: false}}
             />
           </Stack.Navigator>

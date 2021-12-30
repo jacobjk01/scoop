@@ -4,6 +4,8 @@
 <dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Track location to find meeting point between user and guide</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Allows photo library for user to update profile picture on user's profile page</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>FontAwesome.ttf</string>

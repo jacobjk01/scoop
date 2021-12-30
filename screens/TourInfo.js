@@ -1,4 +1,4 @@
-import React, {Component, useState} from 'react';
+import React, {Component, useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -19,104 +19,94 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import LinearGradient from 'react-native-linear-gradient';
 
 import StickyParallaxHeader from 'react-native-sticky-parallax-header';
-import {black, white} from '../config/colors';
+import {primary, black, white, grayDark, blueDark, red} from 'config/colors';
 
 const {event, ValueXY} = Animated;
-class TourInfo extends Component {
-  constructor(props) {
-    super(props);
+const TourInfo = ({navigation}) => {
+  const [reviews, setReviews] = useState([
+    {
+      stars: 4.8,
+      tourName: 'Westwood Tour',
+      year: 'Incoming Freshman',
+      comment:
+        'Brittany was really helpful!! She showed me where the students get groceries from and hangout in Westwood. She also shared a lot of interesting stories as we visit each places, highly recommend incoming freshman who want to familiarize themselves with the area sign up!! ',
+    },
+    {
+      stars: 4.3,
+      tourName: 'Westwood Tour',
+      year: 'Incoming Junior',
+      comment:
+        'Being a sophomore, I kinda know what Westwood is like already; however, Brittany was able to show me interesting places I’ve never discovered!',
+    },
+  ]);
+  const [scrollY, setScrollY] = useState(new ValueXY());
 
-    this.state = {
-      reviews: [
-        {
-          stars: 4.8,
-          tourName: 'Westwood Tour',
-          year: 'Incoming Freshman',
-          comment:
-            'Brittany was really helpful!! She showed me where the students get groceries from and hangout in Westwood. She also shared a lot of interesting stories as we visit each places, highly recommend incoming freshman who want to familiarize themselves with the area sign up!! ',
-        },
-        {
-          stars: 4.3,
-          tourName: 'Westwood Tour',
-          year: 'Incoming Junior',
-          comment:
-            'Being a sophomore, I kinda know what Westwood is like already; however, Brittany was able to show me interesting places I’ve never discovered!',
-        },
-      ],
-    };
-    this.scrollY = new ValueXY();
-  }
+  useEffect(() => {
+    scrollY.addListener(({value}) => (this._value = value));
+  });
 
-  componentDidMount() {
-    this.scrollY.addListener(({value}) => (this._value = value));
-  }
+  const renderForeground = () => {
+    const scrollPosition = x => x;
+    const [startTextFade, finishTextFade] = [
+      scrollPosition(30),
+      scrollPosition(200),
+    ];
+    const textOpacity = this.scrollY.y.interpolate({
+      inputRange: [startTextFade, finishTextFade],
+      outputRange: [1, 0],
+      extrapolate: 'clamp',
+    });
+    const openSpace = this.scrollY.y.interpolate({
+      inputRange: [startTextFade, finishTextFade],
+      outputRange: [120, 70],
+      extrapolate: 'clamp',
+    });
+    return (
+      <View style={{backgroundColor: red, flex: 1, borderRadius: 10}}>
+        <ImageBackground
+          style={styles.imageHeader}
+          source={require('images/Westwood_village.png')}>
+          <LinearGradient
+            colors={['transparent', black]}
+            style={styles.linearGradTour}
+          />
+          <Animated.View
+            style={[styles.imageOverlay, {paddingBottom: openSpace}]}>
+            <Text style={styles.titleText}>Westwood Tour</Text>
+            <Text style={styles.detailText}>
+              60 min | Max 6 people | person
+            </Text>
+            <Text style={styles.subText}> $8 per person</Text>
+          </Animated.View>
+          <Animated.Text
+            style={[
+              styles.summaryText,
+              {
+                opacity: textOpacity,
+                position: 'absolute',
+                bottom: 0,
+                left: 25,
+                flex: 1,
+                paddingRight: 20,
+              },
+            ]}>
+            Get to know the neighborhood: where to grocery shop, where the best
+            hangout places are, and where to grab a bite with your fellow hungry
+            bruins.
+          </Animated.Text>
+        </ImageBackground>
+      </View>
+    );
+  };
 
-  // renderForeground() {
-  //   const scrollPosition = x => x;
-  //   const [startTextFade, finishTextFade] = [
-  //     scrollPosition(30),
-  //     scrollPosition(200),
-  //   ];
-  //   const textOpacity = this.scrollY.y.interpolate({
-  //     inputRange: [startTextFade, finishTextFade],
-  //     outputRange: [1, 0],
-  //     extrapolate: 'clamp',
-  //   });
-  //   const openSpace = this.scrollY.y.interpolate({
-  //     inputRange: [startTextFade, finishTextFade],
-  //     outputRange: [120, 70],
-  //     extrapolate: 'clamp',
-  //   });
-  //   return (
-  //     <View style={{backgroundColor: '#d92726', flex: 1, borderRadius: 10}}>
-  //       <ImageBackground
-  //         style={styles.imageHeader}
-  //         source={require('../images/Westwood_village.png')}>
-  //         <LinearGradient
-  //           colors={['transparent', 'black']}
-  //           style={styles.linearGradTour}
-  //         />
-  //         <Animated.View
-  //           style={[styles.imageOverlay, {paddingBottom: openSpace}]}>
-  //           <Text style={styles.titleText}>Westwood Tour</Text>
-  //           <Text style={styles.detailText}>
-  //             60 min | Max 6 people | person
-  //           </Text>
-  //           <Text style={styles.subText}> $8 per person</Text>
-  //         </Animated.View>
-  //         <Animated.Text
-  //           style={[
-  //             styles.summaryText,
-  //             {
-  //               opacity: textOpacity,
-  //               position: 'absolute',
-  //               bottom: 0,
-  //               left: 25,
-  //               flex: 1,
-  //               paddingRight: 20,
-  //             },
-  //           ]}>
-  //           Get to know the neighborhood: where to grocery shop, where the best
-  //           hangout places are, and where to grab a bite with your fellow hungry
-  //           bruins.
-  //         </Animated.Text>
-  //       </ImageBackground>
-  //     </View>
-  //   );
-  // }
+  const renderHeader = () => {
+    return (
+      <View
+        style={{flex: 1, backgroundColor: white, alignItems: 'center'}}></View>
+    );
+  };
 
-  // renderHeader() {
-  //   return (
-  //     <View
-  //       style={{
-  //         flex: 1,
-  //         backgroundColor: 'white',
-  //         alignItems: 'center',
-  //       }}></View>
-  //   );
-  // }
-
-  renderStars(count) {
+  const renderStars = count => {
     let fullstars = Math.floor(count);
     var decimal = Math.ceil(10 * (count - Math.floor(count)));
     console.log(decimal);
@@ -127,7 +117,7 @@ class TourInfo extends Component {
           return (
             <Image
               style={{width: 16, height: 16, marginRight: 4}}
-              source={require('../images/stars/filledstar.png')}
+              source={require('images/stars/filledstar.png')}
             />
           );
         })}
@@ -137,90 +127,90 @@ class TourInfo extends Component {
           return (
             <Image
               style={{width: 16, height: 16, marginRight: 4}}
-              source={require('../images/stars/star0.png')}
+              source={require('images/stars/star0.png')}
             />
           );
         })}
       </View>
     );
-  }
+  };
 
-  renderPartialStar(decimal) {
+  const renderPartialStar = decimal => {
     switch (decimal) {
       case 0:
         return (
           <Image
             style={{width: 16, height: 16, marginRight: 4}}
-            source={require('../images/stars/star0.png')}
+            source={require('images/stars/star0.png')}
           />
         );
       case 1:
         return (
           <Image
             style={{width: 16, height: 16, marginRight: 4}}
-            source={require('../images/stars/star1.png')}
+            source={require('images/stars/star1.png')}
           />
         );
       case 2:
         return (
           <Image
             style={{width: 16, height: 16, marginRight: 4}}
-            source={require('../images/stars/star2.png')}
+            source={require('images/stars/star2.png')}
           />
         );
       case 3:
         return (
           <Image
             style={{width: 16, height: 16, marginRight: 4}}
-            source={require('../images/stars/star3.png')}
+            source={require('images/stars/star3.png')}
           />
         );
       case 4:
         return (
           <Image
             style={{width: 16, height: 16, marginRight: 4}}
-            source={require('../images/stars/star4.png')}
+            source={require('images/stars/star4.png')}
           />
         );
       case 5:
         return (
           <Image
             style={{width: 16, height: 16, marginRight: 4}}
-            source={require('../images/stars/star5.png')}
+            source={require('images/stars/star5.png')}
           />
         );
       case 6:
         return (
           <Image
             style={{width: 16, height: 16, marginRight: 4}}
-            source={require('../images/stars/star6.png')}
+            source={require('images/stars/star6.png')}
           />
         );
       case 7:
         return (
           <Image
             style={{width: 16, height: 16, marginRight: 4}}
-            source={require('../images/stars/star7.png')}
+            source={require('images/stars/star7.png')}
           />
         );
       case 8:
         return (
           <Image
             style={{width: 16, height: 16, marginRight: 4}}
-            source={require('../images/stars/star8.png')}
+            source={require('images/stars/star8.png')}
           />
         );
       case 9:
         return (
           <Image
             style={{width: 16, height: 16, marginRight: 4}}
-            source={require('../images/stars/star9.png')}
+            source={require('images/stars/star9.png')}
           />
         );
     }
-  }
+  };
 
-  renderContent() {
+  const renderContent = () => {
     const navigation = this.props.navigation;
     const scrollPosition = x => x;
     const [startTextFade, finishTextFade] = [
@@ -245,23 +235,19 @@ class TourInfo extends Component {
             zIndex: 10,
           }}>
           <TouchableOpacity
-            style={{
-              backgroundColor: 'white',
-              marginRight: 10,
-              borderRadius: 40,
-            }}>
+            style={{backgroundColor: white, marginRight: 10, borderRadius: 40}}>
             <ImageBackground
               style={{width: 50, height: 50}}
               imageStyle={{borderRadius: 40}}
-              source={require('../images/brittany.png')}></ImageBackground>
+              source={require('images/brittany.png')}></ImageBackground>
           </TouchableOpacity>
           <TouchableOpacity style={styles.whiteButton} title="Message">
-            <Text style={{color: '#41479B'}}>Message</Text>
+            <Text style={{color: blueDark}}>Message</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.whiteButton}
             onPress={() => navigation.navigate('Booking')}>
-            <Text style={{color: '#41479B'}}>Book Now</Text>
+            <Text style={{color: blueDark}}>Book Now</Text>
           </TouchableOpacity>
         </Animated.View>
         {this.state.reviews.map(item => (
@@ -271,7 +257,7 @@ class TourInfo extends Component {
               style={{
                 marginTop: 5,
                 fontSize: 14,
-                color: '#9B9BA7',
+                color: grayDark,
                 fontStyle: 'italic',
               }}>
               {item.tourName} - {item.year}
@@ -281,42 +267,102 @@ class TourInfo extends Component {
         ))}
       </View>
     );
-  }
+  };
+};
 
-  render() {
-    const navigation = this.props.navigation;
-    return (
-      <React.Fragment>
-        <StickyParallaxHeader
-          headerType="AvatarHeader"
-          backgroundColor="black"
-          foreground={this.renderForeground()}
-          header={this.renderHeader()}
-          parallaxHeight={400}
-          transparentHeader={true}
-          deviceWidth={Dimensions.get('window').width}
-          snapStartThreshold={50}
-          snapStopThreshold={250}
-          snapValue={167}
-          scrollEvent={event(
-            [{nativeEvent: {contentOffset: {y: this.scrollY.y}}}],
-            {useNativeDriver: false},
-          )}
-          tabs={[
-            {
-              title: ' ',
-              content: this.renderContent(),
-            },
-          ]}></StickyParallaxHeader>
+const renderContent = () => {
+  const navigation = this.props.navigation;
+  const scrollPosition = x => x;
+  const [startTextFade, finishTextFade] = [
+    scrollPosition(30),
+    scrollPosition(200),
+  ];
+  const buttonOpacity = this.scrollY.y.interpolate({
+    inputRange: [startTextFade, finishTextFade],
+    outputRange: [0, 1],
+    extrapolate: 'clamp',
+  });
+  return (
+    <View style={{marginTop: 500}}>
+      <Animated.View
+        style={{
+          flexDirection: 'row',
+          position: 'absolute',
+          top: -90,
+          left: 25,
+          opacity: buttonOpacity,
+          alignItems: 'center',
+          zIndex: 10,
+        }}>
         <TouchableOpacity
-          style={styles.backIcon}
-          onPress={() => navigation.navigate('HomeScreen')}>
-          <Ionicons name="chevron-back-outline" size={20} color={white} />
+          style={{
+            backgroundColor: 'white',
+            marginRight: 10,
+            borderRadius: 40,
+          }}>
+          <ImageBackground
+            style={{width: 50, height: 50}}
+            imageStyle={{borderRadius: 40}}
+            source={require('../images/brittany.png')}></ImageBackground>
         </TouchableOpacity>
-      </React.Fragment>
-    );
-  }
-}
+        <TouchableOpacity style={styles.whiteButton} title="Message">
+          <Text style={{color: '#41479B'}}>Message</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.whiteButton}
+          onPress={() => navigation.navigate('Booking')}>
+          <Text style={{color: '#41479B'}}>Book Now</Text>
+        </TouchableOpacity>
+      </Animated.View>
+      {this.state.reviews.map(item => (
+        <View style={styles.reviewCard}>
+          {this.renderStars(item.stars)}
+          <Text
+            style={{
+              marginTop: 5,
+              fontSize: 14,
+              color: '#9B9BA7',
+              fontStyle: 'italic',
+            }}>
+            {item.tourName} - {item.year}
+          </Text>
+          <Text style={{marginTop: 5}}>{item.comment}</Text>
+        </View>
+      ))}
+    </View>
+  );
+};
+
+return (
+  <React.Fragment>
+    <StickyParallaxHeader
+      headerType="AvatarHeader"
+      backgroundColor="black"
+      foreground={renderForeground()}
+      header={renderHeader()}
+      parallaxHeight={400}
+      transparentHeader={true}
+      deviceWidth={Dimensions.get('window').width}
+      snapStartThreshold={50}
+      snapStopThreshold={250}
+      snapValue={167}
+      scrollEvent={event(
+        [{nativeEvent: {contentOffset: {y: this.scrollY.y}}}],
+        {useNativeDriver: false},
+      )}
+      tabs={[
+        {
+          title: ' ',
+          content: this.renderContent(),
+        },
+      ]}></StickyParallaxHeader>
+    <TouchableOpacity
+      style={styles.backIcon}
+      onPress={() => navigation.navigate('HomeScreen')}>
+      <Ionicons name="chevron-back-outline" size={20} color={white} />
+    </TouchableOpacity>
+  </React.Fragment>
+);
 
 const styles = StyleSheet.create({
   baseText: {
@@ -325,24 +371,24 @@ const styles = StyleSheet.create({
   titleText: {
     fontSize: 32,
     fontWeight: '600',
-    color: 'white',
+    color: white,
   },
   detailText: {
     fontSize: 14,
     fontWeight: '200',
-    color: 'white',
+    color: white,
   },
   subText: {
     fontSize: 20,
     fontWeight: '400',
-    color: 'white',
+    color: white,
     marginTop: 20,
     marginBottom: 20,
   },
   summaryText: {
     fontSize: 18,
     fontWeight: '200',
-    color: 'white',
+    color: white,
     marginBottom: 30,
   },
   headerView: {
@@ -378,12 +424,12 @@ const styles = StyleSheet.create({
   },
   reviewCard: {
     width: '90%',
-    backgroundColor: 'white',
+    backgroundColor: white,
     alignSelf: 'center',
     padding: 20,
     marginBottom: 20,
     borderRadius: 10,
-    shadowColor: '#000000',
+    shadowColor: black,
     shadowOffset: {width: 1, height: 1},
     shadowOpacity: 0.2,
     shadowRadius: 5,
@@ -391,7 +437,7 @@ const styles = StyleSheet.create({
   whiteButton: {
     backgroundColor: white,
     borderRadius: 10,
-    color: '#41479B',
+    color: blueDark,
     alignItems: 'center',
     justifyContent: 'center',
     height: 30,
@@ -400,7 +446,7 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   backIcon: {
-    backgroundColor: '#3154A5',
+    backgroundColor: primary,
     borderRadius: 10,
     borderColor: white,
     borderWidth: 1,

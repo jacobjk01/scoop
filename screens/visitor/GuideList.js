@@ -9,7 +9,7 @@ const GuideList = ({navigation}) => {
     return (
     <SafeAreaView>
         <Text>Guide List Page</Text>
-        <Button title="guide profile" onPress={() => navigation.navigate('GuideProfile')}/>
+        <Button title='guide profile' onPress={() => navigation.navigate('GuideProfile')}/>
     </SafeAreaView>
     )
 };

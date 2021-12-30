@@ -21,6 +21,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import renderReviews from '../../components/Reviews';
+import {primary, grayDark, white, black, tappableBlue} from 'config/colors';
 import toursData from '../../data/toursData';
 import reviewData from '../../data/reviews';
 
@@ -29,17 +30,6 @@ const GuideProfile = ({navigation, route}) => {
   const [reviews, setReviews] = useState(reviewData);
   const [seeMore, setSeeMore] = useState(false);
   const {item} = route.params;
-
-  const messageButton = () => {
-    return (
-      <TouchableOpacity
-        onPress={messageButtonHandler}
-        style={styles.roundButton1}>
-        <Text style={styles.messageFont}>Message</Text>
-      </TouchableOpacity>
-    );
-  };
-  const messageButtonHandler = () => {};
 
   const navigateCheckout = ({item}) => {
     if (item === null) {
@@ -52,20 +42,11 @@ const GuideProfile = ({navigation, route}) => {
           imageStyle={{borderRadius: 10}}
           source={item.src}>
           <LinearGradient
-            colors={['transparent', 'black']}
+            colors={['transparent', black]}
             style={styles.linearGradTour}
           />
         </ImageBackground>
         <Text style={styles.tourText}>{item.name}</Text>
-      </TouchableOpacity>
-    );
-  };
-
-  const bookTourButton = () => {
-    const handleOnPress = () => navigation.navigate('GuideBooking1');
-    return (
-      <TouchableOpacity onPress={handleOnPress} style={styles.roundButton2}>
-        <Text style={styles.messageFont}>Book Tour</Text>
       </TouchableOpacity>
     );
   };
@@ -229,6 +210,40 @@ const GuideProfile = ({navigation, route}) => {
   );
 };
 
+const renderTourImage = ({item}) => {
+  return (
+    <TouchableOpacity>
+      <ImageBackground
+        style={styles.listTourImage}
+        imageStyle={{borderRadius: 10}}
+        source={item.src}>
+        <LinearGradient
+          colors={['transparent', black]}
+          style={styles.linearGradTour}
+        />
+      </ImageBackground>
+      <Text style={styles.tourText}>{item.name}</Text>
+    </TouchableOpacity>
+  );
+};
+
+const renderGuideImage = ({item}) => {
+  return (
+    <View
+      style={{
+        paddingTop: 30,
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}>
+      <Image style={styles.listGuideImage} source={item.src} />
+      <Text style={styles.sectionText}>{item.name}</Text>
+      <Text style={styles.baseText}>
+        {item.major + ','} {item.year}
+      </Text>
+    </View>
+  );
+};
+
 const styles = StyleSheet.create({
   imageHeader: {
     width: '100%',
@@ -243,9 +258,17 @@ const styles = StyleSheet.create({
     resizeMode: 'cover',
   },
   divider: {
+    position: 'relative',
+    marginTop: 50,
+
+    borderBottomColor: grayDark,
+    borderBottomWidth: 1,
+  },
+  divider2: {
+    position: 'relative',
     marginTop: 20,
 
-    borderBottomColor: '#9B9BA7',
+    borderBottomColor: grayDark,
     borderBottomWidth: 1,
     marginHorizontal: 30,
   },
@@ -254,7 +277,7 @@ const styles = StyleSheet.create({
     left: '0%',
     right: '0%',
     top: '10.8%',
-    backgroundColor: '#FFFFFF',
+    backgroundColor: white,
     // box-shadow: 0px -2px 10px rgba(151, 151, 151, 0.3);
     // borderRadius: '20px',
   },
@@ -266,7 +289,7 @@ const styles = StyleSheet.create({
     fontWeight: 'normal',
     fontSize: 14,
     lineHeight: 16,
-    color: '#FFFFFF',
+    color: white,
   },
   roundButton1: {
     justifyContent: 'center',
@@ -275,7 +298,7 @@ const styles = StyleSheet.create({
 
     width: 77,
     height: 28,
-    backgroundColor: '#3154A5',
+    backgroundColor: primary,
     borderRadius: 10,
     marginRight: 10,
   },
@@ -286,14 +309,14 @@ const styles = StyleSheet.create({
 
     width: 77,
     height: 28,
-    backgroundColor: '#3154A5',
+    backgroundColor: primary,
     borderRadius: 10,
   },
   listGuideImage: {
     width: 100,
     height: 100,
     borderRadius: 100,
-    backgroundColor: '#00BCD4',
+    backgroundColor: grayDark,
   },
   baseText: {
     fontFamily: 'Helvetica',
@@ -311,11 +334,9 @@ const styles = StyleSheet.create({
   },
   input: {
     alignSelf: 'center',
-    backgroundColor: 'white',
+    backgroundColor: white,
     height: 50,
     width: '100%',
-    // borderWidth: 1,
-    // borderColor: '#656565',
     borderRadius: 7,
     paddingLeft: 20,
   },
@@ -323,6 +344,26 @@ const styles = StyleSheet.create({
     position: 'absolute',
     right: 10,
     top: 11,
+  },
+  recommendationbuttonleft: {
+    flex: 1,
+    backgroundColor: primary,
+    borderRadius: 7,
+    height: 100,
+    marginRight: 15,
+  },
+  recommendationbuttonright: {
+    flex: 1,
+    backgroundColor: primary,
+    borderRadius: 7,
+    height: 100,
+  },
+  recommendationTitle: {
+    marginTop: 15,
+    marginLeft: 15,
+    color: white,
+    fontWeight: '600',
+    fontSize: 16,
   },
   listTourImage: {
     marginRight: 15,
@@ -346,7 +387,7 @@ const styles = StyleSheet.create({
     width: 200,
     fontWeight: '600',
     fontSize: 18,
-    color: 'white',
+    color: white,
     position: 'absolute',
     bottom: 50,
     left: 20,
@@ -356,7 +397,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 10,
     left: 10,
-    color: 'white',
+    color: white,
   },
   linearGradTour: {
     position: 'absolute',
