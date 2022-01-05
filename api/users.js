@@ -15,20 +15,20 @@ const Users = db().collection('users');
  * @returns the document of the user
  */
 export const getUser = async (userAuth) => {
-    try {
-        const user = await get(Users, userAuth.uid);
-        if (!user._exists) {
-            await Users.doc(userAuth.uid).set({
-                type: 'guide',
-                name: userAuth.displayName,
-                profilePicture: userAuth.photoURL,
-            });
-            return await get(Users, userAuth.uid);
-        }
-        return user;
-    } catch (e) {
-        console.log(e);
+  try {
+    const user = await get(Users, userAuth.uid);
+    if (!user._exists) {
+      await Users.doc(userAuth.uid).set({
+        type: 'guide',
+        name: userAuth.displayName,
+        profilePicture: userAuth.photoURL,
+      });
+      return await get(Users, userAuth.uid);
     }
+    return user;
+  } catch (e) {
+    console.log(e);
+  }
 }
 
 /**
@@ -37,19 +37,19 @@ export const getUser = async (userAuth) => {
  * @returns user data if successful, null if not
  */
 export const getUserData = async (userAuth) => {
-    try {
-        const user = await get(Users, userAuth.uid);
-        if (user._exists) {
-            return user.data();
-        }
-        return null;
-    } catch (e) {
-        console.log(e);
+  try {
+    const user = await get(Users, userAuth.uid);
+    if (user._exists) {
+      return user.data();
     }
+    return null;
+  } catch (e) {
+    console.log(e);
+  }
 }
 
 export const getUserById = async (userId) => {
-    return await Users.doc(userId).get()
+  return await Users.doc(userId).get()
 }
 
 /**
@@ -59,11 +59,11 @@ export const getUserById = async (userId) => {
  * @returns true if successful, false if not
  */
 export const getPicture = async (uid, type) => {
-    try {
-        return await storage().ref('/' + uid + '/' + type).getDownloadURL();
-    } catch (e) {
-        console.log(e);
-    }
+  try {
+    return await storage().ref('/' + uid + '/' + type).getDownloadURL();
+  } catch (e) {
+    console.log(e);
+  }
 }
 
 /**
@@ -72,13 +72,13 @@ export const getPicture = async (uid, type) => {
  * @returns true if successful, false if not
  */
 export const createPrivateData = async (uid) => {
-    try {
-        return await Users.doc(uid).collection('private-data').add({
-            payment: 100
-        });
-    } catch (e) {
-        console.log(e);
-    }
+  try {
+    return await Users.doc(uid).collection('private-data').add({
+      payment: 100
+    });
+  } catch (e) {
+    console.log(e);
+  }
 }
 
 /**
@@ -88,11 +88,11 @@ export const createPrivateData = async (uid) => {
  * @returns true if successful, false if not
  */
 export const changeName = async (uid, name) => {
-    try {
-        return await update(Users, uid, 'name', name);
-    } catch (e) {
-        console.log(e);
-    }
+  try {
+    return await update(Users, uid, 'name', name);
+  } catch (e) {
+    console.log(e);
+  }
 }
 
 /**
@@ -103,11 +103,11 @@ export const changeName = async (uid, name) => {
  * @returns true if successful, false if not
  */
 export const changePicture = async (uid, picture, type) => {
-    try {
-        return await storage().ref(uid + '/' + type).putFile(picture);
-    } catch (e) {
-        console.log(e);
-    }
+  try {
+    return await storage().ref(uid + '/' + type).putFile(picture);
+  } catch (e) {
+    console.log(e);
+  }
 }
 
 /**
@@ -116,12 +116,12 @@ export const changePicture = async (uid, picture, type) => {
  * @param {string} major 
  * @returns true if successful, false if not
  */
-export const changeMajor = async  (uid, major) => {
-    try {
-        return await update(Users, uid, 'major', major);
-    } catch (e) {
-        console.log(e);
-    }
+export const changeMajor = async (uid, major) => {
+  try {
+    return await update(Users, uid, 'major', major);
+  } catch (e) {
+    console.log(e);
+  }
 }
 
 /**
@@ -131,11 +131,11 @@ export const changeMajor = async  (uid, major) => {
  * @returns true if successful, false if not
  */
 export const changeYear = async (uid, year) => {
-    try {
-        return await update(Users, uid, 'year', year);
-    } catch (e) {
-        console.log(e);
-    }
+  try {
+    return await update(Users, uid, 'year', year);
+  } catch (e) {
+    console.log(e);
+  }
 }
 
 /**
@@ -145,11 +145,11 @@ export const changeYear = async (uid, year) => {
  * @returns true if successful, false if not
  */
 export const changeIntro = async (uid, intro) => {
-    try {
-        return await update(Users, uid, 'intro', intro);
-    } catch (e) {
-        console.log(e);
-    }
+  try {
+    return await update(Users, uid, 'intro', intro);
+  } catch (e) {
+    console.log(e);
+  }
 }
 
 // TODO
@@ -161,11 +161,11 @@ export const changeIntro = async (uid, intro) => {
  */
 // Represented as a list or from multi-selection
 export const changeLanguages = async (uid, languages) => {
-    try {
-        return await update(Users, uid, 'languages', languages);
-    } catch (e) {
-        console.log(e);
-    }
+  try {
+    return await update(Users, uid, 'languages', languages);
+  } catch (e) {
+    console.log(e);
+  }
 }
 
 /**
@@ -175,11 +175,11 @@ export const changeLanguages = async (uid, languages) => {
  * @returns true if successful, false if not
  */
 export const changeHometown = async (uid, hometown) => {
-    try {
-        return await update(Users, uid, 'hometown', hometown);
-    } catch (e) {
-        console.log(e);
-    }
+  try {
+    return await update(Users, uid, 'hometown', hometown);
+  } catch (e) {
+    console.log(e);
+  }
 }
 
 // TODO
@@ -191,11 +191,11 @@ export const changeHometown = async (uid, hometown) => {
  * @returns true if successful, false if not
  */
 export const changeTours = async (uid, tours) => {
-    try {
-        return await update(Users, uid, 'tours', tours);
-    } catch (e) {
-        console.log(e);
-    }
+  try {
+    return await update(Users, uid, 'tours', tours);
+  } catch (e) {
+    console.log(e);
+  }
 }
 
 // Specifics for searching may be different
@@ -205,17 +205,22 @@ export const changeTours = async (uid, tours) => {
  * @returns ?
  */
 export const searchGuides = (searchQuery) => {
-    db()
-        .collection('users')
-        .where('type', '==', 'guide') // should this be 'array-contains'?
-        .get()
-        .then(querySnapshot => {
-            /*      */
-        })
-        .then(() => {
-            console.log('Searched!')
-        })
-        .catch(err => {
-            console.error(err)
-        })
+  db()
+    .collection('users')
+    .where('type', '==', 'guide') // should this be 'array-contains'?
+    .get()
+    .then(querySnapshot => {
+      /*      */
+    })
+    .then(() => {
+      console.log('Searched!')
+    })
+    .catch(err => {
+      console.error(err)
+    })
+}
+
+
+export const getUserByRef = (guideId) => {
+  return User.doc(guideId).get().ref
 }

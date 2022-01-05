@@ -295,7 +295,3 @@ const user = (id) => {
   return firestore().collection('users').doc(id)
 }
 
-
-export const getUserByRef = (guideId) => {
-  return tours.doc(guideId)
-}
