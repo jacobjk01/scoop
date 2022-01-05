@@ -221,7 +221,7 @@ export const searchGuides = (searchQuery) => {
 }
 
 
-export const getUserByRef = async (guideId) => {
-  return await Users.doc(guideId).get()
+export const getUserByRef = async (guideRef) => {
+  return await guideRef.get()
 }
 
