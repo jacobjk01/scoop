@@ -230,7 +230,7 @@ export const getUserByRef = async (guideRef) => {
  * @returns array of users that match guideRefs
  */
 export const getUsersByRef = async (guideRefs) => {
-  const querySnapshot = await collection('Users').where(db.FieldPath.documentId, "in", guideRefs).get()
+  const querySnapshot = await collection('Users').where(db.FieldPath.documentId(), "in", guideRefs).get()
   if (querySnapshot.empty) {
     console.warn(`did not find documents that matched any of your guideRefs`)
   }
