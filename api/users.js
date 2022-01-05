@@ -2,7 +2,7 @@ import db from '@react-native-firebase/firestore';
 import storage from '@react-native-firebase/storage';
 import { update, get } from './utilities';
 
-
+import { querySnapshotFormatter } from './utilities';
 const Users = db().collection('users');
 
 /**
