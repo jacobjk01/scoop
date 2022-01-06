@@ -1,4 +1,4 @@
-import React, {Component, useState, useEffect} from 'react';
+import React, { Component, useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -12,12 +12,12 @@ import {
   Animated,
   StatusBar,
 } from 'react-native';
-import {withSafeAreaInsets} from 'react-native-safe-area-context';
+import { withSafeAreaInsets } from 'react-native-safe-area-context';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import LinearGradient from 'react-native-linear-gradient';
 
 import StickyParallaxHeader from 'react-native-sticky-parallax-header';
-import {Calendar} from 'react-native-calendars';
+import { Calendar } from 'react-native-calendars';
 import {
   primary,
   black,
@@ -27,12 +27,12 @@ import {
   grayShadow,
   red,
 } from 'config/colors';
-import renderReviews from '../../components/Reviews';
+import Reviews from '../../components/Reviews';
 
-const {event, ValueXY} = Animated;
+const { event, ValueXY } = Animated;
 
-const TourInfo = ({navigation, route}) => {
-  const {title, picture, id, description} = route.params.itemInfo;
+const TourInfo = ({ navigation, route }) => {
+  const { title, picture, id, description } = route.params.itemInfo;
   const [tourInfo, setTourInfo] = useState(route.params.tour);
   const [reviews, setReviews] = useState([
     {
@@ -84,8 +84,8 @@ const TourInfo = ({navigation, route}) => {
 
   const renderForeground = () => {
     return (
-      <View style={{backgroundColor: red, flex: 1, borderRadius: 10}}>
-        <ImageBackground style={styles.imageHeader} source={{uri: picture}}>
+      <View style={{ backgroundColor: red, flex: 1, borderRadius: 10 }}>
+        <ImageBackground style={styles.imageHeader} source={{ uri: picture }}>
           <LinearGradient
             colors={['transparent', black]}
             style={styles.linearGradTour}
@@ -123,7 +123,7 @@ const TourInfo = ({navigation, route}) => {
 
   const renderContent = () => {
     return (
-      <View style={{marginBottom: 70}}>
+      <View style={{ marginBottom: 70 }}>
         {/* 
           Attempts at manually implementing the animated sticky header. 
         */}
@@ -137,8 +137,8 @@ const TourInfo = ({navigation, route}) => {
                         <Text style={{color: blueDark}}>Message</Text>
                     </TouchableOpacity>
                 </Animated.View> */}
-        <Text style={[styles.sectionText, {marginTop: 40}]}>Reviews</Text>
-        {renderReviews(reviews)}
+        <Text style={[styles.sectionText, { marginTop: 40 }]}>Reviews</Text>
+        <Reviews reviews={reviews} />
       </View>
     );
   };
@@ -160,7 +160,7 @@ const TourInfo = ({navigation, route}) => {
         onPress={() => {
           navigation.navigate('TourBooking1', tourInfo);
         }}>
-        <Text style={{alignSelf: 'center', color: 'white', fontWeight: '600'}}>
+        <Text style={{ alignSelf: 'center', color: 'white', fontWeight: '600' }}>
           Find A Tour Guide
         </Text>
       </TouchableOpacity>
@@ -231,7 +231,7 @@ const styles = StyleSheet.create({
     marginLeft: 20,
     marginRight: 20,
     shadowColor: black,
-    shadowOffset: {width: 1, height: 1},
+    shadowOffset: { width: 1, height: 1 },
     shadowOpacity: 0.2,
     shadowRadius: 5,
   },
@@ -255,7 +255,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
     borderRadius: 10,
     shadowColor: black,
-    shadowOffset: {width: 1, height: 1},
+    shadowOffset: { width: 1, height: 1 },
     shadowOpacity: 0.2,
     shadowRadius: 5,
   },
@@ -293,7 +293,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     borderRadius: 10,
     shadowColor: grayShadow,
-    shadowOffset: {width: 2, height: 2},
+    shadowOffset: { width: 2, height: 2 },
     shadowOpacity: 0.8,
     shadowRadius: 3,
   },
