@@ -25,7 +25,7 @@ import { getUsersByRef, getUserByRef } from '../../api/users';
 
 const TourBooking1 = ({navigation, route}) => {
 
-  const generalTour = route.params
+  const tour = route.params
 
   const [guides, setGuides] = useState([])
   const [filteredGuides, setFilteredGuides] = useState([])
@@ -33,7 +33,7 @@ const TourBooking1 = ({navigation, route}) => {
   const [info, setInfo] = useState([]);
   const [filterByTimeDates, setFilterByTimeDates] = useState([])
   const [fullyFilteredDates, setFullyFilteredDates] = useState([])
-  const [selectedDate, setSelectedDate] = useState('')
+  const [selectedDay, setSelectedDay] = useState('')
   const [selectedTimes, setSelectedTimes] = useState([false, false, false, false])
   const [disabledTimes, setDisabledTimes] = useState([false, false, false, false])
 
@@ -111,12 +111,13 @@ const TourBooking1 = ({navigation, route}) => {
   //
   const filterGuides = (day, semifilteredDates) => {
     let guideRefs = []
-    // let fullyFilteredDates = []
+    //we need this so we can pass it to tourbooking 3 select time
+    let fullyFilteredDates = []
     let i = binarySearch(semifilteredDates, day, 0) + 1
 
     while(typeof semifilteredDates[i] !== 'undefined' && moment(Object.keys(semifilteredDates[i])[0]).format("YYYY" + "-" + "MM" + "-" + "DD") == day){
       guideRefs.push(semifilteredDates[i][Object.keys(semifilteredDates[i])[0]].guideRef)
-      // fullyFilteredDates.push(semifilteredDates[i])
+      fullyFilteredDates.push(semifilteredDates[i])
       i++
     }
 
@@ -125,7 +126,7 @@ const TourBooking1 = ({navigation, route}) => {
       console.log(guides)
     })
 
-    // setFullyFilteredDates(fullyFilteredDates)
+    setFullyFilteredDates(fullyFilteredDates)
   }
 
   useEffect(() => {
@@ -158,8 +159,8 @@ const TourBooking1 = ({navigation, route}) => {
           }
         }
       }
-      if(selectedDate != ''){
-        filterGuides(selectedDate, filteredDates)
+      if(selectedDay != ''){
+        filterGuides(selectedDay, filteredDates)
       }
     } else {
       for(let i = 0; i < info.length; i++) {
@@ -195,7 +196,7 @@ const TourBooking1 = ({navigation, route}) => {
         selectedTimes[1] == true ||
         selectedTimes[2] == true ||
         selectedTimes[3] == true) &&
-      selectedDate == ''
+      selectedDay == ''
     ) {
       text = 'Please select a date';
     } else if (
@@ -203,7 +204,7 @@ const TourBooking1 = ({navigation, route}) => {
       selectedTimes[1] == false &&
       selectedTimes[2] == false &&
       selectedTimes[3] == false &&
-      selectedDate != ''
+      selectedDay != ''
     ) {
       text = 'Please select a time';
     } else {
@@ -214,7 +215,7 @@ const TourBooking1 = ({navigation, route}) => {
         selectedTimes[1] == true ||
         selectedTimes[2] == true ||
         selectedTimes[3] == true) &&
-      selectedDate != ''
+      selectedDay != ''
     ) {
       return (
         <FlatList
@@ -246,7 +247,7 @@ const TourBooking1 = ({navigation, route}) => {
     }
 
     const handleOnPress = () => {
-      navigation.navigate('TourBooking2', {generalTour, guideInfo})
+      navigation.navigate('TourBooking2', {tour, guideInfo, fullyFilteredDates, selectedDay})
     };
 
     return (
@@ -360,7 +361,7 @@ const TourBooking1 = ({navigation, route}) => {
     for (let i = 0; i < info.length; i++) {
       calenderMarkings[filteredFormattedDates[i]] = {};
       calenderMarkings[filteredFormattedDates[i]].marked = true;
-      if (filteredFormattedDates[i] == selectedDate) {
+      if (filteredFormattedDates[i] == selectedDay) {
         calenderMarkings[filteredFormattedDates[i]].selected = true;
       }
     }
@@ -394,8 +395,8 @@ const TourBooking1 = ({navigation, route}) => {
 
   const onDayPress = day => {
     if(filterByTimeDates.some(val => moment(Object.keys(val)[0]).format("YYYY" + "-" + "MM" + "-" + "DD") == day)) {
-      if (selectedDate == day) {
-        setSelectedDate('')
+      if (selectedDay == day) {
+        setSelectedDay('')
         setDisabledTimes([false,false,false,false])
       }
       else {
@@ -407,7 +408,7 @@ const TourBooking1 = ({navigation, route}) => {
   
         let i = binarySearch(info, day, 0) + 1
         while(typeof info[i] !== 'undefined' && moment(Object.keys(info[i])[0]).format("YYYY" + "-" + "MM" + "-" + "DD") == day){
-          setSelectedDate(day)
+          setSelectedDay(day)
           if (checkIfInRange(Object.keys(info[i])[0], time1, time2)) temp[0] = false
           if (checkIfInRange(Object.keys(info[i])[0], time2, time3)) temp[1] = false
           if (checkIfInRange(Object.keys(info[i])[0], time3, time4)) temp[2] = false
