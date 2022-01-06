@@ -23,11 +23,10 @@ import {createStackNavigator} from '@react-navigation/stack';
 import toursData from '../../data/toursData';
 
 const TourBooking2 = ({navigation, route}) => {
-  const generalTour = route.params.generalTours
-  console.log(route.params)
-  const tour = route.params.item
-  const guideInfo = toursData.guides[tour.guide]
+  const generalTour = route.params.generalTour
+  const guideInfo = route.params.guideInfo
 
+  console.log(guideInfo)
   const messageButton = () => {
     return (
       <TouchableOpacity
@@ -58,7 +57,7 @@ const TourBooking2 = ({navigation, route}) => {
           justifyContent: 'center',
           alignItems: 'center',
         }}>
-        <Image style={styles.listGuideImage} source={guideInfo.src} />
+        <Image style={styles.listGuideImage} source={{uri: guideInfo.profilePicture}} />
         <Text style={styles.sectionText}>{guideInfo.name}</Text>
         <Text style={styles.baseText}>
           {guideInfo.major + ','} {guideInfo.year}
@@ -72,7 +71,7 @@ const TourBooking2 = ({navigation, route}) => {
         <ImageBackground
           style={styles.listTourImage}
           imageStyle={{borderRadius: 10}}
-          source={route.params.generalTours.src}>
+          source={{uri: generalTour.picture}}>
           <LinearGradient
             colors={['transparent', 'black']}
             style={styles.linearGradTour}
@@ -86,7 +85,7 @@ const TourBooking2 = ({navigation, route}) => {
     <View style={{height: '100%'}}>
       <ImageBackground
         style={styles.imageHeader}
-        source={route.params.generalTours.src}
+        source={{uri: generalTour.picture}}
       />
       <ScrollView
         style={{

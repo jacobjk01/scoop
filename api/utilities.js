@@ -1,4 +1,5 @@
 import firestore from '@react-native-firebase/firestore';
+import db from '@react-native-firebase/firestore';
 
 export async function update(collection, id, key, value) {
     try {
@@ -54,4 +55,14 @@ export const docSnapshotFormatter = (queryDocSnapshot) => {
 
 export const querySnapshotFormatter = (querySnapshotSnapshots) => {
     return querySnapshotSnapshots.docs.map(docSnapshotFormatter)
+}
+
+
+
+export const userRef = (userId) => {
+    return db().collection('users').doc(userId)
+}
+
+export const userId = (userRef) => {
+    return userRef.id
 }

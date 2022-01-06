@@ -21,19 +21,23 @@ import { Calendar } from 'react-native-calendars';
 import moment from 'moment';
 import DatePicker from 'react-native-date-picker';
 import { viewTourSettings, convertToGuides } from '../../api/tours';
+import { getUsersByRef, getUserByRef } from '../../api/users';
 
 const TourBooking1 = ({navigation, route}) => {
 
-  const generalTours = route.params
-  let globalFilteredDates = []
+  const generalTour = route.params
+
   const [guides, setGuides] = useState([])
+  const [filteredGuides, setFilteredGuides] = useState([])
   //Array of objects with properties: ID and Dates. Dates is an array of dates, ID is the guideID
   const [info, setInfo] = useState([]);
+  const [filterByTimeDates, setFilterByTimeDates] = useState([])
+  const [fullyFilteredDates, setFullyFilteredDates] = useState([])
   const [selectedDate, setSelectedDate] = useState('')
   const [selectedTimes, setSelectedTimes] = useState([false, false, false, false])
   const [disabledTimes, setDisabledTimes] = useState([false, false, false, false])
 
-  //We need these 3 state because there is no other way to set time value unless it is changed, and we need to revert it if user cancels
+  //We need these 3 state because there is no other way to set time value unless it is changed in this state, and we need to revert it if user cancels
   const [officialTimes, setOfficialTimes] = useState(['- - - -','- - - -'])
   const [customStartTime, setCustomStartTime] = useState('- - - -');
   const [customEndTime, setCustomEndTime] = useState('- - - -');
@@ -41,14 +45,44 @@ const TourBooking1 = ({navigation, route}) => {
   const [isModalVisible, setModalVisible] = useState(false);
   //is user inputting a start custom time or an end custom time in the modal
   const [startOrEnd, setStartOrEnd] = useState(false);
-
-  // console.log(moment(dates[0]).format('LT' + ' ' + 'DD MM'))
-  // console.log(moment(dates[1]).format('LT' + ' ' + 'DD MM'))
-  // console.log(moment(dates[2]).format('LT' + ' ' + 'DD MM'))
-  // console.log(moment(dates[3]).format('LT' + ' ' + 'DD MM'))
-
   useEffect(() => {
     let isMounted = true
+    const swap = (arr, i, j) => {
+      let temp = arr[i]
+      arr[i] = arr[j]
+      arr[j] = temp
+    }
+    const quickSort = (arr) => {
+      if (arr.length > 1) {
+        let centerIndex = Math.floor(arr.length/2)
+        let cont = true
+        while (cont) {
+          let i = 0
+          let j = arr.length - 1
+          while(i < centerIndex && moment(Object.keys(arr[i])[0]).isBefore(Object.keys(arr[centerIndex])[0])) {
+            i++
+          }
+          while(j > centerIndex && moment(Object.keys(arr[j])[0]).isAfter(Object.keys(arr[centerIndex])[0])) {
+            j--
+          }
+  
+          if (i == centerIndex && j == centerIndex) {
+            let leftArr = []
+            let rightArr = []
+            cont = false
+            for (i = 0; i < centerIndex; i++) {
+              leftArr[i] = arr[i]
+            }
+            for (j = centerIndex; j < arr.length; j++) {
+              rightArr[j - centerIndex] = arr[j]
+            }
+            return quickSort(leftArr).concat(quickSort(rightArr))
+          }
+          else swap(arr, i, j)
+        }
+      }
+      else return arr
+    }
     viewTourSettings(route.params.id).then(tours => {
       //https://stackoverflow.com/questions/53949393/cant-perform-a-react-state-update-on-an-unmounted-component
       //You are not suppose to use async/await functions in useEffect
@@ -56,17 +90,17 @@ const TourBooking1 = ({navigation, route}) => {
       if (isMounted) {
         let temp = []
         for(let i = 0; i < tours.length; i++) {
-          let tempObject = {}
-          tempObject.id = tours[i].guide._documentPath._parts[1]
-          tempObject.dates = tours[i].timeAvailable
-          temp[i] = tempObject
+          for(let j = 0; j < tours[i].timeAvailable.length; j++) {
+            let tempObject = {}
+            let tempObject2 = {}
+            tempObject2.tourSettingRef = tours[i].id
+            tempObject2.guideRef = tours[i].guide
+            tempObject[tours[i].timeAvailable[j]] = tempObject2
+            temp.push(tempObject)
+          }
         }
-        console.log(temp)
-
+        temp = quickSort(temp)
         setInfo(temp)
-        convertToGuides(tours).then(guide => {
-          setGuides(guide)
-        })
       }
     });
     
@@ -74,6 +108,66 @@ const TourBooking1 = ({navigation, route}) => {
       isMounted = false
     }
   }, [])
+  //
+  const filterGuides = (day, semifilteredDates) => {
+    let guideRefs = []
+    // let fullyFilteredDates = []
+    let i = binarySearch(semifilteredDates, day, 0) + 1
+
+    while(typeof semifilteredDates[i] !== 'undefined' && moment(Object.keys(semifilteredDates[i])[0]).format("YYYY" + "-" + "MM" + "-" + "DD") == day){
+      guideRefs.push(semifilteredDates[i][Object.keys(semifilteredDates[i])[0]].guideRef)
+      // fullyFilteredDates.push(semifilteredDates[i])
+      i++
+    }
+
+    getUsersByRef(guideRefs).then(guides => {
+      setGuides(guides)
+      console.log(guides)
+    })
+
+    // setFullyFilteredDates(fullyFilteredDates)
+  }
+
+  useEffect(() => {
+    let filteredDates = []
+
+    let time1 = '2021-12-13T16:00:40.142Z' //8:00 AM
+    let time2 = '2021-12-13T20:00:40.142Z' //12:00 PM
+    let time3 = '2021-12-13T01:00:40.142Z' //5:00 PM
+    let time4 = '2021-12-13T06:00:40.142Z' //10:00 PM
+    if (selectedTimes.some(value => value == true)) {
+      for (let i = 0; i < info.length; i++) {
+        if (selectedTimes[0] == true) {
+          if(checkIfInRange(Object.keys(info[i])[0], time1, time2)) {
+            filteredDates.push(info[i])
+          }
+        }
+        if (selectedTimes[1] == true) {
+          if(checkIfInRange(Object.keys(info[i])[0], time2, time3)) {
+            filteredDates.push(info[i])
+          }
+        }
+        if (selectedTimes[2] == true) {
+          if(checkIfInRange(Object.keys(info[i])[0], time3, time4)) {
+            filteredDates.push(info[i])
+          }
+        }
+        if (selectedTimes[3] == true && officialTimes[0] != '- - - -' && officialTimes[1] != '- - - -') {
+          if(checkIfInRange(Object.keys(info[i])[0], officialTimes[0], officialTimes[1])) {
+            filteredDates.push(info[i])
+          }
+        }
+      }
+      if(selectedDate != ''){
+        filterGuides(selectedDate, filteredDates)
+      }
+    } else {
+      for(let i = 0; i < info.length; i++) {
+        filteredDates[i] = info[i]
+      }
+    }
+    setFilterByTimeDates(filteredDates)
+  },[info, selectedTimes])
 
   const isStartOrEnd = selectedTime => {
     if (startOrEnd) {
@@ -93,29 +187,7 @@ const TourBooking1 = ({navigation, route}) => {
       setModalVisible(true);
     }
   };
-  const filterGuides = () => {
-    //array of guide IDS
-    let filteredGuides = []
-    //guideIds converted into guideInfo
-    let guideInfo = []
-    //dates filtered by timerange and day
-    let fullyFilteredDates = []
-    // console.log(moment(globalFilteredDates[0]).format('LT') + ' ' + selectedDate)
 
-    fullyFilteredDates = globalFilteredDates.filter((item) => {
-      if (moment(item).format("YYYY" + "-" + "MM" + "-" + "DD") == selectedDate) {
-        return item
-      }
-    })
-
-    // for(let i = 0; i < info.length; i++) {
-    //   if (info[i].dates.some((item) => {fullyFilteredDates.some((item2) => {item == item2})})) {
-    //     filteredGuides[i] = info[i].id
-    //   }
-    // }
-    // console.log(filteredGuides)
-    return guides
-  }
   const checkDate = () => {
     let text;
     if (
@@ -148,7 +220,7 @@ const TourBooking1 = ({navigation, route}) => {
         <FlatList
           style={{}}
           vertical={true}
-          data={filterGuides()}
+          data={guides}
           renderItem={renderGuide}
           keyExtractor={(item, index) => index.toString()}
         />
@@ -161,9 +233,20 @@ const TourBooking1 = ({navigation, route}) => {
       );
     }
   };
+
+  // console.log(fullyFilteredDates, 'full dates')
+  // console.log(guides, 'guides')
   const renderGuide = ({item, index}) => {
+    let guideInfo = {
+      id: item.id,
+      major: item.major,
+      name: item.name,
+      profilePicture: item.profilePicture,
+      type: item.type
+    }
+
     const handleOnPress = () => {
-      navigation.navigate('TourBooking2', {generalTours, item})
+      navigation.navigate('TourBooking2', {generalTour, guideInfo})
     };
 
     return (
@@ -182,7 +265,39 @@ const TourBooking1 = ({navigation, route}) => {
       </TouchableOpacity>
     );
   };
-  //checks if time of date1 is in between time of date2 and date3
+  //searches info, returns index that is right before time, its weird because the arr is in format: array[object{object{}}]
+  const binarySearch = (arr, time, add) => {
+    if(typeof arr[0] !== 'undefined') {
+      if (moment(time).isBefore(Object.keys(arr[0])[0]) && add == 0) {
+        return -1
+      }
+      else {
+        if (arr.length > 1) {
+          let centerIndex = Math.floor(arr.length/2)
+          if (moment(time).isBefore(Object.keys(arr[centerIndex])[0])) {
+            let leftArr = []
+            for (let i = 0; i < centerIndex; i++) {
+              leftArr[i] = arr[i]
+            }
+            return binarySearch(leftArr, time, add)
+          }
+          else if (moment(time).isAfter(Object.keys(arr[centerIndex])[0])) {
+            let rightArr = []
+            for (let i = centerIndex; i < arr.length; i++) {
+              rightArr[i-centerIndex] = arr[i]
+            }
+            return binarySearch(rightArr, time, centerIndex + add)
+          }
+          else if (moment(time).isSame(Object.keys(arr[centerIndex])[0])) {
+            return centerIndex + add
+          }
+        }
+        else return add
+      }
+    }
+    else return null
+  }
+  //checks if time of date 1 is in between time of date 2 and date 3
   const checkIfInRange = (date1, date2, date3) => {
     let date1M = moment(date1).format('A')
     let date2M = moment(date2).format('A')
@@ -234,63 +349,19 @@ const TourBooking1 = ({navigation, route}) => {
       }
     }
   }
-  const convertInfoToDates = () => {
-    let dates = []
-    for(let i = 0; i < info.length; i++) {
-      for(let j = 0; j < info[i].dates.length; j++) {
-        dates[dates.length] = info[i].dates[j]
-      }
-    }
-    return dates
-  }
   const createMarkings = () => {
-    let dates = convertInfoToDates()
-    let filteredDates = []
+    let filteredFormattedDates = []
     let calenderMarkings = {}
-
-    let time1 = '2021-12-13T16:00:40.142Z' //8:00 AM
-    let time2 = '2021-12-13T20:00:40.142Z' //12:00 PM
-    let time3 = '2021-12-13T01:00:40.142Z' //5:00 PM
-    let time4 = '2021-12-13T06:00:40.142Z' //10:00 PM
-    
-    
-    //filter dates and then turn into calender format
-    if (selectedTimes.some(value => value == true)) {
-      for (let i = 0; i < dates.length; i++) {
-        if (selectedTimes[0] == true) {
-          if(checkIfInRange(dates[i], time1, time2)) {
-            filteredDates[filteredDates.length] = dates[i]
-          }
-        }
-        if (selectedTimes[1] == true) {
-          if(checkIfInRange(dates[i], time2, time3)) {
-            filteredDates[filteredDates.length] = dates[i]
-          }
-        }
-        if (selectedTimes[2] == true) {
-          if(checkIfInRange(dates[i], time3, time4)) {
-            filteredDates[filteredDates.length] = dates[i]
-          }
-        }
-        if (selectedTimes[3] == true && officialTimes[0] != '- - - -' && officialTimes[1] != '- - - -') {
-          if(checkIfInRange(dates[i], officialTimes[0], officialTimes[1])) {
-            filteredDates[filteredDates.length] = dates[i]
-          }
-        }
-      }
-    } else {
-      for(let i = 0; i < dates.length; i++) {
-        filteredDates[i] = dates[i]
-      }
+    for(let i = 0; i < filterByTimeDates.length; i++) {
+      filteredFormattedDates.push(moment(Object.keys(filterByTimeDates[i])[0]).format("YYYY" + "-" + "MM" + "-" + "DD"))
     }
-    globalFilteredDates = filteredDates
-    filteredDates = filteredDates.map((item) => {return moment(item).format("YYYY" + "-" + "MM" + "-" + "DD")})
     //this is the formatt needed by the calender, selected will have circle, marked will have dot
-    for (let i = 0; i < dates.length; i++) {
-      calenderMarkings[filteredDates[i]] = {};
-      calenderMarkings[filteredDates[i]].marked = true;
-      if (filteredDates[i] == selectedDate) {
-        calenderMarkings[filteredDates[i]].selected = true;
+
+    for (let i = 0; i < info.length; i++) {
+      calenderMarkings[filteredFormattedDates[i]] = {};
+      calenderMarkings[filteredFormattedDates[i]].marked = true;
+      if (filteredFormattedDates[i] == selectedDate) {
+        calenderMarkings[filteredFormattedDates[i]].selected = true;
       }
     }
     return calenderMarkings;
@@ -320,22 +391,36 @@ const TourBooking1 = ({navigation, route}) => {
       />
     );
   };
+
   const onDayPress = day => {
-    let dates = convertInfoToDates()
-    let time1 = '2021-12-13T16:00:40.142Z' //8:00 AM
-    let time2 = '2021-12-13T20:00:40.142Z' //12:00 PM
-    let time3 = '2021-12-13T01:00:40.142Z' //5:00 PM
-    let time4 = '2021-12-13T06:00:40.142Z' //10:00 PM
-    let temp = [true,true,true,false]
-    for (let i = 0; i < dates.length; i++) {
-      if (day == moment(dates[i]).format("YYYY" + "-" + "MM" + "-" + "DD")){
-        setSelectedDate(day)
-        if (checkIfInRange(dates[i], time1, time2)) temp[0] = false
-        if (checkIfInRange(dates[i], time2, time3)) temp[1] = false
-        if (checkIfInRange(dates[i], time3, time4)) temp[2] = false
-      };
+    if(filterByTimeDates.some(val => moment(Object.keys(val)[0]).format("YYYY" + "-" + "MM" + "-" + "DD") == day)) {
+      if (selectedDate == day) {
+        setSelectedDate('')
+        setDisabledTimes([false,false,false,false])
+      }
+      else {
+        let time1 = '2021-12-13T16:00:40.142Z' //8:00 AM
+        let time2 = '2021-12-13T20:00:40.142Z' //12:00 PM
+        let time3 = '2021-12-13T01:00:40.142Z' //5:00 PM
+        let time4 = '2021-12-13T06:00:40.142Z' //10:00 PM
+        let temp = [true,true,true,false]
+  
+        let i = binarySearch(info, day, 0) + 1
+        while(typeof info[i] !== 'undefined' && moment(Object.keys(info[i])[0]).format("YYYY" + "-" + "MM" + "-" + "DD") == day){
+          setSelectedDate(day)
+          if (checkIfInRange(Object.keys(info[i])[0], time1, time2)) temp[0] = false
+          if (checkIfInRange(Object.keys(info[i])[0], time2, time3)) temp[1] = false
+          if (checkIfInRange(Object.keys(info[i])[0], time3, time4)) temp[2] = false
+          i++
+        }
+        setDisabledTimes(temp)
+        //if both day and time are selected, get guide info
+        if (selectedTimes.some(value => value == true)) {
+          filterGuides(day, filterByTimeDates)
+        }
+      }
     }
-    setDisabledTimes(temp)
+
   };
   const confirm = () => {
     if (
