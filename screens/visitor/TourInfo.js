@@ -33,7 +33,6 @@ const { event, ValueXY } = Animated;
 
 const TourInfo = ({ navigation, route }) => {
   const { title, picture, id, description } = route.params.itemInfo;
-  const [tourInfo, setTourInfo] = useState(route.params.tour);
   const [reviews, setReviews] = useState([
     {
       stars: 4.8,
@@ -49,7 +48,7 @@ const TourInfo = ({ navigation, route }) => {
     },
   ]);
   const [scrollY, setScrollY] = useState(new ValueXY());
-
+  console.log(route.params.itemInfo)
   // constructor(props) {
   //   super(props);
 
@@ -158,7 +157,7 @@ const TourInfo = ({ navigation, route }) => {
       <TouchableOpacity
         style={styles.continue}
         onPress={() => {
-          navigation.navigate('TourBooking1', tourInfo);
+          navigation.navigate('TourBooking1', {title, picture, id, description});
         }}>
         <Text style={{ alignSelf: 'center', color: 'white', fontWeight: '600' }}>
           Find A Tour Guide
