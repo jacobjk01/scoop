@@ -15,12 +15,11 @@ import {
 import {withSafeAreaInsets} from 'react-native-safe-area-context';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import LinearGradient from 'react-native-linear-gradient';
-import {black, grayDark, grayLight, grayMed, white, primary} from '../../config/colors';
-import {color} from 'react-native-reanimated';
-import GuideProfile from './GuideProfile';
 import {viewTourSettings, viewAvailableTours, viewAllTours, convertToTourSummary} from '../../api/tours'
+import { black, grayDark, grayLight, grayMed, white, primary } from 'config/colors';
+import { color } from 'react-native-reanimated';
+import GuideProfile from './GuideProfile';
 import { UserContext } from '../../contexts'
-
 import toursData from '../../data/toursDatav2';
 
 const HomePage = ({navigation}) => {
@@ -82,6 +81,9 @@ const HomePage = ({navigation}) => {
             fontFamily='Raleway-Bold'
             style={{left: 35, position: 'absolute', top: 137, zIndex: 100, elevation: 100}}
           />
+        {/* THIS IS IMPORTANT */}
+        {/* THIS IS IMPORTANT */}
+        {/* THIS IS IMPORTANT */}
         {/* <Text style={styles.sectionText}>Category</Text>
         <View style={{width: '100%', flexDirection: 'column', marginTop: 10}}>
           <View style={{flexDirection: 'row'}}>
@@ -241,6 +243,35 @@ const styles = StyleSheet.create({
     marginTop: 30,
     alignSelf: 'center',
     backgroundColor: white,
+    height: 50,
+    width: '100%',
+    borderRadius: 7,
+    paddingLeft: 20,
+  },
+  searchicon: {
+    position: 'absolute',
+    right: 10,
+    top: 11,
+  },
+  recommendationbuttonleft: {
+    flex: 1,
+    backgroundColor: primary,
+    borderRadius: 7,
+    height: 100,
+    marginRight: 15,
+  },
+  recommendationbuttonright: {
+    flex: 1,
+    backgroundColor: primary,
+    borderRadius: 7,
+    height: 100,
+  },
+  recommendationTitle: {
+    marginTop: 15,
+    marginLeft: 15,
+    color: white,
+    fontWeight: '600',
+    fontSize: 16,
     height: 60,
     width: '90%',
     marginBottom: 15,
@@ -265,6 +296,16 @@ const styles = StyleSheet.create({
   tourText: {
     fontWeight: '600',
     fontSize: 18,
+    color: white,
+    position: 'absolute',
+    bottom: 50,
+    left: 20,
+  },
+  guideText: {
+    width: 120,
+    position: 'absolute',
+    bottom: 10,
+    left: 10,
     color: white,
     marginTop: 'auto',
     left: 20,

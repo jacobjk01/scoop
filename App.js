@@ -35,11 +35,11 @@ import {createStackNavigator} from '@react-navigation/stack';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 //config imports
-import colors from './config/colors';
-import {localState} from './config/initialState';
+import {primary} from 'config/colors';
+import {localState} from 'config/initialState';
 
 //contexts imports
-import {UserContext} from './contexts';
+import {UserContext} from 'contexts';
 
 //dev imports
 import Test from './screens/dev/Test';
@@ -59,6 +59,7 @@ import ManageTours from './screens/guide/ManageTours';
 import TourEdit from './screens/guide/TourEdit';
 import TourEdit2 from './screens/guide/TourEdit2';
 import TourEdit3 from './screens/guide/TourEdit3';
+import ProfileOptionsGuide from './screens/guide/ProfileOptions';
 import AccountGuide from './screens/guide/Account';
 import AccountEdit from './screens/guide/AccountEdit';
 import AddTour from './screens/guide/AddTour';
@@ -81,15 +82,15 @@ import GuideProfile from './screens/visitor/GuideProfile';
 import Messages from './screens/visitor/Messages';
 import GuideList from './screens/visitor/GuideList';
 import SelectSchool from './screens/visitor/SelectSchool';
-import MyTrips from './screens/visitor/MyTrips'
+import MyTrips from './screens/visitor/MyTrips';
 
 //authorization
 import RequireAuth from './components/RequireAuth';
 
 //api
-import {onAuthStateChanged} from './api/auth';
-import {getUser} from './api/users';
-import { viewAvailableTours } from './api/tours';
+import {onAuthStateChanged} from 'api/auth';
+import {getUser} from 'api/users';
+import {viewAvailableTours} from './api/tours';
 
 /**
  *
@@ -108,18 +109,20 @@ const App: () => Node = () => {
   const [userAuth, setUserAuth] = useState(null);
   //user is a object with the user document data
   const [user, setUser] = useState(null);
-  const [bookTourInfo, setBookTourInfo] = useState(null)
+  const [bookTourInfo, setBookTourInfo] = useState(null);
   const [isUserLoading, setIsUserLoading] = useState(true);
   const [mode, setMode] = useState(localState.currentMode);
   const [guideDone, setGuideDone] = useState(localState.guideDone);
   const [visitorDone, setVisitorDone] = useState(localState.visitorDone);
   const [visitorBone, setVisitorBone] = useState(localState.visitorBone);
   const hasNotFinishedBareOnboarding =
-    (mode === 'new' || (mode === 'visitor' && !visitorBone) || (mode === 'guide' && !guideDone)) && mode !== 'dev'
-    ;
+    (mode === 'new' ||
+      (mode === 'visitor' && !visitorBone) ||
+      (mode === 'guide' && !guideDone)) &&
+    mode !== 'dev';
   // this useEffect causing flickering
   useEffect(() => {
-    console.log(mode)
+    console.log(mode);
     if (hasNotFinishedBareOnboarding) {
       return;
     }
@@ -129,7 +132,11 @@ const App: () => Node = () => {
         // userAuth is null, so definitely unique
         setUserAuth(newUserAuth);
         // userAuth exists and doesn't match with with newUserAuth.uid
-      } else if (userAuth && userAuth.uid && newUserAuth && userAuth.uid != newUserAuth.uid
+      } else if (
+        userAuth &&
+        userAuth.uid &&
+        newUserAuth &&
+        userAuth.uid != newUserAuth.uid
       ) {
         setUserAuth(newUserAuth);
       }
@@ -166,11 +173,10 @@ const App: () => Node = () => {
               case 'ManageTours':
                 iconName = focused ? 'map' : 'map-outline';
                 break;
-              case 'TourList':
+              case 'Tours':
                 iconName = focused ? 'map' : 'map-outline';
                 break;
-              case 'AccountGuide':
-              case 'AccountVisitor':
+              case 'ProfileOptions' || 'AccountGuide' || 'AccountVisitor':
                 iconName = focused ? 'person' : 'person-outline';
                 break;
               default:
@@ -181,8 +187,8 @@ const App: () => Node = () => {
           },
         })}
         tabBarOptions={{
-          activeTintColor: colors.primary,
-          inactiveTintColor: colors.primary,
+          activeTintColor: primary,
+          inactiveTintColor: primary,
         }}
         initialRouteName={
           mode === 'visitor' ? 'Home' : mode === 'guide' ? 'Home' : 'Home'
@@ -194,9 +200,10 @@ const App: () => Node = () => {
                 <Tab.Screen
                   name="Home"
                   component={HomeVisitor}
+                  options={{tabBarVisible: true}}
                 />
                 <Tab.Screen name="TourList" component={TourList} />
-                <Tab.Screen name="AccountVisitor" component={AccountVisitor} />
+                <Tab.Screen name="Account" component={AccountVisitor} />
               </>
             );
           } else if (mode === 'guide') {
@@ -204,7 +211,10 @@ const App: () => Node = () => {
               <>
                 <Tab.Screen name="Home" component={HomeGuide} />
                 <Tab.Screen name="ManageTours" component={ManageTours} />
-                <Tab.Screen name="AccountGuide" component={AccountGuide} />
+                <Tab.Screen
+                  name="ProfileOptions"
+                  component={ProfileOptionsGuide}
+                />
               </>
             );
           } else {
@@ -246,20 +256,17 @@ const App: () => Node = () => {
         visitorBone,
         setVisitorBone,
       }}>
-
-      {
-      mode === 'dev' ? (
-      <NavigationContainer>
-        <Stack.Navigator>
-          <Stack.Screen
-            name="Test"
-            component={Test}
-            options={{headerShown: true}}
-          /> 
-        </Stack.Navigator>
-      </NavigationContainer>
-      ) :
-      /* Has not finished basic onboarding */
+      {mode === 'dev' ? (
+        <NavigationContainer>
+          <Stack.Navigator>
+            <Stack.Screen
+              name="Test"
+              component={Test}
+              options={{headerShown: true}}
+            />
+          </Stack.Navigator>
+        </NavigationContainer>
+      ) : /* Has not finished basic onboarding */
       hasNotFinishedBareOnboarding ? (
         <NavigationContainer>
           <Stack.Navigator>
@@ -284,7 +291,6 @@ const App: () => Node = () => {
               options={{headerShown: false}}
             />
           </Stack.Navigator>
-          
         </NavigationContainer>
       ) : (
         <NavigationContainer>
@@ -303,10 +309,10 @@ const App: () => Node = () => {
             />
 
             {/* Guide Routes */}
-            <Stack.Screen 
-              name="HomePage"
-              component={HomeVisitor}
-              options={{headerShown: false}}
+            <Stack.Screen
+              name="ProfileOptionsGuide"
+              component={RequireAuth(ProfileOptionsGuide)}
+              options={{headerShown: true}}
             />
             <Stack.Screen
               name="AccountGuide"
@@ -341,7 +347,7 @@ const App: () => Node = () => {
             <Stack.Screen
               name="TourEdit2"
               component={RequireAuth(TourEdit2)}
-              options={{headerShown: true}}
+              options={{headerShown: false}}
             />
             <Stack.Screen
               name="TourEdit3"
@@ -351,7 +357,7 @@ const App: () => Node = () => {
             <Stack.Screen
               name="ViewTour"
               component={RequireAuth(ViewTour)}
-              options={{headerShown: true}}
+              options={{headerShown: false}}
             />
 
             {/* Visitor Routes */}

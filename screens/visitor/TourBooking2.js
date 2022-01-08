@@ -15,19 +15,18 @@ import {
   ReadMore,
   StatusBar,
 } from 'react-native';
-import {withSafeAreaInsets} from 'react-native-safe-area-context';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import LinearGradient from 'react-native-linear-gradient';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
-import toursData from '../../data/toursData';
 
 const TourBooking2 = ({navigation, route}) => {
-  const chosenTourIndex = route.params.index
-  const generalTour = route.params.generalTours
-  const tour = generalTour.tours[chosenTourIndex]
-  const guideInfo = toursData.guides[tour.guide]
+  const tour = route.params.tour
+  const dates = route.params.fullyFilteredDates
+  const selectedDay = route.params.selectedDay
+  const guideInfo = route.params.guideInfo
 
+  console.log(dates, selectedDay)
   const messageButton = () => {
     return (
       <TouchableOpacity
@@ -42,7 +41,7 @@ const TourBooking2 = ({navigation, route}) => {
 
 
   const bookTourButton = () => {
-    const handleOnPress = () => navigation.navigate('TourBooking3', {generalTour, chosenTourIndex});
+    const handleOnPress = () => navigation.navigate('TourBooking3', {tour, dates, selectedDay, guideInfo});
     return (
       <TouchableOpacity onPress={handleOnPress} style={styles.roundButton2}>
         <Text style={styles.messageFont}>Book Tour</Text>
@@ -58,7 +57,7 @@ const TourBooking2 = ({navigation, route}) => {
           justifyContent: 'center',
           alignItems: 'center',
         }}>
-        <Image style={styles.listGuideImage} source={guideInfo.src} />
+        <Image style={styles.listGuideImage} source={{uri: guideInfo.profilePicture}} />
         <Text style={styles.sectionText}>{guideInfo.name}</Text>
         <Text style={styles.baseText}>
           {guideInfo.major + ','} {guideInfo.year}
@@ -72,7 +71,7 @@ const TourBooking2 = ({navigation, route}) => {
         <ImageBackground
           style={styles.listTourImage}
           imageStyle={{borderRadius: 10}}
-          source={route.params.generalTours.src}>
+          source={{uri: tour.picture}}>
           <LinearGradient
             colors={['transparent', 'black']}
             style={styles.linearGradTour}
@@ -86,7 +85,7 @@ const TourBooking2 = ({navigation, route}) => {
     <View style={{height: '100%'}}>
       <ImageBackground
         style={styles.imageHeader}
-        source={route.params.generalTours.src}
+        source={{uri: tour.picture}}
       />
       <ScrollView
         style={{

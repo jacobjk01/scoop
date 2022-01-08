@@ -1,4 +1,5 @@
 import firestore from '@react-native-firebase/firestore';
+import db from '@react-native-firebase/firestore';
 
 export async function update(collection, id, key, value) {
     try {
@@ -42,4 +43,26 @@ export async function deleteC(field1, query1, field2, query2) {
             }
         )
     })
+}
+
+export const docSnapshotFormatter = (queryDocSnapshot) => {
+    return {
+        id: queryDocSnapshot.id,
+        ...queryDocSnapshot.data(),
+        ref: queryDocSnapshot.ref
+    }
+}
+
+export const querySnapshotFormatter = (querySnapshotSnapshots) => {
+    return querySnapshotSnapshots.docs.map(docSnapshotFormatter)
+}
+
+
+
+export const userRef = (userId) => {
+    return db().collection('users').doc(userId)
+}
+
+export const userId = (userRef) => {
+    return userRef.id
 }

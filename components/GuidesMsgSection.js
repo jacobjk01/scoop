@@ -1,6 +1,6 @@
 import React from 'react'
 import { Text, FlatList, View, StyleSheet, TouchableOpacity, LinearGradient, ImageBackground, Image } from 'react-native'
-import colors from '../config/colors'
+import { black } from 'config/colors'
 import PictureIcon from './PictureIcon'
 export default function GuidesMsgSection({tourGuides}) {
     return (
@@ -21,8 +21,8 @@ export default function GuidesMsgSection({tourGuides}) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        alignItems: "center",
-        justifyContent: "center",
+        alignItems: 'center',
+        justifyContent: 'center',
         paddingLeft: 10,
         paddingRight: 10,
         paddingTop: 10,
@@ -38,11 +38,11 @@ const styles = StyleSheet.create({
         borderRadius: 10
     },
     guideTitle: {
-        fontWeight: "bold",
+        fontWeight: 'bold',
         fontSize: 18
     },
     guideText: {
-        color: colors.black,
+        color: black,
         fontWeight: 'bold',
         paddingTop: 5,
         textAlign: 'center',
