@@ -1163,7 +1163,7 @@ SPEC CHECKSUMS:
   react-native-google-maps: 0a989abda71059db2caa98b9dacca7a8f38a47d0
   react-native-image-picker: 9c8a2687b69300ad9e95cec5d38f35ab9d32467d
   react-native-maps: f4b89da81626ad7f151a8bfcb79733295d31ce5c
-  react-native-safe-area-context: f0906bf8bc9835ac9a9d3f97e8bde2a997d8da79
+  react-native-safe-area-context: e471852c5ed67eea4b10c5d9d43c1cebae3b231d
   React-perflogger: 25373e382fed75ce768a443822f07098a15ab737
   React-RCTActionSheet: af7796ba49ffe4ca92e7277a5d992d37203f7da5
   React-RCTAnimation: 6a2e76ab50c6f25b428d81b76a5a45351c4d77aa
@@ -1194,4 +1194,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 86e726142ba55b6264ae840a7a55381749b38ff5
 
-COCOAPODS: 1.10.2
+COCOAPODS: 1.11.2
