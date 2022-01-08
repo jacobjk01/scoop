@@ -6,8 +6,6 @@ platform :ios, '10.0'
 rn_maps_path = '../node_modules/react-native-maps'
 pod 'react-native-google-maps', :path => rn_maps_path
 
-
-
 target 'OffCampusTour' do
   config = use_native_modules!
   pod 'GoogleSignIn', '~> 5.0.2'
@@ -16,6 +14,9 @@ target 'OffCampusTour' do
     # to enable hermes on iOS, change `false` to `true` and then install pods
     :hermes_enabled => false
   )
+
+  permissions_path = '../node_modules/react-native-permissions/ios'
+  pod 'Permission-PhotoLibrary', :path => "#{permissions_path}/PhotoLibrary"
 
   target 'OffCampusTourTests' do
     inherit! :complete

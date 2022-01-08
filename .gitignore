@@ -61,4 +61,5 @@ buck-out/
 
 # Keys
 /android/app/google-services.json
+/android/app/src/main/AndroidManifest.xml
 /ios/GoogleService-Info.plist

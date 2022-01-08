@@ -1,10 +1,14 @@
 module.exports = [
     {
-        name: "Brittany",
-        picture: require('../images/brittany.png'),
+        name: 'Brittany',
+        picture: require('images/brittany.png'),
+        year: 'Junior',
+        major: 'Mechanical Eng.',
+        hometown: 'Irvine, Orange County',
+        intro: 'I am a proud first-generation college student! Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sapien velit elementum malesuada leo sociis. Leo nisi, facilisis fames dignissim euismod nec. Tempus scelerisque tempor proin diam int',
         lastMessage: 'excited to see you',
         tour: 'Westwood Tour',
-        date: "10:05 AM",
+        date: '10:05 AM',
         conversation: [
             {
                 isYou: true,
@@ -19,17 +23,17 @@ module.exports = [
         ]
     },
     {
-        name: "Natalie",
-        picture: require('../images/natalie.png'),
+        name: 'Natalie',
+        picture: require('images/natalie.png'),
         lastMessage: 'I have a couple resturant options I like',
         tour: 'Ktown Tour',
-        date: "6:02 AM"
+        date: '6:02 AM'
     },
     {
-        name: "Trevor",
-        picture: require('../images/trevor.png'),
+        name: 'Trevor',
+        picture: require('images/trevor.png'),
         lastMessage: 'Yes, I can show you where to find ',
         tour: 'Day in the life of an UCLA student',
-        date: "10:05 AM"
+        date: '10:05 AM'
     }
 ]
