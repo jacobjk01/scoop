@@ -14,25 +14,21 @@ import {
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import LinearGradient from 'react-native-linear-gradient';
 import { primary, white, grayLight, black, blueMed, grayVeryLight, grayMed, grayDark } from 'config/colors';
-import {color} from 'react-native-reanimated';
 import GuideProfile from './GuideProfile';
-import { Colors } from 'react-native/Libraries/NewAppScreen';
 import { Calendar } from 'react-native-calendars';
 import moment from 'moment';
 import DatePicker from 'react-native-date-picker';
-import { viewTourSettings, convertToGuides } from '../../api/tours';
-import { getUsersByRef, getUserByRef } from '../../api/users';
+import { viewTourSettings} from '../../api/tours';
+import { getUsersByRef} from '../../api/users';
 
 const TourBooking1 = ({navigation, route}) => {
 
   const tour = route.params
 
   const [guides, setGuides] = useState([])
-  const [filteredGuides, setFilteredGuides] = useState([])
   //Array of objects with properties: ID and Dates. Dates is an array of dates, ID is the guideID
   const [info, setInfo] = useState([]);
   const [filterByTimeDates, setFilterByTimeDates] = useState([])
-  const [fullyFilteredDates, setFullyFilteredDates] = useState([])
   const [selectedDay, setSelectedDay] = useState('')
   const [selectedTimes, setSelectedTimes] = useState([false, false, false, false])
   const [disabledTimes, setDisabledTimes] = useState([false, false, false, false])
@@ -83,26 +79,27 @@ const TourBooking1 = ({navigation, route}) => {
       }
       else return arr
     }
-    viewTourSettings(route.params.id).then(tours => {
-      //https://stackoverflow.com/questions/53949393/cant-perform-a-react-state-update-on-an-unmounted-component
-      //You are not suppose to use async/await functions in useEffect
-      //jon has no idea how these 3 isMounted are connected...
-      if (isMounted) {
-        let temp = []
-        for(let i = 0; i < tours.length; i++) {
-          for(let j = 0; j < tours[i].timeAvailable.length; j++) {
-            let tempObject = {}
-            let tempObject2 = {}
-            tempObject2.tourSettingRef = tours[i].id
-            tempObject2.guideRef = tours[i].guide
-            tempObject[tours[i].timeAvailable[j]] = tempObject2
-            temp.push(tempObject)
+    if (isMounted) {
+      viewTourSettings(route.params.id).then(tours => {
+        //https://stackoverflow.com/questions/53949393/cant-perform-a-react-state-update-on-an-unmounted-component
+        //You are not suppose to use async/await functions in useEffect
+        //jon has no idea how these 3 isMounted are connected...
+
+          let temp = []
+          for(let i = 0; i < tours.length; i++) {
+            for(let j = 0; j < tours[i].timeAvailable.length; j++) {
+              let tempObject = {}
+              let tempObject2 = {}
+              tempObject2.tourSettingRef = tours[i].id
+              tempObject2.guideRef = tours[i].guide
+              tempObject[tours[i].timeAvailable[j]] = tempObject2
+              temp.push(tempObject)
+            }
           }
-        }
-        temp = quickSort(temp)
-        setInfo(temp)
-      }
-    });
+          temp = quickSort(temp)
+          setInfo(temp)
+      });
+    }
     
     return () => {
       isMounted = false
@@ -112,21 +109,15 @@ const TourBooking1 = ({navigation, route}) => {
   const filterGuides = (day, semifilteredDates) => {
     let guideRefs = []
     //we need this so we can pass it to tourbooking 3 select time
-    let fullyFilteredDates = []
     let i = binarySearch(semifilteredDates, day, 0) + 1
 
     while(typeof semifilteredDates[i] !== 'undefined' && moment(Object.keys(semifilteredDates[i])[0]).format("YYYY" + "-" + "MM" + "-" + "DD") == day){
       guideRefs.push(semifilteredDates[i][Object.keys(semifilteredDates[i])[0]].guideRef)
-      fullyFilteredDates.push(semifilteredDates[i])
       i++
     }
-
     getUsersByRef(guideRefs).then(guides => {
       setGuides(guides)
-      console.log(guides)
     })
-
-    setFullyFilteredDates(fullyFilteredDates)
   }
 
   useEffect(() => {
@@ -235,8 +226,6 @@ const TourBooking1 = ({navigation, route}) => {
     }
   };
 
-  // console.log(fullyFilteredDates, 'full dates')
-  // console.log(guides, 'guides')
   const renderGuide = ({item, index}) => {
     let guideInfo = {
       id: item.id,
@@ -247,7 +236,7 @@ const TourBooking1 = ({navigation, route}) => {
     }
 
     const handleOnPress = () => {
-      navigation.navigate('TourBooking2', {tour, guideInfo, fullyFilteredDates, selectedDay})
+      navigation.navigate('TourBooking2', {tour, guideInfo, selectedDay})
     };
 
     return (
