@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   View,
   Text,
@@ -18,16 +18,20 @@ import { Marker } from 'react-native-maps';
 import { Calendar } from 'react-native-calendars';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import moment from 'moment';
-import toursData from '../../data/toursData';
+import { viewTourSettings} from '../../api/tours';
 
 const TourBooking3 = ({navigation, route}) => {
 
   const tour = route.params.tour
-  const dates = route.params.dates
   const guideInfo = route.params.guideInfo
+  //all of the tourSettings that are led by this specific guide and is this specific tour
+  const [tourSettings, setTourSettings] = useState()
+  //all of the toursettings that are led by a specific guide, a specific tour, and on a specific day
+  const [dayTourSettings, setDayTourSettings] = useState()
   const [visitorCount, setVisitorCount] = useState(1)
   const [selectedDay, setSelectedDay] = useState(route.params.selectedDay)
-  const [times, setTimes] = useState([new Date(), new Date(), new Date(), new Date(), new Date()])
+  const [times, setTimes] = useState()
+  //this is the INDEX of the selected Time, not the time itself
   const [selectedTime, setSelectedTime] = useState(-1)
   const [selectedMeet, setSelectedMeet] = useState(0)
   const [modalVisible, setModalVisible] = useState(false)
@@ -39,17 +43,38 @@ const TourBooking3 = ({navigation, route}) => {
     latitudeDelta: 0.005,
     longitudeDelta: 0.0011,
   })
-  const [marks, setMarks] = useState([
-    '2012-05-16',
-    '2021-10-18',
-    '2021-10-19',
-    '2021-10-21',
-    '2021-10-22',
-    '2021-10-23',
-    '2021-10-26',
-    '2021-10-27',
-  ])
+  const [marks, setMarks] = useState([])
 
+  //tour[1].guide._documentPath._parts[1] this gets the id of a reference
+  useEffect(() => {
+    let isMounted = true
+    if (isMounted) {
+      viewTourSettings(tour.id).then(allTourSettings => {
+          let filteredTourSettings = []
+          let marks = []
+          let times = []
+          let dayTourSettings = []
+          for(let i = 0; i < allTourSettings.length; i++) {
+            if(guideInfo.id == allTourSettings[i].guide._documentPath._parts[1]) {
+              filteredTourSettings.push(allTourSettings[i])
+              for(let j = 0; j < allTourSettings[i].timeAvailable.length; j++) {
+                marks.push(moment(allTourSettings[i].timeAvailable[j]).format("YYYY" + "-" + "MM" + "-" + "DD"))
+                if (moment(allTourSettings[i].timeAvailable[j]).format("YYYY" + "-" + "MM" + "-" + "DD") == selectedDay) {
+                  times.push(allTourSettings[i].timeAvailable[j])
+                  dayTourSettings.push(allTourSettings[i])
+                }
+              }
+            }
+          }
+          setTourSettings(filteredTourSettings)
+          setMarks(marks)
+          setTimes(times)
+          setDayTourSettings(dayTourSettings)
+      })
+    }
+
+    return () => {isMounted = false}
+  }, [])
   const openModal = () => {
     setModalVisible(true)
     setSelectedMeet(1)
@@ -102,7 +127,6 @@ const TourBooking3 = ({navigation, route}) => {
       );
     }
   }
-
   const onRegionChange = region => {
     setRegion(region)
     // region: {
@@ -112,27 +136,26 @@ const TourBooking3 = ({navigation, route}) => {
     //     longitudeDelta: 0.0011,
     // }
   };
-
-  const takeDefaultSnapshot = () => {
-    // 'takeSnapshot' takes a config object with the
-    // following options
-    const snapshot = map.takeSnapshot({
-      width: 320, // optional, when omitted the view-width is used
-      height: 90, // optional, when omitted the view-height is used
-      region: {
-        latitude: 34.07106828093279,
-        longitude: -118.444993904947,
-        latitudeDelta: 0.005,
-        longitudeDelta: 0.0011,
-      }, // iOS only, optional region to render
-      format: 'jpg', // image formats: 'png', 'jpg' (default: 'png')
-      quality: 0.8, // image quality: 0..1 (only relevant for jpg, default: 1)
-      result: 'file', // result types: 'file', 'base64' (default: 'file')
-    });
-    snapshot.then(uri => {
-      return uri;
-    });
-  }
+  // const takeDefaultSnapshot = () => {
+  //   // 'takeSnapshot' takes a config object with the
+  //   // following options
+  //   const snapshot = map.takeSnapshot({
+  //     width: 320, // optional, when omitted the view-width is used
+  //     height: 90, // optional, when omitted the view-height is used
+  //     region: {
+  //       latitude: 34.07106828093279,
+  //       longitude: -118.444993904947,
+  //       latitudeDelta: 0.005,
+  //       longitudeDelta: 0.0011,
+  //     }, // iOS only, optional region to render
+  //     format: 'jpg', // image formats: 'png', 'jpg' (default: 'png')
+  //     quality: 0.8, // image quality: 0..1 (only relevant for jpg, default: 1)
+  //     result: 'file', // result types: 'file', 'base64' (default: 'file')
+  //   });
+  //   snapshot.then(uri => {
+  //     return uri;
+  //   });
+  // }
 
   const takeSnapshot = () => {
     // 'takeSnapshot' takes a config object with the
@@ -163,9 +186,33 @@ const TourBooking3 = ({navigation, route}) => {
   };
   const onDayPress = day => {
     for (let i = 0; i < marks.length; i++) {
-      if (day == marks[i]) setSelectedDay(day);
+      if (day == marks[i] && selectedDay == '') {
+        setSelectedDay(day)
+      }
+      else if (day == marks[i] && selectedDay != ''){
+        setSelectedDay('')
+      }
+    }
+    let times = []
+    let dayTourSettings = []
+    if (selectedDay == '') {
+      for (let i = 0; i < tourSettings.length; i++) {
+        for (let j = 0; j < tourSettings[i].timeAvailable.length; j++) {
+          if (moment(tourSettings[i].timeAvailable[j]).format("YYYY" + "-" + "MM" + "-" + "DD") == day) {
+            times.push(tourSettings[i].timeAvailable[j])
+            dayTourSettings.push(tourSettings[i])
+          }
+        }
+      }
+
+      setTimes(times)
+      setDayTourSettings(dayTourSettings)
+    }
+    else {
+      setTimes()
     }
   };
+
   const showMeetingPoint = () => {
     if (selectedTime != -1) {
       return (
@@ -297,10 +344,6 @@ const TourBooking3 = ({navigation, route}) => {
       );
     }
   };
-
-  
-
-
   return (
     <SafeAreaView style={{backgroundColor: '#E5E5E5'}}>
       <Modal
@@ -366,45 +409,7 @@ const TourBooking3 = ({navigation, route}) => {
                   source={{uri: guideInfo.profilePicture}}></ImageBackground>
               </ImageBackground>
             </View>
-            <View
-              style={{
-                flex: 1,
-                height: 60,
-                backgroundColor: white,
-                justifyContent: 'center',
-              }}>
-              <Text style={{marginLeft: 20, fontWeight: '700', fontSize: 19}}>
-                Visitors
-              </Text>
-              <TouchableOpacity
-                style={
-                  visitorCount == 1
-                    ? styles.minusDisabled
-                    : styles.minus
-                }
-                onPress={() =>
-                  setVisitorCount(visitorCount - 1)
-                }
-                disabled={visitorCount == 1 ? true : false}>
-                <Ionicons
-                  name="remove-outline"
-                  color={visitorCount == 1 ? '#9B9BA7' : 'white'}
-                  style={{
-                    alignSelf: 'center',
-                    marginTop: 'auto',
-                    marginBottom: 'auto',
-                  }}
-                  size={15}></Ionicons>
-              </TouchableOpacity>
-              <Text style={styles.number}>{visitorCount}</Text>
-              <TouchableOpacity
-                style={styles.plus}
-                onPress={() =>
-                  setVisitorCount(visitorCount + 1)
-                }>
-                <Text style={{color: white, alignSelf: 'center'}}>+</Text>
-              </TouchableOpacity>
-            </View>
+            
             {/*Calender__________________________________________________________________________ */}
             <View style={[styles.backCard, {paddingBottom: 30}]}>
               <Text style={[styles.sectionText, {marginTop: 20}]}>
@@ -527,9 +532,52 @@ const TourBooking3 = ({navigation, route}) => {
                 }}
                 markedDates={createMarkings()}></Calendar>
             </View>
-
+            {/* select visitors */}
+            <View
+              style={{
+                flex: 1,
+                height: 60,
+                backgroundColor: white,
+                justifyContent: 'center',
+                borderRadius: 20,
+                marginHorizontal: 10,
+                marginTop: 10,
+              }}>
+              <Text style={{marginLeft: 20, fontWeight: '700', fontSize: 19}}>
+                Visitors
+              </Text>
+              <TouchableOpacity
+                style={
+                  visitorCount == 1
+                    ? styles.minusDisabled
+                    : styles.minus
+                }
+                onPress={() =>
+                  setVisitorCount(visitorCount - 1)
+                }
+                disabled={visitorCount == 1 ? true : false}>
+                <Ionicons
+                  name="remove-outline"
+                  color={visitorCount == 1 ? '#9B9BA7' : 'white'}
+                  style={{
+                    alignSelf: 'center',
+                    marginTop: 'auto',
+                    marginBottom: 'auto',
+                  }}
+                  size={15}></Ionicons>
+              </TouchableOpacity>
+              <Text style={styles.number}>{visitorCount}</Text>
+              <TouchableOpacity
+                style={styles.plus}
+                onPress={() =>
+                  setVisitorCount(visitorCount + 1)
+                }>
+                <Text style={{color: white, alignSelf: 'center'}}>+</Text>
+              </TouchableOpacity>
+            </View>
             {/*Select Time________________________________________________________ */}
-            <View style={[styles.backCard, {paddingBottom: 5}]}>
+            {times != undefined &&
+              <View style={[styles.backCard, {paddingBottom: 5}]}>
               <Text style={styles.sectionText}>Select Time</Text>
               <View style={styles.timeView}>
                 {[...Array(times.length).keys()].map(index =>
@@ -537,6 +585,7 @@ const TourBooking3 = ({navigation, route}) => {
                 )}
               </View>
             </View>
+            }
 
             {/* Meeting Point_______________________________________________________________ */}
             <View
@@ -580,9 +629,20 @@ const TourBooking3 = ({navigation, route}) => {
               }}>
               <TouchableOpacity
                 style={styles.continue}
-                onPress={item => {
-                  //TODO: fix this
-                  navigation.navigate('BookingCheckout', [tour]);
+                onPress={() => {
+
+                  console.log(dayTourSettings)
+                  let tourSetting
+                  let timeIndex
+                  for (let i = 0; i < dayTourSettings.length; i++) {
+                    for (let j = 0; j < dayTourSettings[i].timeAvailable.length; j++) {
+                      if (times[selectedTime] == dayTourSettings[i].timeAvailable[j]) {
+                        tourSetting = dayTourSettings[i]
+                        timeIndex = j
+                      }
+                    }
+                  }
+                  navigation.navigate('BookingCheckout', {tourSetting, tour, guideInfo, visitorCount, timeIndex});
                 }}>
                 <Text
                   style={{

@@ -22,11 +22,9 @@ import {createStackNavigator} from '@react-navigation/stack';
 
 const TourBooking2 = ({navigation, route}) => {
   const tour = route.params.tour
-  const dates = route.params.fullyFilteredDates
   const selectedDay = route.params.selectedDay
   const guideInfo = route.params.guideInfo
 
-  console.log(dates, selectedDay)
   const messageButton = () => {
     return (
       <TouchableOpacity
@@ -41,7 +39,7 @@ const TourBooking2 = ({navigation, route}) => {
 
 
   const bookTourButton = () => {
-    const handleOnPress = () => navigation.navigate('TourBooking3', {tour, dates, selectedDay, guideInfo});
+    const handleOnPress = () => navigation.navigate('TourBooking3', {tour,selectedDay, guideInfo});
     return (
       <TouchableOpacity onPress={handleOnPress} style={styles.roundButton2}>
         <Text style={styles.messageFont}>Book Tour</Text>
