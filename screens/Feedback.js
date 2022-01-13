@@ -1,17 +1,41 @@
 import React, { useContext, useEffect, useState} from 'react'
-import { SafeAreaView, View, Text, Button, StyleSheet, TextInput} from 'react-native'
+import { SafeAreaView, View, Text, StyleSheet, TextInput, Button, Linking} from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import { UserContext } from '../contexts'
 import SigninButton from '../components/SigninButton';
 import SignoutButton from '../components/SignoutButton';
 import SelectDropdown from 'react-native-select-dropdown';
 import FontAwesome from "react-native-vector-icons/FontAwesome";
-// import Dropdown from 'react-bootstrap/Dropdown';
+import {sendFeedback} from '../api/feedback';
+import uuid from 'react-native-uuid';
 
 export default  ({navigation}) => {
     const {mode, setMode} = useContext(UserContext);
+    // const timerLog = () => console.log('timer starts')
+    // const [timer, setTimer] = useState(null)
+    const [topic, setTopic] = useState(null);
+    const [description, setDescription] = useState("");
     const feedbackOptions = ['General Feedback','Tour Specific Feedback','Tour Guide Feedback', 'Booking Issues', 'Technical Support', 'Other']
+    const SubmitButton = ({onPress, title}) => (
+        <TouchableOpacity onPress={onPress} style={style.submitButton}>
+            <Text style = {style.submitText}>{title}</Text>
+        </TouchableOpacity>
+    );
+    
     const style = StyleSheet.create({
+        submitButton: {
+            height: 60,
+            backgroundColor: "#3154A5", 
+            borderRadius: 10, 
+            
+        },
+        submitText: {
+            color: "#fff",
+            fontSize: 16,
+            fontFamily:'Helvetica-Bold',  
+            textAlign: "center",
+            padding: 22,
+        },
         dropdownButton: {
             width: "100%", 
             height: 40,
@@ -62,14 +86,13 @@ export default  ({navigation}) => {
                         What are you giving us feedback on?
                     </Text>
                 </View>
-
                 <SelectDropdown
 	                data={feedbackOptions}
-	                onSelect={(selectedItem, index) => {console.log(selectedItem, index)}}
+	                onSelect={(topic, index) => setTopic(topic)}
                     defaultButtonText={"Select"}
                     buttonTextStyle={style.defaultText}
-	                buttonTextAfterSelection={(selectedItem, index) => {
-                        selected = selectedItem;
+	                buttonTextAfterSelection={(topic, index) => {
+                        selected = topic;
                         return (
                             <Text style={{color: "#000"}}>{selected}</Text>
                         );
@@ -94,21 +117,20 @@ export default  ({navigation}) => {
                 <TextInput 
                     style={{padding: 10, paddingTop: 10, marginTop: 15, borderRadius: 10, borderWidth: 1, borderColor: "#D9D9D9", height: 375}}
                     multiline={true}
+                    onChangeText={(msg)=>setDescription(msg)}
+                    // onSubmitEditing={()=>alert(description)}
                 ></TextInput>
-                <View style={{paddingTop: 10, marginTop: 20, backgroundColor: "#3154A5", borderRadius: 10, height: 60}}>
-                    <Button 
-                        onPress={() => {
-                            navigation.navigate("")
-                        }} 
-                        titleStyle={{
-                            color: "white",
-                            fontSize: 16,
-                            fontFamily:'Helvetica-Bold',
-                        }}
-                        title="Submit"
-                        color="#fff"/>
+                <View style={{marginTop: 20}}>
+                    <SubmitButton onPress={async () => {
+                        try {
+                            await sendFeedback(uuid.v4(), topic, description);
+                        } catch (error) {
+                            console.error(error)
+                        }
+                    }} 
+                    title="Submit"
+                    />
                 </View>
-
             </View>
         </SafeAreaView>
     )
