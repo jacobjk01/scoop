@@ -6,6 +6,13 @@ import { useLinkBuilder } from '@react-navigation/native';
 import {collection, query, orderBy, serverTimestamp} from 'firebase/firestore';
 
 const Feedback = db().collection("feedback");
+Feedback.orderBy('timestamp').get().then(doc=>{
+    console.log(doc.docs)
+
+
+});
+
+
 
 export const sendFeedback = async(id, topic, message)=>{
     if(!(topic && message)){
@@ -18,7 +25,7 @@ export const sendFeedback = async(id, topic, message)=>{
             user: id,
             topic,
             message, 
-            timestamp: new Date(),
+            timestamp: new Date,
         });
         await Feedback.doc(id).collection("admin").doc().set({
             assigned: "user",
