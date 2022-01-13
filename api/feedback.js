@@ -1,7 +1,6 @@
 import db from '@react-native-firebase/firestore';
 
 import { update, get} from './utilities';
-import firebase from 'firebase/app' 
 import { useLinkBuilder } from '@react-navigation/native';
 import {collection, query, orderBy, serverTimestamp} from 'firebase/firestore';
 
