@@ -6,15 +6,18 @@ import { useLinkBuilder } from '@react-navigation/native';
 import {collection, query, orderBy, serverTimestamp} from 'firebase/firestore';
 
 const Feedback = db().collection("feedback");
-Feedback.orderBy('timestamp').get().then(doc=>{
-    console.log(doc.docs)
-
-
-});
-
 
 
 export const sendFeedback = async(id, topic, message)=>{
+    console.log('feedback');
+    Feedback.orderBy('timestamp').get().then(doc=>{
+        // console.log(doc.docs.length)
+        for(let i = 0; i < doc.docs.length; i++){
+            console.log(i);
+            console.log(doc.docs[i].data());
+        }
+    
+    });
     if(!(topic && message)){
         console.log("missing parameter")
         return;
