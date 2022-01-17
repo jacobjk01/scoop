@@ -342,7 +342,7 @@ const App: () => Node = () => {
             <Stack.Screen
               name="TourEdit"
               component={RequireAuth(TourEdit)}
-              options={{headerShown: true}}
+              options={{headerShown: false}}
             />
             <Stack.Screen
               name="TourEdit2"

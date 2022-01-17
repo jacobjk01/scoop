@@ -11,7 +11,7 @@ module.exports = {
     grayLight: '#d8d8d8',
     grayLightBlue: '#F7F7F8', //tint of blue
     blueDark: '#41479B',
-    red: 'EA4336',
+    red: '#EA4336',
     grayVeryDark: '#525252',
     blueMed: '#3D68CC',
     grayShadow: '#adadad',

@@ -120,7 +120,7 @@ class TourEdit3 extends Component {
         </View>
         <View style={styles.divider} />
         <Text style={[styles.sectionText, {marginTop: 0}]}>Introduction</Text>
-        <TextInput style={styles.inputIntro} multiline='true'>
+        <TextInput style={styles.inputIntro} multiline={true}>
             {this.tour.introduction}
         </TextInput>
       </View>

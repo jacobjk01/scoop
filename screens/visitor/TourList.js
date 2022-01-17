@@ -22,7 +22,6 @@ import {renderStars} from '../../components/Stars';
 const TourList = ({navigation, route}) => {
   const [guideimages, setGuideImages] = useState(toursData.guides);
   const [tours, setTours] = useState(toursData.tours);
-  const {item} = route.params;
 
   return (
     <SafeAreaView>
