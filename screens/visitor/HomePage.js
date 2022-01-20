@@ -15,44 +15,68 @@ import {
 import {withSafeAreaInsets} from 'react-native-safe-area-context';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import LinearGradient from 'react-native-linear-gradient';
-import {viewTourSettings, viewAvailableTours, viewAllTours, convertToTourSummary} from '../../api/tours'
-import { black, grayDark, grayLight, grayMed, white, primary } from 'config/colors';
-import { color } from 'react-native-reanimated';
+import {
+  viewTourSettings,
+  viewAvailableTours,
+  viewAllTours,
+  convertToTourSummary,
+} from '../../api/tours';
+import {getGuides} from '../../api/users';
+import {
+  black,
+  grayDark,
+  grayLight,
+  grayMed,
+  white,
+  primary,
+} from 'config/colors';
+import {color} from 'react-native-reanimated';
 import GuideProfile from './GuideProfile';
-import { UserContext } from '../../contexts'
+import {UserContext} from '../../contexts';
 import toursData from '../../data/toursDatav2';
 
 const HomePage = ({navigation}) => {
-  const {
-    user, setUser,
-  } = useContext(UserContext)
+  const {user, setUser} = useContext(UserContext);
 
   const [tours, setTours] = useState();
-  const [guides, setGuides] = useState(toursData.guides);
+  //guides is a query snapshot, use foreach and .data() for data.
+  const [guides, setGuides] = useState();
 
   useEffect(() => {
-    let isMounted = true
-    console.log('useEffect')
+    let isMounted = true;
+    console.log('useEffect');
     viewAvailableTours().then(tours => {
       //https://stackoverflow.com/questions/53949393/cant-perform-a-react-state-update-on-an-unmounted-component
       //You are not suppose to use async/await functions in useEffect
       //jon has no idea how these 3 isMounted are connected...
-        if (isMounted) {
-        setTours(tours)
-        }
-      });
-      
+      if (isMounted) {
+        setTours(tours);
+      }
+    });
+    getGuides().then(guides => {
+      console.log(guides);
+      if (isMounted) {
+        setGuides(guides);
+      }
+    });
+
     return () => {
-      isMounted = false
-    }
-  }, [])
-  console.log('homepage')
-  const viewAll = (text) => {
+      isMounted = false;
+    };
+  }, []);
+  console.log('homepage');
+  const viewAll = text => {
     return (
-      <View style={{paddingHorizontal: 30, marginTop: 15, marginBottom: 10, display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
-        <Text style={{ fontSize: 23, fontWeight: '700'}}>
-          {text}
-        </Text>
+      <View
+        style={{
+          paddingHorizontal: 30,
+          marginTop: 15,
+          marginBottom: 10,
+          display: 'flex',
+          flexDirection: 'row',
+          alignItems: 'center',
+        }}>
+        <Text style={{fontSize: 23, fontWeight: '700'}}>{text}</Text>
         <TouchableOpacity
           onPress={() => navigation.navigate('TourList')}
           style={{marginLeft: 'auto'}}>
@@ -60,27 +84,29 @@ const HomePage = ({navigation}) => {
             <Text style={{color: '#3D68CC'}}>view all</Text>
           </View>
         </TouchableOpacity>
-        <Ionicons
-          size={15}
-          name={'chevron-forward-sharp'}
-          color='#3D68CC'
-        />
+        <Ionicons size={15} name={'chevron-forward-sharp'} color="#3D68CC" />
       </View>
-    )
-  }
+    );
+  };
 
   return (
     <SafeAreaView>
       <ScrollView style={{height: '100%', backgroundColor: white}}>
         <Text style={styles.titleText}>Explore around UCLA!</Text>
-        <TextInput style={styles.input}/>
-          <Ionicons
-            name={'search-sharp'}
-            size={32}
-            color={grayMed}
-            fontFamily='Raleway-Bold'
-            style={{left: 35, position: 'absolute', top: 137, zIndex: 100, elevation: 100}}
-          />
+        <TextInput style={styles.input} />
+        <Ionicons
+          name={'search-sharp'}
+          size={32}
+          color={grayMed}
+          fontFamily="Raleway-Bold"
+          style={{
+            left: 35,
+            position: 'absolute',
+            top: 137,
+            zIndex: 100,
+            elevation: 100,
+          }}
+        />
         {/* THIS IS IMPORTANT */}
         {/* THIS IS IMPORTANT */}
         {/* THIS IS IMPORTANT */}
@@ -113,30 +139,46 @@ const HomePage = ({navigation}) => {
             </TouchableOpacity>
           </View>
         </View> */}
-        <View style={{backgroundColor: primary, marginHorizontal: '5%', width: '90%', paddingVertical: 15, paddingHorizontal: 20,
-        borderRadius: 15, elevation: 5, display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginVertical: 15}}
-        >
-          <View style={{display: 'flex', flexWrap:'wrap',flexDirection: 'column', justifyContent:'space-between',}}>
+        <View
+          style={{
+            backgroundColor: primary,
+            marginHorizontal: '5%',
+            width: '90%',
+            paddingVertical: 15,
+            paddingHorizontal: 20,
+            borderRadius: 15,
+            elevation: 5,
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            marginVertical: 15,
+          }}>
+          <View
+            style={{
+              display: 'flex',
+              flexWrap: 'wrap',
+              flexDirection: 'column',
+              justifyContent: 'space-between',
+            }}>
             <View style={{margin: 5}}>
-              <Text style={styles.tourNotifSubText}>
-                Upcoming Tour</Text>
-              <Text style={styles.tourNotifText}>
-                Westwood Tour</Text>
+              <Text style={styles.tourNotifSubText}>Upcoming Tour</Text>
+              <Text style={styles.tourNotifText}>Westwood Tour</Text>
             </View>
             <View style={{margin: 5}}>
-              <Text style={styles.tourNotifSubText}>
-                Date</Text>
-              <Text style={styles.tourNotifText}>
-                Jul 14</Text>
+              <Text style={styles.tourNotifSubText}>Date</Text>
+              <Text style={styles.tourNotifText}>Jul 14</Text>
             </View>
           </View>
-          <View style={{display: 'flex', flexWrap:'wrap', flexDirection: 'column',}}>
+          <View
+            style={{
+              display: 'flex',
+              flexWrap: 'wrap',
+              flexDirection: 'column',
+            }}>
             <View style={{margin: 5, display: 'flex', flexDirection: 'row'}}>
               <View>
-                <Text style={styles.tourNotifSubText}>
-                  Tour Guide</Text>
-                <Text style={styles.tourNotifText}>
-                  Brittany</Text>
+                <Text style={styles.tourNotifSubText}>Tour Guide</Text>
+                <Text style={styles.tourNotifText}>Brittany</Text>
               </View>
               <Image
                 style={{height: 50, width: 50, borderRadius: 25}}
@@ -144,10 +186,8 @@ const HomePage = ({navigation}) => {
               />
             </View>
             <View style={{margin: 5}}>
-              <Text style={styles.tourNotifSubText}>
-                Time</Text>
-              <Text style={styles.tourNotifText}>
-                12:00 PM</Text>
+              <Text style={styles.tourNotifSubText}>Time</Text>
+              <Text style={styles.tourNotifText}>12:00 PM</Text>
             </View>
           </View>
         </View>
@@ -159,52 +199,61 @@ const HomePage = ({navigation}) => {
           renderItem={({item, index}) => {
             return (
               //TODO: make tourinfo get the tour info, this can be done in this screen or in tourinfo screen
-            <TouchableOpacity 
-              style={{marginBottom: 15, marginLeft: index == 0?20:0}}
-              onPress={() => {
-                const itemInfo = {title: item.title, picture: item.picture, id: item.id, description: item.description}
+              <TouchableOpacity
+                style={{marginBottom: 15, marginLeft: index == 0 ? 20 : 0}}
+                onPress={() => {
+                  const itemInfo = {
+                    title: item.title,
+                    picture: item.picture,
+                    id: item.id,
+                    description: item.description,
+                  };
 
-                navigation.navigate('TourInfo', {itemInfo})
-              }}
-            >
-              <ImageBackground
-                style={styles.listTourImage}
-                imageStyle={{borderRadius: 10}}
-                source={{uri: item.picture}}
-              >
-                <LinearGradient
-                  colors={['transparent', 'rgba(0,0,0,0.6)']}
-                  style={styles.linearGradTour}
-                >
-                  <Text style={styles.tourText}>{item.title}</Text>
-                </LinearGradient>
-              </ImageBackground>
-            </TouchableOpacity>
-          )}}
+                  navigation.navigate('TourInfo', {itemInfo});
+                }}>
+                <ImageBackground
+                  style={styles.listTourImage}
+                  imageStyle={{borderRadius: 10}}
+                  source={{uri: item.picture}}>
+                  <LinearGradient
+                    colors={['transparent', 'rgba(0,0,0,0.6)']}
+                    style={styles.linearGradTour}>
+                    <Text style={styles.tourText}>{item.title}</Text>
+                  </LinearGradient>
+                </ImageBackground>
+              </TouchableOpacity>
+            );
+          }}
         />
         {viewAll('Tour Guides')}
         <FlatList
-          style={{marginTop: 10, marginBottom: 30}}
+          style={{marginLeft: 20, marginTop: 10, marginBottom: 30}}
           horizontal={true}
           data={guides}
           renderItem={({item}) => (
             <TouchableOpacity
               key={item.id}
-              style={{marginLeft: item.id == 0?20:0, marginBottom: 10}}
+              style={{marginBottom: 10}}
               onPress={() => navigation.navigate('GuideProfile', {item})}>
               <ImageBackground
                 style={styles.listGuideImage}
-                imageStyle={{borderRadius: 10,}}
-                source={item.src}>
+                imageStyle={{borderRadius: 10}}
+                source={{uri: item.profilePicture}}>
                 <LinearGradient
                   colors={['transparent', 'rgba(0,0,0,0.6)']}
-                  style={styles.linearGradGuide}
-                >
-                  <View style={{display: 'flex', flexDirection: 'row', marginTop: 'auto', margin: 10}}>
+                  style={styles.linearGradGuide}>
+                  <View
+                    style={{
+                      display: 'flex',
+                      flexDirection: 'row',
+                      marginTop: 'auto',
+                      margin: 10,
+                    }}>
                     <Text style={{color: white, fontFamily: 'Helvetica-Bold'}}>
-                      {item.name},{' '}
+                      {item.name}, {console.log(item)}
                     </Text>
-                    <Text style={{color: white, fontFamily: 'Helvetica-Oblique'}}>
+                    <Text
+                      style={{color: white, fontFamily: 'Helvetica-Oblique'}}>
                       {item.year}
                     </Text>
                   </View>
@@ -222,11 +271,11 @@ const styles = StyleSheet.create({
   tourNotifText: {
     color: white,
     fontFamily: 'Helvetica-Bold',
-    fontSize: 18
+    fontSize: 18,
   },
   tourNotifSubText: {
     color: grayLight,
-    fontSize: 15
+    fontSize: 15,
   },
   baseText: {
     fontFamily: 'Helvetica',
@@ -236,7 +285,7 @@ const styles = StyleSheet.create({
     fontSize: 27,
     fontWeight: '600',
     marginTop: 50,
-    fontFamily: 'Helvetica-Bold'
+    fontFamily: 'Helvetica-Bold',
   },
   input: {
     lineHeight: 50,
@@ -311,7 +360,7 @@ const styles = StyleSheet.create({
     left: 20,
     bottom: 50,
     fontFamily: 'Helvetica-Bold',
-    zIndex: 100
+    zIndex: 100,
   },
   linearGradTour: {
     backgroundColor: 'transparent',
