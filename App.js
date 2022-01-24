@@ -59,6 +59,7 @@ import ManageTours from './screens/guide/ManageTours';
 import TourEdit from './screens/guide/TourEdit';
 import TourEdit2 from './screens/guide/TourEdit2';
 import TourEdit3 from './screens/guide/TourEdit3';
+import Availability from './screens/guide/Availability';
 import ProfileOptionsGuide from './screens/guide/ProfileOptions';
 import AccountGuide from './screens/guide/Account';
 import AccountEdit from './screens/guide/AccountEdit';
@@ -332,12 +333,12 @@ const App: () => Node = () => {
             <Stack.Screen
               name="EditTour"
               component={RequireAuth(EditTour)}
-              options={{headerShown: true}}
+              options={{headerShown: false}}
             />
             <Stack.Screen
               name="ManageTours"
               component={RequireAuth(ManageTours)}
-              options={{headerShown: true}}
+              options={{headerShown: false}}
             />
             <Stack.Screen
               name="TourEdit"
@@ -352,7 +353,12 @@ const App: () => Node = () => {
             <Stack.Screen
               name="TourEdit3"
               component={RequireAuth(TourEdit3)}
-              options={{headerShown: true}}
+              options={{headerShown: false}}
+            />
+            <Stack.Screen
+              name="Availability"
+              component={RequireAuth(Availability)}
+              options={{headerShown: false}}
             />
             <Stack.Screen
               name="ViewTour"
