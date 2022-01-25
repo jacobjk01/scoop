@@ -26,7 +26,7 @@ module.exports = {
     {
       id: '2',
       name: 'Westwood Tour',
-      src: require('images/Westwood_village.png'),
+      src: require('images/Westwood_village.jpg'),
       image: 'https://www.google.com/url?sa=i&url=https%3A%2F%2Fmomsla.com%2Fsanta-monica-pier%2F&psig=AOvVaw3FC1rw00QeyKX7iR4nqItj&ust=1633753930373000&source=images&cd=vfe&ved=0CAsQjRxqFwoTCMjlze_9ufMCFQAAAAAdAAAAABAD',
       attractions: ['Diddy Riese', 'Regency Theater', 'Copymat', 'CVS'],
       duration: 45,
@@ -48,7 +48,7 @@ module.exports = {
     {
       id: '3',
       name: 'Happy Tour',
-      src: require('images/Westwood_village.png'),
+      src: require('images/Westwood_village.jpg'),
       image: 'https://www.google.com/url?sa=i&url=https%3A%2F%2Fmomsla.com%2Fsanta-monica-pier%2F&psig=AOvVaw3FC1rw00QeyKX7iR4nqItj&ust=1633753930373000&source=images&cd=vfe&ved=0CAsQjRxqFwoTCMjlze_9ufMCFQAAAAAdAAAAABAD',
       attractions: ['Diddy Riese', 'Regency Theater', 'Copymat', 'CVS'],
       duration: 45,

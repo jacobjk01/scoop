@@ -73,7 +73,7 @@ class AddTour extends Component {
         <View style={{flex: 1, borderRadius: 15}}>
             <ImageBackground
                 style={styles.imageHeader}
-                source={require('images/Westwood_village.png')}>
+                source={require('images/Westwood_village.jpg')}>
                 <LinearGradient
                 colors={['transparent', black]}
                 style={styles.linearGradTour}

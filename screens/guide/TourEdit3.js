@@ -35,7 +35,7 @@ class TourEdit3 extends Component {
         <ImageBackground
           style={styles.imageHeader}
           imageStyle={{borderBottomLeftRadius: 15, borderBottomRightRadius: 15}}
-          source={require('images/Westwood_village.png')}>
+          source={require('images/Westwood_village.jpg')}>
           <LinearGradient
             colors={['transparent', black]}
             style={styles.linearGradTour}
