@@ -99,7 +99,7 @@ const Availability = ({navigation, route}) => {
                 borderColor: grayDark
               }}
               onPress={() => {
-                let temp = markedBlocks
+                let temp = [...markedBlocks]
                 temp[j][i] = !markedBlocks[j][i]
                 setMarkedBlocks(temp)
               }}
@@ -130,7 +130,7 @@ const Availability = ({navigation, route}) => {
             style={{fontSize: 12}}
           >SUN     MON     TUE     WED     THU     FRI     SAT</Text>
         </View>
-        <View style={{position: 'absolute', fontSize: 12, top: 290, left: 35}}>
+        <View style={{position: 'absolute', fontSize: 12, top: 290, left: 32}}>
           <Text
             style={{
               fontSize: 12,

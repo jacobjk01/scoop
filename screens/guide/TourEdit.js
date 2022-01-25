@@ -38,7 +38,58 @@ const TourEdit = ({navigation, route}) => {
       </View>
     );
   }
-
+  const whatDay = (i) => {
+    switch (i) {
+      case 0:
+        return 'S'
+      case 1:
+        return 'M'
+      case 2:
+        return 'T'
+      case 3:
+        return 'W'
+      case 4:
+        return 'T'
+      case 5:
+        return 'F'
+      case 6:
+        return 'S'
+    }
+  }
+  const renderAvailabilities = () => {
+    let days = []
+    for (let i = 0; i < 7; i++) {
+      let hours = []
+      for (let i = 0; i < 24; i++) {
+        hours.push(
+          <View style={{
+            backgroundColor: primary,
+            width: 12,
+            height: 10,
+            borderTopLeftRadius: i==0?10:0,
+            borderTopRightRadius: i==0?10:0,
+            borderBottomLeftRadius: i==23?10:0,
+            borderBottomRightRadius: i==23?10:0,
+          }}/>
+        )
+      }
+      days.push(
+        <View style={{marginLeft: 10, display: 'flex', alignItems: 'center'}}>
+          <Text style={{fontSize: 13, fontFamily: 'Helvetica-Bold'}}>
+            {whatDay(i)}
+          </Text>
+          <View style={{display: 'flex', flexDirection: 'column', justifyContent: 'center'}}>
+            {hours}
+          </View>
+        </View>
+      )
+    }
+    return (
+      <View style={{display: 'flex', flexDirection: 'row'}}>
+        {days}
+      </View>
+    )
+  }
   const renderContent = () => {
     return (
       <View style={{marginBottom: 300}}>
@@ -78,8 +129,8 @@ const TourEdit = ({navigation, route}) => {
                 <Text style={{color: grayDark}}>Edit <Ionicons name={'pencil'} size={16}/></Text>
               </View>
           </TouchableOpacity>
-
         </View>
+        {renderAvailabilities()}
       </View>
     );
   }
