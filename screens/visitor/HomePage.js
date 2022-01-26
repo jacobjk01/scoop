@@ -1,4 +1,4 @@
-import React, {useState, useContext, useEffect, useRef} from 'react';
+import React, { useState, useContext, useEffect, useRef } from 'react';
 
 import {
   View,
@@ -12,7 +12,7 @@ import {
   Image,
   ImageBackground,
 } from 'react-native';
-import {withSafeAreaInsets} from 'react-native-safe-area-context';
+import { withSafeAreaInsets } from 'react-native-safe-area-context';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import LinearGradient from 'react-native-linear-gradient';
 import {
@@ -21,7 +21,7 @@ import {
   viewAllTours,
   convertToTourSummary,
 } from '../../api/tours';
-import {getGuides} from '../../api/users';
+import { getGuides } from '../../api/users';
 import {
   black,
   grayDark,
@@ -30,13 +30,13 @@ import {
   white,
   primary,
 } from 'config/colors';
-import {color} from 'react-native-reanimated';
+import { color } from 'react-native-reanimated';
 import GuideProfile from './GuideProfile';
-import {UserContext} from '../../contexts';
+import { UserContext } from '../../contexts';
 import toursData from '../../data/toursDatav2';
 
-const HomePage = ({navigation}) => {
-  const {user, setUser} = useContext(UserContext);
+const HomePage = ({ navigation }) => {
+  const { user, setUser } = useContext(UserContext);
 
   const [tours, setTours] = useState();
   //guides is a query snapshot, use foreach and .data() for data.
@@ -44,7 +44,6 @@ const HomePage = ({navigation}) => {
 
   useEffect(() => {
     let isMounted = true;
-    console.log('useEffect');
     viewAvailableTours().then(tours => {
       //https://stackoverflow.com/questions/53949393/cant-perform-a-react-state-update-on-an-unmounted-component
       //You are not suppose to use async/await functions in useEffect
@@ -54,7 +53,6 @@ const HomePage = ({navigation}) => {
       }
     });
     getGuides().then(guides => {
-      console.log(guides);
       if (isMounted) {
         setGuides(guides);
       }
@@ -76,12 +74,12 @@ const HomePage = ({navigation}) => {
           flexDirection: 'row',
           alignItems: 'center',
         }}>
-        <Text style={{fontSize: 23, fontWeight: '700'}}>{text}</Text>
+        <Text style={{ fontSize: 23, fontWeight: '700' }}>{text}</Text>
         <TouchableOpacity
           onPress={() => navigation.navigate('TourList')}
-          style={{marginLeft: 'auto'}}>
+          style={{ marginLeft: 'auto' }}>
           <View>
-            <Text style={{color: '#3D68CC'}}>view all</Text>
+            <Text style={{ color: '#3D68CC' }}>view all</Text>
           </View>
         </TouchableOpacity>
         <Ionicons size={15} name={'chevron-forward-sharp'} color="#3D68CC" />
@@ -91,10 +89,13 @@ const HomePage = ({navigation}) => {
 
   return (
     <SafeAreaView>
-      <ScrollView style={{height: '100%', backgroundColor: white}}>
+      {tours && guides && <ScrollView style={{ height: '100%', backgroundColor: white }}>
         <Text style={styles.titleText}>Explore around UCLA!</Text>
-        <TextInput style={styles.input} />
-        <Ionicons
+        {/* THIS IS IMPORTANT */}
+        {/* THIS IS IMPORTANT */}
+        {/* THIS IS IMPORTANT */}
+        {/* <TextInput style={styles.input} /> */}
+        {/* <Ionicons
           name={'search-sharp'}
           size={32}
           color={grayMed}
@@ -106,10 +107,7 @@ const HomePage = ({navigation}) => {
             zIndex: 100,
             elevation: 100,
           }}
-        />
-        {/* THIS IS IMPORTANT */}
-        {/* THIS IS IMPORTANT */}
-        {/* THIS IS IMPORTANT */}
+        /> */}
         {/* <Text style={styles.sectionText}>Category</Text>
         <View style={{width: '100%', flexDirection: 'column', marginTop: 10}}>
           <View style={{flexDirection: 'row'}}>
@@ -160,11 +158,11 @@ const HomePage = ({navigation}) => {
               flexDirection: 'column',
               justifyContent: 'space-between',
             }}>
-            <View style={{margin: 5}}>
+            <View style={{ margin: 5 }}>
               <Text style={styles.tourNotifSubText}>Upcoming Tour</Text>
               <Text style={styles.tourNotifText}>Westwood Tour</Text>
             </View>
-            <View style={{margin: 5}}>
+            <View style={{ margin: 5 }}>
               <Text style={styles.tourNotifSubText}>Date</Text>
               <Text style={styles.tourNotifText}>Jul 14</Text>
             </View>
@@ -175,17 +173,17 @@ const HomePage = ({navigation}) => {
               flexWrap: 'wrap',
               flexDirection: 'column',
             }}>
-            <View style={{margin: 5, display: 'flex', flexDirection: 'row'}}>
+            <View style={{ margin: 5, display: 'flex', flexDirection: 'row' }}>
               <View>
                 <Text style={styles.tourNotifSubText}>Tour Guide</Text>
                 <Text style={styles.tourNotifText}>Brittany</Text>
               </View>
               <Image
-                style={{height: 50, width: 50, borderRadius: 25}}
+                style={{ height: 50, width: 50, borderRadius: 25 }}
                 source={require('../../images/brittany.png')}
               />
             </View>
-            <View style={{margin: 5}}>
+            <View style={{ margin: 5 }}>
               <Text style={styles.tourNotifSubText}>Time</Text>
               <Text style={styles.tourNotifText}>12:00 PM</Text>
             </View>
@@ -193,14 +191,14 @@ const HomePage = ({navigation}) => {
         </View>
         {viewAll('Popular Tours')}
         <FlatList
-          style={{marginTop: 10}}
+          style={{ marginTop: 10 }}
           horizontal={true}
           data={tours}
-          renderItem={({item, index}) => {
+          renderItem={({ item, index }) => {
             return (
               //TODO: make tourinfo get the tour info, this can be done in this screen or in tourinfo screen
               <TouchableOpacity
-                style={{marginBottom: 15, marginLeft: index == 0 ? 20 : 0}}
+                style={{ marginBottom: 15, marginLeft: index == 0 ? 20 : 0 }}
                 onPress={() => {
                   const itemInfo = {
                     title: item.title,
@@ -209,12 +207,14 @@ const HomePage = ({navigation}) => {
                     description: item.description,
                   };
 
-                  navigation.navigate('TourInfo', {itemInfo});
-                }}>
+                  navigation.navigate('TourInfo', { itemInfo });
+                }}
+              >
                 <ImageBackground
                   style={styles.listTourImage}
-                  imageStyle={{borderRadius: 10}}
-                  source={{uri: item.picture}}>
+                  imageStyle={{ borderRadius: 10 }}
+                  source={{ uri: item.picture }}
+                  onLoad={() => console.log('load')}>
                   <LinearGradient
                     colors={['transparent', 'rgba(0,0,0,0.6)']}
                     style={styles.linearGradTour}>
@@ -227,18 +227,18 @@ const HomePage = ({navigation}) => {
         />
         {viewAll('Tour Guides')}
         <FlatList
-          style={{marginLeft: 20, marginTop: 10, marginBottom: 30}}
+          style={{ marginLeft: 20, marginTop: 10, marginBottom: 30 }}
           horizontal={true}
           data={guides}
-          renderItem={({item}) => (
+          renderItem={({ item }) => (
             <TouchableOpacity
               key={item.id}
-              style={{marginBottom: 10}}
-              onPress={() => navigation.navigate('GuideProfile', {item})}>
+              style={{ marginBottom: 10 }}
+              onPress={() => navigation.navigate('GuideProfile', { item })}>
               <ImageBackground
                 style={styles.listGuideImage}
-                imageStyle={{borderRadius: 10}}
-                source={{uri: item.profilePicture}}>
+                imageStyle={{ borderRadius: 10 }}
+                source={{ uri: item.profilePicture }}>
                 <LinearGradient
                   colors={['transparent', 'rgba(0,0,0,0.6)']}
                   style={styles.linearGradGuide}>
@@ -249,11 +249,11 @@ const HomePage = ({navigation}) => {
                       marginTop: 'auto',
                       margin: 10,
                     }}>
-                    <Text style={{color: white, fontFamily: 'Helvetica-Bold'}}>
+                    <Text style={{ color: white, fontFamily: 'Helvetica-Bold' }}>
                       {item.name}, {console.log(item)}
                     </Text>
                     <Text
-                      style={{color: white, fontFamily: 'Helvetica-Oblique'}}>
+                      style={{ color: white, fontFamily: 'Helvetica-Oblique' }}>
                       {item.year}
                     </Text>
                   </View>
@@ -262,7 +262,7 @@ const HomePage = ({navigation}) => {
             </TouchableOpacity>
           )}
         />
-      </ScrollView>
+      </ScrollView>}
     </SafeAreaView>
   );
 };

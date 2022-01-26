@@ -111,11 +111,6 @@ const TourInfo = ({ navigation, route }) => {
             {description}
           </Text>
         </ImageBackground>
-        <Text>TODO: Make Tour Info Page a functional component</Text>
-        <Text>
-          TODO: Make Tour Info Page accept data instead of it being hard coded
-          so that multiple tours work
-        </Text>
       </View>
     );
   };
@@ -157,7 +152,7 @@ const TourInfo = ({ navigation, route }) => {
       <TouchableOpacity
         style={styles.continue}
         onPress={() => {
-          navigation.navigate('TourBooking1', {title, picture, id, description});
+          navigation.navigate('TourBooking1', { title, picture, id, description });
         }}>
         <Text style={{ alignSelf: 'center', color: 'white', fontWeight: '600' }}>
           Find A Tour Guide
