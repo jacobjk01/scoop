@@ -35,7 +35,7 @@ class TourEdit3 extends Component {
         <ImageBackground
           style={styles.imageHeader}
           imageStyle={{borderBottomLeftRadius: 15, borderBottomRightRadius: 15}}
-          source={require('images/Westwood_village.png')}>
+          source={require('images/Westwood_village.jpg')}>
           <LinearGradient
             colors={['transparent', black]}
             style={styles.linearGradTour}
@@ -120,7 +120,7 @@ class TourEdit3 extends Component {
         </View>
         <View style={styles.divider} />
         <Text style={[styles.sectionText, {marginTop: 0}]}>Introduction</Text>
-        <TextInput style={styles.inputIntro} multiline='true'>
+        <TextInput style={styles.inputIntro} multiline={true}>
             {this.tour.introduction}
         </TextInput>
       </View>

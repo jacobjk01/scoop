@@ -273,11 +273,11 @@ export const getTour = async (guideId, tourId) => {
   });
 }
 export const getBooking = async (guideId, tourId, userId) => {
-  const querySnapshots = await tours.where("guide", "==", user(guideId)).where('tourId', '==', tourId).where('archive', '==', false).get().then(querySnapshot => {
+  const querySnapshot = await tours.where("guide", "==", user(guideId)).where('tourId', '==', tourId).where('archive', '==', false).get().then(querySnapshot => {
     querySnapshot.forEach(documentSnapshot => {
       tours.doc(documentSnapshot.id).collection('bookings').where('userId', '==', userId).get().then(querySnapshot2 => {
         querySnapshot2.forEach(documentSnapshot2 => {
-          return docSnapshotFormatter(documentSnapshot);
+          return docSnapshotFormatter(documentSnapshot2);
         });
       });
     });

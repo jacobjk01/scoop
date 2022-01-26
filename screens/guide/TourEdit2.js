@@ -41,7 +41,7 @@ const renderItinerary = (itinerary) => {
         <View style={styles.content}>
             {itinerary.map(function(item, index) {
                 return (
-                    <View style={{ marginBottom: 30 }}>
+                    <View style={{ marginBottom: 30 }} key={index}>
                         <View style={styles.circle}/>
                         {index != itinerary.length - 1 ?
                             <View style={styles.verticalLine}/> : null

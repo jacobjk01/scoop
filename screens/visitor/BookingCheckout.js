@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
 
 import {
   View,
@@ -14,15 +14,22 @@ import {
 import { primary, white, black, grayDark, grayMed } from 'config/colors';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import toursData from '../../data/toursData';
-
+import moment from 'moment';
+import { bookTour } from '../../api/tours';
+import { UserContext } from '../../contexts'
 
 const Checkout = ({navigation, route}) => {
-
-  const generalTour = route.params[0]
-  const tour = generalTour.tours[route.params[1]]
-  const guideInfo = toursData.guides[tour.guide]
+  const tour = route.params.tour
+  const tourSetting = route.params.tourSetting
+  const guideInfo = route.params.guideInfo
+  const visitorCount = route.params.visitorCount
+  const date = tourSetting.timeAvailable[route.params.timeIndex]
+  const {
+    userAuth, setUserAuth
+  } = useContext(UserContext)
   const [payOption, setPayOption] = useState();
   const [isModalVisible, setModalVisible] = useState(false);
+
   const showDot = (option) => {
     if (payOption == option) {
       return (
@@ -42,31 +49,31 @@ const Checkout = ({navigation, route}) => {
               <View style={{display: 'flex', flexDirection: 'row', marginLeft: '5%', marginTop: '10%'}}>
                 <Image
                   style={{width: 180, height: 115, resizeMode: 'cover', borderRadius: 10}}
-                  source={generalTour.src}
+                  source={{uri: tour.picture}}
                 />
                 <View style={{marginTop: 'auto', marginBottom: 'auto', marginLeft: 10}}>
-                  <Text style={{fontFamily: 'Helvetica-Bold', color: black, fontSize: 18}}>{generalTour.name}</Text>
-                  <Text style={{fontSize: 15, color: grayMed}}>{guideInfo.name}</Text>
+                  <Text style={{fontFamily: 'Helvetica-Bold', color: black, fontSize: 18}}>{tour.title}</Text>
+                  <Text style={{fontSize: 15, color: grayMed}}>with {guideInfo.name}</Text>
                 </View>
               </View>
               <View style={{display: 'flex', flexDirection: 'row', marginTop: 30, marginLeft: '10%'}}>
                 <View style={{width: '50%'}}>
                   <Text style={styles.infoTitle}>Date</Text>
-                  <Text style={styles.info}>July 14</Text>
+                  <Text style={styles.info}>{moment(date).format('MMM DD')}</Text>
                 </View>
                 <View style={{width: '50%'}}>
                   <Text style={styles.infoTitle}>Time</Text>
-                  <Text style={styles.info}>10:00 AM</Text>
+                  <Text style={styles.info}>{moment(date).format('LT')}</Text>
                 </View>
               </View>
               <View style={{display: 'flex', flexDirection: 'row', marginTop: 20, marginLeft: '10%', marginBottom: 30}}>
                 <View style={{width: '50%'}}>
                   <Text style={styles.infoTitle}>Visitors</Text>
-                  <Text style={styles.info}>2</Text>
+                  <Text style={styles.info}>{visitorCount}</Text>
                 </View>
                 <View style={{width: '50%'}}>
                   <Text style={styles.infoTitle}>Meetup Point</Text>
-                  <Text style={styles.info}>{tour.meetPoint}</Text>
+                  <Text style={styles.info}>Meet pt</Text>
                 </View>
               </View>
               <View style={styles.divider}>
@@ -74,7 +81,7 @@ const Checkout = ({navigation, route}) => {
               </View>
               <View style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginLeft: 'auto', marginRight: 'auto', width: '80%', marginTop: 33, marginBottom: 33}}>
                 <Text style={styles.info}>Total</Text>
-                <Text style={styles.info}>${tour.cost}</Text>
+                <Text style={styles.info}>${tourSetting.cost}</Text>
               </View>
             </View>
 
@@ -108,7 +115,12 @@ const Checkout = ({navigation, route}) => {
       <View style={styles.confirmContainer}>
         <TouchableOpacity
           style={payOption==null?styles.disabledConfirmButton:styles.confirmButton}
-          onPress={() => {if (payOption != null){setModalVisible(true)}}}  
+          onPress={() => {
+            if (payOption != null){
+              setModalVisible(true)
+              bookTour(tourSetting.ref, visitorCount, userAuth.uid)
+            }
+          }}
           disabled={payOption == null}
         >
           <Text style={payOption==null?styles.disabledConfirmText:styles.confirmText}>Confirm</Text>

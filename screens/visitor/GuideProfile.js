@@ -99,7 +99,7 @@ const GuideProfile = ({navigation, route}) => {
     <View style={{height: '100%'}}>
       <ImageBackground
         style={styles.imageHeader}
-        source={require('../../images/Westwood_village.png')}
+        source={require('../../images/Westwood_village.jpg')}
       />
       <ScrollView
         style={{

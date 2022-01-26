@@ -131,8 +131,6 @@ const TourInfo = ({ navigation, route }) => {
                         <Text style={{color: blueDark}}>Message</Text>
                     </TouchableOpacity>
                 </Animated.View> */}
-        <Text style={[styles.sectionText, { marginTop: 40 }]}>Reviews</Text>
-        <Reviews reviews={reviews} />
       </View>
     );
   };
@@ -140,24 +138,30 @@ const TourInfo = ({ navigation, route }) => {
   return (
     <View>
       <StatusBar barStyle="dark-content" />
-      <ScrollView>
-        {renderForeground()}
-        {renderContent()}
-      </ScrollView>
+      <FlatList
+        ListHeaderComponent={
+          <View style={{ marginBottom: 80 }}>
+            {renderForeground()}
+            <Reviews reviews={reviews} />
+          </View>
+        }
+      />
       <TouchableOpacity
         style={styles.backIcon}
         onPress={() => navigation.goBack()}>
         <Ionicons name="chevron-back-outline" size={22} color={'white'} />
       </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.continue}
-        onPress={() => {
-          navigation.navigate('TourBooking1', { title, picture, id, description });
-        }}>
-        <Text style={{ alignSelf: 'center', color: 'white', fontWeight: '600' }}>
-          Find A Tour Guide
-        </Text>
-      </TouchableOpacity>
+      <View style={{ backgroundColor: white, height: 80, width: '100%', position: 'absolute', bottom: 0, elevation: 10 }}>
+        <TouchableOpacity
+          style={styles.continue}
+          onPress={() => {
+            navigation.navigate('TourBooking1', { title, picture, id, description });
+          }}>
+          <Text style={{ alignSelf: 'center', color: 'white', fontFamily: 'Helvetica-Bold' }}>
+            Find A Tour Guide
+          </Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
@@ -207,8 +211,6 @@ const styles = StyleSheet.create({
   imageHeader: {
     width: '100%',
     height: 600,
-    borderTopLeftRadius: 0,
-    borderTopRightRadius: 0,
     borderRadius: 10,
     zIndex: -10,
   },
@@ -278,10 +280,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   continue: {
-    position: 'absolute',
-    bottom: 20,
-    left: 20,
-    right: 20,
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    marginTop: 'auto',
+    marginBottom: 'auto',
+    width: '80%',
     backgroundColor: primary,
     height: 50,
     justifyContent: 'center',
@@ -290,6 +293,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 2, height: 2 },
     shadowOpacity: 0.8,
     shadowRadius: 3,
+    elevation: 5,
   },
   floatCard: {
     position: 'absolute',

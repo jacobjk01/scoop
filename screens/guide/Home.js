@@ -124,6 +124,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 20,
     alignSelf: 'center',
     marginVertical: 20,
+    elevation: 10,
   },
   tourCard: {
     width: '100%',
