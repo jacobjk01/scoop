@@ -92,6 +92,7 @@ import RequireAuth from './components/RequireAuth';
 import { onAuthStateChanged } from 'api/auth';
 import { getUser } from 'api/users';
 import { viewAvailableTours } from './api/tours';
+import { useAuth } from './hooks/useAuth';
 
 /**
  *
@@ -103,136 +104,91 @@ const Stack = createStackNavigator();
 
 //bulk of navigation
 const App: () => Node = () => {
-  /**
-   * Authentication
-   */
-  //userAuth is a object with the field uid
-  const [userAuth, setUserAuth] = useState(null);
-  //user is a object with the user document data
-  const [user, setUser] = useState(null);
-  const [bookTourInfo, setBookTourInfo] = useState(null);
-  const [isUserLoading, setIsUserLoading] = useState(true);
-  const [mode, setMode] = useState(localState.currentMode);
-  const [guideDone, setGuideDone] = useState(localState.guideDone);
-  const [visitorDone, setVisitorDone] = useState(localState.visitorDone);
-  const [visitorBone, setVisitorBone] = useState(localState.visitorBone);
-  const hasNotFinishedBareOnboarding =
-    (mode === 'new' ||
-      (mode === 'visitor' && !visitorBone) ||
-      (mode === 'guide' && !guideDone)) &&
-    mode !== 'dev';
-  // this useEffect causing flickering
-  useEffect(() => {
-    console.log(mode);
-    if (hasNotFinishedBareOnboarding) {
-      return;
-    }
-    var unsubscribeAuth = onAuthStateChanged(async newUserAuth => {
-      //if userAuth exists,
-      if (newUserAuth && userAuth == null) {
-        // userAuth is null, so definitely unique
-        setUserAuth(newUserAuth);
-        // userAuth exists and doesn't match with with newUserAuth.uid
-      } else if (
-        userAuth &&
-        userAuth.uid &&
-        newUserAuth &&
-        userAuth.uid != newUserAuth.uid
-      ) {
-        setUserAuth(newUserAuth);
-      }
-      if (isUserLoading) {
-        setIsUserLoading(false);
-      }
-    });
-    return () => {
-      unsubscribeAuth();
-    };
-  }, [hasNotFinishedBareOnboarding]);
-
-  useEffect(async () => {
-    if (hasNotFinishedBareOnboarding) {
-      return;
-    }
-    if (userAuth) {
-      const currentUser = await getUser(userAuth);
-      setUser({ ...currentUser.data() });
-    }
-  }, [userAuth]);
+  const {
+    userAuth,
+    setUserAuth,
+    user,
+    setUser,
+    bookTourInfo,
+    setBookTourInfo,
+    mode,
+    setMode,
+    guideDone,
+    setGuideDone,
+    visitorDone,
+    setVisitorDone,
+    visitorBone,
+    setVisitorBone,
+    isUserLoading,
+    setIsUserLoading,
+    hasNotFinishedBareOnboarding
+  } = useAuth();
 
   //displays bottom tab and some navigation
-  const TabAllModes = () => {
-    return (
-      <Tab.Navigator
-        screenOptions={({ route }) => ({
-          tabBarIcon: ({ focused, color, size }) => {
-            let iconName;
-            switch (route.name) {
-              case 'Home':
-                iconName = focused ? 'home' : 'home-outline';
-                break;
-              case 'ManageTours':
-                iconName = focused ? 'map' : 'map-outline';
-                break;
-              case 'Tours':
-                iconName = focused ? 'map' : 'map-outline';
-                break;
-              case 'ProfileOptions' || 'AccountGuide' || 'AccountVisitor':
-                iconName = focused ? 'person' : 'person-outline';
-                break;
-              default:
-                iconName = focused ? 'help-circle' : 'help-circle-outline';
-            }
-            // You can return any component that you like here!
-            return <Ionicons name={iconName} size={size} color={color} />;
-          },
-        })}
-        tabBarOptions={{
-          activeTintColor: primary,
-          inactiveTintColor: primary,
-        }}
-        initialRouteName={
-          mode === 'visitor' ? 'Home' : mode === 'guide' ? 'Home' : 'Home'
-        }>
-        {(() => {
-          if (mode === 'visitor') {
-            return (
-              <>
-                <Tab.Screen
-                  name="Home"
-                  component={HomeVisitor}
-                  options={{ tabBarVisible: true }}
-                />
-                <Tab.Screen name="TourList" component={TourList} />
-                <Tab.Screen name="Account" component={AccountVisitor} />
-              </>
-            );
-          } else if (mode === 'guide') {
-            return (
-              <>
-                <Tab.Screen name="Home" component={HomeGuide} />
-                <Tab.Screen name="ManageTours" component={ManageTours} />
-                <Tab.Screen
-                  name="ProfileOptions"
-                  component={ProfileOptionsGuide}
-                />
-              </>
-            );
-          } else {
-            return (
-              <>
-                <Tab.Screen name="HomeVisitor" component={HomeVisitor} />
-                <Tab.Screen name="HomeGuide" component={HomeGuide} />
-                <Tab.Screen name="ManageTours" component={ManageTours} />
-                <Tab.Screen name="Account" component={AccountGuide} />
-                <Tab.Screen name="Test" component={Test} />
-              </>
-            );
+  const TabAllModes = () => (
+    <Tab.Navigator
+      screenOptions={({ route }) => ({
+        tabBarIcon: ({ focused, color, size }) => {
+          let iconName;
+          switch (route.name) {
+            case 'Home':
+              iconName = focused ? 'home' : 'home-outline';
+              break;
+            case 'ManageTours':
+              iconName = focused ? 'map' : 'map-outline';
+              break;
+            case 'Tours':
+              iconName = focused ? 'map' : 'map-outline';
+              break;
+            case 'ProfileOptions' || 'AccountGuide' || 'AccountVisitor':
+              iconName = focused ? 'person' : 'person-outline';
+              break;
+            default:
+              iconName = focused ? 'help-circle' : 'help-circle-outline';
           }
-        })()}
-      </Tab.Navigator>
-    );
-  };
+          // You can return any component that you like here!
+          return <Ionicons name={iconName} size={size} color={color} />;
+        },
+      })}
+      tabBarOptions={{
+        activeTintColor: primary,
+        inactiveTintColor: primary,
+      }}
+      initialRouteName={
+        mode === 'visitor' ? 'Home' : mode === 'guide' ? 'Home' : 'Home'
+      }>
+      {(mode === 'visitor') && (
+        <>
+          <Tab.Screen
+            name="Home"
+            component={HomeVisitor}
+            options={{ tabBarVisible: true }}
+          />
+          <Tab.Screen name="TourList" component={TourList} />
+          <Tab.Screen name="Account" component={AccountVisitor} />
+        </>
+      )}
+      {(mode === 'guide') && (
+        <>
+          <Tab.Screen name="Home" component={HomeGuide} />
+          <Tab.Screen name="ManageTours" component={ManageTours} />
+          <Tab.Screen
+            name="ProfileOptions"
+            component={ProfileOptionsGuide}
+          />
+        </>
+      )}
+      {(mode === 'dev') && (
+        <>
+          <Tab.Screen name="HomeVisitor" component={HomeVisitor} />
+          <Tab.Screen name="HomeGuide" component={HomeGuide} />
+          <Tab.Screen name="ManageTours" component={ManageTours} />
+          <Tab.Screen name="Account" component={AccountGuide} />
+          <Tab.Screen name="Test" component={Test} />
+        </>
+      )}
+    </Tab.Navigator>
+  );
 
   /**
    * Navigation
