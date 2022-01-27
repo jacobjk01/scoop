@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useContext} from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import {
   View,
   Text,
@@ -16,11 +16,11 @@ import { getPicture } from 'api/users';
 import { primary, black, grayDark, white, grayLight } from 'config/colors';
 
 const ProfileOptions = ({ navigation }) => {
-  const {user, userAuth} = useContext(UserContext);
+  const { user, userAuth } = useContext(UserContext);
   const isFocused = useIsFocused();
   const [profilePicture, setProfilePicture] = useState(null);
 
-  useEffect(() => {},[user])
+  useEffect(() => { }, [user])
 
   useEffect(async () => {
     setProfilePicture(await getPicture(userAuth.uid, 'profilePicture'));
@@ -28,23 +28,23 @@ const ProfileOptions = ({ navigation }) => {
 
   return (
     <ScrollView
-        style={{
-            backgroundColor: white,
-            paddingTop: '40%',
-            }}
-        >
-        <SafeAreaView style={{alignItems: 'center'}}>
-            {renderGuideImage(profilePicture)}
-            {renderGuideBio(user ? user : '')}
-            {viewProfileButton(navigation)}
-        </SafeAreaView>
-        <View style={styles.divider} />
-        {renderTabCard(navigation, 'compass-outline', 'My Trips')}
-        {renderTabCard(navigation, 'chatbubble-ellipses-outline', 'Feedback')}
-        <View style={styles.divider} />
-        {renderTabCard(navigation, 'exit-outline', 'Log Out')}
-        {renderTabCard(navigation, 'people-outline', 'Switch To Visitor Account')}
-        <View style={styles.divider} />
+      style={{
+        backgroundColor: white,
+        paddingTop: '40%',
+      }}
+    >
+      <SafeAreaView style={{ alignItems: 'center' }}>
+        {renderGuideImage(profilePicture)}
+        {renderGuideBio(user ? user : '')}
+        {viewProfileButton(navigation)}
+      </SafeAreaView>
+      <View style={styles.divider} />
+      {renderTabCard(navigation, 'compass-outline', 'My Trips')}
+      {renderTabCard(navigation, 'chatbubble-ellipses-outline', 'Feedback')}
+      <View style={styles.divider} />
+      {renderTabCard(navigation, 'exit-outline', 'Log Out')}
+      {renderTabCard(navigation, 'people-outline', 'Switch To Visitor Account')}
+      <View style={styles.divider} />
     </ScrollView>
   );
 };
@@ -58,8 +58,8 @@ const renderGuideImage = (profilePicture) => {
         zIndex: 1
       }}>
       <Image style={styles.guideImage} source={{
-          uri: profilePicture
-        }} />
+        uri: profilePicture
+      }} />
     </View>
   );
 };
@@ -81,53 +81,53 @@ const renderGuideBio = (user) => {
 };
 
 const viewProfileButton = (navigation) => {
-    return (
-      <TouchableOpacity
-        onPress={() => navigation.navigate('AccountGuide')}
-        style={styles.roundButton}>
-        <View style={{flexDirection: 'row'}}>
-            <Text style={styles.viewProfileText}>View Profile</Text>
-            <Ionicons
-                name='chevron-forward-outline'
-                size={20}
-                color={white}
-                style={{
-                    position: 'absolute',
-                    right: -28,
-                    bottom: -2,
-                    }}
-                />
-        </View>
-        
-      </TouchableOpacity>
-    );
+  return (
+    <TouchableOpacity
+      onPress={() => navigation.navigate('AccountGuide')}
+      style={styles.roundButton}>
+      <View style={{ flexDirection: 'row' }}>
+        <Text style={styles.viewProfileText}>View Profile</Text>
+        <Ionicons
+          name='chevron-forward-outline'
+          size={20}
+          color={white}
+          style={{
+            position: 'absolute',
+            right: -28,
+            bottom: -2,
+          }}
+        />
+      </View>
+
+    </TouchableOpacity>
+  );
 };
 
 const renderTabCard = (navigation, iconName, title) => {
-    return (
-        <TouchableOpacity style={styles.tabCard} onPress={() => navigation.navigate()}>
-            <View style={styles.cardTextSection}>
-                <Ionicons
-                    name={iconName}
-                    size={22}
-                    color={black}
-                    style={{
-                        marginRight: 8,
-                        }}
-                    />
-                <Text style={{marginTop: 2, fontSize: 15}}>{title}</Text>
-                <Ionicons
-                    name='chevron-forward-outline'
-                    size={20}
-                    color={grayDark}
-                    style={{
-                        position: 'absolute',
-                        right: 0,
-                        }}
-                    />
-            </View>
-        </TouchableOpacity>
-    );
+  return (
+    <TouchableOpacity style={styles.tabCard} onPress={() => navigation.navigate('Feedback')}>
+      <View style={styles.cardTextSection}>
+        <Ionicons
+          name={iconName}
+          size={22}
+          color={black}
+          style={{
+            marginRight: 8,
+          }}
+        />
+        <Text style={{ marginTop: 2, fontSize: 15 }}>{title}</Text>
+        <Ionicons
+          name='chevron-forward-outline'
+          size={20}
+          color={grayDark}
+          style={{
+            position: 'absolute',
+            right: 0,
+          }}
+        />
+      </View>
+    </TouchableOpacity>
+  );
 };
 
 const styles = StyleSheet.create({

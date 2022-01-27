@@ -83,7 +83,7 @@ const TourInfo = ({ navigation, route }) => {
 
   const renderForeground = () => {
     return (
-      <View style={{ backgroundColor: red, flex: 1, borderRadius: 10}}>
+      <View style={{ backgroundColor: red, flex: 1, borderRadius: 10 }}>
         <ImageBackground style={styles.imageHeader} source={{ uri: picture }}>
           <LinearGradient
             colors={['transparent', black]}
@@ -140,9 +140,9 @@ const TourInfo = ({ navigation, route }) => {
       <StatusBar barStyle="dark-content" />
       <FlatList
         ListHeaderComponent={
-          <View style={{marginBottom: 80}}>
+          <View style={{ marginBottom: 80 }}>
             {renderForeground()}
-            <Reviews reviews={reviews}/>
+            <Reviews reviews={reviews} />
           </View>
         }
       />
@@ -151,11 +151,11 @@ const TourInfo = ({ navigation, route }) => {
         onPress={() => navigation.goBack()}>
         <Ionicons name="chevron-back-outline" size={22} color={'white'} />
       </TouchableOpacity>
-      <View style={{backgroundColor: white, height: 80, width: '100%', position: 'absolute', bottom: 0, elevation: 10}}>
+      <View style={{ backgroundColor: white, height: 80, width: '100%', position: 'absolute', bottom: 0, elevation: 10 }}>
         <TouchableOpacity
           style={styles.continue}
           onPress={() => {
-            navigation.navigate('TourBooking1', {title, picture, id, description});
+            navigation.navigate('TourBooking1', { title, picture, id, description });
           }}>
           <Text style={{ alignSelf: 'center', color: 'white', fontFamily: 'Helvetica-Bold' }}>
             Find A Tour Guide
