@@ -1,4 +1,4 @@
-import React, {Component, useState} from 'react';
+import React, {Component, useState, useEffect} from 'react';
 import {
   View,
   Text,
@@ -17,6 +17,14 @@ import { primary, white, grayDark, black, grayShadow } from 'config/colors';
 //note: grid is kind of laggy when upsized, will work on fixing
 const TourEdit = ({navigation, route}) => {
   const tour = route.params.tour;
+  const [slots, setSlots] = useState(new Array(7).fill().map(_ => new Array(24).fill(true)))
+
+  useEffect(() => {
+    let temp = slots
+    temp[0][0] = true
+    setSlots(temp)
+    return () => {console.log(slots)}
+  }, [])
 
   const renderForeground = () => {
     return (
@@ -60,21 +68,27 @@ const TourEdit = ({navigation, route}) => {
     let days = []
     for (let i = 0; i < 7; i++) {
       let hours = []
-      for (let i = 0; i < 24; i++) {
+      for (let j = 0; j < 24; j++) {
         hours.push(
-          <View style={{
-            backgroundColor: primary,
-            width: 12,
-            height: 10,
-            borderTopLeftRadius: i==0?10:0,
-            borderTopRightRadius: i==0?10:0,
-            borderBottomLeftRadius: i==23?10:0,
-            borderBottomRightRadius: i==23?10:0,
-          }}/>
+          <View 
+            style={{
+              backgroundColor: slots[i][j]?primary:white,
+              width: 12,
+              height: 10,
+              borderTopLeftRadius: j==0?10:0,
+              borderTopRightRadius: j==0?10:0,
+              borderBottomLeftRadius: j==23?10:0,
+              borderBottomRightRadius: j==23?10:0,
+            }}
+            key={j}
+          />
         )
       }
       days.push(
-        <View style={{marginLeft: 10, display: 'flex', alignItems: 'center'}}>
+        <View 
+          style={{marginLeft: 10, display: 'flex', alignItems: 'center'}}
+          key={i}
+        >
           <Text style={{fontSize: 13, fontFamily: 'Helvetica-Bold'}}>
             {whatDay(i)}
           </Text>
