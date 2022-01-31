@@ -86,46 +86,34 @@ const TourBooking3 = ({navigation, route}) => {
   }
 
   const timeSelect = (index) => {
-    if (selectedTime == index) {
-      return (
-        <TouchableOpacity
-          key={index}
-          style={{
-            backgroundColor: primary,
-            borderRadius: 10,
-            paddingHorizontal: 11,
-            paddingVertical: 7,
-            marginRight: 7,
-            marginLeft: 7,
-            marginBottom: 10,
-          }}>
-          <Text style={{color: white, fontSize: 15}}>
-            {moment(times[index]).format('LT')}
-          </Text>
-        </TouchableOpacity>
-      );
-    } else {
-      return (
-        <TouchableOpacity
-          key={index}
-          style={{
-            backgroundColor: white,
-            borderColor: '#3154A5',
-            borderWidth: 1.2,
-            borderRadius: 10,
-            paddingHorizontal: 11,
-            paddingVertical: 7,
-            marginRight: 7,
-            marginLeft: 7,
-            marginBottom: 10,
-          }}
-          onPress={() => setSelectedTime(index)}>
-          <Text style={{color: primary, fontSize: 15}}>
-            {moment(times[index]).format('LT')}
-          </Text>
-        </TouchableOpacity>
-      );
-    }
+    return (
+      <TouchableOpacity
+        onPress={() => {
+          if (selectedTime == index) {
+            setSelectedTime(-1)
+          }
+          else {
+            setSelectedTime(index)
+          }
+        }}
+        key={index}
+        style={{
+          backgroundColor: selectedTime==index?primary:white,
+          borderRadius: 10,
+          paddingHorizontal: 11,
+          paddingVertical: 7,
+          marginRight: 7,
+          marginLeft: 7,
+          marginBottom: 10,
+          borderWidth: 1,
+          borderColor: primary
+        }}>
+        <Text style={{color: selectedTime==index?white:primary, fontSize: 15}}>
+          {moment(times[index]).format('LT')}
+        </Text>
+      </TouchableOpacity>
+    );
+
   }
   const onRegionChange = region => {
     setRegion(region)
@@ -185,31 +173,28 @@ const TourBooking3 = ({navigation, route}) => {
     return calenderMarkings;
   };
   const onDayPress = day => {
+    let times = []
+    let dayTourSettings = []
+    //for loop checks if selected day has a dot underneath (dots indicate there is a tour on that day)
     for (let i = 0; i < marks.length; i++) {
       if (day == marks[i] && selectedDay == '') {
         setSelectedDay(day)
-      }
-      else if (day == marks[i] && selectedDay != ''){
-        setSelectedDay('')
-      }
-    }
-    let times = []
-    let dayTourSettings = []
-    if (selectedDay == '') {
-      for (let i = 0; i < tourSettings.length; i++) {
-        for (let j = 0; j < tourSettings[i].timeAvailable.length; j++) {
-          if (moment(tourSettings[i].timeAvailable[j]).format("YYYY" + "-" + "MM" + "-" + "DD") == day) {
-            times.push(tourSettings[i].timeAvailable[j])
-            dayTourSettings.push(tourSettings[i])
+        for (let i = 0; i < tourSettings.length; i++) {
+          for (let j = 0; j < tourSettings[i].timeAvailable.length; j++) {
+            if (moment(tourSettings[i].timeAvailable[j]).format("YYYY" + "-" + "MM" + "-" + "DD") == day) {
+              times.push(tourSettings[i].timeAvailable[j])
+              dayTourSettings.push(tourSettings[i])
+            }
           }
         }
+  
+        setTimes(times)
+        setDayTourSettings(dayTourSettings)
       }
-
-      setTimes(times)
-      setDayTourSettings(dayTourSettings)
-    }
-    else {
-      setTimes()
+      else if (day == marks[i] && selectedDay == day){
+        setSelectedDay('')
+        setTimes()
+      }
     }
   };
 
@@ -420,7 +405,8 @@ const TourBooking3 = ({navigation, route}) => {
                 // minDate={'2012-05-10'}
                 // maxDate={'2012-05-30'}
                 onDayPress={day => {
-                  onDayPress(day.dateString);
+                  onDayPress(day.dateString)
+                  setSelectedTime(-1)
                 }}
                 // Month format in calendar title. Formatting values: http://arshaw.com/xdate/#Formatting
                 monthFormat={'MMMM yyyy'}
@@ -588,13 +574,13 @@ const TourBooking3 = ({navigation, route}) => {
             }
 
             {/* Meeting Point_______________________________________________________________ */}
-            <View
+            {/* <View
               style={[
                 styles.backCard,
                 {paddingLeft: 40, paddingRight: 40, paddingBottom: 30},
               ]}>
               {showMeetingPoint()}
-            </View>
+            </View> */}
 
             {/* Aditional Requests_______________________________ */}
             <View
@@ -614,6 +600,7 @@ const TourBooking3 = ({navigation, route}) => {
                   padding: 10,
                   alignItems: 'center',
                   justifyContent: 'center',
+                  height: 40,
                 }}
                 multiline={true}
               />
