@@ -28,6 +28,7 @@ import {
   red,
 } from 'config/colors';
 import Reviews from '../../components/Reviews';
+import BottomButton from '../../components/BottomButton';
 
 const { event, ValueXY } = Animated;
 
@@ -151,17 +152,8 @@ const TourInfo = ({ navigation, route }) => {
         onPress={() => navigation.goBack()}>
         <Ionicons name="chevron-back-outline" size={22} color={'white'} />
       </TouchableOpacity>
-      <View style={{backgroundColor: white, height: 80, width: '100%', position: 'absolute', bottom: 0, elevation: 10}}>
-        <TouchableOpacity
-          style={styles.continue}
-          onPress={() => {
-            navigation.navigate('TourBooking1', {title, picture, id, description});
-          }}>
-          <Text style={{ alignSelf: 'center', color: 'white', fontFamily: 'Helvetica-Bold' }}>
-            Find A Tour Guide
-          </Text>
-        </TouchableOpacity>
-      </View>
+      <BottomButton title='Find a Tour Guide' onPress={() => {navigation.navigate('TourBooking1', {title, picture, id, description});
+          }}/>
     </View>
   );
 };

@@ -19,6 +19,8 @@ import { Calendar } from 'react-native-calendars';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import moment from 'moment';
 import { viewTourSettings} from '../../api/tours';
+import Header from '../../components/Header'
+import BottomButton from '../../components/BottomButton';
 
 const TourBooking3 = ({navigation, route}) => {
 
@@ -618,61 +620,26 @@ const TourBooking3 = ({navigation, route}) => {
                 multiline={true}
               />
             </View>
-            <View
-              style={{
-                flex: 1,
-                height: 100,
-                backgroundColor: white,
-                marginTop: 10,
-                justifyContent: 'center',
-                padding: 20,
-              }}>
-              <TouchableOpacity
-                style={styles.continue}
-                onPress={() => {
-
-                  console.log(dayTourSettings)
-                  let tourSetting
-                  let timeIndex
-                  for (let i = 0; i < dayTourSettings.length; i++) {
-                    for (let j = 0; j < dayTourSettings[i].timeAvailable.length; j++) {
-                      if (times[selectedTime] == dayTourSettings[i].timeAvailable[j]) {
-                        tourSetting = dayTourSettings[i]
-                        timeIndex = j
-                      }
-                    }
-                  }
-                  navigation.navigate('BookingCheckout', {tourSetting, tour, guideInfo, visitorCount, timeIndex});
-                }}>
-                <Text
-                  style={{
-                    alignSelf: 'center',
-                    color: white,
-                    fontWeight: '600',
-                  }}>
-                  Continue
-                </Text>
-              </TouchableOpacity>
-            </View>
           </View>
         }
       />
+      <BottomButton title='Continue' onPress={() => {
+        let tourSetting
+        let timeIndex
+        for (let i = 0; i < dayTourSettings.length; i++) {
+          for (let j = 0; j < dayTourSettings[i].timeAvailable.length; j++) {
+            if (times[selectedTime] == dayTourSettings[i].timeAvailable[j]) {
+              tourSetting = dayTourSettings[i]
+              timeIndex = j
+            }
+          }
+        }
+        navigation.navigate('BookingCheckout', {tourSetting, tour, guideInfo, visitorCount, timeIndex});
+        }}
+      />
 
       {/*Header_________________________________________________________________ */}
-      <View
-        style={{
-          backgroundColor: primary,
-          height: 80,
-          width: '100%',
-          position: 'absolute',
-        }}>
-        <Text style={[styles.titleText, {marginTop: 20}]}>Booking</Text>
-      </View>
-      <TouchableOpacity
-        style={styles.backIcon}
-        onPress={() => navigation.goBack()}>
-        <Ionicons name="chevron-back-outline" size={22} color={primary} />
-      </TouchableOpacity>
+      <Header title='Booking' navigation={navigation}/>
     </SafeAreaView>
   );
 }
