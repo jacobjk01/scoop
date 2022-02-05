@@ -32,7 +32,8 @@ import Reviews from '../../components/Reviews';
 const { event, ValueXY } = Animated;
 
 const TourInfo = ({ navigation, route }) => {
-  const { title, picture, id, description } = route.params.itemInfo;
+  const { title, picture, id, description, flow } = route.params.props;
+  console.log(picture)
   const [reviews, setReviews] = useState([
     {
       stars: 4.8,
@@ -48,7 +49,6 @@ const TourInfo = ({ navigation, route }) => {
     },
   ]);
   const [scrollY, setScrollY] = useState(new ValueXY());
-  console.log(route.params.itemInfo)
   // constructor(props) {
   //   super(props);
 
@@ -155,7 +155,7 @@ const TourInfo = ({ navigation, route }) => {
         <TouchableOpacity
           style={styles.continue}
           onPress={() => {
-            navigation.navigate('TourBooking1', {title, picture, id, description});
+            navigation.navigate(flow=='guide'?'TourBooking3':'TourBooking1', {title, picture, id, description});
           }}>
           <Text style={{ alignSelf: 'center', color: 'white', fontFamily: 'Helvetica-Bold' }}>
             Find A Tour Guide

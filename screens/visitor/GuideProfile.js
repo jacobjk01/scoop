@@ -35,17 +35,17 @@ const GuideProfile = ({ navigation, route }) => {
     if (item === null) {
       throw Error('checkout item cannot be null');
     }
-    console.log(item);
     return (
       <TouchableOpacity
         onPress={() => {
-          const itemInfo = {
+          const props = {
             title: item.name,
             picture: '',
             id: item.id,
             description: item.introduction,
+            flow: 'guide'
           };
-          navigation.navigate('TourInfo', { itemInfo });
+          navigation.navigate('TourInfo', { props });
         }}>
         <ImageBackground
           style={styles.listTourImage}
