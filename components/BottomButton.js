@@ -4,7 +4,16 @@ import { primary, white, black, grayDark, grayMed, grayShadow } from 'config/col
 
 const BottomButton = (params) => {
     return (
-        <View style={{backgroundColor: white, height: 80, width: '100%', position: 'absolute', bottom: 0, elevation: 10}}>
+        <View style={{
+            backgroundColor: white,
+            height: 80,
+            width: '100%',
+            position: 'absolute',
+            bottom: 0,
+            elevation: 20,
+            zIndex: 100,
+            }}
+        >
             <TouchableOpacity
             style={{
                 marginLeft: 'auto',
@@ -20,7 +29,7 @@ const BottomButton = (params) => {
                 shadowOffset: { width: 2, height: 2 },
                 shadowOpacity: 0.8,
                 shadowRadius: 3,
-                elevation: 5,
+                elevation: 10,
             }}
             onPress={params.onPress}>
             <Text style={{ alignSelf: 'center', color: 'white', fontFamily: 'Helvetica-Bold' }}>

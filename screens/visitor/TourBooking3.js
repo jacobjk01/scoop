@@ -623,18 +623,22 @@ const TourBooking3 = ({navigation, route}) => {
           </View>
         }
       />
-      <BottomButton title='Continue' onPress={() => {
-        let tourSetting
-        let timeIndex
-        for (let i = 0; i < dayTourSettings.length; i++) {
-          for (let j = 0; j < dayTourSettings[i].timeAvailable.length; j++) {
-            if (times[selectedTime] == dayTourSettings[i].timeAvailable[j]) {
-              tourSetting = dayTourSettings[i]
-              timeIndex = j
+      <BottomButton
+        title='Continue'
+        onPress={() => {
+          if (selectedTime != -1) {
+            let tourSetting
+            let timeIndex
+            for (let i = 0; i < dayTourSettings.length; i++) {
+              for (let j = 0; j < dayTourSettings[i].timeAvailable.length; j++) {
+                if (times[selectedTime] == dayTourSettings[i].timeAvailable[j]) {
+                  tourSetting = dayTourSettings[i]
+                  timeIndex = j
+                }
+              }
             }
+            navigation.navigate('BookingCheckout', {tourSetting, tour, guideInfo, visitorCount, timeIndex});
           }
-        }
-        navigation.navigate('BookingCheckout', {tourSetting, tour, guideInfo, visitorCount, timeIndex});
         }}
       />
 

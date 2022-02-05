@@ -13,6 +13,8 @@ import {
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import LinearGradient from 'react-native-linear-gradient';
 import { primary, white, grayDark, black, grayShadow } from 'config/colors';
+import ImageHeader from '../../components/ImageHeader';
+import BottomButton from '../../components/BottomButton'
 
 //note: grid is kind of laggy when upsized, will work on fixing
 const TourEdit = ({navigation, route}) => {
@@ -26,26 +28,6 @@ const TourEdit = ({navigation, route}) => {
     return () => {console.log(slots)}
   }, [])
 
-  const renderForeground = () => {
-    return (
-      <View style={{flex: 1, borderRadius: 15}}>
-        <ImageBackground
-          style={styles.imageHeader}
-          imageStyle={{borderBottomLeftRadius: 15, borderBottomRightRadius: 15}}
-          source={require('images/Westwood_village.jpg')}>
-          <LinearGradient
-            colors={['transparent', black]}
-            style={styles.linearGradTour}
-            />
-          <View style={styles.imageOverlay}>
-            <Text style={styles.titleText}>
-              {tour.name}
-            </Text>
-          </View>
-        </ImageBackground>
-      </View>
-    );
-  }
   const whatDay = (i) => {
     switch (i) {
       case 0:
@@ -106,7 +88,7 @@ const TourEdit = ({navigation, route}) => {
   }
   const renderContent = () => {
     return (
-      <View style={{marginBottom: 300}}>
+      <View style={{marginBottom: 100}}>
         <TouchableOpacity
             onPress={() => navigation.navigate('TourEdit3', tour)}
             style={{position: 'absolute', right: 30, top: 30}}>
@@ -150,24 +132,12 @@ const TourEdit = ({navigation, route}) => {
   }
  
   return (
-    <View style={{backgroundColor: white}}>
+    <View style={{backgroundColor: white, height: '100%'}}>
       <ScrollView>
-
-        {renderForeground()}
+        <ImageHeader navigation={navigation} title={tour.name}/>
         {renderContent()}
-        <TouchableOpacity
-          style={styles.backIcon}
-          onPress={() => navigation.goBack()}>
-          <Ionicons name='chevron-back-outline' size={20} color={white} />
-        </TouchableOpacity>
       </ScrollView>
-      <TouchableOpacity
-        style={styles.continue}
-        onPress={() => navigation.navigate('TourEdit2')}>
-        <Text style={{alignSelf: 'center', color: white, fontWeight: '700'}}>
-          {'View Suggested Itinerary'}
-        </Text>
-      </TouchableOpacity>
+      <BottomButton onPress={() => navigation.navigate('TourEdit2')} title='View Suggested Itinierary'/>
     </View>
   );
 
