@@ -237,9 +237,9 @@ const TourBooking1 = ({navigation, route}) => {
     }
 
     const handleOnPress = () => {
+      console.log(tour, guideInfo, selectedDay)
       navigation.navigate('TourBooking2', {tour, guideInfo, selectedDay})
     };
-
     return (
       <TouchableOpacity onPress={handleOnPress}>
         <View>

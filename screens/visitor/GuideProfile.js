@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 //import SeeMore from 'react-native-see-more-inline';
 import {
   View,
@@ -24,44 +24,99 @@ import Reviews from '../../components/Reviews';
 import { primary, grayDark, white, black, tappableBlue } from 'config/colors';
 import toursData from '../../data/toursData';
 import reviewData from '../../data/reviews';
+import { getUser, getUserById } from '../../api/users';
+import { viewMyTours, getTour } from '../../api/tours';
+import { generalTours } from '../../data/toursDatav2';
 
 const GuideProfile = ({ navigation, route }) => {
-  const [tours, setTours] = useState(toursData.tours);
+  const [tours, setTours] = useState();
+  let guideModel = {
+    _data: {
+      name: '',
+      hometown: '',
+      major: '',
+      profilePicture: '',
+      intro: '',
+      year: ''
+    }
+  }
+  const [guide, setGuide] = useState(guideModel)
   const [reviews, setReviews] = useState(reviewData);
   const [seeMore, setSeeMore] = useState(false);
-  const { item } = route.params;
+  //route.params is guideId
+  useEffect(() => {
+    let isMounted = true
+    if (isMounted) {
+      getUserById(route.params).then(guideInfo => {
+        guideInfo._data.id = route.params
+        setGuide(guideInfo)
+      });
+      //gets all tour settings that the guide runs
+      viewMyTours(route.params).then(tourSettings => {
+        let parentIds = []
+        let promiseArray = []
+        //checks for copies before putting id in parentId
+        tourSettings.forEach((tourSetting) => {
+          let push = true
+          for(let i = 0; i < parentIds.length; i++) {
+            if (tourSetting.parentId == parentIds[i]){
+              push = false
+            }
+          }
+          if(push) {
+            parentIds.push(tourSetting.parentId)
+          }
+        })
+        //makes promise array with parentIds
+        parentIds.forEach((parentId) => {
+          promiseArray.push(getTour(parentId))
+        })
+        //resolves promiseArray, sets State
+        Promise.all(promiseArray).then(tempTours => {
+          //adds the id of the tour to tourInfo
+          for (let i = 0; i < tempTours.length; i++) {
+            tempTours[i]._data.id = parentIds[i]
+          }
+          setTours(tempTours)
+        })
+      })
+    }
+    return () => {
+      isMounted = false
+    }
+  }, [])
 
-  const navigateCheckout = ({ item }) => {
+  const navigateCheckout = ({item}) => {
+    const tour = {
+      title: item._data.title,
+      picture: item._data.picture,
+      description: item._data.description,
+      id: item._data.id
+    };
+
     if (item === null) {
       throw Error('checkout item cannot be null');
     }
-    console.log(item);
     return (
       <TouchableOpacity
         onPress={() => {
-          const itemInfo = {
-            title: item.name,
-            picture: '',
-            id: item.id,
-            description: item.introduction,
-          };
-          navigation.navigate('TourInfo', { itemInfo });
+          navigation.navigate('TourInfo', { tour, guide });
         }}>
         <ImageBackground
           style={styles.listTourImage}
           imageStyle={{ borderRadius: 10 }}
-          source={item.src}>
+          source={{uri: tour.picture}}>
           <LinearGradient
             colors={['transparent', black]}
             style={styles.linearGradTour}
           />
         </ImageBackground>
-        <Text style={styles.tourText}>{item.name}</Text>
+        <Text style={styles.tourText}>{tour.title}</Text>
       </TouchableOpacity>
     );
   };
 
-  const renderGuideImage = ({ item }) => {
+  const renderGuideImage = () => {
     return (
       <View
         style={{
@@ -69,10 +124,10 @@ const GuideProfile = ({ navigation, route }) => {
           justifyContent: 'center',
           alignItems: 'center',
         }}>
-        <Image style={styles.listGuideImage} source={item.src} />
-        <Text style={styles.sectionText}>{item.name}</Text>
+        <Image style={styles.listGuideImage} source={{uri: guide._data.profilePicture}} />
+        <Text style={styles.sectionText}>{guide._data.name}</Text>
         <Text style={styles.baseText}>
-          {item.major + ','} {item.year}
+          {guide._data.major + ','} {guide._data.year}
         </Text>
         <View
           style={{
@@ -101,6 +156,7 @@ const GuideProfile = ({ navigation, route }) => {
         source={require('../../images/Westwood_village.jpg')}
       />
       <ScrollView
+        nestedScrollEnabled={true}
         style={{
           position: 'absolute',
           top: 0,
@@ -122,7 +178,8 @@ const GuideProfile = ({ navigation, route }) => {
               marginTop: -80,
               justifyContent: 'center',
             }}>
-            {renderGuideImage({ item })}
+            {renderGuideImage()}
+
           </View>
 
           <View style={styles.divider} />
@@ -151,7 +208,7 @@ const GuideProfile = ({ navigation, route }) => {
                 fontSize: 20,
                 fontWeight: '700',
               }}>
-              {"Hi, I'm " + item.name + '!'}
+              {"Hi, I'm " + guide._data.name + '!'}
             </Text>
 
             <Text
@@ -161,7 +218,7 @@ const GuideProfile = ({ navigation, route }) => {
                 fontSize: 14,
                 fontStyle: 'italic',
               }}>
-              Hometown : Columbia, Missouri
+              Hometown: {guide._data.hometown}
             </Text>
             <View
               style={{ marginRight: 30, marginTop: 3, backgroundColor: 'white' }}>
@@ -173,11 +230,7 @@ const GuideProfile = ({ navigation, route }) => {
               )}
               {/* <View style={styles.opacityBlock} /> */}
               <Text style={seeMore ? styles.regularText : styles.limitedText}>
-                Coming from a small town in Missouri, getting around LA wasn’t
-                easy for me at first, Lorem ipsum dolor sit amet, consectetur
-                adipiscing elit. Sapien velit elementum malesuada leo sociis.
-                Leo nisi, facilisis fames dignissim euismod nec. Tempus
-                scelerisque tempor proin diam int
+                {guide._data.intro}
               </Text>
               <Text
                 onPress={() => setSeeMore(!seeMore)}
@@ -216,40 +269,6 @@ const GuideProfile = ({ navigation, route }) => {
         onPress={() => navigation.goBack()}>
         <Ionicons name="chevron-back-outline" size={20} color={'white'} />
       </TouchableOpacity>
-    </View>
-  );
-};
-
-const renderTourImage = ({ item }) => {
-  return (
-    <TouchableOpacity>
-      <ImageBackground
-        style={styles.listTourImage}
-        imageStyle={{ borderRadius: 10 }}
-        source={item.src}>
-        <LinearGradient
-          colors={['transparent', black]}
-          style={styles.linearGradTour}
-        />
-      </ImageBackground>
-      <Text style={styles.tourText}>{item.name}</Text>
-    </TouchableOpacity>
-  );
-};
-
-const renderGuideImage = ({ item }) => {
-  return (
-    <View
-      style={{
-        paddingTop: 30,
-        justifyContent: 'center',
-        alignItems: 'center',
-      }}>
-      <Image style={styles.listGuideImage} source={item.src} />
-      <Text style={styles.sectionText}>{item.name}</Text>
-      <Text style={styles.baseText}>
-        {item.major + ','} {item.year}
-      </Text>
     </View>
   );
 };

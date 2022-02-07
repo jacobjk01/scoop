@@ -32,7 +32,6 @@ const HomePage = ({navigation}) => {
 
   useEffect(() => {
     let isMounted = true
-    console.log('useEffect')
     viewAvailableTours().then(tours => {
       //https://stackoverflow.com/questions/53949393/cant-perform-a-react-state-update-on-an-unmounted-component
       //You are not suppose to use async/await functions in useEffect
@@ -46,7 +45,6 @@ const HomePage = ({navigation}) => {
       isMounted = false
     }
   }, [])
-  console.log('homepage')
   const viewAll = (text) => {
     return (
       <View style={{paddingHorizontal: 30, marginTop: 15, marginBottom: 10, display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
@@ -157,30 +155,29 @@ const HomePage = ({navigation}) => {
           horizontal={true}
           data={tours}
           renderItem={({item, index}) => {
+            const tour = {title: item.title, picture: item.picture, id: item.id, description: item.description}
             return (
-              //TODO: make tourinfo get the tour info, this can be done in this screen or in tourinfo screen
-            <TouchableOpacity 
-              style={{marginBottom: 15, marginLeft: index == 0?20:0}}
-              onPress={() => {
-                const itemInfo = {title: item.title, picture: item.picture, id: item.id, description: item.description}
-
-                navigation.navigate('TourInfo', {itemInfo})
-              }}
-            >
-              <ImageBackground
-                style={styles.listTourImage}
-                imageStyle={{borderRadius: 10}}
-                source={{uri: item.picture}}
+              <TouchableOpacity 
+                style={{marginBottom: 15, marginLeft: index == 0?20:0}}
+                onPress={() => {
+                  navigation.navigate('TourInfo', {tour})
+                }}
               >
-                <LinearGradient
-                  colors={['transparent', 'rgba(0,0,0,0.6)']}
-                  style={styles.linearGradTour}
+                <ImageBackground
+                  style={styles.listTourImage}
+                  imageStyle={{borderRadius: 10}}
+                  source={{uri: tour.picture}}
                 >
-                  <Text style={styles.tourText}>{item.title}</Text>
-                </LinearGradient>
-              </ImageBackground>
-            </TouchableOpacity>
-          )}}
+                  <LinearGradient
+                    colors={['transparent', 'rgba(0,0,0,0.6)']}
+                    style={styles.linearGradTour}
+                  >
+                    <Text style={styles.tourText}>{tour.title}</Text>
+                  </LinearGradient>
+                </ImageBackground>
+              </TouchableOpacity>
+            )
+          }}
         />
         {viewAll('Tour Guides')}
         <FlatList
@@ -191,7 +188,7 @@ const HomePage = ({navigation}) => {
             <TouchableOpacity
               key={item.id}
               style={{marginLeft: item.id == 0?20:0, marginBottom: 10}}
-              onPress={() => navigation.navigate('GuideProfile', {item})}>
+              onPress={() => navigation.navigate('GuideProfile', 'CBBI3gdPl2Q88GF1G6RGsO8pXpG3')}>
               <ImageBackground
                 style={styles.listGuideImage}
                 imageStyle={{borderRadius: 10,}}

@@ -21,7 +21,12 @@ import moment from 'moment';
 import { viewTourSettings} from '../../api/tours';
 import Header from '../../components/Header'
 import BottomButton from '../../components/BottomButton';
-
+/*
+Parameters:
+tour: {"description": "Get to know the neighborhood: where to grocery shop, where the best hangout places are, and where to grab a bite with your fellow hungry bruins.", "id": "4Wey5tUxBInxLq4tZRlS", "picture": "https://pbs.twimg.com/media/EFG56vjU4AAJ_xL?format=jpg&name=4096x4096", "title": "Westwood Tour"}
+guideInfo: {"id": "bVkVyZQ5cXTrw83zpBfpNvpVThX2", "major": "cybernetics", "name": "josh test", "profilePicture": "https://lh3.googleusercontent.com/a-/AOh14GgTtZB1w7Jq_jiaCtfaOnE6z4xgCZCtelE6FQwD=s96-c", "type": undefined}
+Selected Date: 2021-12-13 (OPTIONAL)
+*/
 const TourBooking3 = ({navigation, route}) => {
 
   const tour = route.params.tour

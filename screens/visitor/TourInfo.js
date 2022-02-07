@@ -12,28 +12,15 @@ import {
   Animated,
   StatusBar,
 } from 'react-native';
-import { withSafeAreaInsets } from 'react-native-safe-area-context';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import LinearGradient from 'react-native-linear-gradient';
-
-import StickyParallaxHeader from 'react-native-sticky-parallax-header';
-import { Calendar } from 'react-native-calendars';
-import {
-  primary,
-  black,
-  white,
-  grayDark,
-  blueDark,
-  grayShadow,
-  red,
-} from 'config/colors';
+import { primary, black, white, grayDark, blueDark, grayShadow, red } from 'config/colors';
 import Reviews from '../../components/Reviews';
 import BottomButton from '../../components/BottomButton';
 
-const { event, ValueXY } = Animated;
-
 const TourInfo = ({ navigation, route }) => {
-  const { title, picture, id, description } = route.params.itemInfo;
+  const { title, picture, id, description } = route.params.tour;
+  console.log(route.params)
   const [reviews, setReviews] = useState([
     {
       stars: 4.8,
@@ -48,8 +35,6 @@ const TourInfo = ({ navigation, route }) => {
         'Being a sophomore, I kinda know what Westwood is like already; however, Brittany was able to show me interesting places I’ve never discovered!',
     },
   ]);
-  const [scrollY, setScrollY] = useState(new ValueXY());
-  console.log(route.params.itemInfo)
   // constructor(props) {
   //   super(props);
 
