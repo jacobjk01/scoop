@@ -14,6 +14,7 @@ import {
 import { primary, white, black, grayDark, grayLight, grayMed } from '../../config/colors';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import toursData from '../../data/toursData';
+import style from '../../config/typography.js';
 
 
 const Checkout = ({navigation, route}) => {
@@ -80,7 +81,7 @@ const Checkout = ({navigation, route}) => {
 
             {/*Bottom area*/}
             <View style={styles.bottomContainer}>
-              <Text style={{fontSize: 18, fontFamily: 'Helvetica-Bold', color: black, marginTop: 40, marginLeft: 30, marginRight: 'auto'}}>
+              <Text style={{...mediumBold, color: black, marginTop: 40, marginLeft: 30, marginRight: 'auto'}}>
                 Select Payment Method
               </Text>
               <TouchableOpacity 

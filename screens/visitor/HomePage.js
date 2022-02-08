@@ -20,6 +20,7 @@ import {color} from 'react-native-reanimated';
 import GuideProfile from './GuideProfile';
 import {viewTourSettings, viewAvailableTours, viewAllTours, convertToTourSummary} from '../../api/tours'
 import { UserContext } from '../../contexts'
+import {titleText, grayMedText, mediumBold, largeBoldText, linearGrad} from '../../config/typography.js'
 
 import toursData from '../../data/toursDatav2';
 
@@ -51,7 +52,7 @@ const HomePage = ({navigation}) => {
   const viewAll = (text) => {
     return (
       <View style={{paddingHorizontal: 30, marginTop: 15, marginBottom: 10, display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
-        <Text style={{ fontSize: 23, fontWeight: '700'}}>
+        <Text style={{...largeBoldText}}>
           {text}
         </Text>
         <TouchableOpacity
@@ -73,7 +74,7 @@ const HomePage = ({navigation}) => {
   return (
     <SafeAreaView>
       <ScrollView style={{height: '100%', backgroundColor: white}}>
-        <Text style={styles.titleText}>Explore around UCLA!</Text>
+        <Text style={{...titleText, paddingLeft: 30, marginTop: 50,}}>Explore around UCLA!</Text>
         <TextInput style={styles.input}/>
           <Ionicons
             name={'search-sharp'}
@@ -116,24 +117,24 @@ const HomePage = ({navigation}) => {
         >
           <View style={{display: 'flex', flexWrap:'wrap',flexDirection: 'column', justifyContent:'space-between',}}>
             <View style={{margin: 5}}>
-              <Text style={styles.tourNotifSubText}>
+              <Text style={{...grayMedText}}>
                 Upcoming Tour</Text>
-              <Text style={styles.tourNotifText}>
+              <Text style={{...mediumBold, color: white}}>
                 Westwood Tour</Text>
             </View>
             <View style={{margin: 5}}>
-              <Text style={styles.tourNotifSubText}>
+              <Text style={{...grayMedText}}>
                 Date</Text>
-              <Text style={styles.tourNotifText}>
+              <Text style={{...mediumBold, color: white}}>
                 Jul 14</Text>
             </View>
           </View>
           <View style={{display: 'flex', flexWrap:'wrap', flexDirection: 'column',}}>
             <View style={{margin: 5, display: 'flex', flexDirection: 'row'}}>
               <View>
-                <Text style={styles.tourNotifSubText}>
+                <Text style={{...grayMedText}}>
                   Tour Guide</Text>
-                <Text style={styles.tourNotifText}>
+                <Text style={{...mediumBold, color: white}}>
                   Brittany</Text>
               </View>
               <Image
@@ -142,9 +143,9 @@ const HomePage = ({navigation}) => {
               />
             </View>
             <View style={{margin: 5}}>
-              <Text style={styles.tourNotifSubText}>
+              <Text style={{...grayMedText}}>
                 Time</Text>
-              <Text style={styles.tourNotifText}>
+              <Text style={{...mediumBold, color: white}}>
                 12:00 PM</Text>
             </View>
           </View>
@@ -172,9 +173,9 @@ const HomePage = ({navigation}) => {
               >
                 <LinearGradient
                   colors={['transparent', 'rgba(0,0,0,0.6)']}
-                  style={styles.linearGradTour}
+                  style={{linearGrad, marginTop: 'auto', height: '70%', width: '100%'}}
                 >
-                  <Text style={styles.tourText}>{item.title}</Text>
+                  <Text style={{...mediumBold, fontWeight: '600', color: white, marginTop: 'auto', left: 20, bottom: 50, zIndex: 100}}>{item.title}</Text>
                 </LinearGradient>
               </ImageBackground>
             </TouchableOpacity>
@@ -196,7 +197,7 @@ const HomePage = ({navigation}) => {
                 source={item.src}>
                 <LinearGradient
                   colors={['transparent', 'rgba(0,0,0,0.6)']}
-                  style={styles.linearGradGuide}
+                  style={{linearGrad, marginTop: 'auto', height: '70%', width: '100%'}}
                 >
                   <View style={{display: 'flex', flexDirection: 'row', marginTop: 'auto', margin: 10}}>
                     <Text style={{color: white, fontFamily: 'Helvetica-Bold'}}>
@@ -217,25 +218,26 @@ const HomePage = ({navigation}) => {
 };
 
 const styles = StyleSheet.create({
-  tourNotifText: {
-    color: white,
-    fontFamily: 'Helvetica-Bold',
-    fontSize: 18
-  },
-  tourNotifSubText: {
-    color: grayLight,
-    fontSize: 15
-  },
+  // tourNotifText: {
+  //   color: white,
+  //   fontFamily: 'Helvetica-Bold',
+  //   fontSize: 18
+  // },
+  // tourNotifSubText: {
+  //   color: grayLight,
+  //   fontSize: 15
+  // },
   baseText: {
     fontFamily: 'Helvetica',
   },
-  titleText: {
-    paddingLeft: 30,
-    fontSize: 27,
-    fontWeight: '600',
-    marginTop: 50,
-    fontFamily: 'Helvetica-Bold'
-  },
+  // titleText: {
+  //   paddingLeft: 30,
+  //   marginTop: 50,
+  //   fontSize: 27,
+  //   fontWeight: '600',
+    
+  //   fontFamily: 'Helvetica-Bold'
+  // },
   input: {
     lineHeight: 50,
     marginTop: 30,
@@ -262,30 +264,30 @@ const styles = StyleSheet.create({
     width: 125,
     height: 125,
   },
-  tourText: {
-    fontWeight: '600',
-    fontSize: 18,
-    color: white,
-    marginTop: 'auto',
-    left: 20,
-    bottom: 50,
-    fontFamily: 'Helvetica-Bold',
-    zIndex: 100
-  },
-  linearGradTour: {
-    backgroundColor: 'transparent',
-    borderRadius: 10,
-    marginTop: 'auto',
-    height: '70%',
-    width: '100%',
-  },
-  linearGradGuide: {
-    marginTop: 'auto',
-    height: '70%',
-    width: '100%',
-    backgroundColor: 'transparent',
-    borderRadius: 10,
-  },
+  // tourText: {
+  //   fontWeight: '600',
+  //   fontSize: 18,
+  //   color: white,
+  //   marginTop: 'auto',
+  //   left: 20,
+  //   bottom: 50,
+  //   fontFamily: 'Helvetica-Bold',
+  //   zIndex: 100
+  // },
+  // linearGradTour: {
+  //   backgroundColor: 'transparent',
+  //   borderRadius: 10,
+  //   marginTop: 'auto',
+  //   height: '70%',
+  //   width: '100%',
+  // },
+  // linearGradGuide: {
+  //   marginTop: 'auto',
+  //   height: '70%',
+  //   width: '100%',
+  //   backgroundColor: 'transparent',
+  //   borderRadius: 10,
+  // },
 });
 
 export default HomePage;

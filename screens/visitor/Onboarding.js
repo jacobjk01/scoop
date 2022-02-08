@@ -3,6 +3,7 @@ import { View, SafeAreaView, Text, Button, TextInput, StyleSheet, Image} from 'r
 import { TouchableOpacity} from 'react-native-gesture-handler'
 import { UserContext } from '../../contexts'
 import {black, white, grayMed, grayDark, grayLight, primary} from '../../config/colors.js'
+import {mediumBold, backIcon, inputStyle, dropdownButton} from '../../config/typography.js'
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 export default  ({navigation}) => {
@@ -79,7 +80,8 @@ export default  ({navigation}) => {
         return (
             <View style={{marginBottom: 25}}>
                 <TouchableOpacity 
-                    style={[styles.dropdownButton, {borderBottomRightRadius: dropdown == true? 0: 5,borderBottomLeftRadius: dropdown == true? 0: 5, }]}
+                    style={[{...dropdownButton, display: 'flex',flexDirection: 'row',paddingVertical: 8, paddingHorizontal: 15,marginTop: 40}, 
+                    {borderBottomRightRadius: dropdown == true? 0: 5,borderBottomLeftRadius: dropdown == true? 0: 5, }]}
                     onPress={() => setDropdown(!dropdown)}
                 >
                     <Text style={{marginRight: 'auto', fontSize: 18, color: data[index]!='-'?black:grayDark}}>{data[index]}</Text>
@@ -102,7 +104,7 @@ export default  ({navigation}) => {
             case 1:
                 return(
                     <TextInput
-                        style={styles.inputStyle}
+                        style={{...inputStyle, paddingHorizontal: 20, paddingVertical: 7, marginTop: 40, marginBottom: 25}}
                         placeholder={'First Name'}
                         onChangeText={(text) => {
                             let temp = [...data]
@@ -118,7 +120,7 @@ export default  ({navigation}) => {
             case 4:
                 return(
                     <TextInput
-                        style={styles.inputStyle}
+                        style={{...inputStyle, paddingHorizontal: 20, paddingVertical: 7, marginTop: 40,marginBottom: 25}}
                         onChangeText={(text) => {
                             let temp = [...data]
                             temp[3] = text
@@ -154,7 +156,7 @@ export default  ({navigation}) => {
         if (page == 5) {
             return (
                 <View style={{width: '80%', height: '60%', display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '25%', marginLeft: 'auto', marginRight: 'auto'}}>
-                    <Text style={{fontFamily: 'Helvetica-Bold', fontSize: 20, width: '70%', textAlign: 'center',}}>
+                    <Text style={{...mediumBold, width: '70%', textAlign: 'center'}}>
                         You are all set!
                     </Text>
                     <Text style={{color: grayMed}}>
@@ -171,7 +173,7 @@ export default  ({navigation}) => {
                         }}
                         style={{backgroundColor: primary, paddingHorizontal: 20, paddingVertical: 10, borderRadius: 30}}
                     >
-                        <Text style={{fontSize: 18, fontFamily: 'Helvetica-Bold', color: white}}>
+                        <Text style={{...mediumBold, color: white, textAlign: 'center'}}>
                             Start Exploring
                         </Text>
                     </TouchableOpacity>
@@ -182,7 +184,7 @@ export default  ({navigation}) => {
         else {
             return (
                 <View style={{width: '80%', height: '50%', display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '40%', marginLeft: 'auto', marginRight: 'auto'}}>
-                    <Text style={{fontFamily: 'Helvetica-Bold', fontSize: 20, width: '70%', textAlign: 'center', top: positionTop, position: 'absolute'}}>
+                    <Text style={{...mediumBold, textAlign: 'center', width: '70%', top: positionTop, position: 'absolute'}}>
                         {question}
                     </Text>
                     <View style={{height: 10}}/>
@@ -196,7 +198,7 @@ export default  ({navigation}) => {
                                 }
                             }
                         >
-                            <Text style={{fontSize: 18, color: primary, fontFamily: 'Helvetica-Bold'}}>
+                            <Text style={{color: primary, ...mediumBold, textAlign: 'center'}}>
                                 Back
                             </Text>
                         </TouchableOpacity>
@@ -207,7 +209,7 @@ export default  ({navigation}) => {
                                     setPage(page + 1)
                             }}
                         >
-                            <Text style={{fontSize: 18, color: data[page - 1] != '-'?white:grayMed, fontFamily: 'Helvetica-Bold'}}>
+                            <Text style={{...mediumBold, textAlign: 'center', color: data[page - 1] != '-'?white:grayMed,}}>
                                 Next
                             </Text>
                         </TouchableOpacity>
@@ -220,7 +222,7 @@ export default  ({navigation}) => {
     return (
         <SafeAreaView style={{height: '100%', backgroundColor: white}}>
             <TouchableOpacity
-                style={styles.backIcon}
+                style={{left: 20, top: 22, ...backIcon}}
                 onPress={() => navigation.goBack()}
             >
                 <Ionicons name="chevron-back-outline" size={22} color={white} />
@@ -256,7 +258,7 @@ export default  ({navigation}) => {
 
 const styles = StyleSheet.create({
     dropdownButton: {
-        marginTop: 40,
+        
         borderWidth: 0.75,
         borderLeftWidth: 1.25,
         borderRightWidth: 1.25,
@@ -268,13 +270,13 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         paddingVertical: 8,
         paddingHorizontal: 15,
+        marginTop: 40,
     },
     itemStyle: {
         backgroundColor: black
     },
     inputStyle: {
         borderWidth: 0.75,
-
         borderRadius: 5,
         borderColor: grayDark,
         paddingHorizontal: 20,
