@@ -23,7 +23,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 const TourBooking2 = ({navigation, route}) => {
   const tour = route.params.tour
   const selectedDay = route.params.selectedDay
-  const guideInfo = route.params.guideInfo
+  const guide = route.params.guide
 
   const messageButton = () => {
     return (
@@ -39,7 +39,7 @@ const TourBooking2 = ({navigation, route}) => {
 
 
   const bookTourButton = () => {
-    const handleOnPress = () => navigation.navigate('TourBooking3', {tour,selectedDay, guideInfo});
+    const handleOnPress = () => navigation.navigate('TourBooking3', {tour,selectedDay, guide});
     return (
       <TouchableOpacity onPress={handleOnPress} style={styles.roundButton2}>
         <Text style={styles.messageFont}>Book Tour</Text>
@@ -55,10 +55,10 @@ const TourBooking2 = ({navigation, route}) => {
           justifyContent: 'center',
           alignItems: 'center',
         }}>
-        <Image style={styles.listGuideImage} source={{uri: guideInfo.profilePicture}} />
-        <Text style={styles.sectionText}>{guideInfo.name}</Text>
+        <Image style={styles.listGuideImage} source={{uri: guide.profilePicture}} />
+        <Text style={styles.sectionText}>{guide.name}</Text>
         <Text style={styles.baseText}>
-          {guideInfo.major + ','} {guideInfo.year}
+          {guide.major + ','} {guide.year}
         </Text>
       </View>
     );
@@ -75,7 +75,7 @@ const TourBooking2 = ({navigation, route}) => {
             style={styles.linearGradTour}
           />
         </ImageBackground>
-        <Text style={styles.tourText}>{guideInfo.name}</Text>
+        <Text style={styles.tourText}>{guide.name}</Text>
       </TouchableOpacity>
     );
   };
@@ -114,7 +114,7 @@ const TourBooking2 = ({navigation, route}) => {
           </View>
 
           <Text style={{marginTop: 30, fontSize: 20, fontWeight: '700'}}>
-            {"Hi, I'm " + guideInfo.name + '!'}
+            {"Hi, I'm " + guide.name + '!'}
           </Text>
 
           <Text style={{marginTop: 5}}></Text>

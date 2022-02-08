@@ -20,6 +20,7 @@ import moment from 'moment';
 import DatePicker from 'react-native-date-picker';
 import { viewTourSettings} from '../../api/tours';
 import { getUsersByRef} from '../../api/users';
+import Header from '../../components/Header'
 
 const TourBooking1 = ({navigation, route}) => {
 
@@ -227,16 +228,16 @@ const TourBooking1 = ({navigation, route}) => {
   };
 
   const renderGuide = ({item, index}) => {
-    let guideInfo = {
+    let guide = {
       id: item.id,
       major: item.major,
       name: item.name,
       profilePicture: item.profilePicture,
       type: item.type
     }
-
     const handleOnPress = () => {
-      navigation.navigate('TourBooking2', {tour, guideInfo, selectedDay})
+      console.log(guide)
+      navigation.navigate('TourBooking2', {tour, guide, selectedDay})
     };
     return (
       <TouchableOpacity onPress={handleOnPress}>
@@ -848,24 +849,7 @@ const TourBooking1 = ({navigation, route}) => {
         }
       />
       {/*Header______________________________________________________________________________ */}
-      <View
-        style={{
-          backgroundColor: primary,
-          height: 80,
-          width: '100%',
-          position: 'absolute',
-        }}>
-        <Text style={[styles.titleText, {marginTop: 20}]}>Select Date</Text>
-      </View>
-      <TouchableOpacity
-        style={styles.backIcon}
-        onPress={() => navigation.goBack()}>
-        <Ionicons
-          name="chevron-back-outline"
-          size={20}
-          color={primary}
-        />
-      </TouchableOpacity>
+      <Header title='Select Date' navigation={navigation}/>
     </SafeAreaView>
   );
 };

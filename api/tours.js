@@ -1,6 +1,7 @@
 import firestore from '@react-native-firebase/firestore';
 import {
   querySnapshotFormatter,
+  querySnapshotFormatterWithParent,
   docSnapshotFormatter
 } from './utilities';
 const db = firestore();
@@ -89,17 +90,15 @@ export const viewAllTours = async () => {
 
 
 export const viewMyTours = async (guideId) => {
-  console.log(guideId)
 
   const queryTourSettingSnapshots = await db.collectionGroup("tourSettings")
     .where("guide", "==", user(guideId))
-    // .where("isArchived", "==", false)
-    // .where("isPublished", "==", true)
-    .where("flags", "==", ["published"])
+    .where("isArchived", "==", false)
+    .where("isPublished", "==", true)
     //gets all tours for guide that only have published flag
     .get()
 
-  return querySnapshotFormatter(queryTourSettingSnapshots)
+  return querySnapshotFormatterWithParent(queryTourSettingSnapshots)
 }
 
 // get attractions of a tour
@@ -265,7 +264,8 @@ export const switchTour = async (guideId, tourId, tourId2) => {
 
 
 //utility functions
-export const getTour = async (guideId, tourId) => {
+export const getTour = async (tourId) => await tours.doc(tourId).get()
+export const getTourSetting = async (guideId, tourId) => {
   await tours.where("guide", "==", user(guideId)).where('tourId', '==', tourId).where('archive', '==', false).get().then(querySnapshot => {
     querySnapshot.forEach((documentSnapshot) => {
       return documentSnapshot;

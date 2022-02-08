@@ -2,6 +2,8 @@ import React from 'react'
 import { SafeAreaView, View, Text, StyleSheet, TouchableOpacity, Image, ScrollView } from 'react-native'
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { primary, white, grayDark, black, grayVeryLight, grayVeryDark, grayShadow } from 'config/colors';
+import Header from '../../components/Header'
+import BottomButton from '../../components/BottomButton';
 
 const ViewTour = ({ navigation, route }) => {
     const tour = route.params.tour;
@@ -17,29 +19,18 @@ const ViewTour = ({ navigation, route }) => {
     ]
     return (
         <SafeAreaView>
-            {renderHeader(navigation, tour.name)}
-            <ScrollView style={{height: '100%'}}>
+            <ScrollView style={{height: '100%', paddingTop: 100}}>
                 {activeTour ? null : renderTourInfo(tour)}
                 {renderVisitorInfo(tour)}
                 {activeTour ? renderItinerary(itinerary) : null}
             </ScrollView>
             {activeTour ? renderCompleteButton() : null}
+            <Header title='Westwood Tour' navigation={navigation}/>
+            <BottomButton title='Complete This Tour' onPress={() => {}}/>
         </SafeAreaView>
     )
 }
 
-const renderHeader = (navigation, tourName) => {
-    return (
-        <View style={styles.header}>
-            <Text style={styles.headerText}>{tourName}</Text>
-            <TouchableOpacity
-                style={styles.backIcon}
-                onPress={() => navigation.goBack()}>
-                <Ionicons name='chevron-back-outline' size={20} color={primary} />
-            </TouchableOpacity>
-        </View>
-    );
-};
 
 const renderTourInfo = (tour) => {
     return (

@@ -17,11 +17,14 @@ import toursData from '../../data/toursData';
 import moment from 'moment';
 import { bookTour } from '../../api/tours';
 import { UserContext } from '../../contexts'
+import Header from '../../components/Header'
+import BottomButton from '../../components/BottomButton';
 
 const Checkout = ({navigation, route}) => {
   const tour = route.params.tour
   const tourSetting = route.params.tourSetting
-  const guideInfo = route.params.guideInfo
+  const guide = route.params.guide
+  console.log(guide)
   const visitorCount = route.params.visitorCount
   const date = tourSetting.timeAvailable[route.params.timeIndex]
   const {
@@ -53,7 +56,7 @@ const Checkout = ({navigation, route}) => {
                 />
                 <View style={{marginTop: 'auto', marginBottom: 'auto', marginLeft: 10}}>
                   <Text style={{fontFamily: 'Helvetica-Bold', color: black, fontSize: 18}}>{tour.title}</Text>
-                  <Text style={{fontSize: 15, color: grayMed}}>with {guideInfo.name}</Text>
+                  <Text style={{fontSize: 15, color: grayMed}}>with {guide.name}</Text>
                 </View>
               </View>
               <View style={{display: 'flex', flexDirection: 'row', marginTop: 30, marginLeft: '10%'}}>
@@ -112,20 +115,14 @@ const Checkout = ({navigation, route}) => {
           </View>
         }/>
       {/* Confirmation_________________________________ */}
-      <View style={styles.confirmContainer}>
-        <TouchableOpacity
-          style={payOption==null?styles.disabledConfirmButton:styles.confirmButton}
-          onPress={() => {
-            if (payOption != null){
-              setModalVisible(true)
-              bookTour(tourSetting.ref, visitorCount, userAuth.uid)
-            }
-          }}
-          disabled={payOption == null}
-        >
-          <Text style={payOption==null?styles.disabledConfirmText:styles.confirmText}>Confirm</Text>
-        </TouchableOpacity>
-      </View>
+      <BottomButton title='Continue' 
+        onPress={() => {
+          if (payOption != null){
+            setModalVisible(true)
+            bookTour(tourSetting.ref, visitorCount, userAuth.uid)
+          }
+        }}
+      />
       {/*Modal____________________________________________________________________*/}
       <Modal
         visible={isModalVisible}
@@ -165,13 +162,7 @@ const Checkout = ({navigation, route}) => {
           </View>
         </View>
       </Modal>
-      {/*Header______________________________________________________________________________ */}
-      <View style={{backgroundColor: primary, height: 80, width: '100%', position: 'absolute'}}>
-        <Text style={[styles.titleText, {marginTop: 20}]}>Checkout</Text>
-      </View>
-      <TouchableOpacity style={styles.backIcon} onPress={() => navigation.goBack()}>
-        <Ionicons name='chevron-back-outline' size={20} color={primary} />
-      </TouchableOpacity>
+      <Header title='Checkout' navigation={navigation}/>
     </SafeAreaView>
   );
 };

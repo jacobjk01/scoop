@@ -12,28 +12,16 @@ import {
   Animated,
   StatusBar,
 } from 'react-native';
-import { withSafeAreaInsets } from 'react-native-safe-area-context';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import LinearGradient from 'react-native-linear-gradient';
-
-import StickyParallaxHeader from 'react-native-sticky-parallax-header';
-import { Calendar } from 'react-native-calendars';
-import {
-  primary,
-  black,
-  white,
-  grayDark,
-  blueDark,
-  grayShadow,
-  red,
-} from 'config/colors';
+import { primary, black, white, grayDark, blueDark, grayShadow, red } from 'config/colors';
 import Reviews from '../../components/Reviews';
-
-const { event, ValueXY } = Animated;
+import BottomButton from '../../components/BottomButton';
 
 const TourInfo = ({ navigation, route }) => {
-  const { title, picture, id, description, flow } = route.params.props;
-  console.log(picture)
+  const tour = route.params.tour;
+  const guide = route.params.guide
+  const flow = route.params.flow
   const [reviews, setReviews] = useState([
     {
       stars: 4.8,
@@ -48,7 +36,6 @@ const TourInfo = ({ navigation, route }) => {
         'Being a sophomore, I kinda know what Westwood is like already; however, Brittany was able to show me interesting places I’ve never discovered!',
     },
   ]);
-  const [scrollY, setScrollY] = useState(new ValueXY());
   // constructor(props) {
   //   super(props);
 
@@ -84,13 +71,13 @@ const TourInfo = ({ navigation, route }) => {
   const renderForeground = () => {
     return (
       <View style={{ backgroundColor: red, flex: 1, borderRadius: 10}}>
-        <ImageBackground style={styles.imageHeader} source={{ uri: picture }}>
+        <ImageBackground style={styles.imageHeader} source={{ uri: tour.picture }}>
           <LinearGradient
             colors={['transparent', black]}
             style={styles.linearGradTour}
           />
           <View style={styles.imageOverlay}>
-            <Text style={styles.titleText}>{title}</Text>
+            <Text style={styles.titleText}>{tour.title}</Text>
             <Text style={styles.detailText}>
               60 min | Max 6 people | person
             </Text>
@@ -108,7 +95,7 @@ const TourInfo = ({ navigation, route }) => {
                 paddingRight: 20,
               },
             ]}>
-            {description}
+            {tour.description}
           </Text>
         </ImageBackground>
       </View>
@@ -134,7 +121,7 @@ const TourInfo = ({ navigation, route }) => {
       </View>
     );
   };
-
+  console.log(guide)
   return (
     <View>
       <StatusBar barStyle="dark-content" />
@@ -151,17 +138,8 @@ const TourInfo = ({ navigation, route }) => {
         onPress={() => navigation.goBack()}>
         <Ionicons name="chevron-back-outline" size={22} color={'white'} />
       </TouchableOpacity>
-      <View style={{backgroundColor: white, height: 80, width: '100%', position: 'absolute', bottom: 0, elevation: 10}}>
-        <TouchableOpacity
-          style={styles.continue}
-          onPress={() => {
-            navigation.navigate(flow=='guide'?'TourBooking3':'TourBooking1', {title, picture, id, description});
-          }}>
-          <Text style={{ alignSelf: 'center', color: 'white', fontFamily: 'Helvetica-Bold' }}>
-            Find A Tour Guide
-          </Text>
-        </TouchableOpacity>
-      </View>
+      <BottomButton title='Find a Tour Guide' onPress={() => {navigation.navigate(flow=='guide'?'TourBooking3':'TourBooking1', flow=='guide'?{tour, guide}:tour);
+          }}/>
     </View>
   );
 };

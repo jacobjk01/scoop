@@ -19,11 +19,19 @@ import { Calendar } from 'react-native-calendars';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import moment from 'moment';
 import { viewTourSettings} from '../../api/tours';
-
+import Header from '../../components/Header'
+import BottomButton from '../../components/BottomButton';
+/*
+Parameters:
+tour: {"description": "Get to know the neighborhood: where to grocery shop, where the best hangout places are, and where to grab a bite with your fellow hungry bruins.", "id": "4Wey5tUxBInxLq4tZRlS", "picture": "https://pbs.twimg.com/media/EFG56vjU4AAJ_xL?format=jpg&name=4096x4096", "title": "Westwood Tour"}
+guide: {"id": "bVkVyZQ5cXTrw83zpBfpNvpVThX2", "major": "cybernetics", "name": "josh test", "profilePicture": "https://lh3.googleusercontent.com/a-/AOh14GgTtZB1w7Jq_jiaCtfaOnE6z4xgCZCtelE6FQwD=s96-c", "type": undefined}
+Selected Date: 2021-12-13 (OPTIONAL)
+*/
 const TourBooking3 = ({navigation, route}) => {
 
   const tour = route.params.tour
-  const guideInfo = route.params.guideInfo
+  const guide = route.params.guide
+  console.log(guide)
   //all of the tourSettings that are led by this specific guide and is this specific tour
   const [tourSettings, setTourSettings] = useState()
   //all of the toursettings that are led by a specific guide, a specific tour, and on a specific day
@@ -44,8 +52,6 @@ const TourBooking3 = ({navigation, route}) => {
     longitudeDelta: 0.0011,
   })
   const [marks, setMarks] = useState([])
-
-  //tour[1].guide._documentPath._parts[1] this gets the id of a reference
   useEffect(() => {
     let isMounted = true
     if (isMounted) {
@@ -55,7 +61,7 @@ const TourBooking3 = ({navigation, route}) => {
           let times = []
           let dayTourSettings = []
           for(let i = 0; i < allTourSettings.length; i++) {
-            if(guideInfo.id == allTourSettings[i].guide._documentPath._parts[1]) {
+            if(guide.id == allTourSettings[i].guide._documentPath._parts[1]) {
               filteredTourSettings.push(allTourSettings[i])
               for(let j = 0; j < allTourSettings[i].timeAvailable.length; j++) {
                 marks.push(moment(allTourSettings[i].timeAvailable[j]).format("YYYY" + "-" + "MM" + "-" + "DD"))
@@ -177,7 +183,11 @@ const TourBooking3 = ({navigation, route}) => {
     let dayTourSettings = []
     //for loop checks if selected day has a dot underneath (dots indicate there is a tour on that day)
     for (let i = 0; i < marks.length; i++) {
-      if (day == marks[i] && selectedDay == '') {
+      if (day == marks[i] && selectedDay == day){
+        setSelectedDay('')
+        setTimes()
+      }
+      else if (day == marks[i]) {
         setSelectedDay(day)
         for (let i = 0; i < tourSettings.length; i++) {
           for (let j = 0; j < tourSettings[i].timeAvailable.length; j++) {
@@ -190,10 +200,6 @@ const TourBooking3 = ({navigation, route}) => {
   
         setTimes(times)
         setDayTourSettings(dayTourSettings)
-      }
-      else if (day == marks[i] && selectedDay == day){
-        setSelectedDay('')
-        setTimes()
       }
     }
   };
@@ -387,11 +393,11 @@ const TourBooking3 = ({navigation, route}) => {
                   }}>
                   {tour.title}
                 </Text>
-                <Text style={styles.tourGuideText}>Tour Guide: {guideInfo.name}</Text>
+                <Text style={styles.tourGuideText}>Tour Guide: {guide.name}</Text>
                 <ImageBackground
                   style={styles.tourGuideProfile}
                   imageStyle={{borderRadius: 40}}
-                  source={{uri: guideInfo.profilePicture}}></ImageBackground>
+                  source={{uri: guide.profilePicture}}></ImageBackground>
               </ImageBackground>
             </View>
             
@@ -586,7 +592,7 @@ const TourBooking3 = ({navigation, route}) => {
             <View
               style={[
                 styles.backCard,
-                {paddingLeft: 30, paddingRight: 30, paddingBottom: 30},
+                {paddingLeft: 30, paddingRight: 30, paddingBottom: 30, marginBottom: 100},
               ]}>
               <Text style={styles.sectionText}>Additional Requests</Text>
 
@@ -605,61 +611,30 @@ const TourBooking3 = ({navigation, route}) => {
                 multiline={true}
               />
             </View>
-            <View
-              style={{
-                flex: 1,
-                height: 100,
-                backgroundColor: white,
-                marginTop: 10,
-                justifyContent: 'center',
-                padding: 20,
-              }}>
-              <TouchableOpacity
-                style={styles.continue}
-                onPress={() => {
-
-                  console.log(dayTourSettings)
-                  let tourSetting
-                  let timeIndex
-                  for (let i = 0; i < dayTourSettings.length; i++) {
-                    for (let j = 0; j < dayTourSettings[i].timeAvailable.length; j++) {
-                      if (times[selectedTime] == dayTourSettings[i].timeAvailable[j]) {
-                        tourSetting = dayTourSettings[i]
-                        timeIndex = j
-                      }
-                    }
-                  }
-                  navigation.navigate('BookingCheckout', {tourSetting, tour, guideInfo, visitorCount, timeIndex});
-                }}>
-                <Text
-                  style={{
-                    alignSelf: 'center',
-                    color: white,
-                    fontWeight: '600',
-                  }}>
-                  Continue
-                </Text>
-              </TouchableOpacity>
-            </View>
           </View>
         }
       />
+      <BottomButton
+        title='Continue'
+        onPress={() => {
+          if (selectedTime != -1) {
+            let tourSetting
+            let timeIndex
+            for (let i = 0; i < dayTourSettings.length; i++) {
+              for (let j = 0; j < dayTourSettings[i].timeAvailable.length; j++) {
+                if (times[selectedTime] == dayTourSettings[i].timeAvailable[j]) {
+                  tourSetting = dayTourSettings[i]
+                  timeIndex = j
+                }
+              }
+            }
+            navigation.navigate('BookingCheckout', {tourSetting, tour, guide, visitorCount, timeIndex});
+          }
+        }}
+      />
 
       {/*Header_________________________________________________________________ */}
-      <View
-        style={{
-          backgroundColor: primary,
-          height: 80,
-          width: '100%',
-          position: 'absolute',
-        }}>
-        <Text style={[styles.titleText, {marginTop: 20}]}>Booking</Text>
-      </View>
-      <TouchableOpacity
-        style={styles.backIcon}
-        onPress={() => navigation.goBack()}>
-        <Ionicons name="chevron-back-outline" size={22} color={primary} />
-      </TouchableOpacity>
+      <Header title='Booking' navigation={navigation}/>
     </SafeAreaView>
   );
 }
