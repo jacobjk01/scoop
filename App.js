@@ -75,11 +75,10 @@ import Conversation from './screens/visitor/Conversation';
 import GuideBooking from './screens/visitor/GuideBooking';
 import TourBooking1 from './screens/visitor/TourBooking1';
 import TourBooking2 from './screens/visitor/TourBooking2';
-import TourBooking3 from './screens/visitor/TourBooking3';
 import BookingCheckout from './screens/visitor/BookingCheckout';
 import HomeVisitor from './screens/visitor/HomePage';
 import TourInfo from './screens/visitor/TourInfo';
-import GuideProfile from './screens/visitor/GuideProfile';
+import Profile from './screens/visitor/Profile';
 import Messages from './screens/visitor/Messages';
 import GuideList from './screens/visitor/GuideList';
 import SelectSchool from './screens/visitor/SelectSchool';
@@ -398,11 +397,6 @@ const App: () => Node = () => {
               options={{headerShown: false}}
             />
             <Stack.Screen
-              name="TourBooking3"
-              component={TourBooking3}
-              options={{headerShown: false}}
-            />
-            <Stack.Screen
               name="BookingCheckout"
               component={BookingCheckout}
               options={{headerShown: false}}
@@ -418,14 +412,9 @@ const App: () => Node = () => {
               options={{headerShown: false}}
             />
             <Stack.Screen
-              name="GuideProfile"
-              component={GuideProfile}
+              name="Profile"
+              component={Profile}
               options={{headerShown: false}}
-            />
-            <Stack.Screen
-              name="GuideProfile2"
-              component={GuideProfile}
-              options={{headerShown: true}}
             />
             <Stack.Screen
               name="Messages"

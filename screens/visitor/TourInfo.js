@@ -17,11 +17,12 @@ import LinearGradient from 'react-native-linear-gradient';
 import { primary, black, white, grayDark, blueDark, grayShadow, red } from 'config/colors';
 import Reviews from '../../components/Reviews';
 import BottomButton from '../../components/BottomButton';
+import BackButton from '../../components/BackButton';
 
 const TourInfo = ({ navigation, route }) => {
   const tour = route.params.tour;
   const guide = route.params.guide
-  const flow = route.params.flow
+  const pageType = route.params.pageType
   const [reviews, setReviews] = useState([
     {
       stars: 4.8,
@@ -133,12 +134,8 @@ const TourInfo = ({ navigation, route }) => {
           </View>
         }
       />
-      <TouchableOpacity
-        style={styles.backIcon}
-        onPress={() => navigation.goBack()}>
-        <Ionicons name="chevron-back-outline" size={22} color={'white'} />
-      </TouchableOpacity>
-      <BottomButton title='Find a Tour Guide' onPress={() => {navigation.navigate(flow=='guide'?'TourBooking3':'TourBooking1', flow=='guide'?{tour, guide}:tour);
+      <BackButton navigation={navigation}/>
+      <BottomButton title='Find a Tour Guide' onPress={() => {navigation.navigate(pageType=='guideFlow'?'TourBooking2':'TourBooking1', pageType=='guideFlow'?{tour, guide}:tour);
           }}/>
     </View>
   );
@@ -243,19 +240,6 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
     paddingRight: 10,
     marginRight: 10,
-  },
-  backIcon: {
-    backgroundColor: primary,
-    borderRadius: 10,
-    borderColor: 'white',
-    borderWidth: 1,
-    position: 'absolute',
-    left: 20,
-    top: 40,
-    width: 45,
-    height: 45,
-    alignItems: 'center',
-    justifyContent: 'center',
   },
   continue: {
     marginLeft: 'auto',

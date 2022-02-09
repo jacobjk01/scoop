@@ -18,17 +18,14 @@ import {
 import { withSafeAreaInsets } from 'react-native-safe-area-context';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import LinearGradient from 'react-native-linear-gradient';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
 import Reviews from '../../components/Reviews';
 import { primary, grayDark, white, black, tappableBlue } from 'config/colors';
-import toursData from '../../data/toursData';
 import reviewData from '../../data/reviews';
 import { getUser, getUserById } from '../../api/users';
 import { viewMyTours, getTour } from '../../api/tours';
-import { generalTours } from '../../data/toursDatav2';
+import BackButton from '../../components/BackButton';
 
-const GuideProfile = ({ navigation, route }) => {
+const Profile = ({ navigation, route }) => {
   const [tours, setTours] = useState();
   let guideModel = {
     name: '',
@@ -44,13 +41,13 @@ const GuideProfile = ({ navigation, route }) => {
   //route.params is guideId
   useEffect(() => {
     let isMounted = true
-    if (isMounted) {
-      getUserById(route.params).then(guideInfo => {
+    if (isMounted && route.params.pageType=='guideFlow') {
+      getUserById(route.params.id).then(guideInfo => {
         guideInfo._data.id = route.params
         setGuide(guideInfo._data)
       });
       //gets all tour settings that the guide runs
-      viewMyTours(route.params).then(tourSettings => {
+      viewMyTours(route.params.id).then(tourSettings => {
         let parentIds = []
         let promiseArray = []
         //checks for copies before putting id in parentId
@@ -80,6 +77,9 @@ const GuideProfile = ({ navigation, route }) => {
         })
       })
     }
+    else if (route.params.pageType=='tourFlow') {
+      setGuide(route.params.guide)
+    }
     return () => {
       isMounted = false
     }
@@ -99,7 +99,7 @@ const GuideProfile = ({ navigation, route }) => {
     return (
       <TouchableOpacity
         onPress={() => {
-          navigation.navigate('TourInfo', { tour, guide, flow: 'guide' });
+          navigation.navigate('TourInfo', { tour, guide, pageType: 'guideFlow' });
         }}>
         <ImageBackground
           style={styles.listTourImage}
@@ -138,11 +138,17 @@ const GuideProfile = ({ navigation, route }) => {
           <TouchableOpacity onPress={() => { }} style={styles.roundButton1}>
             <Text style={styles.messageFont}>Message</Text>
           </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => navigation.navigate('TourList', { item })}
+          {route.params.pageType=='tourFlow' &&
+            <TouchableOpacity
+            onPress={() => {
+              const tour = route.params.tour
+              const selectedDay = route.params.selectedDay
+              navigation.navigate('TourBooking2', {tour, selectedDay, guide})}
+            }
             style={styles.roundButton2}>
             <Text style={styles.messageFont}>Book Tour</Text>
-          </TouchableOpacity>
+            </TouchableOpacity>
+          }
         </View>
       </View>
     );
@@ -181,24 +187,27 @@ const GuideProfile = ({ navigation, route }) => {
 
           </View>
 
-          <View style={styles.divider} />
-          <View style={{ marginTop: 10, marginHorizontal: 20 }}>
-            <Text style={{ fontSize: 20, fontWeight: '700' }}>Popular Tours</Text>
-            <TouchableOpacity
-              onPress={() => navigation.navigate('TourList')}
-              style={{ position: 'absolute', right: 10, top: 3 }}>
-              <View>
-                <Text style={{ color: '#3D68CC' }}>View All &gt;</Text>
+          {route.params.pageType=='guideFlow' && 
+            <>
+              <View style={styles.divider} />
+              <View style={{ marginTop: 10, marginHorizontal: 20 }}>
+                <Text style={{ fontSize: 20, fontWeight: '700' }}>Popular Tours</Text>
+                <TouchableOpacity
+                  onPress={() => navigation.navigate('TourList')}
+                  style={{ position: 'absolute', right: 10, top: 3 }}>
+                  <View>
+                    <Text style={{ color: '#3D68CC' }}>View All &gt;</Text>
+                  </View>
+                </TouchableOpacity>
               </View>
-            </TouchableOpacity>
-          </View>
-          <FlatList
-            style={{ marginTop: 10, paddingLeft: 20 }}
-            horizontal={true}
-            data={tours}
-            renderItem={item => navigateCheckout(item)}
-          />
-
+              <FlatList
+                style={{ marginTop: 10, paddingLeft: 20 }}
+                horizontal={true}
+                data={tours}
+                renderItem={item => navigateCheckout(item)}
+              />
+            </>
+          }
           <View style={styles.divider} />
           <View style={{ marginLeft: 20 }}>
             <Text
@@ -263,11 +272,7 @@ const GuideProfile = ({ navigation, route }) => {
           <Reviews reviews={reviews} />
         </View>
       </ScrollView>
-      <TouchableOpacity
-        style={styles.backIcon}
-        onPress={() => navigation.goBack()}>
-        <Ionicons name="chevron-back-outline" size={20} color={'white'} />
-      </TouchableOpacity>
+      <BackButton navigation={navigation}/>
     </View>
   );
 };
@@ -467,4 +472,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default GuideProfile;
+export default Profile;

@@ -18,6 +18,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import toursData from '../../data/toursData';
 import {renderStars} from '../../components/Stars';
+import BackButton from '../../components/BackButton';
 
 const TourList = ({navigation, route}) => {
   const [guideimages, setGuideImages] = useState(toursData.guides);
@@ -75,11 +76,7 @@ const TourList = ({navigation, route}) => {
             </View>
           )}></FlatList>
       </ScrollView>
-      <TouchableOpacity
-        style={styles.backIcon}
-        onPress={() => navigation.goBack()}>
-        <Ionicons name="chevron-back-outline" size={20} color={'white'} />
-      </TouchableOpacity>
+      <BackButton navigation={navigation}/>
     </SafeAreaView>
   );
 };

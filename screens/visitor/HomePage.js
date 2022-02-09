@@ -18,7 +18,6 @@ import LinearGradient from 'react-native-linear-gradient';
 import {viewTourSettings, viewAvailableTours, viewAllTours, convertToTourSummary} from '../../api/tours'
 import { black, grayDark, grayLight, grayMed, white, primary } from 'config/colors';
 import { color } from 'react-native-reanimated';
-import GuideProfile from './GuideProfile';
 import { UserContext } from '../../contexts'
 import toursData from '../../data/toursDatav2';
 
@@ -188,7 +187,7 @@ const HomePage = ({navigation}) => {
             <TouchableOpacity
               key={item.id}
               style={{marginLeft: item.id == 0?20:0, marginBottom: 10}}
-              onPress={() => navigation.navigate('GuideProfile', 'bVkVyZQ5cXTrw83zpBfpNvpVThX2')}>
+              onPress={() => navigation.navigate('Profile', {id: 'bVkVyZQ5cXTrw83zpBfpNvpVThX2', pageType: 'guideFlow'})}>
               <ImageBackground
                 style={styles.listGuideImage}
                 imageStyle={{borderRadius: 10,}}

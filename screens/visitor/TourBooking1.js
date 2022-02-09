@@ -14,7 +14,7 @@ import {
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import LinearGradient from 'react-native-linear-gradient';
 import { primary, white, grayLight, black, blueMed, grayVeryLight, grayMed, grayDark } from 'config/colors';
-import GuideProfile from './GuideProfile';
+import GuideProfile from './Profile';
 import { Calendar } from 'react-native-calendars';
 import moment from 'moment';
 import DatePicker from 'react-native-date-picker';
@@ -237,7 +237,7 @@ const TourBooking1 = ({navigation, route}) => {
     }
     const handleOnPress = () => {
       console.log(guide)
-      navigation.navigate('TourBooking2', {tour, guide, selectedDay})
+      navigation.navigate('Profile', {tour, guide, selectedDay, pageType: 'tourFlow'})
     };
     return (
       <TouchableOpacity onPress={handleOnPress}>
