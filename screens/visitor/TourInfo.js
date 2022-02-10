@@ -128,9 +128,9 @@ const TourInfo = ({ navigation, route }) => {
       <StatusBar barStyle="dark-content" />
       <FlatList
         ListHeaderComponent={
-          <View style={{marginBottom: 80}}>
+          <View style={{ marginBottom: 80 }}>
             {renderForeground()}
-            <Reviews reviews={reviews}/>
+            <Reviews reviews={reviews} />
           </View>
         }
       />

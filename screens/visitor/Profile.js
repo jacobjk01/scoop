@@ -1,4 +1,8 @@
+<<<<<<< HEAD:screens/visitor/Profile.js
 import React, { useState, useEffect } from 'react';
+=======
+import React, {useState} from 'react';
+>>>>>>> staging:screens/visitor/GuideProfile.js
 //import SeeMore from 'react-native-see-more-inline';
 import {
   View,
@@ -15,7 +19,7 @@ import {
   ReadMore,
   StatusBar,
 } from 'react-native';
-import { withSafeAreaInsets } from 'react-native-safe-area-context';
+import {withSafeAreaInsets} from 'react-native-safe-area-context';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import LinearGradient from 'react-native-linear-gradient';
 import Reviews from '../../components/Reviews';
@@ -136,7 +140,7 @@ const Profile = ({ navigation, route }) => {
             alignItems: 'center',
             marginTop: 10,
           }}>
-          <TouchableOpacity onPress={() => { }} style={styles.roundButton1}>
+          <TouchableOpacity onPress={() => {}} style={styles.roundButton1}>
             <Text style={styles.messageFont}>Message</Text>
           </TouchableOpacity>
           {route.params.pageType=='tourFlow' &&
@@ -156,7 +160,7 @@ const Profile = ({ navigation, route }) => {
   };
 
   return (
-    <View style={{ height: '100%' }}>
+    <View style={{height: '100%'}}>
       <ImageBackground
         style={styles.imageHeader}
         source={require('../../images/Westwood_village.jpg')}
@@ -169,7 +173,7 @@ const Profile = ({ navigation, route }) => {
           bottom: 0,
           width: '100%',
         }}>
-        <View style={{ backgroundColor: 'transparent', height: 230 }}></View>
+        <View style={{backgroundColor: 'transparent', height: 230}}></View>
         <View
           style={{
             backgroundColor: 'white',
@@ -210,7 +214,7 @@ const Profile = ({ navigation, route }) => {
             </>
           }
           <View style={styles.divider} />
-          <View style={{ marginLeft: 20 }}>
+          <View style={{marginLeft: 20}}>
             <Text
               style={{
                 marginTop: 20,
@@ -230,7 +234,7 @@ const Profile = ({ navigation, route }) => {
               Hometown: {guide.hometown}
             </Text>
             <View
-              style={{ marginRight: 30, marginTop: 3, backgroundColor: 'white' }}>
+              style={{marginRight: 30, marginTop: 3, backgroundColor: 'white'}}>
               {!seeMore && (
                 <LinearGradient
                   colors={['#ffffff00', 'white']}
@@ -269,7 +273,7 @@ const Profile = ({ navigation, route }) => {
             {'Reviews:'}
           </Text>
         </View>
-        <View style={{ backgroundColor: 'white', paddingBottom: 20 }}>
+        <View style={{backgroundColor: 'white', paddingBottom: 20}}>
           <Reviews reviews={reviews} />
         </View>
       </ScrollView>
