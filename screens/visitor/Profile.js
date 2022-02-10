@@ -26,6 +26,7 @@ import { viewMyTours, getTour } from '../../api/tours';
 import BackButton from '../../components/BackButton';
 
 const Profile = ({ navigation, route }) => {
+  console.log(route.params)
   const [tours, setTours] = useState();
   let guideModel = {
     name: '',

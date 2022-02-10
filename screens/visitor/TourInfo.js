@@ -155,12 +155,6 @@ const styles = StyleSheet.create({
     fontWeight: '200',
     color: white,
   },
-  sectionText: {
-    fontSize: 18,
-    fontWeight: '600',
-    alignSelf: 'center',
-    marginTop: 20,
-  },
   subText: {
     fontSize: 20,
     fontWeight: '400',
@@ -174,15 +168,6 @@ const styles = StyleSheet.create({
     color: white,
     marginBottom: 30,
   },
-  headerView: {
-    width: '100%',
-    borderTopLeftRadius: 0,
-    borderTopRightRadius: 0,
-  },
-  smallHeaderView: {
-    width: '100%',
-    height: 200,
-  },
   imageHeader: {
     width: '100%',
     height: 600,
@@ -193,18 +178,6 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 120,
     paddingLeft: 25,
-  },
-  backCard: {
-    flex: 1,
-    backgroundColor: 'white',
-    marginTop: 10,
-    borderRadius: 20,
-    marginLeft: 20,
-    marginRight: 20,
-    shadowColor: black,
-    shadowOffset: { width: 1, height: 1 },
-    shadowOpacity: 0.2,
-    shadowRadius: 5,
   },
   linearGradTour: {
     position: 'absolute',
@@ -240,28 +213,6 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
     paddingRight: 10,
     marginRight: 10,
-  },
-  continue: {
-    marginLeft: 'auto',
-    marginRight: 'auto',
-    marginTop: 'auto',
-    marginBottom: 'auto',
-    width: '80%',
-    backgroundColor: primary,
-    height: 50,
-    justifyContent: 'center',
-    borderRadius: 10,
-    shadowColor: grayShadow,
-    shadowOffset: { width: 2, height: 2 },
-    shadowOpacity: 0.8,
-    shadowRadius: 3,
-    elevation: 5,
-  },
-  floatCard: {
-    position: 'absolute',
-    bottom: 0,
-    backgroundColor: white,
-    height: 80,
   },
 });
 
