@@ -15,13 +15,13 @@ import {
   ReadMore,
   StatusBar,
 } from 'react-native';
-import { withSafeAreaInsets } from 'react-native-safe-area-context';
+import {withSafeAreaInsets} from 'react-native-safe-area-context';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import LinearGradient from 'react-native-linear-gradient';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
+import {NavigationContainer} from '@react-navigation/native';
+import {createStackNavigator} from '@react-navigation/stack';
 import Reviews from '../../components/Reviews';
-import { primary, grayDark, white, black, tappableBlue } from 'config/colors';
+import {primary, grayDark, white, black, tappableBlue} from 'config/colors';
 import toursData from '../../data/toursData';
 import reviewData from '../../data/reviews';
 import { getUser, getUserById } from '../../api/users';
@@ -136,11 +136,11 @@ const GuideProfile = ({ navigation, route }) => {
             alignItems: 'center',
             marginTop: 10,
           }}>
-          <TouchableOpacity onPress={() => { }} style={styles.roundButton1}>
+          <TouchableOpacity onPress={() => {}} style={styles.roundButton1}>
             <Text style={styles.messageFont}>Message</Text>
           </TouchableOpacity>
           <TouchableOpacity
-            onPress={() => navigation.navigate('TourList', { item })}
+            onPress={() => navigation.navigate('TourList', {item})}
             style={styles.roundButton2}>
             <Text style={styles.messageFont}>Book Tour</Text>
           </TouchableOpacity>
@@ -150,7 +150,7 @@ const GuideProfile = ({ navigation, route }) => {
   };
 
   return (
-    <View style={{ height: '100%' }}>
+    <View style={{height: '100%'}}>
       <ImageBackground
         style={styles.imageHeader}
         source={require('../../images/Westwood_village.jpg')}
@@ -163,7 +163,7 @@ const GuideProfile = ({ navigation, route }) => {
           bottom: 0,
           width: '100%',
         }}>
-        <View style={{ backgroundColor: 'transparent', height: 230 }}></View>
+        <View style={{backgroundColor: 'transparent', height: 230}}></View>
         <View
           style={{
             backgroundColor: 'white',
@@ -183,25 +183,25 @@ const GuideProfile = ({ navigation, route }) => {
           </View>
 
           <View style={styles.divider} />
-          <View style={{ marginTop: 10, marginHorizontal: 20 }}>
-            <Text style={{ fontSize: 20, fontWeight: '700' }}>Popular Tours</Text>
+          <View style={{marginTop: 10, marginHorizontal: 20}}>
+            <Text style={{fontSize: 20, fontWeight: '700'}}>Popular Tours</Text>
             <TouchableOpacity
               onPress={() => navigation.navigate('TourList')}
-              style={{ position: 'absolute', right: 10, top: 3 }}>
+              style={{position: 'absolute', right: 10, top: 3}}>
               <View>
-                <Text style={{ color: '#3D68CC' }}>View All &gt;</Text>
+                <Text style={{color: '#3D68CC'}}>View All &gt;</Text>
               </View>
             </TouchableOpacity>
           </View>
           <FlatList
-            style={{ marginTop: 10, paddingLeft: 20 }}
+            style={{marginTop: 10, paddingLeft: 20}}
             horizontal={true}
             data={tours}
             renderItem={item => navigateCheckout(item)}
           />
 
           <View style={styles.divider} />
-          <View style={{ marginLeft: 20 }}>
+          <View style={{marginLeft: 20}}>
             <Text
               style={{
                 marginTop: 20,
@@ -221,7 +221,7 @@ const GuideProfile = ({ navigation, route }) => {
               Hometown: {guide._data.hometown}
             </Text>
             <View
-              style={{ marginRight: 30, marginTop: 3, backgroundColor: 'white' }}>
+              style={{marginRight: 30, marginTop: 3, backgroundColor: 'white'}}>
               {!seeMore && (
                 <LinearGradient
                   colors={['#ffffff00', 'white']}
@@ -260,7 +260,7 @@ const GuideProfile = ({ navigation, route }) => {
             {'Reviews:'}
           </Text>
         </View>
-        <View style={{ backgroundColor: 'white', paddingBottom: 20 }}>
+        <View style={{backgroundColor: 'white', paddingBottom: 20}}>
           <Reviews reviews={reviews} />
         </View>
       </ScrollView>

@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useContext} from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import {
   View,
   Text,
@@ -16,12 +16,12 @@ import { getPicture } from 'api/users';
 import { grayDark, white } from 'config/colors';
 
 const Account = ({ navigation }) => {
-  const {user, userAuth} = useContext(UserContext);
+  const { user, userAuth } = useContext(UserContext);
   const isFocused = useIsFocused();
   const [profilePicture, setProfilePicture] = useState(null);
   const [backgroundPicture, setBackgroundPicture] = useState(null);
 
-  useEffect(() => {},[user])
+  useEffect(() => { }, [user])
 
   useEffect(async () => {
     setProfilePicture(await getPicture(userAuth.uid, 'profilePicture'));
@@ -30,7 +30,7 @@ const Account = ({ navigation }) => {
 
   return (
     <ImageBackground
-      source={{uri: backgroundPicture}}
+      source={{ uri: backgroundPicture }}
       style={styles.backgroundImage}>
       <ScrollView>
         <View
@@ -49,9 +49,9 @@ const Account = ({ navigation }) => {
             {renderGuideBio(user ? user : '')}
             <TouchableOpacity
               onPress={() => navigation.navigate('AccountEdit')}
-              style={{position: 'absolute', right: 10, top: 20}}>
+              style={{ position: 'absolute', right: 10, top: 20 }}>
               <View>
-                <Text style={{color: grayDark}}>Edit <Ionicons name={'pencil'} size={16}/></Text>
+                <Text style={{ color: grayDark }}>Edit <Ionicons name={'pencil'} size={16} /></Text>
               </View>
             </TouchableOpacity>
             <View style={styles.divider} />
@@ -68,13 +68,13 @@ const Account = ({ navigation }) => {
             </Text>
           </View>
           <View style={styles.divider} />
-          <Text style={{fontSize: 20, fontWeight: '700', paddingBottom: 400}}>
+          <Text style={{ fontSize: 20, fontWeight: '700', paddingBottom: 400 }}>
             {'Languages'}
             {/* <View style={{flex: 1, height: 10}}> */}
-              {/* <Image source={require('images/languages/us.png')} style={{flex: 1}} resizeMode={'stretch'}></Image> */}
+            {/* <Image source={require('images/languages/us.png')} style={{flex: 1}} resizeMode={'stretch'}></Image> */}
             {/* </View> */}
           </Text>
-          
+
         </View>
       </ScrollView>
     </ImageBackground>
@@ -90,8 +90,8 @@ const renderGuideImage = (profilePicture) => {
         zIndex: 1,
       }}>
       <Image style={styles.guideImage} source={{
-          uri: profilePicture
-        }} />
+        uri: profilePicture
+      }} />
     </View>
   );
 };
