@@ -1,8 +1,4 @@
-<<<<<<< HEAD:screens/visitor/Profile.js
 import React, { useState, useEffect } from 'react';
-=======
-import React, {useState} from 'react';
->>>>>>> staging:screens/visitor/GuideProfile.js
 //import SeeMore from 'react-native-see-more-inline';
 import {
   View,
@@ -30,7 +26,7 @@ import { viewMyTours, getTour } from '../../api/tours';
 import BackButton from '../../components/BackButton';
 
 const Profile = ({ navigation, route }) => {
-  console.log(route.params)
+
   const [tours, setTours] = useState();
   let guideModel = {
     name: '',
@@ -48,7 +44,7 @@ const Profile = ({ navigation, route }) => {
     let isMounted = true
     if (isMounted && route.params.pageType=='guideFlow') {
       getUserById(route.params.id).then(guideInfo => {
-        guideInfo._data.id = route.params
+        guideInfo._data.id = route.params.id
         setGuide(guideInfo._data)
       });
       //gets all tour settings that the guide runs

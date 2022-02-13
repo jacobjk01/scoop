@@ -31,7 +31,6 @@ const TourBooking2 = ({navigation, route}) => {
 
   const tour = route.params.tour
   const guide = route.params.guide
-  console.log(guide)
   //all of the tourSettings that are led by this specific guide and is this specific tour
   const [tourSettings, setTourSettings] = useState()
   //all of the toursettings that are led by a specific guide, a specific tour, and on a specific day

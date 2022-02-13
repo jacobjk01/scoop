@@ -205,7 +205,6 @@ const HomePage = ({ navigation }) => {
                   style={styles.listTourImage}
                   imageStyle={{borderRadius: 10}}
                   source={{uri: tour.picture}}
-                  onLoad={() => console.log('load')}
                 >
                   <LinearGradient
                     colors={['transparent', 'rgba(0,0,0,0.6)']}
@@ -223,37 +222,39 @@ const HomePage = ({ navigation }) => {
           style={{ marginLeft: 20, marginTop: 10, marginBottom: 30 }}
           horizontal={true}
           data={guides}
-          renderItem={({ item }) => (
-            <TouchableOpacity
-              key={item.id}
-              style={{marginLeft: item.id == 0?20:0, marginBottom: 10}}
-              onPress={() => navigation.navigate('Profile', {id: 'bVkVyZQ5cXTrw83zpBfpNvpVThX2', pageType: 'guideFlow'})}>
-              <ImageBackground
-                style={styles.listGuideImage}
-                imageStyle={{ borderRadius: 10 }}
-                source={{ uri: item.profilePicture }}>
-                <LinearGradient
-                  colors={['transparent', 'rgba(0,0,0,0.6)']}
-                  style={styles.linearGradGuide}>
-                  <View
-                    style={{
-                      display: 'flex',
-                      flexDirection: 'row',
-                      marginTop: 'auto',
-                      margin: 10,
-                    }}>
-                    <Text style={{ color: white, fontFamily: 'Helvetica-Bold' }}>
-                      {item.name}, {console.log(item)}
-                    </Text>
-                    <Text
-                      style={{ color: white, fontFamily: 'Helvetica-Oblique' }}>
-                      {item.year}
-                    </Text>
-                  </View>
-                </LinearGradient>
-              </ImageBackground>
-            </TouchableOpacity>
-          )}
+          renderItem={({ item }) => {
+            return (
+              <TouchableOpacity
+                key={item.id}
+                style={{marginLeft: item.id == 0?20:0, marginBottom: 10}}
+                onPress={() => navigation.navigate('Profile', {id: item.id, pageType: 'guideFlow'})}>
+                <ImageBackground
+                  style={styles.listGuideImage}
+                  imageStyle={{ borderRadius: 10 }}
+                  source={{ uri: item.profilePicture }}>
+                  <LinearGradient
+                    colors={['transparent', 'rgba(0,0,0,0.6)']}
+                    style={styles.linearGradGuide}>
+                    <View
+                      style={{
+                        display: 'flex',
+                        flexDirection: 'row',
+                        marginTop: 'auto',
+                        margin: 10,
+                      }}>
+                      <Text style={{ color: white, fontFamily: 'Helvetica-Bold' }}>
+                        {item.name}
+                      </Text>
+                      <Text
+                        style={{ color: white, fontFamily: 'Helvetica-Oblique' }}>
+                        {item.year}
+                      </Text>
+                    </View>
+                  </LinearGradient>
+                </ImageBackground>
+              </TouchableOpacity>
+            )
+          }}
         />
       </ScrollView>}
     </SafeAreaView>

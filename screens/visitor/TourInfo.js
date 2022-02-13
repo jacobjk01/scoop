@@ -135,7 +135,7 @@ const TourInfo = ({ navigation, route }) => {
         }
       />
       <BackButton navigation={navigation}/>
-      <BottomButton title='Find a Tour Guide' onPress={() => {navigation.navigate(pageType=='guideFlow'?'TourBooking2':'TourBooking1', pageType=='guideFlow'?{tour, guide}:tour);
+      <BottomButton title={pageType=='guideFlow'?'Book Tour':'Find a Tour Guide'} onPress={() => {navigation.navigate(pageType=='guideFlow'?'TourBooking2':'TourBooking1', pageType=='guideFlow'?{tour, guide}:tour);
           }}/>
     </View>
   );
