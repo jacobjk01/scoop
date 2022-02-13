@@ -1,24 +1,19 @@
-import React, {useState, useContext} from 'react';
-
+import { black, grayDark, grayMed, primary, white } from 'config/colors';
+import moment from 'moment';
+import React, { useContext, useState } from 'react';
 import {
-  View,
-  Text,
-  SafeAreaView,
-  StyleSheet,
-  TouchableOpacity,
-  TouchableWithoutFeedback,
   FlatList,
   Image,
-  Modal
+  Modal, SafeAreaView,
+  StyleSheet, Text, TouchableOpacity, View
 } from 'react-native';
-import { primary, white, black, grayDark, grayMed } from 'config/colors';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import toursData from '../../data/toursData';
-import moment from 'moment';
 import { bookTour } from '../../api/tours';
-import { UserContext } from '../../contexts'
-import Header from '../../components/Header'
 import BottomButton from '../../components/BottomButton';
+import Header from '../../components/Header';
+import { UserContext } from '../../contexts';
+
+
 
 const Checkout = ({navigation, route}) => {
   const tour = route.params.tour
@@ -89,7 +84,7 @@ const Checkout = ({navigation, route}) => {
 
             {/*Bottom area*/}
             <View style={styles.bottomContainer}>
-              <Text style={{fontSize: 18, fontFamily: 'Helvetica-Bold', color: black, marginTop: 40, marginLeft: 30, marginRight: 'auto'}}>
+              <Text style={{...mediumBold, color: black, marginTop: 40, marginLeft: 30, marginRight: 'auto'}}>
                 Select Payment Method
               </Text>
               <TouchableOpacity 
