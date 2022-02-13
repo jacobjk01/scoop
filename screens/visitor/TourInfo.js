@@ -137,22 +137,8 @@ const TourInfo = ({ navigation, route }) => {
         onPress={() => navigation.goBack()}>
         <Ionicons name="chevron-back-outline" size={22} color={'white'} />
       </TouchableOpacity>
-<<<<<<< HEAD
       <BottomButton title='Find a Tour Guide' onPress={() => {navigation.navigate('TourBooking1', {title, picture, id, description});
           }}/>
-=======
-      <View style={{ backgroundColor: white, height: 80, width: '100%', position: 'absolute', bottom: 0, elevation: 10 }}>
-        <TouchableOpacity
-          style={styles.continue}
-          onPress={() => {
-            navigation.navigate('TourBooking1', { title, picture, id, description });
-          }}>
-          <Text style={{ alignSelf: 'center', color: 'white', fontFamily: 'Helvetica-Bold' }}>
-            Find A Tour Guide
-          </Text>
-        </TouchableOpacity>
-      </View>
->>>>>>> staging
     </View>
   );
 };
