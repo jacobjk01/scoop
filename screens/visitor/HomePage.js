@@ -43,7 +43,7 @@ const HomePage = ({ navigation }) => {
   const [guides, setGuides] = useState();
 
   useEffect(() => {
-    let isMounted = true;
+    let isMounted = true
     viewAvailableTours().then(tours => {
       //https://stackoverflow.com/questions/53949393/cant-perform-a-react-state-update-on-an-unmounted-component
       //You are not suppose to use async/await functions in useEffect
@@ -59,11 +59,10 @@ const HomePage = ({ navigation }) => {
     });
 
     return () => {
-      isMounted = false;
-    };
-  }, []);
-  console.log('homepage');
-  const viewAll = text => {
+      isMounted = false
+    }
+  }, [])
+  const viewAll = (text) => {
     return (
       <View
         style={{
@@ -194,35 +193,29 @@ const HomePage = ({ navigation }) => {
           style={{ marginTop: 10 }}
           horizontal={true}
           data={tours}
-          renderItem={({ item, index }) => {
+          renderItem={({item, index}) => {
+            const tour = {title: item.title, picture: item.picture, id: item.id, description: item.description}
             return (
-              //TODO: make tourinfo get the tour info, this can be done in this screen or in tourinfo screen
-              <TouchableOpacity
-                style={{ marginBottom: 15, marginLeft: index == 0 ? 20 : 0 }}
+              <TouchableOpacity 
+                style={{marginBottom: 15, marginLeft: index == 0?20:0}}
                 onPress={() => {
-                  const itemInfo = {
-                    title: item.title,
-                    picture: item.picture,
-                    id: item.id,
-                    description: item.description,
-                  };
-
-                  navigation.navigate('TourInfo', { itemInfo });
+                  navigation.navigate('TourInfo', {tour})
                 }}
               >
                 <ImageBackground
                   style={styles.listTourImage}
-                  imageStyle={{ borderRadius: 10 }}
-                  source={{ uri: item.picture }}
-                  onLoad={() => console.log('load')}>
+                  imageStyle={{borderRadius: 10}}
+                  source={{uri: tour.picture}}
+                >
                   <LinearGradient
                     colors={['transparent', 'rgba(0,0,0,0.6)']}
-                    style={styles.linearGradTour}>
-                    <Text style={styles.tourText}>{item.title}</Text>
+                    style={styles.linearGradTour}
+                  >
+                    <Text style={styles.tourText}>{tour.title}</Text>
                   </LinearGradient>
                 </ImageBackground>
               </TouchableOpacity>
-            );
+            )
           }}
         />
         {viewAll('Tour Guides')}
@@ -233,8 +226,8 @@ const HomePage = ({ navigation }) => {
           renderItem={({ item }) => (
             <TouchableOpacity
               key={item.id}
-              style={{ marginBottom: 10 }}
-              onPress={() => navigation.navigate('GuideProfile', { item })}>
+              style={{marginLeft: item.id == 0?20:0, marginBottom: 10}}
+              onPress={() => navigation.navigate('GuideProfile', 'CBBI3gdPl2Q88GF1G6RGsO8pXpG3')}>
               <ImageBackground
                 style={styles.listGuideImage}
                 imageStyle={{ borderRadius: 10 }}

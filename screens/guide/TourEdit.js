@@ -1,4 +1,4 @@
-import React, {Component, useState} from 'react';
+import React, {Component, useState, useEffect} from 'react';
 import {
   View,
   Text,
@@ -13,31 +13,21 @@ import {
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import LinearGradient from 'react-native-linear-gradient';
 import { primary, white, grayDark, black, grayShadow } from 'config/colors';
+import ImageHeader from '../../components/ImageHeader';
+import BottomButton from '../../components/BottomButton'
 
 //note: grid is kind of laggy when upsized, will work on fixing
 const TourEdit = ({navigation, route}) => {
   const tour = route.params.tour;
+  const [slots, setSlots] = useState(new Array(7).fill().map(_ => new Array(24).fill(true)))
 
-  const renderForeground = () => {
-    return (
-      <View style={{flex: 1, borderRadius: 15}}>
-        <ImageBackground
-          style={styles.imageHeader}
-          imageStyle={{borderBottomLeftRadius: 15, borderBottomRightRadius: 15}}
-          source={require('images/Westwood_village.jpg')}>
-          <LinearGradient
-            colors={['transparent', black]}
-            style={styles.linearGradTour}
-            />
-          <View style={styles.imageOverlay}>
-            <Text style={styles.titleText}>
-              {tour.name}
-            </Text>
-          </View>
-        </ImageBackground>
-      </View>
-    );
-  }
+  useEffect(() => {
+    let temp = slots
+    temp[0][0] = true
+    setSlots(temp)
+    return () => {console.log(slots)}
+  }, [])
+
   const whatDay = (i) => {
     switch (i) {
       case 0:
@@ -60,21 +50,27 @@ const TourEdit = ({navigation, route}) => {
     let days = []
     for (let i = 0; i < 7; i++) {
       let hours = []
-      for (let i = 0; i < 24; i++) {
+      for (let j = 0; j < 24; j++) {
         hours.push(
-          <View style={{
-            backgroundColor: primary,
-            width: 12,
-            height: 10,
-            borderTopLeftRadius: i==0?10:0,
-            borderTopRightRadius: i==0?10:0,
-            borderBottomLeftRadius: i==23?10:0,
-            borderBottomRightRadius: i==23?10:0,
-          }}/>
+          <View 
+            style={{
+              backgroundColor: slots[i][j]?primary:white,
+              width: 12,
+              height: 10,
+              borderTopLeftRadius: j==0?10:0,
+              borderTopRightRadius: j==0?10:0,
+              borderBottomLeftRadius: j==23?10:0,
+              borderBottomRightRadius: j==23?10:0,
+            }}
+            key={j}
+          />
         )
       }
       days.push(
-        <View style={{marginLeft: 10, display: 'flex', alignItems: 'center'}}>
+        <View 
+          style={{marginLeft: 10, display: 'flex', alignItems: 'center'}}
+          key={i}
+        >
           <Text style={{fontSize: 13, fontFamily: 'Helvetica-Bold'}}>
             {whatDay(i)}
           </Text>
@@ -92,7 +88,7 @@ const TourEdit = ({navigation, route}) => {
   }
   const renderContent = () => {
     return (
-      <View style={{marginBottom: 300}}>
+      <View style={{marginBottom: 100}}>
         <TouchableOpacity
             onPress={() => navigation.navigate('TourEdit3', tour)}
             style={{position: 'absolute', right: 30, top: 30}}>
@@ -136,24 +132,12 @@ const TourEdit = ({navigation, route}) => {
   }
  
   return (
-    <View style={{backgroundColor: white}}>
+    <View style={{backgroundColor: white, height: '100%'}}>
       <ScrollView>
-
-        {renderForeground()}
+        <ImageHeader navigation={navigation} title={tour.name}/>
         {renderContent()}
-        <TouchableOpacity
-          style={styles.backIcon}
-          onPress={() => navigation.goBack()}>
-          <Ionicons name='chevron-back-outline' size={20} color={white} />
-        </TouchableOpacity>
       </ScrollView>
-      <TouchableOpacity
-        style={styles.continue}
-        onPress={() => navigation.navigate('TourEdit2')}>
-        <Text style={{alignSelf: 'center', color: white, fontWeight: '700'}}>
-          {'View Suggested Itinerary'}
-        </Text>
-      </TouchableOpacity>
+      <BottomButton onPress={() => navigation.navigate('TourEdit2')} title='View Suggested Itinierary'/>
     </View>
   );
 

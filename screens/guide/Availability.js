@@ -154,7 +154,6 @@ const Availability = ({navigation, route}) => {
             flexWrap: 'wrap',
             flexDirection: 'row',
             borderRadius: 5,
-            marginBottom: 200,
             marginLeft: 'auto',
             marginRight: 'auto'
           }}
@@ -162,7 +161,36 @@ const Availability = ({navigation, route}) => {
         >
           {blocks()}
         </View>
+        <View style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-around'}}>
+          <TouchableOpacity
+            onPress={() => setMarkedBlocks(new Array(Ncolumns).fill().map(_ => new Array(Nrows).fill(false)))}
+            style={{
+              paddingHorizontal: 9,
+              paddingVertical: 6,
+              backgroundColor: primary,
+              borderRadius: 5,
+              marginVertical: 20,
+            }}
+          >
+            <Text style={{color: white,}}>
+              Clear
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={{
+              paddingHorizontal: 9,
+              paddingVertical: 6,
+              backgroundColor: primary,
+              borderRadius: 5,
+              marginVertical: 20,
+            }}
+          >
+            <Text style={{color: white,}}>
+              Submit
+            </Text>
+          </TouchableOpacity>
 
+        </View>
 
         <TouchableOpacity
           style={styles.backIcon}
