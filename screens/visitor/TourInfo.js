@@ -17,55 +17,16 @@ import LinearGradient from 'react-native-linear-gradient';
 import { primary, black, white, grayDark, blueDark, grayShadow, red } from 'config/colors';
 import Reviews from '../../components/Reviews';
 import BottomButton from '../../components/BottomButton';
+import { FAKE_REVIEWS } from '../../config/initialState';
+import Error from '../Error';
 
 const TourInfo = ({ navigation, route }) => {
+  const [reviews, setReviews] = useState(FAKE_REVIEWS);
+  if (!route.params.tour) {
+    return <Error errorMsg="TourInfo.js, route.params.tour is not defined"/>
+  }
   const { title, picture, id, description } = route.params.tour;
   console.log(route.params)
-  const [reviews, setReviews] = useState([
-    {
-      stars: 4.8,
-      year: 'Incoming Freshman',
-      comment:
-        'Brittany was really helpful!! She showed me where the students get groceries from and hangout in Westwood. She also shared a lot of interesting stories as we visit each places, highly recommend incoming freshman who want to familiarize themselves with the area sign up!! ',
-    },
-    {
-      stars: 4.3,
-      year: 'Incoming Junior',
-      comment:
-        'Being a sophomore, I kinda know what Westwood is like already; however, Brittany was able to show me interesting places I’ve never discovered!',
-    },
-  ]);
-  // constructor(props) {
-  //   super(props);
-
-  //   this.state = {
-  //     navigation: props.navigation,
-  //     route: props.route,
-  //     tour: props.route.params.itemInfo,
-
-  //     reviews: [
-  //       {
-  //         stars: 4.8,
-  //         year: 'Incoming Freshman',
-  //         comment:
-  //           'Brittany was really helpful!! She showed me where the students get groceries from and hangout in Westwood. She also shared a lot of interesting stories as we visit each places, highly recommend incoming freshman who want to familiarize themselves with the area sign up!! ',
-  //       },
-  //       {
-  //         stars: 4.3,
-  //         year: 'Incoming Junior',
-  //         comment:
-  //           'Being a sophomore, I kinda know what Westwood is like already; however, Brittany was able to show me interesting places I’ve never discovered!',
-  //       },
-  //     ],
-  //   };
-  // this.scrollY = new ValueXY();
-
-  // componentDidMount() {
-  //   this.scrollY.addListener(({value}) => (this._value = value));
-  // }
-  // componentWillUnmount() {
-  //   this.scrollY.removeAllListeners();
-  // }
 
   const renderForeground = () => {
     return (
@@ -137,22 +98,8 @@ const TourInfo = ({ navigation, route }) => {
         onPress={() => navigation.goBack()}>
         <Ionicons name="chevron-back-outline" size={22} color={'white'} />
       </TouchableOpacity>
-<<<<<<< HEAD
       <BottomButton title='Find a Tour Guide' onPress={() => {navigation.navigate('TourBooking1', {title, picture, id, description});
           }}/>
-=======
-      <View style={{ backgroundColor: white, height: 80, width: '100%', position: 'absolute', bottom: 0, elevation: 10 }}>
-        <TouchableOpacity
-          style={styles.continue}
-          onPress={() => {
-            navigation.navigate('TourBooking1', { title, picture, id, description });
-          }}>
-          <Text style={{ alignSelf: 'center', color: 'white', fontFamily: 'Helvetica-Bold' }}>
-            Find A Tour Guide
-          </Text>
-        </TouchableOpacity>
-      </View>
->>>>>>> staging
     </View>
   );
 };
