@@ -14,7 +14,6 @@ export const useAuth = () => {
   const [guideDone, setGuideDone] = useState(localState.guideDone);
   const [visitorDone, setVisitorDone] = useState(localState.visitorDone);
   const [visitorBone, setVisitorBone] = useState(localState.visitorBone);
-  const [bookTourInfo, setBookTourInfo] = useState(null);
   const [isUserLoading, setIsUserLoading] = useState(true);
   const hasNotFinishedBareOnboarding =
     (mode === 'new' ||
@@ -65,8 +64,6 @@ export const useAuth = () => {
     setUserAuth,
     user,
     setUser,
-    bookTourInfo,
-    setBookTourInfo,
     mode,
     setMode,
     guideDone,

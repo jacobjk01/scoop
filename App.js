@@ -8,27 +8,9 @@
 
 //react imports
 import 'react-native-gesture-handler';
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import type { Node } from 'react';
 
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-  Button,
-  TouchableOpacity,
-} from 'react-native';
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -36,7 +18,6 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 
 //config imports
 import { primary } from 'config/colors';
-import { localState } from 'config/initialState';
 
 //contexts imports
 import { UserContext } from 'contexts';
@@ -85,13 +66,8 @@ import GuideList from './screens/visitor/GuideList';
 import SelectSchool from './screens/visitor/SelectSchool';
 import MyTrips from './screens/visitor/MyTrips';
 
-//authorization
+//authorization and authentication
 import RequireAuth from './components/RequireAuth';
-
-//api
-import { onAuthStateChanged } from 'api/auth';
-import { getUser } from 'api/users';
-import { viewAvailableTours } from './api/tours';
 import { useAuth } from './hooks/useAuth';
 
 /**
@@ -109,8 +85,6 @@ const App: () => Node = () => {
     setUserAuth,
     user,
     setUser,
-    bookTourInfo,
-    setBookTourInfo,
     mode,
     setMode,
     guideDone,
@@ -207,8 +181,6 @@ const App: () => Node = () => {
         setUserAuth,
         user,
         setUser,
-        bookTourInfo,
-        setBookTourInfo,
         isUserLoading,
         setIsUserLoading,
         mode,
