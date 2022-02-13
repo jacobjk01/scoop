@@ -20,7 +20,7 @@ import {color} from 'react-native-reanimated';
 import GuideProfile from './GuideProfile';
 import {viewTourSettings, viewAvailableTours, viewAllTours, convertToTourSummary} from '../../api/tours'
 import { UserContext } from '../../contexts'
-import {titleText, grayMedText, mediumBold, largeBoldText, linearGrad} from '../../config/typography.js'
+import {titleText, graySmallText, mediumBold, largeBoldText, linearGrad} from '../../config/typography.js'
 
 import toursData from '../../data/toursDatav2';
 
@@ -117,13 +117,13 @@ const HomePage = ({navigation}) => {
         >
           <View style={{display: 'flex', flexWrap:'wrap',flexDirection: 'column', justifyContent:'space-between',}}>
             <View style={{margin: 5}}>
-              <Text style={{...grayMedText}}>
+              <Text style={{...graySmallText}}>
                 Upcoming Tour</Text>
               <Text style={{...mediumBold, color: white}}>
                 Westwood Tour</Text>
             </View>
             <View style={{margin: 5}}>
-              <Text style={{...grayMedText}}>
+              <Text style={{...graySmallText}}>
                 Date</Text>
               <Text style={{...mediumBold, color: white}}>
                 Jul 14</Text>
@@ -132,7 +132,7 @@ const HomePage = ({navigation}) => {
           <View style={{display: 'flex', flexWrap:'wrap', flexDirection: 'column',}}>
             <View style={{margin: 5, display: 'flex', flexDirection: 'row'}}>
               <View>
-                <Text style={{...grayMedText}}>
+                <Text style={{...graySmallText}}>
                   Tour Guide</Text>
                 <Text style={{...mediumBold, color: white}}>
                   Brittany</Text>
@@ -143,7 +143,7 @@ const HomePage = ({navigation}) => {
               />
             </View>
             <View style={{margin: 5}}>
-              <Text style={{...grayMedText}}>
+              <Text style={{...graySmallText}}>
                 Time</Text>
               <Text style={{...mediumBold, color: white}}>
                 12:00 PM</Text>

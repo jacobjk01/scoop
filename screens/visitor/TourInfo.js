@@ -19,6 +19,8 @@ import LinearGradient from 'react-native-linear-gradient';
 import StickyParallaxHeader from 'react-native-sticky-parallax-header';
 import {Calendar} from 'react-native-calendars';
 import renderReviews from '../../components/Reviews';
+import {primary, white} from '../../config/colors.js';
+import {backIcon, primaryButton, mediumBold, mediumLight, titleText, medLargeText, lightSmallText, linearGrad} from '../../config/typography.js';
 
 
 const {event, ValueXY} = Animated;
@@ -61,22 +63,22 @@ class TourInfo extends Component {
       <View style={{backgroundColor: '#d92726', flex: 1, borderRadius: 10}}>
         <ImageBackground
           style={styles.imageHeader}
-          source={{uri: this.state.tour.picture}}>
+          source={{uri: this.state.tour && this.state.tour.picture}}>
           <LinearGradient
             colors={['transparent', 'black']}
-            style={styles.linearGradTour}
+            style={{...linearGrad, position: 'absolute', top: 150, bottom: 0, left: 0, right: 0}}
           />
           <View style={styles.imageOverlay}>
-            <Text style={styles.titleText}>{this.state.tour.title}</Text>
-            <Text style={styles.detailText}>
+            <Text style={{...titleText, color: white}}>{"Placeholder title" || this.state.tour.title}</Text>
+            <Text style={{...lightSmallText}}>
               60 min | Max 6 people | person
             </Text>
-            <Text style={styles.subText}> $8 per person</Text>
+            <Text style={{...medLargeText, marginTop: 20, marginBottom: 20}}>$8 per person</Text>
           </View>
 
           <Text
             style={[
-              styles.summaryText,
+              {...mediumLight, color: white, marginBottom: 30},
               {
                 position: 'absolute',
                 bottom: 0,
@@ -85,7 +87,7 @@ class TourInfo extends Component {
                 paddingRight: 20,
               },
             ]}>
-            {this.state.tour.description}
+            {"placeholder description" || this.state.tour.description}
           </Text>
         </ImageBackground>
         <Text>TODO: Make Tour Info Page a functional component</Text>
@@ -122,7 +124,7 @@ class TourInfo extends Component {
                         <Text style={{color: "#41479B"}}>Message</Text>
                     </TouchableOpacity>
                 </Animated.View> */}
-        <Text style={[styles.sectionText, {marginTop: 40}]}>Reviews</Text>
+        <Text style={{...mediumBold, marginTop: 60, alignSelf: 'center'}}>Reviews</Text>
         {/* {renderReviews(this.state.reviews)} */}
       </View>
     );
@@ -157,19 +159,19 @@ class TourInfo extends Component {
           {this.renderContent()}
         </ScrollView>
         <TouchableOpacity
-          style={styles.backIcon}
+          style={{...backIcon, left: 20, top: 40}}
           onPress={() => navigation.goBack()}>
           <Ionicons name="chevron-back-outline" size={22} color={'white'} />
         </TouchableOpacity>
         <TouchableOpacity
-          style={styles.continue}
+          style={{...primaryButton, bottom: 20, left: 20, right: 20}}
           onPress={() => {
 
             this.props.navigation.navigate('TourBooking1', this.state.tour)
             }}
           >
           <Text
-            style={{alignSelf: 'center', color: 'white', fontWeight: '600'}}>
+            style={{...mediumBold, alignSelf: 'center', color: white}}>
             Find A Tour Guide
           </Text>
         </TouchableOpacity>
@@ -181,35 +183,6 @@ class TourInfo extends Component {
 const styles = StyleSheet.create({
   baseText: {
     fontFamily: 'Helvetica',
-  },
-  titleText: {
-    fontSize: 32,
-    fontWeight: '600',
-    color: 'white',
-  },
-  detailText: {
-    fontSize: 14,
-    fontWeight: '200',
-    color: 'white',
-  },
-  sectionText: {
-    fontSize: 18,
-    fontWeight: '600',
-    alignSelf: 'center',
-    marginTop: 20,
-  },
-  subText: {
-    fontSize: 20,
-    fontWeight: '400',
-    color: 'white',
-    marginTop: 20,
-    marginBottom: 20,
-  },
-  summaryText: {
-    fontSize: 18,
-    fontWeight: '200',
-    color: 'white',
-    marginBottom: 30,
   },
   headerView: {
     width: '100%',
@@ -233,18 +206,6 @@ const styles = StyleSheet.create({
     bottom: 120,
     paddingLeft: 25,
   },
-  backCard: {
-    flex: 1,
-    backgroundColor: 'white',
-    marginTop: 10,
-    borderRadius: 20,
-    marginLeft: 20,
-    marginRight: 20,
-    shadowColor: '#000000',
-    shadowOffset: {width: 1, height: 1},
-    shadowOpacity: 0.2,
-    shadowRadius: 5,
-  },
   linearGradTour: {
     position: 'absolute',
     top: 150,
@@ -264,33 +225,6 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
     paddingRight: 10,
     marginRight: 10,
-  },
-  backIcon: {
-    backgroundColor: '#3154A5',
-    borderRadius: 10,
-    borderColor: 'white',
-    borderWidth: 1,
-    position: 'absolute',
-    left: 20,
-    top: 40,
-    width: 45,
-    height: 45,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  continue: {
-    position: 'absolute',
-    bottom: 20,
-    left: 20,
-    right: 20,
-    backgroundColor: '#3154A5',
-    height: 50,
-    justifyContent: 'center',
-    borderRadius: 10,
-    shadowColor: '#adadad',
-    shadowOffset: {width: 2, height: 2},
-    shadowOpacity: 0.8,
-    shadowRadius: 3,
   },
   floatCard: {
     position: 'absolute',

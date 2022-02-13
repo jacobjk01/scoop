@@ -18,6 +18,7 @@ import {Calendar} from 'react-native-calendars';
 import moment, {duration} from 'moment';
 import DatePicker from 'react-native-date-picker';
 import toursData from '../../data/toursDatav2';
+import {titleText, backIcon, mediumBold, mediumOblique, primaryButton} from '../../config/typography.js';
 
 const TourBooking1 = ({navigation, route}) => {
 
@@ -128,8 +129,8 @@ const TourBooking1 = ({navigation, route}) => {
             style={styles.listGuideImage}
             imageStyle={{borderRadius: 60}}
             source={guideInfo.src}></ImageBackground>
-          <Text style={styles.guideName}>{guideInfo.name}</Text>
-          <Text style={styles.guideTitle}>
+          <Text style={{...mediumBold, position: 'absolute', top: 20, left: 100, color: black}}>{guideInfo.name}</Text>
+          <Text style={{...mediumOblique, position: 'absolute', bottom: 20, left: 100, color: black}}>
             {guideInfo.major}, {guideInfo.year}
           </Text>
           <View style={styles.line}></View>
@@ -234,11 +235,9 @@ const TourBooking1 = ({navigation, route}) => {
             });
           }}>
           <Text
-            style={{
+            style={{...primaryButton, 
               fontSize: 14,
               color: white,
-              backgroundColor: primary,
-              borderRadius: 8,
               paddingHorizontal: 14,
               paddingVertical: 6,
               marginVertical: 3,
@@ -630,7 +629,7 @@ const TourBooking1 = ({navigation, route}) => {
             {/*Tour Guides Available________________________________________________________*/}
             <View style={styles.guideBox}>
               <View style={{marginTop: 25}}>
-                <Text style={[styles.sectionText, {paddingBottom: 15}]}>
+                <Text style={{...mediumBold, alignSelf: 'center', paddingBottom: 15}}>
                   Tour Guides Available
                 </Text>
                 <View style={styles.line}></View>
@@ -650,10 +649,10 @@ const TourBooking1 = ({navigation, route}) => {
           width: '100%',
           position: 'absolute',
         }}>
-        <Text style={[styles.titleText, {marginTop: 20}]}>Select Date</Text>
+        <Text style={{...titleText, color: white,marginLeft: 'auto', marginRight: 'auto',marginTop: 20}}>Select Date</Text>
       </View>
       <TouchableOpacity
-        style={styles.backIcon}
+        style={{...backIcon, backgroundColor: white, left: 20, top: 22,}}
         onPress={() => navigation.goBack()}>
         <Ionicons
           name="chevron-back-outline"
@@ -713,13 +712,6 @@ const styles = StyleSheet.create({
   },
   baseText: {
     fontFamily: 'Helvetica',
-  },
-  titleText: {
-    marginLeft: 'auto',
-    marginRight: 'auto',
-    fontSize: 27,
-    color: white,
-    fontFamily: 'Helvetica-Bold',
   },
   sectionText: {
     fontSize: 18,
@@ -795,53 +787,7 @@ const styles = StyleSheet.create({
     //android only
     elevation: 10,
   },
-  guideName: {
-    fontSize: 18,
-    fontFamily: 'Helvetica-Bold',
-    position: 'absolute',
-    top: 20,
-    left: 100,
-    color: black,
-  },
-  guideTitle: {
-    fontSize: 18,
-    fontFamily: 'Helvetica-Oblique',
-    position: 'absolute',
-    bottom: 20,
-    left: 100,
-    color: black,
-  },
-  linearGradTour: {
-    position: 'absolute',
-    top: 150,
-    bottom: 0,
-    left: 0,
-    right: 0,
-    backgroundColor: 'transparent',
-    borderRadius: 10,
-  },
-  linearGradGuide: {
-    position: 'absolute',
-    top: 60,
-    bottom: 0,
-    left: 0,
-    right: 0,
-    backgroundColor: 'transparent',
-    borderRadius: 10,
-  },
-  backIcon: {
-    backgroundColor: white,
-    borderRadius: 10,
-    borderColor: 'white',
-    borderWidth: 1,
-    position: 'absolute',
-    left: 20,
-    top: 22,
-    width: 45,
-    height: 45,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+  
   calenderLine: {
     width: '90%',
     height: 0.75,
