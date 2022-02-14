@@ -1,21 +1,11 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import {
-  View,
-  Text,
-  SafeAreaView,
+  FlatList, ImageBackground, SafeAreaView,
   ScrollView,
-  StyleSheet,
-  TextInput,
-  TouchableOpacity,
-  FlatList,
-  Image,
-  ImageBackground,
+  StyleSheet, Text, TouchableOpacity, View
 } from 'react-native';
-import {withSafeAreaInsets} from 'react-native-safe-area-context';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import LinearGradient from 'react-native-linear-gradient';
-import {NavigationContainer} from '@react-navigation/native';
-import {createStackNavigator} from '@react-navigation/stack';
+import { renderStars } from '../../components/Stars';
 import toursData from '../../data/toursData';
 import {renderStars} from '../../components/Stars';
 import BackButton from '../../components/BackButton';

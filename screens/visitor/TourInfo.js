@@ -17,57 +17,19 @@ import LinearGradient from 'react-native-linear-gradient';
 import { primary, black, white, grayDark, blueDark, grayShadow, red } from 'config/colors';
 import Reviews from '../../components/Reviews';
 import BottomButton from '../../components/BottomButton';
-import BackButton from '../../components/BackButton';
+import { FAKE_REVIEWS } from '../../config/initialState';
+import Error from '../Error';
 
 const TourInfo = ({ navigation, route }) => {
   const tour = route.params.tour;
   const guide = route.params.guide
   const pageType = route.params.pageType
-  const [reviews, setReviews] = useState([
-    {
-      stars: 4.8,
-      year: 'Incoming Freshman',
-      comment:
-        'Brittany was really helpful!! She showed me where the students get groceries from and hangout in Westwood. She also shared a lot of interesting stories as we visit each places, highly recommend incoming freshman who want to familiarize themselves with the area sign up!! ',
-    },
-    {
-      stars: 4.3,
-      year: 'Incoming Junior',
-      comment:
-        'Being a sophomore, I kinda know what Westwood is like already; however, Brittany was able to show me interesting places I’ve never discovered!',
-    },
-  ]);
-  // constructor(props) {
-  //   super(props);
-
-  //   this.state = {
-  //     navigation: props.navigation,
-  //     route: props.route,
-  //     tour: props.route.params.itemInfo,
-
-  //     reviews: [
-  //       {
-  //         stars: 4.8,
-  //         year: 'Incoming Freshman',
-  //         comment:
-  //           'Brittany was really helpful!! She showed me where the students get groceries from and hangout in Westwood. She also shared a lot of interesting stories as we visit each places, highly recommend incoming freshman who want to familiarize themselves with the area sign up!! ',
-  //       },
-  //       {
-  //         stars: 4.3,
-  //         year: 'Incoming Junior',
-  //         comment:
-  //           'Being a sophomore, I kinda know what Westwood is like already; however, Brittany was able to show me interesting places I’ve never discovered!',
-  //       },
-  //     ],
-  //   };
-  // this.scrollY = new ValueXY();
-
-  // componentDidMount() {
-  //   this.scrollY.addListener(({value}) => (this._value = value));
-  // }
-  // componentWillUnmount() {
-  //   this.scrollY.removeAllListeners();
-  // }
+  const [reviews, setReviews] = useState(FAKE_REVIEWS);
+  if (!route.params.tour) {
+    return <Error errorMsg="TourInfo.js, route.params.tour is not defined"/>
+  }
+  const { title, picture, id, description } = route.params.tour;
+  console.log(route.params)
 
   const renderForeground = () => {
     return (

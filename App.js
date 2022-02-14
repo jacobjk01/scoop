@@ -8,27 +8,9 @@
 
 //react imports
 import 'react-native-gesture-handler';
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import type { Node } from 'react';
 
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-  Button,
-  TouchableOpacity,
-} from 'react-native';
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -36,7 +18,6 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 
 //config imports
 import { primary } from 'config/colors';
-import { localState } from 'config/initialState';
 
 //contexts imports
 import { UserContext } from 'contexts';
@@ -84,13 +65,9 @@ import GuideList from './screens/visitor/GuideList';
 import SelectSchool from './screens/visitor/SelectSchool';
 import MyTrips from './screens/visitor/MyTrips';
 
-//authorization
+//authorization and authentication
 import RequireAuth from './components/RequireAuth';
-
-//api
-import { onAuthStateChanged } from 'api/auth';
-import { getUser } from 'api/users';
-import { viewAvailableTours } from './api/tours';
+import { useAuth } from './hooks/useAuth';
 
 /**
  *
@@ -102,65 +79,30 @@ const Stack = createStackNavigator();
 
 //bulk of navigation
 const App: () => Node = () => {
-  /**
-   * Authentication
-   */
-  //userAuth is a object with the field uid
-  const [userAuth, setUserAuth] = useState(null);
-  //user is a object with the user document data
-  const [user, setUser] = useState(null);
-  const [bookTourInfo, setBookTourInfo] = useState(null);
-  const [isUserLoading, setIsUserLoading] = useState(true);
-  const [mode, setMode] = useState(localState.currentMode);
-  const [guideDone, setGuideDone] = useState(localState.guideDone);
-  const [visitorDone, setVisitorDone] = useState(localState.visitorDone);
-  const [visitorBone, setVisitorBone] = useState(localState.visitorBone);
-  const hasNotFinishedBareOnboarding =
-    (mode === 'new' ||
-      (mode === 'visitor' && !visitorBone) ||
-      (mode === 'guide' && !guideDone)) &&
-    mode !== 'dev';
-  // this useEffect causing flickering
-  useEffect(() => {
-    console.log(mode);
-    if (hasNotFinishedBareOnboarding) {
-      return;
-    }
-    var unsubscribeAuth = onAuthStateChanged(async newUserAuth => {
-      //if userAuth exists,
-      if (newUserAuth && userAuth == null) {
-        // userAuth is null, so definitely unique
-        setUserAuth(newUserAuth);
-        // userAuth exists and doesn't match with with newUserAuth.uid
-      } else if (
-        userAuth &&
-        userAuth.uid &&
-        newUserAuth &&
-        userAuth.uid != newUserAuth.uid
-      ) {
-        setUserAuth(newUserAuth);
-      }
-      if (isUserLoading) {
-        setIsUserLoading(false);
-      }
-    });
-    return () => {
-      unsubscribeAuth();
-    };
-  }, [hasNotFinishedBareOnboarding]);
-
-  useEffect(async () => {
-    if (hasNotFinishedBareOnboarding) {
-      return;
-    }
-    if (userAuth) {
-      const currentUser = await getUser(userAuth);
-      setUser({ ...currentUser.data() });
-    }
-  }, [userAuth]);
+  const {
+    userAuth,
+    setUserAuth,
+    user,
+    setUser,
+    mode,
+    setMode,
+    guideDone,
+    setGuideDone,
+    visitorDone,
+    setVisitorDone,
+    visitorBone,
+    setVisitorBone,
+    isUserLoading,
+    setIsUserLoading,
+    hasNotFinishedBareOnboarding
+  } = useAuth();
 
   //displays bottom tab and some navigation
   const TabAllModes = () => {
+    console.log(mode)
+    if (mode === 'new') {
+      return (<></>)
+    }
     return (
       <Tab.Navigator
         screenOptions={({ route }) => ({
@@ -193,45 +135,40 @@ const App: () => Node = () => {
         initialRouteName={
           mode === 'visitor' ? 'Home' : mode === 'guide' ? 'Home' : 'Home'
         }>
-        {(() => {
-          if (mode === 'visitor') {
-            return (
-              <>
-                <Tab.Screen
-                  name="Home"
-                  component={HomeVisitor}
-                  options={{ tabBarVisible: true }}
-                />
-                <Tab.Screen name="TourList" component={TourList} />
-                <Tab.Screen name="Account" component={AccountVisitor} />
-              </>
-            );
-          } else if (mode === 'guide') {
-            return (
-              <>
-                <Tab.Screen name="Home" component={HomeGuide} />
-                <Tab.Screen name="ManageTours" component={ManageTours} />
-                <Tab.Screen
-                  name="ProfileOptions"
-                  component={ProfileOptionsGuide}
-                />
-              </>
-            );
-          } else {
-            return (
-              <>
-                <Tab.Screen name="HomeVisitor" component={HomeVisitor} />
-                <Tab.Screen name="HomeGuide" component={HomeGuide} />
-                <Tab.Screen name="ManageTours" component={ManageTours} />
-                <Tab.Screen name="Account" component={AccountGuide} />
-                <Tab.Screen name="Test" component={Test} />
-              </>
-            );
-          }
-        })()}
+        {(mode === 'visitor') && (
+          <>
+            <Tab.Screen
+              name="Home"
+              component={HomeVisitor}
+              options={{ tabBarVisible: true }}
+            />
+            <Tab.Screen name="TourList" component={TourList} />
+            <Tab.Screen name="Account" component={AccountVisitor} />
+          </>
+        )}
+        {(mode === 'guide') && (
+          <>
+            <Tab.Screen name="Home" component={HomeGuide} />
+            <Tab.Screen name="ManageTours" component={ManageTours} />
+            <Tab.Screen
+              name="ProfileOptions"
+              component={ProfileOptionsGuide}
+            />
+          </>
+        )}
+        {(mode === 'dev') && (
+          <>
+            <Tab.Screen name="HomeVisitor" component={HomeVisitor} />
+            <Tab.Screen name="HomeGuide" component={HomeGuide} />
+            <Tab.Screen name="ManageTours" component={ManageTours} />
+            <Tab.Screen name="Account" component={AccountGuide} />
+            <Tab.Screen name="Test" component={Test} />
+          </>
+        )}
+        <Tab.Screen name="Test" component={Test} />
       </Tab.Navigator>
     );
-  };
+  }
 
   /**
    * Navigation
@@ -243,8 +180,6 @@ const App: () => Node = () => {
         setUserAuth,
         user,
         setUser,
-        bookTourInfo,
-        setBookTourInfo,
         isUserLoading,
         setIsUserLoading,
         mode,

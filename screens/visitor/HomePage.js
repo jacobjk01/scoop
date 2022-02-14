@@ -1,38 +1,25 @@
-import React, { useState, useContext, useEffect, useRef } from 'react';
-
 import {
-  View,
-  Text,
-  SafeAreaView,
-  ScrollView,
-  StyleSheet,
-  TextInput,
-  TouchableOpacity,
+  primary, white
+} from 'config/colors';
+import React, { useContext, useEffect, useState } from 'react';
+import {
   FlatList,
   Image,
-  ImageBackground,
+  ImageBackground, SafeAreaView,
+  ScrollView,
+  StyleSheet, Text, TouchableOpacity, View
 } from 'react-native';
-import { withSafeAreaInsets } from 'react-native-safe-area-context';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 import LinearGradient from 'react-native-linear-gradient';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import {
-  viewTourSettings,
-  viewAvailableTours,
-  viewAllTours,
-  convertToTourSummary,
+  viewAvailableTours
 } from '../../api/tours';
 import { getGuides } from '../../api/users';
-import {
-  black,
-  grayDark,
-  grayLight,
-  grayMed,
-  white,
-  primary,
-} from 'config/colors';
-import { color } from 'react-native-reanimated';
-import { UserContext } from '../../contexts'
-import toursData from '../../data/toursDatav2';
+import { SCHOOL } from '../../config/initialState';
+import { grayMedText, largeBoldText, linearGrad, mediumBold, titleText } from '../../config/typography.js';
+import { UserContext } from '../../contexts';
+
+
 
 const HomePage = ({ navigation }) => {
   const { user, setUser } = useContext(UserContext);
@@ -63,16 +50,10 @@ const HomePage = ({ navigation }) => {
   }, [])
   const viewAll = (text) => {
     return (
-      <View
-        style={{
-          paddingHorizontal: 30,
-          marginTop: 15,
-          marginBottom: 10,
-          display: 'flex',
-          flexDirection: 'row',
-          alignItems: 'center',
-        }}>
-        <Text style={{ fontSize: 23, fontWeight: '700' }}>{text}</Text>
+      <View style={{paddingHorizontal: 30, marginTop: 15, marginBottom: 10, display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
+        <Text style={{...largeBoldText}}>
+          {text}
+        </Text>
         <TouchableOpacity
           onPress={() => navigation.navigate('TourList')}
           style={{ marginLeft: 'auto' }}>
@@ -88,7 +69,7 @@ const HomePage = ({ navigation }) => {
   return (
     <SafeAreaView>
       {tours && guides && <ScrollView style={{ height: '100%', backgroundColor: white }}>
-        <Text style={styles.titleText}>Explore around UCLA!</Text>
+        <Text style={{...titleText, paddingLeft: 30, marginTop: 50,}}>Explore around {SCHOOL}!</Text>
         {/* THIS IS IMPORTANT */}
         {/* THIS IS IMPORTANT */}
         {/* THIS IS IMPORTANT */}
@@ -135,34 +116,21 @@ const HomePage = ({ navigation }) => {
             </TouchableOpacity>
           </View>
         </View> */}
-        <View
-          style={{
-            backgroundColor: primary,
-            marginHorizontal: '5%',
-            width: '90%',
-            paddingVertical: 15,
-            paddingHorizontal: 20,
-            borderRadius: 15,
-            elevation: 5,
-            display: 'flex',
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            marginVertical: 15,
-          }}>
-          <View
-            style={{
-              display: 'flex',
-              flexWrap: 'wrap',
-              flexDirection: 'column',
-              justifyContent: 'space-between',
-            }}>
-            <View style={{ margin: 5 }}>
-              <Text style={styles.tourNotifSubText}>Upcoming Tour</Text>
-              <Text style={styles.tourNotifText}>Westwood Tour</Text>
+        <View style={{backgroundColor: primary, marginHorizontal: '5%', width: '90%', paddingVertical: 15, paddingHorizontal: 20,
+        borderRadius: 15, elevation: 5, display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginVertical: 15}}
+        >
+          <View style={{display: 'flex', flexWrap:'wrap',flexDirection: 'column', justifyContent:'space-between',}}>
+            <View style={{margin: 5}}>
+              <Text style={{...grayMedText}}>
+                Upcoming Tour</Text>
+              <Text style={{...mediumBold, color: white}}>
+                Westwood Tour</Text>
             </View>
-            <View style={{ margin: 5 }}>
-              <Text style={styles.tourNotifSubText}>Date</Text>
-              <Text style={styles.tourNotifText}>Jul 14</Text>
+            <View style={{margin: 5}}>
+              <Text style={{...grayMedText}}>
+                Date</Text>
+              <Text style={{...mediumBold, color: white}}>
+                Jul 14</Text>
             </View>
           </View>
           <View
@@ -173,17 +141,21 @@ const HomePage = ({ navigation }) => {
             }}>
             <View style={{ margin: 5, display: 'flex', flexDirection: 'row' }}>
               <View>
-                <Text style={styles.tourNotifSubText}>Tour Guide</Text>
-                <Text style={styles.tourNotifText}>Brittany</Text>
+                <Text style={{...grayMedText}}>
+                  Tour Guide</Text>
+                <Text style={{...mediumBold, color: white}}>
+                  Brittany</Text>
               </View>
               <Image
                 style={{ height: 50, width: 50, borderRadius: 25 }}
                 source={require('../../images/brittany.png')}
               />
             </View>
-            <View style={{ margin: 5 }}>
-              <Text style={styles.tourNotifSubText}>Time</Text>
-              <Text style={styles.tourNotifText}>12:00 PM</Text>
+            <View style={{margin: 5}}>
+              <Text style={{...grayMedText}}>
+                Time</Text>
+              <Text style={{...mediumBold, color: white}}>
+                12:00 PM</Text>
             </View>
           </View>
         </View>
@@ -202,59 +174,51 @@ const HomePage = ({ navigation }) => {
                 }}
               >
                 <ImageBackground
-                  style={styles.listTourImage}
+                  style={{...styles.listTourImage}}
                   imageStyle={{borderRadius: 10}}
                   source={{uri: tour.picture}}
                 >
                   <LinearGradient
                     colors={['transparent', 'rgba(0,0,0,0.6)']}
-                    style={styles.linearGradTour}
+                    style={{...linearGrad, marginTop: 'auto', height: '70%', width: '100%'}}
                   >
-                    <Text style={styles.tourText}>{tour.title}</Text>
-                  </LinearGradient>
-                </ImageBackground>
-              </TouchableOpacity>
-            )
-          }}
+                  <Text style={{...mediumBold, fontWeight: '600', color: white, marginTop: 'auto', left: 20, bottom: 50, zIndex: 100}}>{item.title}</Text>
+                </LinearGradient>
+              </ImageBackground>
+            </TouchableOpacity>
+          )}}
         />
         {viewAll('Tour Guides')}
         <FlatList
           style={{ marginLeft: 20, marginTop: 10, marginBottom: 30 }}
           horizontal={true}
           data={guides}
-          renderItem={({ item }) => {
-            return (
-              <TouchableOpacity
-                key={item.id}
-                style={{marginLeft: item.id == 0?20:0, marginBottom: 10}}
-                onPress={() => navigation.navigate('Profile', {id: item.id, pageType: 'guideFlow'})}>
-                <ImageBackground
-                  style={styles.listGuideImage}
-                  imageStyle={{ borderRadius: 10 }}
-                  source={{ uri: item.profilePicture }}>
-                  <LinearGradient
-                    colors={['transparent', 'rgba(0,0,0,0.6)']}
-                    style={styles.linearGradGuide}>
-                    <View
-                      style={{
-                        display: 'flex',
-                        flexDirection: 'row',
-                        marginTop: 'auto',
-                        margin: 10,
-                      }}>
-                      <Text style={{ color: white, fontFamily: 'Helvetica-Bold' }}>
-                        {item.name}
-                      </Text>
-                      <Text
-                        style={{ color: white, fontFamily: 'Helvetica-Oblique' }}>
-                        {item.year}
-                      </Text>
-                    </View>
-                  </LinearGradient>
-                </ImageBackground>
-              </TouchableOpacity>
-            )
-          }}
+          renderItem={({ item }) => (
+            <TouchableOpacity
+              key={item.id}
+              style={{marginLeft: item.id == 0?20:0, marginBottom: 10}}
+              onPress={() => navigation.navigate('Profile', {id: item.id, pageType: 'guideFlow'})}>
+              <ImageBackground
+                style={styles.listGuideImage}
+                imageStyle={{ borderRadius: 10 }}
+                source={{ uri: item.profilePicture }}>
+                <LinearGradient
+                  colors={['transparent', 'rgba(0,0,0,0.6)']}
+                  style={{...linearGrad, marginTop: 'auto', height: '70%', width: '100%'}}
+                >
+                  <View style={{display: 'flex', flexDirection: 'row', marginTop: 'auto', margin: 10}}>
+                    <Text style={{color: white, fontFamily: 'Helvetica-Bold'}}>
+                      {item.name},{' '}
+                    </Text>
+                    <Text
+                      style={{ color: white, fontFamily: 'Helvetica-Oblique' }}>
+                      {item.year}
+                    </Text>
+                  </View>
+                </LinearGradient>
+              </ImageBackground>
+            </TouchableOpacity>
+          )}
         />
       </ScrollView>}
     </SafeAreaView>
@@ -262,25 +226,26 @@ const HomePage = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
-  tourNotifText: {
-    color: white,
-    fontFamily: 'Helvetica-Bold',
-    fontSize: 18,
-  },
-  tourNotifSubText: {
-    color: grayLight,
-    fontSize: 15,
-  },
+  // tourNotifText: {
+  //   color: white,
+  //   fontFamily: 'Helvetica-Bold',
+  //   fontSize: 18
+  // },
+  // tourNotifSubText: {
+  //   color: grayLight,
+  //   fontSize: 15
+  // },
   baseText: {
     fontFamily: 'Helvetica',
   },
-  titleText: {
-    paddingLeft: 30,
-    fontSize: 27,
-    fontWeight: '600',
-    marginTop: 50,
-    fontFamily: 'Helvetica-Bold',
-  },
+  // titleText: {
+  //   paddingLeft: 30,
+  //   marginTop: 50,
+  //   fontSize: 27,
+  //   fontWeight: '600',
+    
+  //   fontFamily: 'Helvetica-Bold'
+  // },
   input: {
     lineHeight: 50,
     marginTop: 30,
@@ -336,40 +301,30 @@ const styles = StyleSheet.create({
     width: 125,
     height: 125,
   },
-  tourText: {
-    fontWeight: '600',
-    fontSize: 18,
-    color: white,
-    position: 'absolute',
-    bottom: 50,
-    left: 20,
-  },
-  guideText: {
-    width: 120,
-    position: 'absolute',
-    bottom: 10,
-    left: 10,
-    color: white,
-    marginTop: 'auto',
-    left: 20,
-    bottom: 50,
-    fontFamily: 'Helvetica-Bold',
-    zIndex: 100,
-  },
-  linearGradTour: {
-    backgroundColor: 'transparent',
-    borderRadius: 10,
-    marginTop: 'auto',
-    height: '70%',
-    width: '100%',
-  },
-  linearGradGuide: {
-    marginTop: 'auto',
-    height: '70%',
-    width: '100%',
-    backgroundColor: 'transparent',
-    borderRadius: 10,
-  },
+  // tourText: {
+  //   fontWeight: '600',
+  //   fontSize: 18,
+  //   color: white,
+  //   marginTop: 'auto',
+  //   left: 20,
+  //   bottom: 50,
+  //   fontFamily: 'Helvetica-Bold',
+  //   zIndex: 100
+  // },
+  // linearGradTour: {
+  //   backgroundColor: 'transparent',
+  //   borderRadius: 10,
+  //   marginTop: 'auto',
+  //   height: '70%',
+  //   width: '100%',
+  // },
+  // linearGradGuide: {
+  //   marginTop: 'auto',
+  //   height: '70%',
+  //   width: '100%',
+  //   backgroundColor: 'transparent',
+  //   borderRadius: 10,
+  // },
 });
 
 export default HomePage;
