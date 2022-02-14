@@ -12,14 +12,12 @@ import { bookTour } from '../../api/tours';
 import BottomButton from '../../components/BottomButton';
 import Header from '../../components/Header';
 import { UserContext } from '../../contexts';
-
-
+import { grayMedText, largeBoldText, linearGrad, mediumBold, titleText } from '../../config/typography.js';
 
 const Checkout = ({navigation, route}) => {
   const tour = route.params.tour
   const tourSetting = route.params.tourSetting
   const guide = route.params.guide
-  console.log(guide)
   const visitorCount = route.params.visitorCount
   const date = tourSetting.timeAvailable[route.params.timeIndex]
   const {

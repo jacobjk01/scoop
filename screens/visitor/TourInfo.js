@@ -17,6 +17,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import { primary, black, white, grayDark, blueDark, grayShadow, red } from 'config/colors';
 import Reviews from '../../components/Reviews';
 import BottomButton from '../../components/BottomButton';
+import BackButton from '../../components/BackButton';
 import { FAKE_REVIEWS } from '../../config/initialState';
 import Error from '../Error';
 

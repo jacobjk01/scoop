@@ -7,7 +7,6 @@ import {
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { renderStars } from '../../components/Stars';
 import toursData from '../../data/toursData';
-import {renderStars} from '../../components/Stars';
 import BackButton from '../../components/BackButton';
 
 const TourList = ({navigation, route}) => {
