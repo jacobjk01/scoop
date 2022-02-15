@@ -404,7 +404,7 @@ const TourBooking3 = ({navigation, route}) => {
                     position: 'absolute',
                     bottom: 25,
                     left: 20,
-                    fontSize: 30,
+                    fontSize: 28,
                     fontFamily: 'Helvetica-Bold',
                   }}>
                   {tour.title}
@@ -550,7 +550,7 @@ const TourBooking3 = ({navigation, route}) => {
                 marginHorizontal: 10,
                 marginTop: 10,
               }}>
-              <Text style={{marginLeft: 20, fontWeight: '700', fontSize: 19}}>
+              <Text style={{marginLeft: 20,  paddingLeft: 10, fontWeight: '700', fontSize: 19}}>
                 Visitors
               </Text>
               <TouchableOpacity
@@ -584,7 +584,7 @@ const TourBooking3 = ({navigation, route}) => {
             </View>
             {/*Select Time________________________________________________________ */}
             {times != undefined &&
-              <View style={[styles.backCard, {paddingBottom: 5}]}>
+              <View style={[styles.backCard]}>
               <Text style={styles.sectionText}>Select Time</Text>
               <View style={styles.timeView}>
                 {[...Array(times.length).keys()].map(index =>
@@ -740,6 +740,8 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: white,
     marginTop: 10,
+    paddingTop:10,
+    paddingBottom: 20,
     borderRadius: 20,
     marginLeft: 10,
     marginRight: 10,

@@ -7,8 +7,9 @@ const Header = (params) => {
     return (
         <View
             style={{
+                marginTop:80,
                 backgroundColor: primary,
-                height: 80,
+                height: 0,
                 width: '100%',
                 position: 'absolute',
             }}
