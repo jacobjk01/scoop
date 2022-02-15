@@ -12,13 +12,12 @@ import { bookTour } from '../../api/tours';
 import BottomButton from '../../components/BottomButton';
 import Header from '../../components/Header';
 import { UserContext } from '../../contexts';
-
-
+import { grayMedText, largeBoldText, linearGrad, mediumBold, titleText } from '../../config/typography.js';
 
 const Checkout = ({navigation, route}) => {
   const tour = route.params.tour
   const tourSetting = route.params.tourSetting
-  const guideInfo = route.params.guideInfo
+  const guide = route.params.guide
   const visitorCount = route.params.visitorCount
   const date = tourSetting.timeAvailable[route.params.timeIndex]
   const {
@@ -50,7 +49,7 @@ const Checkout = ({navigation, route}) => {
                 />
                 <View style={{marginTop: 'auto', marginBottom: 'auto', marginLeft: 10}}>
                   <Text style={{fontFamily: 'Helvetica-Bold', color: black, fontSize: 18}}>{tour.title}</Text>
-                  <Text style={{fontSize: 15, color: grayMed}}>with {guideInfo.name}</Text>
+                  <Text style={{fontSize: 15, color: grayMed}}>with {guide.name}</Text>
                 </View>
               </View>
               <View style={{display: 'flex', flexDirection: 'row', marginTop: 30, marginLeft: '10%'}}>

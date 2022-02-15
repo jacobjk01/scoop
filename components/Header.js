@@ -4,6 +4,7 @@ import { primary, white, black, grayDark, grayMed } from 'config/colors';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const Header = (params) => {
+    //INCLUDES THE BACK BUTTON
     return (
         <View
             style={{

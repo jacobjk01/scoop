@@ -197,7 +197,7 @@ const HomePage = ({ navigation }) => {
             <TouchableOpacity
               key={item.id}
               style={{marginLeft: item.id == 0?20:0, marginBottom: 10}}
-              onPress={() => navigation.navigate('GuideProfile', 'CBBI3gdPl2Q88GF1G6RGsO8pXpG3')}>
+              onPress={() => navigation.navigate('Profile', {id: item.id, pageType: 'guideFlow'})}>
               <ImageBackground
                 style={styles.listGuideImage}
                 imageStyle={{ borderRadius: 10 }}

@@ -14,7 +14,7 @@ import {
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import LinearGradient from 'react-native-linear-gradient';
 import { primary, white, grayLight, black, blueMed, grayVeryLight, grayMed, grayDark } from 'config/colors';
-import GuideProfile from './GuideProfile';
+import GuideProfile from './Profile';
 import { Calendar } from 'react-native-calendars';
 import moment from 'moment';
 import DatePicker from 'react-native-date-picker';
@@ -228,31 +228,33 @@ const TourBooking1 = ({navigation, route}) => {
   };
 
   const renderGuide = ({item, index}) => {
-    let guideInfo = {
+    let guide = {
       id: item.id,
       major: item.major,
       name: item.name,
       profilePicture: item.profilePicture,
       type: item.type
     }
-
     const handleOnPress = () => {
-      console.log(tour, guideInfo, selectedDay)
-      navigation.navigate('TourBooking2', {tour, guideInfo, selectedDay})
+      console.log(guide)
+      navigation.navigate('Profile', {tour, guide, selectedDay, pageType: 'tourFlow'})
     };
     return (
       <TouchableOpacity onPress={handleOnPress}>
-        <View>
+        <View style={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
           <ImageBackground
             style={styles.listGuideImage}
             imageStyle={{borderRadius: 60}}
-            source={{uri: item.profilePicture}}></ImageBackground>
-          <Text style={styles.guideName}>{item.name}</Text>
-          <Text style={styles.guideTitle}>
-            {item.major}, {item.year}
-          </Text>
-          <View style={styles.line}></View>
+            source={item.profilePicture == null?require('../../images/defaultpfp.png'):{uri: item.profilePicture}}>
+          </ImageBackground>
+          <View style={{marginLeft: 15, flex: 1}}>
+            <Text style={styles.guideName}>{item.name}</Text>
+            <Text style={styles.guideTitle}>
+              {item.major}, {item.year}
+            </Text>
+          </View>
         </View>
+        <View style={styles.line}></View>
       </TouchableOpacity>
     );
   };
@@ -926,17 +928,11 @@ const styles = StyleSheet.create({
   guideName: {
     fontSize: 18,
     fontFamily: 'Helvetica-Bold',
-    position: 'absolute',
-    top: 20,
-    left: 100,
     color: black,
   },
   guideTitle: {
     fontSize: 18,
     fontFamily: 'Helvetica-Oblique',
-    position: 'absolute',
-    bottom: 20,
-    left: 100,
     color: black,
   },
   backIcon: {
