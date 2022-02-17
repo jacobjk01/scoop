@@ -68,14 +68,14 @@ const ManageTours = ({navigation}) => {
             </TouchableOpacity>
           </View>
           <View style={{flexDirection: 'row', flexWrap: 'wrap'}}>
-              <TouchableOpacity style={styles.addNewTourCard} onPress={async () => {
-                navigation.navigate('AddTour')
-              }}>
+            <TouchableOpacity style={styles.addNewTourCard} onPress={async () => {
+              navigation.navigate('AddTour')
+            }}>
               <Ionicons name={'add'} size={24} style={{color: grayVeryDark, position: 'absolute', left: 8}}/>
               <Text style={{fontSize: 16, fontWeight: '400', color: grayVeryDark, textAlign: 'center', left: 8, top: 1}}>
                 Add a new tour
               </Text>
-              </TouchableOpacity>
+            </TouchableOpacity>
             {tours.map((tour) => {
               return(
                 <TouchableOpacity key={tour.id} style={styles.tourCard} onPress={() => navigation.navigate('TourEdit', {tour})}>

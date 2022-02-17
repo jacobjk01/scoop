@@ -116,7 +116,7 @@ const TourEdit = ({navigation, route}) => {
         </Text>
         <View style={styles.divider} />
         <View style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between', paddingRight: 30}}>
-          <Text style={[styles.sectionText, {marginTop: 0}]}>Time Slot</Text>
+          <Text style={[styles.sectionText, {marginTop: 0}]}>My Availability</Text>
           <TouchableOpacity
               onPress={() => {
                 navigation.navigate('Availability', tour)}}
