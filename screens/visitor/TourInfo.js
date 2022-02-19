@@ -17,10 +17,14 @@ import LinearGradient from 'react-native-linear-gradient';
 import { primary, black, white, grayDark, blueDark, grayShadow, red } from 'config/colors';
 import Reviews from '../../components/Reviews';
 import BottomButton from '../../components/BottomButton';
+import BackButton from '../../components/BackButton';
 import { FAKE_REVIEWS } from '../../config/initialState';
 import Error from '../Error';
 
 const TourInfo = ({ navigation, route }) => {
+  const tour = route.params.tour;
+  const guide = route.params.guide
+  const pageType = route.params.pageType
   const [reviews, setReviews] = useState(FAKE_REVIEWS);
   if (!route.params.tour) {
     return <Error errorMsg="TourInfo.js, route.params.tour is not defined"/>
@@ -31,7 +35,7 @@ const TourInfo = ({ navigation, route }) => {
   const renderForeground = () => {
     return (
       <View style={{ backgroundColor: red, flex: 1, borderRadius: 10, }}>
-        <ImageBackground style={styles.imageHeader} source={{ uri: picture }}>
+        <ImageBackground style={styles.imageHeader} source={{ uri: tour.picture }}>
           <LinearGradient
             colors={['transparent', black]}
             style={styles.linearGradTour}
@@ -52,6 +56,19 @@ const TourInfo = ({ navigation, route }) => {
             </Text>
           </View>
 
+          <Text
+            style={[
+              styles.summaryText,
+              {
+                position: 'absolute',
+                bottom: 0,
+                left: 25,
+                flex: 1,
+                paddingRight: 20,
+              },
+            ]}>
+            {tour.description}
+          </Text>
         </ImageBackground>
       </View>
     );
@@ -76,7 +93,7 @@ const TourInfo = ({ navigation, route }) => {
       </View>
     );
   };
-
+  console.log(guide)
   return (
     <View>
       <StatusBar barStyle="dark-content" />
@@ -88,12 +105,8 @@ const TourInfo = ({ navigation, route }) => {
           </View>
         }
       />
-      <TouchableOpacity
-        style={styles.backIcon}
-        onPress={() => navigation.goBack()}>
-        <Ionicons name="chevron-back-outline" size={22} color={'white'} />
-      </TouchableOpacity>
-      <BottomButton title='Find a Tour Guide' onPress={() => {navigation.navigate('TourBooking1', {title, picture, id, description});
+      <BackButton navigation={navigation}/>
+      <BottomButton title={pageType=='guideFlow'?'Book Tour':'Find a Tour Guide'} onPress={() => {navigation.navigate(pageType=='guideFlow'?'TourBooking2':'TourBooking1', pageType=='guideFlow'?{tour, guide}:tour);
           }}/>
     </View>
   );
@@ -113,12 +126,6 @@ const styles = StyleSheet.create({
     fontWeight: '200',
     color: white,
   },
-  sectionText: {
-    fontSize: 18,
-    fontWeight: '600',
-    alignSelf: 'center',
-    marginTop: 20,
-  },
   subText: {
     fontSize: 20,
     fontWeight: '400',
@@ -131,15 +138,6 @@ const styles = StyleSheet.create({
     fontWeight: '200',
     color: white,
     marginBottom: 30,
-  },
-  headerView: {
-    width: '100%',
-    borderTopLeftRadius: 0,
-    borderTopRightRadius: 0,
-  },
-  smallHeaderView: {
-    width: '100%',
-    height: 200,
   },
   imageHeader: {
     width: '100%',
@@ -199,41 +197,6 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
     paddingRight: 10,
     marginRight: 10,
-  },
-  backIcon: {
-    backgroundColor: primary,
-    borderRadius: 10,
-    borderColor: 'white',
-    borderWidth: 1,
-    position: 'absolute',
-    left: 20,
-    top: 40,
-    width: 45,
-    height: 45,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  continue: {
-    marginLeft: 'auto',
-    marginRight: 'auto',
-    marginTop: 'auto',
-    marginBottom: 'auto',
-    width: '80%',
-    backgroundColor: primary,
-    height: 50,
-    justifyContent: 'center',
-    borderRadius: 10,
-    shadowColor: grayShadow,
-    shadowOffset: { width: 2, height: 2 },
-    shadowOpacity: 0.8,
-    shadowRadius: 3,
-    elevation: 5,
-  },
-  floatCard: {
-    position: 'absolute',
-    bottom: 0,
-    backgroundColor: white,
-    height: 80,
   },
 });
 
