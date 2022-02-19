@@ -17,7 +17,6 @@ import LinearGradient from 'react-native-linear-gradient';
 import colors from 'config/colors';
 import toursData from 'data/toursData';
 import {color} from 'react-native-reanimated';
-import GuideProfile from '../visitor/GuideProfile';
 import { getUser } from 'api/users';
 import { onAuthStateChanged } from 'api/auth';
 import { white, black, grayVeryDark, tappableBlue } from 'config/colors';

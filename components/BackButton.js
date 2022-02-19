@@ -1,22 +1,28 @@
 import React from 'react';
-import { Button, StyleSheet } from 'react-native';
+import { TouchableOpacity } from 'react-native';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import { primary, white } from 'config/colors';
-function BackButton(props) {
+//Note: THIS BACKBUTTON IS ONLY FOR THE BLUE BACKBUTTONS THAT ARE NOT PART OF THE COMPONENT: <Header/>
+function BackButton({navigation}) {
     return (
-        <Button style={styles.button}  title='<'/>
+        <TouchableOpacity
+            style={{
+                backgroundColor: primary,
+                borderRadius: 10,
+                borderColor: 'white',
+                borderWidth: 1,
+                position: 'absolute',
+                left: 20,
+                top: 40,
+                width: 45,
+                height: 45,
+                alignItems: 'center',
+                justifyContent: 'center',
+            }}
+            onPress={() => navigation.goBack()}>
+            <Ionicons name="chevron-back-outline" size={22} color={'white'} />
+        </TouchableOpacity>
     );
 }
-
-const styles = StyleSheet.create({
-    button: {
-        backgroundColor: primary,
-        color: white,
-        position: 'absolute',
-        width: 100,
-        height: 100,
-        left: 100,
-        top:1000
-    }
-})
 
 export default BackButton;
