@@ -34,20 +34,20 @@ const TourInfo = ({ navigation, route }) => {
 
   const renderForeground = () => {
     return (
-      <View style={{ backgroundColor: red, flex: 1, borderRadius: 10, }}>
-        <ImageBackground style={styles.imageHeader} source={{ uri: tour.picture }}>
+      <View style={{backgroundColor: '#d92726', flex: 1, borderRadius: 10}}>
+        <ImageBackground
+          style={styles.imageHeader}
+          source={{uri: this.state.tour && this.state.tour.picture}}>
           <LinearGradient
-            colors={['transparent', black]}
-            style={styles.linearGradTour}
+            colors={['transparent', 'black']}
+            style={{...linearGrad, position: 'absolute', top: 150, bottom: 0, left: 0, right: 0}}
           />
-          <View style={{...styles.imageOverlay
-            
-          }}>
-            <Text style={{...styles.titleText, marginBottom: 15}}>{title}</Text>
-            {/* <Text style={styles.detailText}>
+          <View style={styles.imageOverlay}>
+            <Text style={{...titleText, color: white}}>{"Placeholder title" || title}</Text>
+            {/* <Text style={{...lightSmallText}}>
               60 min | Max 6 people | person
             </Text>
-            <Text style={styles.subText}> $8 per person</Text> */}
+            <Text style={{...medLargeText, marginTop: 20, marginBottom: 20}}>$8 per person</Text> */}
             <Text
               style={[
                 styles.summaryText,
@@ -58,7 +58,7 @@ const TourInfo = ({ navigation, route }) => {
 
           <Text
             style={[
-              styles.summaryText,
+              {...mediumLight, color: white, marginBottom: 30},
               {
                 position: 'absolute',
                 bottom: 0,
@@ -115,6 +115,15 @@ const TourInfo = ({ navigation, route }) => {
 const styles = StyleSheet.create({
   baseText: {
     fontFamily: 'Helvetica',
+  },
+  headerView: {
+    width: '100%',
+    borderTopLeftRadius: 0,
+    borderTopRightRadius: 0,
+  },
+  smallHeaderView: {
+    width: '100%',
+    height: 200,
   },
   titleText: {
     fontSize: 32,
@@ -198,6 +207,12 @@ const styles = StyleSheet.create({
     paddingRight: 10,
     marginRight: 10,
   },
+  floatCard: {
+    position: 'absolute',
+    bottom: 0,
+    backgroundColor: 'white',
+    height: 80,
+  }
 });
 
 export default TourInfo;

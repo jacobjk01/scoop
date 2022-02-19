@@ -40,7 +40,7 @@ const style = StyleSheet.create({
         fontWeight: '600',
         fontFamily: 'Helvetica-Bold'
     },
-    grayMedText: {
+    graySmallText: {
         color: grayLight,
         fontSize: 15,
     },
@@ -52,6 +52,35 @@ const style = StyleSheet.create({
         backgroundColor: 'transparent',
         borderRadius: 10,
     },
+    lightSmallText: {
+        fontSize: 14,
+        fontWeight: '200',
+        color: white,
+    },
+    medLargeText:{
+        fontSize: 20,
+        fontWeight: '400', 
+        color: white,
+    },
+    mediumLight: {
+        fontSize: 18,
+        fontWeight: '200',
+    },
+    primaryButton: {
+        position: 'absolute',
+        backgroundColor: '#3154A5',
+        height: 50,
+        justifyContent: 'center',
+        borderRadius: 10,
+        shadowColor: '#adadad',
+        shadowOffset: {width: 2, height: 2},
+        shadowOpacity: 0.8,
+        shadowRadius: 3,
+    },
+    mediumOblique: {
+        fontSize: 18,
+        fontFamily: 'Helvetica-Oblique',
+    }
 
 
 

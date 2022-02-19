@@ -18,6 +18,8 @@ import GuideProfile from './Profile';
 import { Calendar } from 'react-native-calendars';
 import moment from 'moment';
 import DatePicker from 'react-native-date-picker';
+import toursData from '../../data/toursDatav2';
+import {titleText, backIcon, mediumBold, mediumOblique, primaryButton} from '../../config/typography.js';
 import { viewTourSettings} from '../../api/tours';
 import { getUsersByRef} from '../../api/users';
 import Header from '../../components/Header'
@@ -248,8 +250,8 @@ const TourBooking1 = ({navigation, route}) => {
             source={item.profilePicture == null?require('../../images/defaultpfp.png'):{uri: item.profilePicture}}>
           </ImageBackground>
           <View style={{marginLeft: 15, flex: 1}}>
-            <Text style={styles.guideName}>{item.name}</Text>
-            <Text style={styles.guideTitle}>
+            <Text style={{...mediumBold, position: 'absolute', top: 20, left: 100, color: black}}>{item.name}</Text>
+            <Text style={{...mediumOblique, position: 'absolute', bottom: 20, left: 100, color: black}}>
               {item.major}, {item.year}
             </Text>
           </View>
@@ -428,11 +430,9 @@ const TourBooking1 = ({navigation, route}) => {
             setOfficialTimes(times)
           }}>
           <Text
-            style={{
+            style={{...primaryButton, 
               fontSize: 14,
               color: white,
-              backgroundColor: primary,
-              borderRadius: 8,
               paddingHorizontal: 14,
               paddingVertical: 6,
               marginVertical: 3,
@@ -838,7 +838,7 @@ const TourBooking1 = ({navigation, route}) => {
             {/*Tour Guides Available________________________________________________________*/}
             <View style={styles.guideBox}>
               <View style={{marginTop: 25}}>
-                <Text style={[styles.sectionText, {paddingBottom: 15}]}>
+                <Text style={{...mediumBold, alignSelf: 'center', paddingBottom: 15}}>
                   Tour Guides Available
                 </Text>
                 <View style={styles.line}></View>
@@ -895,6 +895,9 @@ const styles = StyleSheet.create({
     //android only
     elevation: 10,
   },
+  baseText: {
+    fontFamily: 'Helvetica',
+  },
   titleText: {
     marginLeft: 'auto',
     marginRight: 'auto',
@@ -926,6 +929,16 @@ const styles = StyleSheet.create({
     shadowOpacity: 1.0,
     //android only
     elevation: 10,
+  },
+  
+  calenderLine: {
+    width: '90%',
+    height: 0.75,
+    backgroundColor: '#D9D9D9',
+    position: 'absolute',
+    top: 95,
+    alignSelf: 'center',
+    zIndex: 10,
   },
   guideName: {
     fontSize: 18,

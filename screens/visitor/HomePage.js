@@ -1,6 +1,4 @@
-import {
-  primary, white
-} from 'config/colors';
+
 import React, { useContext, useEffect, useState } from 'react';
 import {
   FlatList,
@@ -10,14 +8,16 @@ import {
   StyleSheet, Text, TouchableOpacity, View
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
+import {black, grayDark, grayLight, grayMed, white, primary} from '../../config/colors';
+import {color} from 'react-native-reanimated';
+import { UserContext } from '../../contexts'
+import {titleText, graySmallText, mediumBold, largeBoldText, linearGrad} from '../../config/typography.js'
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {
   viewAvailableTours
 } from '../../api/tours';
 import { getGuides } from '../../api/users';
 import { SCHOOL } from '../../config/initialState';
-import { grayMedText, largeBoldText, linearGrad, mediumBold, titleText } from '../../config/typography.js';
-import { UserContext } from '../../contexts';
 
 
 
@@ -121,13 +121,13 @@ const HomePage = ({ navigation }) => {
         >
           <View style={{display: 'flex', flexWrap:'wrap',flexDirection: 'column', justifyContent:'space-between',}}>
             <View style={{margin: 5}}>
-              <Text style={{...grayMedText}}>
+              <Text style={{...graySmallText}}>
                 Upcoming Tour</Text>
               <Text style={{...mediumBold, color: white}}>
                 Westwood Tour</Text>
             </View>
             <View style={{margin: 5}}>
-              <Text style={{...grayMedText}}>
+              <Text style={{...graySmallText}}>
                 Date</Text>
               <Text style={{...mediumBold, color: white}}>
                 Jul 14</Text>
@@ -141,7 +141,7 @@ const HomePage = ({ navigation }) => {
             }}>
             <View style={{ margin: 5, display: 'flex', flexDirection: 'row' }}>
               <View>
-                <Text style={{...grayMedText}}>
+                <Text style={{...graySmallText}}>
                   Tour Guide</Text>
                 <Text style={{...mediumBold, color: white}}>
                   Brittany</Text>
@@ -152,7 +152,7 @@ const HomePage = ({ navigation }) => {
               />
             </View>
             <View style={{margin: 5}}>
-              <Text style={{...grayMedText}}>
+              <Text style={{...graySmallText}}>
                 Time</Text>
               <Text style={{...mediumBold, color: white}}>
                 12:00 PM</Text>
