@@ -15,6 +15,7 @@ import { onAuthStateChanged } from 'api/auth';
 import { getUser } from 'api/users';
 import { UserContext } from 'contexts';
 import { primary, grayDark, white, black, grayVeryLight } from 'config/colors';
+import TextQuadrant from './TextQuadrant';
 
 const Home = ({navigation}) => {
   const curTime = '12:00 PM';
@@ -68,10 +69,10 @@ const renderActiveTour = (navigation, currentTour) => {
               <Text style={[styles.sectionInfoSubtitleText, {paddingBottom: 0}]}>Current Tour</Text>
                 <Text style={styles.sectionTitleText}>{currentTour.name}</Text>
                 <View style={{flexDirection: 'row', flexWrap: 'wrap', paddingLeft: 0}}>
-                    {renderTextQuadrant('Date', capitalizeFirstLetter(currentTour.tourMonth) + ' ' + currentTour.tourDay)}
-                    {renderTextQuadrant('Time', currentTour.startTime)}
-                    {renderTextQuadrant('Visitors', currentTour.visitors)}
-                    {renderTextQuadrant('Meetup Point', currentTour.meetPoint)}
+                    <TextQuadrant name='Date' info={capitalizeFirstLetter(currentTour.tourMonth) + ' ' + currentTour.tourDay}/>
+                    <TextQuadrant name='Time' info={currentTour.startTime}/>
+                    <TextQuadrant name='Visitors' info={currentTour.visitors}/>
+                    <TextQuadrant name='Meetup Point' info={currentTour.meetPoint}/>
                 </View>
             </View>
     </TouchableOpacity>
