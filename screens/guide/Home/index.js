@@ -1,21 +1,14 @@
-import React, {useState, useEffect, useContext} from 'react';
+import { black, grayDark, grayVeryLight, primary, white } from 'config/colors';
+import { UserContext } from 'contexts';
+import toursData from 'data/toursData';
+import React, { useContext } from 'react';
 import {
-  View,
-  Text,
   SafeAreaView,
   ScrollView,
-  StyleSheet,
-  TouchableOpacity,
-  Image,
+  StyleSheet, Text, TouchableOpacity, View
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import colors from 'config/colors';
-import toursData from 'data/toursData';
-import { onAuthStateChanged } from 'api/auth';
-import { getUser } from 'api/users';
-import { UserContext } from 'contexts';
-import { primary, grayDark, white, black, grayVeryLight } from 'config/colors';
-import TextQuadrant from './TextQuadrant';
+import ActiveTourCard from './ActiveTourCard';
 
 const Home = ({navigation}) => {
   const curTime = '12:00 PM';
@@ -24,9 +17,9 @@ const Home = ({navigation}) => {
   const {userAuth, setUserAuth, user, setUser} = useContext(UserContext);
 
   return (
-    <SafeAreaView backgroundColor={white}>
+    <SafeAreaView >
       <ScrollView style={{height: '100%'}}>
-        {activeTour ? renderActiveTour(navigation, activeTour) : null}
+        {activeTour && <ActiveTourCard currentTour={activeTour} navigation={navigation} />}
         <View style={activeTour ? {marginTop: 20} : {marginTop: 50}}>
           <Text style={[activeTour ? null : {marginBottom: 30}, {marginLeft: 30, fontSize: 24, fontWeight: '700'}]}>
             Upcoming Tours
@@ -61,37 +54,6 @@ const Home = ({navigation}) => {
     </SafeAreaView>
   );
 };
-
-const renderActiveTour = (navigation, currentTour) => {
-  return (
-    <TouchableOpacity style={styles.currentTourCard} onPress={() => navigation.navigate('ViewTour', {tour: currentTour})}>
-            <View style={{padding: 30}}>
-              <Text style={[styles.sectionInfoSubtitleText, {paddingBottom: 0}]}>Current Tour</Text>
-                <Text style={styles.sectionTitleText}>{currentTour.name}</Text>
-                <View style={{flexDirection: 'row', flexWrap: 'wrap', paddingLeft: 0}}>
-                    <TextQuadrant name='Date' info={capitalizeFirstLetter(currentTour.tourMonth) + ' ' + currentTour.tourDay}/>
-                    <TextQuadrant name='Time' info={currentTour.startTime}/>
-                    <TextQuadrant name='Visitors' info={currentTour.visitors}/>
-                    <TextQuadrant name='Meetup Point' info={currentTour.meetPoint}/>
-                </View>
-            </View>
-    </TouchableOpacity>
-  );
-};
-
-const renderTextQuadrant = (name, info) => {
-  return (
-      <View style={styles.textQuadrant}>
-          <Text style={styles.sectionInfoSubtitleText}>{name}</Text>
-          <Text style={styles.sectionInfoText}>{info}</Text>
-      </View>
-  );
-};
-
-function capitalizeFirstLetter(string) {
-  string = string.toLowerCase();
-  return string.charAt(0).toUpperCase() + string.slice(1);
-}
 
 const styles = StyleSheet.create({
   tourDateSection: {

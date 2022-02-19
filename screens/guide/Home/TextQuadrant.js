@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, View, Text } from "react-native";
 import {grayDark} from '../../../config/colors'
 import React from "react";
 /**
@@ -11,12 +11,15 @@ const TextQuadrant = ({name, info}) => {
     <View style={styles.textQuadrant}>
         <Text style={styles.sectionInfoSubtitleText}>{name}</Text>
         <Text style={styles.sectionInfoText}>{info}</Text>
-        {renderTextQuadrant("Asdf","Asdf")}
     </View>
 );
 }
 
 const styles = StyleSheet.create({
+  textQuadrant: {
+    position: 'relative',
+    width: '50%',
+  },
   sectionInfoText: {
     fontWeight: '700',
     fontSize: 16,

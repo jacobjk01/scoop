@@ -2,7 +2,18 @@
   "compilerOptions": {
     "module": "commonjs",
     "target": "es6",
-    "checkJs": true
+    "checkJs": true,
+    "jsx": "react",
+    "baseUrl": ".",
+    "paths": {
+      "api": ["api"],
+      "contexts":["contexts"],
+      "config":["config"],
+      "components":["components"],
+      "data":["data"],
+      "images":["images"]
+    },
   },
+  
   "exclude": ["node_modules", "**/node_modules/*", "jsconfig.json"]
 }
