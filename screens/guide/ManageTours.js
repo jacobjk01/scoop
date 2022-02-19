@@ -14,12 +14,12 @@ import {
 import {withSafeAreaInsets} from 'react-native-safe-area-context';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import LinearGradient from 'react-native-linear-gradient';
-import colors from '../../config/colors';
-import toursData from '../../data/toursData';
+import colors from 'config/colors';
+import toursData from 'data/toursData';
 import {color} from 'react-native-reanimated';
-import GuideProfile from '../visitor/GuideProfile';
-import { getUser } from '../../api/users';
-import { onAuthStateChanged } from '../../api/auth';
+import { getUser } from 'api/users';
+import { onAuthStateChanged } from 'api/auth';
+import { white, black, grayVeryDark, tappableBlue } from 'config/colors';
 
 const ManageTours = ({navigation}) => {
   const tours = toursData.tours;
@@ -56,30 +56,37 @@ const ManageTours = ({navigation}) => {
       );
   } else {
     return (
-      <SafeAreaView>
+      <SafeAreaView style={{backgroundColor: white}}>
         <ScrollView style={{paddingRight: 20, paddingLeft: 20, height: '100%'}}>
           <View style={{marginTop: 50}}>
-            <Text style={{marginLeft: 20, fontSize: 24, fontWeight: '700', marginBottom: 20}}>
+            <Text style={{marginLeft: 20, fontSize: 24, fontWeight: '700', marginBottom: 35}}>
               Manage Tours
             </Text>
+            <TouchableOpacity style={styles.selectButton}>
+            <Text style={{color: tappableBlue}}>Select</Text>
+            </TouchableOpacity>
           </View>
           <View style={{flexDirection: 'row', flexWrap: 'wrap'}}>
-              <TouchableOpacity style={styles.addNewTourCard} onPress={async () => {
-                navigation.navigate('AddTour')
-              }}>
-              <Ionicons name={'add'} size={24} style={{color: "#525252", position: 'absolute', left: 8}}/>
-              <Text style={{fontSize: 16, fontWeight: '400', color: '#525252', textAlign: 'center', left: 8, top: 1}}>
+            <TouchableOpacity style={styles.addNewTourCard} onPress={async () => {
+              navigation.navigate('AddTour')
+            }}>
+              <Ionicons name={'add'} size={24} style={{color: grayVeryDark, position: 'absolute', left: 8}}/>
+              <Text style={{fontSize: 16, fontWeight: '400', color: grayVeryDark, textAlign: 'center', left: 8, top: 1}}>
                 Add a new tour
               </Text>
-              </TouchableOpacity>
+            </TouchableOpacity>
             {tours.map((tour) => {
               return(
                 <TouchableOpacity key={tour.id} style={styles.tourCard} onPress={() => navigation.navigate('TourEdit', {tour})}>
-                  <Image style={styles.tourImage} source={tour.src}></Image>
+                  <ImageBackground style={styles.tourImage} source={tour.src} imageStyle={{borderRadius: 10}}>
+                    <LinearGradient
+                      colors={['transparent', black]}
+                      style={styles.linearGradTour}
+                      />
+                  </ImageBackground>
                   <View style={styles.tourTextSection}>
-                    <Text style={{fontSize: 10, color: "#9B9BA7"}}>{tour.duration} min | <Ionicons name={'people'} size={12}/> Max {tour.maxPeople} people | <Ionicons name={tour.transportation} size={12}/></Text>
-                    <Text style={{fontWeight: '600'}}>{tour.name}</Text>
-                    <Text style={{fontSize: 12, marginTop: 5}}>{tour.description}</Text>
+                    <Text style={styles.tourTitle}>{tour.name}</Text>
+                    <Text style={styles.tourText}>{tour.duration} min | <Ionicons name={'people'} size={12}/> Max {tour.maxPeople} people | <Ionicons name={tour.transportation} size={12}/></Text>
                   </View>
                 </TouchableOpacity>
               )
@@ -100,6 +107,11 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     marginTop: 50,
   },
+  selectButton: {
+    position: 'absolute',
+    top: 7,
+    right: 22,
+  },
   sectionText: {
     fontSize: 20,
     fontWeight: '700',
@@ -116,21 +128,27 @@ const styles = StyleSheet.create({
     width: 120,
     height: 120,
   },
-  tourText: {
-    width: 200,
+  tourTitle: {
+    // width: 200,
     fontWeight: '600',
-    fontSize: 18,
-    color: colors.white,
+    // fontSize: 18,
+    color: white,
     position: 'absolute',
-    bottom: 50,
-    left: 20,
+    bottom: 45,
+    // left: 20,
+  },
+  tourText: {
+    position: 'absolute',
+    color: white,
+    fontSize: 10,
+    bottom: 30,
   },
   guideText: {
     width: 120,
     position: 'absolute',
     bottom: 10,
     left: 10,
-    color: colors.white,
+    color: white,
   },
   linearGradTour: {
     position: 'absolute',
@@ -153,10 +171,10 @@ const styles = StyleSheet.create({
   addNewTourCard: {
     borderWidth: 1,
     borderStyle: 'dashed',
-    // stroke-dasharray: "8, 3",
-    borderColor: '#525252',
+    // stroke-dasharray: '8, 3',
+    borderColor: grayVeryDark,
     width: '45%',
-    height: 250,
+    height: 160,
     margin: 8,
     borderRadius: 10,
     justifyContent: 'center',
@@ -166,11 +184,11 @@ const styles = StyleSheet.create({
   },
   tourCard: {
     width: '45%',
-    height: 250,
+    height: 160,
     margin: 8,
     borderRadius: 10,
-    backgroundColor: 'white',
-    shadowColor: "#000000",
+    backgroundColor: white,
+    shadowColor: black,
     shadowOffset: {width: 1, height: 1},
     shadowOpacity: 0.2,
     shadowRadius: 5,
@@ -179,14 +197,23 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 0,
     width: '100%',
-    height: '50%',
+    height: '100%',
     borderRadius: 10,
   },
   tourTextSection: {
-    position: 'absolute',
-    top: '53%',
+    position: 'relative',
+    top: '110%',
     left: 10,
     right: 5,
+  },
+  linearGradTour: {
+    position: 'absolute',
+    top: 100,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    backgroundColor: 'transparent',
+    borderRadius: 10,
   },
 });
 

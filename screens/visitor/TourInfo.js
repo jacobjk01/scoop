@@ -1,4 +1,4 @@
-import React, {Component, useState} from 'react';
+import React, { Component, useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -12,53 +12,27 @@ import {
   Animated,
   StatusBar,
 } from 'react-native';
-import {withSafeAreaInsets} from 'react-native-safe-area-context';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import LinearGradient from 'react-native-linear-gradient';
+import { primary, black, white, grayDark, blueDark, grayShadow, red } from 'config/colors';
+import Reviews from '../../components/Reviews';
+import BottomButton from '../../components/BottomButton';
+import BackButton from '../../components/BackButton';
+import { FAKE_REVIEWS } from '../../config/initialState';
+import Error from '../Error';
 
-import StickyParallaxHeader from 'react-native-sticky-parallax-header';
-import {Calendar} from 'react-native-calendars';
-import renderReviews from '../../components/Reviews';
-import {primary, white} from '../../config/colors.js';
-import {backIcon, primaryButton, mediumBold, mediumLight, titleText, medLargeText, lightSmallText, linearGrad} from '../../config/typography.js';
-
-
-const {event, ValueXY} = Animated;
-
-class TourInfo extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-
-      route: props.route,
-      tour: props.route.params.itemInfo,
-
-      reviews: [
-        {
-          stars: 4.8,
-          year: 'Incoming Freshman',
-          comment:
-            'Brittany was really helpful!! She showed me where the students get groceries from and hangout in Westwood. She also shared a lot of interesting stories as we visit each places, highly recommend incoming freshman who want to familiarize themselves with the area sign up!! ',
-        },
-        {
-          stars: 4.3,
-          year: 'Incoming Junior',
-          comment:
-            'Being a sophomore, I kinda know what Westwood is like already; however, Brittany was able to show me interesting places I’ve never discovered!',
-        },
-      ],
-    };
-    this.scrollY = new ValueXY();
+const TourInfo = ({ navigation, route }) => {
+  const tour = route.params.tour;
+  const guide = route.params.guide
+  const pageType = route.params.pageType
+  const [reviews, setReviews] = useState(FAKE_REVIEWS);
+  if (!route.params.tour) {
+    return <Error errorMsg="TourInfo.js, route.params.tour is not defined"/>
   }
-  componentDidMount() {
-    this.scrollY.addListener(({value}) => (this._value = value));
-  }
-  componentWillUnmount() {
-    this.scrollY.removeAllListeners();
-  }
+  const { title, picture, id, description } = route.params.tour;
+  console.log(route.params)
 
-  renderForeground() {
+  const renderForeground = () => {
     return (
       <View style={{backgroundColor: '#d92726', flex: 1, borderRadius: 10}}>
         <ImageBackground
@@ -69,11 +43,17 @@ class TourInfo extends Component {
             style={{...linearGrad, position: 'absolute', top: 150, bottom: 0, left: 0, right: 0}}
           />
           <View style={styles.imageOverlay}>
-            <Text style={{...titleText, color: white}}>{"Placeholder title" || this.state.tour.title}</Text>
-            <Text style={{...lightSmallText}}>
+            <Text style={{...titleText, color: white}}>{"Placeholder title" || title}</Text>
+            {/* <Text style={{...lightSmallText}}>
               60 min | Max 6 people | person
             </Text>
-            <Text style={{...medLargeText, marginTop: 20, marginBottom: 20}}>$8 per person</Text>
+            <Text style={{...medLargeText, marginTop: 20, marginBottom: 20}}>$8 per person</Text> */}
+            <Text
+              style={[
+                styles.summaryText,
+              ]}>
+              {description}
+            </Text>
           </View>
 
           <Text
@@ -87,98 +67,50 @@ class TourInfo extends Component {
                 paddingRight: 20,
               },
             ]}>
-            {"placeholder description" || this.state.tour.description}
+            {tour.description}
           </Text>
         </ImageBackground>
-        <Text>TODO: Make Tour Info Page a functional component</Text>
-        <Text>
-          TODO: Make Tour Info Page accept data instead of it being hard coded
-          so that multiple tours work
-        </Text>
-      </View>
-    );
-  }
-
-  renderHeader() {
-    return (
-      <View
-        style={{
-          flex: 1,
-          backgroundColor: 'white',
-          alignItems: 'center',
-        }}></View>
-    );
-  }
-
-  renderContent() {
-    const navigation = this.props.navigation;
-    return (
-      <View style={{marginBottom: 70}}>
-        {/* <Animated.View style={{flexDirection: "row", position: "absolute", 
-                top: -90, left: 25, opacity: buttonOpacity, alignItems: "center", zIndex: 10}}>
-                    <TouchableOpacity style={{backgroundColor: "white", marginRight: 10, borderRadius: 40}}>
-                        <ImageBackground style={{width: 50, height: 50}} imageStyle={{borderRadius: 40}} source={require('../images/brittany.png')}
-                        ></ImageBackground> 
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.whiteButton} title="Message">
-                        <Text style={{color: "#41479B"}}>Message</Text>
-                    </TouchableOpacity>
-                </Animated.View> */}
-        <Text style={{...mediumBold, marginTop: 60, alignSelf: 'center'}}>Reviews</Text>
-        {/* {renderReviews(this.state.reviews)} */}
-      </View>
-    );
-  }
-
-
-  renderCards = item => {
-    return (
-      <View style={styles.reviewCard}>
-        {this.renderStars(item.item.stars)}
-        <Text
-          style={{
-            marginTop: 5,
-            fontSize: 14,
-            color: '#9B9BA7',
-            fontStyle: 'italic',
-          }}>
-          {item.name} - {item.item.year}
-        </Text>
-        <Text style={{marginTop: 5}}>{item.item.comment}</Text>
       </View>
     );
   };
 
-  render() {
-    const navigation = this.props.navigation;
+  const renderContent = () => {
     return (
-      <View>
-        <StatusBar barStyle="dark-content" />
-        <ScrollView>
-          {this.renderForeground()}
-          {this.renderContent()}
-        </ScrollView>
-        <TouchableOpacity
-          style={{...backIcon, left: 20, top: 40}}
-          onPress={() => navigation.goBack()}>
-          <Ionicons name="chevron-back-outline" size={22} color={'white'} />
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={{...primaryButton, bottom: 20, left: 20, right: 20}}
-          onPress={() => {
-
-            this.props.navigation.navigate('TourBooking1', this.state.tour)
-            }}
-          >
-          <Text
-            style={{...mediumBold, alignSelf: 'center', color: white}}>
-            Find A Tour Guide
-          </Text>
-        </TouchableOpacity>
+      <View style={{ marginBottom: 70 }}>
+        {/* 
+          Attempts at manually implementing the animated sticky header. 
+        */}
+        {/* <Animated.View style={{flexDirection: 'row', position: 'absolute', 
+                top: -90, left: 25, opacity: buttonOpacity, alignItems: 'center', zIndex: 10}}>
+                    <TouchableOpacity style={{backgroundColor: white, marginRight: 10, borderRadius: 40}}>
+                        <ImageBackground style={{width: 50, height: 50}} imageStyle={{borderRadius: 40}} source={require('images/brittany.png')}
+                        ></ImageBackground> 
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.whiteButton} title='Message'>
+                        <Text style={{color: blueDark}}>Message</Text>
+                    </TouchableOpacity>
+                </Animated.View> */}
       </View>
     );
-  }
-}
+  };
+  console.log(guide)
+  return (
+    <View>
+      <StatusBar barStyle="dark-content" />
+      <FlatList
+        ListHeaderComponent={
+          <View style={{ marginBottom: 80 }}>
+            {renderForeground()}
+            <Reviews reviews={reviews} />
+          </View>
+        }
+      />
+      <BackButton navigation={navigation}/>
+      <BottomButton title={pageType=='guideFlow'?'Book Tour':'Find a Tour Guide'} onPress={() => {navigation.navigate(pageType=='guideFlow'?'TourBooking2':'TourBooking1', pageType=='guideFlow'?{tour, guide}:tour);
+          }}/>
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
   baseText: {
@@ -193,18 +125,52 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 200,
   },
+  titleText: {
+    fontSize: 32,
+    fontWeight: '600',
+    color: white,
+  },
+  detailText: {
+    fontSize: 14,
+    fontWeight: '200',
+    color: white,
+  },
+  subText: {
+    fontSize: 20,
+    fontWeight: '400',
+    color: white,
+    marginTop: 20,
+    // marginBottom: 20,
+  },
+  summaryText: {
+    fontSize: 14,
+    fontWeight: '200',
+    color: white,
+    marginBottom: 30,
+  },
   imageHeader: {
     width: '100%',
     height: 600,
-    borderTopLeftRadius: 0,
-    borderTopRightRadius: 0,
     borderRadius: 10,
     zIndex: -10,
   },
   imageOverlay: {
     position: 'absolute',
-    bottom: 120,
-    paddingLeft: 25,
+    bottom: 20,
+    paddingLeft: 24,
+    paddingRight: 40,
+  },
+  backCard: {
+    flex: 1,
+    backgroundColor: 'white',
+    // marginTop: 10,
+    borderRadius: 20,
+    marginLeft: 20,
+    marginRight: 40,
+    shadowColor: black,
+    shadowOffset: { width: 1, height: 1 },
+    shadowOpacity: 0.2,
+    shadowRadius: 5,
   },
   linearGradTour: {
     position: 'absolute',
@@ -215,10 +181,25 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
     borderRadius: 10,
   },
+  reviewCard: {
+    width: Dimensions.get('window').width - 40,
+    backgroundColor: white,
+    alignSelf: 'center',
+    padding: 20,
+    marginBottom: 20,
+    marginLeft: 20,
+    marginRight: 20,
+    marginTop: 20,
+    borderRadius: 10,
+    shadowColor: black,
+    shadowOffset: { width: 1, height: 1 },
+    shadowOpacity: 0.2,
+    shadowRadius: 5,
+  },
   whiteButton: {
     backgroundColor: 'white',
     borderRadius: 10,
-    color: '#41479B',
+    color: blueDark,
     alignItems: 'center',
     justifyContent: 'center',
     height: 30,
@@ -231,7 +212,7 @@ const styles = StyleSheet.create({
     bottom: 0,
     backgroundColor: 'white',
     height: 80,
-  },
+  }
 });
 
 export default TourInfo;

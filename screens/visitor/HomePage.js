@@ -1,54 +1,53 @@
-import React, {useState, useContext, useEffect, useRef} from 'react';
 
+import React, { useContext, useEffect, useState } from 'react';
 import {
-  View,
-  Text,
-  SafeAreaView,
-  ScrollView,
-  StyleSheet,
-  TextInput,
-  TouchableOpacity,
   FlatList,
   Image,
-  ImageBackground,
+  ImageBackground, SafeAreaView,
+  ScrollView,
+  StyleSheet, Text, TouchableOpacity, View
 } from 'react-native';
-import {withSafeAreaInsets} from 'react-native-safe-area-context';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 import LinearGradient from 'react-native-linear-gradient';
 import {black, grayDark, grayLight, grayMed, white, primary} from '../../config/colors';
 import {color} from 'react-native-reanimated';
-import GuideProfile from './GuideProfile';
-import {viewTourSettings, viewAvailableTours, viewAllTours, convertToTourSummary} from '../../api/tours'
 import { UserContext } from '../../contexts'
 import {titleText, graySmallText, mediumBold, largeBoldText, linearGrad} from '../../config/typography.js'
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import {
+  viewAvailableTours
+} from '../../api/tours';
+import { getGuides } from '../../api/users';
+import { SCHOOL } from '../../config/initialState';
 
-import toursData from '../../data/toursDatav2';
 
-const HomePage = ({navigation}) => {
-  const {
-    user, setUser,
-  } = useContext(UserContext)
+
+const HomePage = ({ navigation }) => {
+  const { user, setUser } = useContext(UserContext);
 
   const [tours, setTours] = useState();
-  const [guides, setGuides] = useState(toursData.guides);
+  //guides is a query snapshot, use foreach and .data() for data.
+  const [guides, setGuides] = useState();
 
   useEffect(() => {
     let isMounted = true
-    console.log('useEffect')
     viewAvailableTours().then(tours => {
       //https://stackoverflow.com/questions/53949393/cant-perform-a-react-state-update-on-an-unmounted-component
       //You are not suppose to use async/await functions in useEffect
       //jon has no idea how these 3 isMounted are connected...
-        if (isMounted) {
-        setTours(tours)
-        }
-      });
-      
+      if (isMounted) {
+        setTours(tours);
+      }
+    });
+    getGuides().then(guides => {
+      if (isMounted) {
+        setGuides(guides);
+      }
+    });
+
     return () => {
       isMounted = false
     }
   }, [])
-  console.log('homepage')
   const viewAll = (text) => {
     return (
       <View style={{paddingHorizontal: 30, marginTop: 15, marginBottom: 10, display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
@@ -57,32 +56,37 @@ const HomePage = ({navigation}) => {
         </Text>
         <TouchableOpacity
           onPress={() => navigation.navigate('TourList')}
-          style={{marginLeft: 'auto'}}>
+          style={{ marginLeft: 'auto' }}>
           <View>
-            <Text style={{color: '#3D68CC'}}>view all</Text>
+            <Text style={{ color: '#3D68CC' }}>view all</Text>
           </View>
         </TouchableOpacity>
-        <Ionicons
-          size={15}
-          name={'chevron-forward-sharp'}
-          color='#3D68CC'
-        />
+        <Ionicons size={15} name={'chevron-forward-sharp'} color="#3D68CC" />
       </View>
-    )
-  }
+    );
+  };
 
   return (
     <SafeAreaView>
-      <ScrollView style={{height: '100%', backgroundColor: white}}>
-        <Text style={{...titleText, paddingLeft: 30, marginTop: 50,}}>Explore around UCLA!</Text>
-        <TextInput style={styles.input}/>
-          <Ionicons
-            name={'search-sharp'}
-            size={32}
-            color={grayMed}
-            fontFamily='Raleway-Bold'
-            style={{left: 35, position: 'absolute', top: 137, zIndex: 100, elevation: 100}}
-          />
+      {tours && guides && <ScrollView style={{ height: '100%', backgroundColor: white }}>
+        <Text style={{...titleText, paddingLeft: 30, marginTop: 50,}}>Explore around {SCHOOL}!</Text>
+        {/* THIS IS IMPORTANT */}
+        {/* THIS IS IMPORTANT */}
+        {/* THIS IS IMPORTANT */}
+        {/* <TextInput style={styles.input} /> */}
+        {/* <Ionicons
+          name={'search-sharp'}
+          size={32}
+          color={grayMed}
+          fontFamily="Raleway-Bold"
+          style={{
+            left: 35,
+            position: 'absolute',
+            top: 137,
+            zIndex: 100,
+            elevation: 100,
+          }}
+        /> */}
         {/* <Text style={styles.sectionText}>Category</Text>
         <View style={{width: '100%', flexDirection: 'column', marginTop: 10}}>
           <View style={{flexDirection: 'row'}}>
@@ -129,8 +133,13 @@ const HomePage = ({navigation}) => {
                 Jul 14</Text>
             </View>
           </View>
-          <View style={{display: 'flex', flexWrap:'wrap', flexDirection: 'column',}}>
-            <View style={{margin: 5, display: 'flex', flexDirection: 'row'}}>
+          <View
+            style={{
+              display: 'flex',
+              flexWrap: 'wrap',
+              flexDirection: 'column',
+            }}>
+            <View style={{ margin: 5, display: 'flex', flexDirection: 'row' }}>
               <View>
                 <Text style={{...graySmallText}}>
                   Tour Guide</Text>
@@ -138,7 +147,7 @@ const HomePage = ({navigation}) => {
                   Brittany</Text>
               </View>
               <Image
-                style={{height: 50, width: 50, borderRadius: 25}}
+                style={{ height: 50, width: 50, borderRadius: 25 }}
                 source={require('../../images/brittany.png')}
               />
             </View>
@@ -152,29 +161,27 @@ const HomePage = ({navigation}) => {
         </View>
         {viewAll('Popular Tours')}
         <FlatList
-          style={{marginTop: 10}}
+          style={{ marginTop: 10 }}
           horizontal={true}
           data={tours}
           renderItem={({item, index}) => {
+            const tour = {title: item.title, picture: item.picture, id: item.id, description: item.description}
             return (
-              //TODO: make tourinfo get the tour info, this can be done in this screen or in tourinfo screen
-            <TouchableOpacity 
-              style={{marginBottom: 15, marginLeft: index == 0?20:0}}
-              onPress={() => {
-                const itemInfo = {title: item.title, picture: item.picture, id: item.id, description: item.description}
-
-                navigation.navigate('TourInfo', {itemInfo})
-              }}
-            >
-              <ImageBackground
-                style={styles.listTourImage}
-                imageStyle={{borderRadius: 10}}
-                source={{uri: item.picture}}
+              <TouchableOpacity 
+                style={{marginBottom: 15, marginLeft: index == 0?20:0}}
+                onPress={() => {
+                  navigation.navigate('TourInfo', {tour})
+                }}
               >
-                <LinearGradient
-                  colors={['transparent', 'rgba(0,0,0,0.6)']}
-                  style={{linearGrad, marginTop: 'auto', height: '70%', width: '100%'}}
+                <ImageBackground
+                  style={{...styles.listTourImage}}
+                  imageStyle={{borderRadius: 10}}
+                  source={{uri: tour.picture}}
                 >
+                  <LinearGradient
+                    colors={['transparent', 'rgba(0,0,0,0.6)']}
+                    style={{...linearGrad, marginTop: 'auto', height: '70%', width: '100%'}}
+                  >
                   <Text style={{...mediumBold, fontWeight: '600', color: white, marginTop: 'auto', left: 20, bottom: 50, zIndex: 100}}>{item.title}</Text>
                 </LinearGradient>
               </ImageBackground>
@@ -183,27 +190,28 @@ const HomePage = ({navigation}) => {
         />
         {viewAll('Tour Guides')}
         <FlatList
-          style={{marginTop: 10, marginBottom: 30}}
+          style={{ marginLeft: 20, marginTop: 10, marginBottom: 30 }}
           horizontal={true}
           data={guides}
-          renderItem={({item}) => (
+          renderItem={({ item }) => (
             <TouchableOpacity
               key={item.id}
               style={{marginLeft: item.id == 0?20:0, marginBottom: 10}}
-              onPress={() => navigation.navigate('GuideProfile', {item})}>
+              onPress={() => navigation.navigate('Profile', {id: item.id, pageType: 'guideFlow'})}>
               <ImageBackground
                 style={styles.listGuideImage}
-                imageStyle={{borderRadius: 10,}}
-                source={item.src}>
+                imageStyle={{ borderRadius: 10 }}
+                source={{ uri: item.profilePicture }}>
                 <LinearGradient
                   colors={['transparent', 'rgba(0,0,0,0.6)']}
-                  style={{linearGrad, marginTop: 'auto', height: '70%', width: '100%'}}
+                  style={{...linearGrad, marginTop: 'auto', height: '70%', width: '100%'}}
                 >
                   <View style={{display: 'flex', flexDirection: 'row', marginTop: 'auto', margin: 10}}>
                     <Text style={{color: white, fontFamily: 'Helvetica-Bold'}}>
                       {item.name},{' '}
                     </Text>
-                    <Text style={{color: white, fontFamily: 'Helvetica-Oblique'}}>
+                    <Text
+                      style={{ color: white, fontFamily: 'Helvetica-Oblique' }}>
                       {item.year}
                     </Text>
                   </View>
@@ -212,7 +220,7 @@ const HomePage = ({navigation}) => {
             </TouchableOpacity>
           )}
         />
-      </ScrollView>
+      </ScrollView>}
     </SafeAreaView>
   );
 };
@@ -243,6 +251,35 @@ const styles = StyleSheet.create({
     marginTop: 30,
     alignSelf: 'center',
     backgroundColor: white,
+    height: 50,
+    width: '100%',
+    borderRadius: 7,
+    paddingLeft: 20,
+  },
+  searchicon: {
+    position: 'absolute',
+    right: 10,
+    top: 11,
+  },
+  recommendationbuttonleft: {
+    flex: 1,
+    backgroundColor: primary,
+    borderRadius: 7,
+    height: 100,
+    marginRight: 15,
+  },
+  recommendationbuttonright: {
+    flex: 1,
+    backgroundColor: primary,
+    borderRadius: 7,
+    height: 100,
+  },
+  recommendationTitle: {
+    marginTop: 15,
+    marginLeft: 15,
+    color: white,
+    fontWeight: '600',
+    fontSize: 16,
     height: 60,
     width: '90%',
     marginBottom: 15,

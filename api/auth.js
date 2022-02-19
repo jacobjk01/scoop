@@ -49,19 +49,19 @@ export const signOut = async () => {
     try {
         await GoogleSignin.revokeAccess();
     } catch (error){
-        console.error("revoke Access failed")
+        console.error('revoke Access failed')
         console.error(error)
     }
     try {
         await GoogleSignin.signOut();
     } catch (error){
-        console.error("signOut part 1 failed")
+        console.error('signOut part 1 failed')
         console.error(error)
     }
     try {
         await auth().signOut();
     } catch (error) {
-        console.error("signOut part 2 failed")
+        console.error('signOut part 2 failed')
         console.error(error);
     }
 };
@@ -81,37 +81,37 @@ export const onAuthStateChanged = (cb) => {
 //user for onAuthStateChanged
 //note: uid is the id we are using to track the users
 const onAuthData = {
-    "displayName": "The Shagod",
-    "email": "theshagod@gmail.com",
-    "emailVerified": true,
-    "isAnonymous": false,
-    "metadata": {
-        "creationTime": 1630195515029,
-        "lastSignInTime": 1630286711824
+    'displayName': 'The Shagod',
+    'email': 'theshagod@gmail.com',
+    'emailVerified': true,
+    'isAnonymous': false,
+    'metadata': {
+        'creationTime': 1630195515029,
+        'lastSignInTime': 1630286711824
     },
-    "phoneNumber": null,
-    "photoURL": "https://lh3.googleusercontent.com/a-/AOh14GhaKhMpzE0CUGUikJaLXGP2AkHuVfbFIj4cJHKRkA=s96-c",
-    "providerData": [
+    'phoneNumber': null,
+    'photoURL': 'https://lh3.googleusercontent.com/a-/AOh14GhaKhMpzE0CUGUikJaLXGP2AkHuVfbFIj4cJHKRkA=s96-c',
+    'providerData': [
         [Object]
     ],
-    "providerId": "firebase",
-    "refreshToken": "asdf",
-    "tenantId": null,
-    "uid": "asdf"
+    'providerId': 'firebase',
+    'refreshToken': 'asdf',
+    'tenantId': null,
+    'uid': 'asdf'
 }
 
 //signin and getcurrentUser data
 const signInReturnData = {
-    "idToken": "asdf",
-    "scopes": ["Asdf"],
-    "serverAuthCode": null,
-    "user": {
-        "email": "theshagod@gmail.com",
-        "familyName": "Shagod",
-        "givenName": "The",
-        "id": "asdf",
-        "name": "The Shagod",
-        "photo": "https://lh3.googleusercontent.com/a-/AOh14GhaKhMpzE0CUGUikJaLXGP2AkHuVfbFIj4cJHKRkA=s120"
+    'idToken': 'asdf',
+    'scopes': ['Asdf'],
+    'serverAuthCode': null,
+    'user': {
+        'email': 'theshagod@gmail.com',
+        'familyName': 'Shagod',
+        'givenName': 'The',
+        'id': 'asdf',
+        'name': 'The Shagod',
+        'photo': 'https://lh3.googleusercontent.com/a-/AOh14GhaKhMpzE0CUGUikJaLXGP2AkHuVfbFIj4cJHKRkA=s120'
     }
 }
 

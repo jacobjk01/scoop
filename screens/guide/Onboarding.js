@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import { SafeAreaView, Text, Button} from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler'
-import { UserContext } from '../../contexts'
+import { UserContext } from 'contexts'
 
 export default  ({navigation}) => {
     const {

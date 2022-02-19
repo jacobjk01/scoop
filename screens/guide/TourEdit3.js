@@ -14,68 +14,46 @@ import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
 import { Marker } from 'react-native-maps';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import LinearGradient from 'react-native-linear-gradient';
-import {white} from '../../config/colors';
+import { primary, white, grayDark, black, red, grayShadow } from 'config/colors';
+import ImageHeader from '../../components/ImageHeader';
+import BottomButton from '../../components/BottomButton';
 
-const {event, ValueXY} = Animated;
-class TourEdit3 extends Component {
-  constructor(props) {
-    super(props);
-    this.navigation = this.props.navigation;
-    this.tour = this.props.route.params
-    this.scrollY = new ValueXY();
-  }
+const TourEdit3 = ({navigation, route}) => {
 
-  componentDidMount() {
-    this.scrollY.addListener(({value}) => (this._value = value));
-  }
+  const tour = route.params
+  const [count, setCount] = useState(1)
 
-  renderForeground() {
+
+  const Counter = () => {
     return (
-      <View style={{flex: 1, borderRadius: 15}}>
-        <ImageBackground
-          style={styles.imageHeader}
-          imageStyle={{borderBottomLeftRadius: 15, borderBottomRightRadius: 15}}
-          source={require('../../images/Westwood_village.png')}>
-          <LinearGradient
-            colors={['transparent', 'black']}
-            style={styles.linearGradTour}
-          />
-          <View style={styles.imageOverlay}>
-            <Text style={styles.titleText}>{this.tour.name}</Text>
-          </View>
-        </ImageBackground>
+      <View style={{flexDirection: 'row'}}>
+          <TouchableOpacity style={count > 1 ? styles.removeButton : styles.removeButtonGray} onPress={() => {if (count > 1) setCount(count - 1)}}>
+              <Ionicons name={'remove'} size={16} style={count > 1 ? {color: white} : {color: grayDark}}/>
+          </TouchableOpacity>
+          <Text style={{paddingHorizontal: 8}}>{count}</Text>
+          <TouchableOpacity style={count < 10 ? styles.addButton : styles.addButtonGray} onPress={() => {if (count < tour.maxPeople) setCount(count + 1)}}>
+              <Ionicons name={'add'} size={16} style={count < 10 ? {color: white} : {color: grayDark}}/>
+          </TouchableOpacity>
       </View>
     );
   }
-
-  renderHeader() {
+  const renderContent = () => {
     return (
-      <View
-        style={{
-          flex: 1,
-          backgroundColor: 'white',
-          alignItems: 'center',
-        }}></View>
-    );
-  }
-
-  renderContent() {
-    return (
-      <View style={{marginBottom: 70}}>
-        <TouchableOpacity
-            onPress={() => this.navigation.navigate()}
+      <View style={{marginBottom: 50}}>
+        {/* <TouchableOpacity
+            onPress={() => navigation.navigate()}
             style={{position: 'absolute', right: 30, top: 30}}>
             <View>
-              <Text style={{color: '#9B9BA7'}}>Edit <Ionicons name={'pencil'} size={16}/></Text>
+              <Text style={{color: grayDark}}>Edit <Ionicons name={'pencil'} size={16}/></Text>
             </View>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
         <Text style={[styles.sectionText, {marginTop: 40}]}>Basic Info</Text>
         <View style={[styles.bodyText, {flexDirection: 'row', marginTop: 20}]}>
             <Text>
                 {'Duration :'}
             </Text>
             <TextInput style={styles.input}>
-                {this.tour.duration}
+                {tour.duration}
             </TextInput>
             <Text>
                 {'min'}
@@ -85,20 +63,20 @@ class TourEdit3 extends Component {
             <Text>
                 {'Max Group :'}
             </Text>
-            <Counter maxPeople={this.tour.maxPeople}/>
+            {Counter()}
         </View>
         <View style={styles.bodyText}>
             <Text >
-                {'Transportation :'} {this.tour.transportation}
+                {'Transportation :'} {tour.transportation}
             </Text>
             <Text>Add Dropdown Picker Here</Text>
         </View>
         <View style={styles.bodyText}>
             <Text>
-                {'Recommended Meetup Point :'} {this.tour.meetPoint}
+                {'Recommended Meetup Point :'} {tour.meetPoint}
             </Text>
             <Text>Add Dropdown Picker Here</Text>
-            <View pointerEvents="none" style={{height: 90, backgroundColor: "grey", marginTop: 10}}>
+            <View pointerEvents='none' style={{height: 90, backgroundColor: 'grey', marginTop: 10}}>
                 <MapView
                     style={{flex: 1}}
                     provider={PROVIDER_GOOGLE}
@@ -111,80 +89,40 @@ class TourEdit3 extends Component {
                     <Marker
                         key={1}
                         coordinate={{latitude: 34.07106828093279, longitude: -118.444993904947}}
-                        title="Bruin Statue"
-                        description="Recommended Meeting Point"
+                        title='Bruin Statue'
+                        description='Recommended Meeting Point'
                     />
                 </MapView>
-                <Text style={{color: "#EA4336", position: 'absolute', top: 10, left: 175, fontWeight: '500'}}>Bruin Bear</Text>
+                <Text style={{color: red, position: 'absolute', top: 10, left: 175, fontWeight: '500'}}>Bruin Bear</Text>
             </View>
         </View>
         <View style={styles.divider} />
         <Text style={[styles.sectionText, {marginTop: 0}]}>Introduction</Text>
-        <TextInput style={styles.inputIntro} multiline='true'>
-            {this.tour.introduction}
+        <TextInput style={styles.inputIntro} multiline={true}>
+            {tour.introduction}
         </TextInput>
       </View>
     );
   }
-
-  render() {
-    return (
-      <View>
-        <StatusBar barStyle="dark-content" />
-        <ScrollView>
-          {this.renderForeground()}
-          {this.renderContent()}
-          <TouchableOpacity
-            style={styles.backIcon}
-            onPress={() => this.navigation.goBack()}>
-            <Ionicons name="chevron-back-outline" size={20} color={white} />
-          </TouchableOpacity>
-        </ScrollView>
-        <TouchableOpacity
-          style={styles.continue}
-          onPress={() => this.navigation.navigate('TourGuideList')}>
-          <Text style={{alignSelf: 'center', color: white, fontWeight: '700'}}>
-            {'View Suggested Itinerary'}
-          </Text>
-        </TouchableOpacity>
-      </View>
-    );
-  }
+  return (
+    <View style={{backgroundColor: white, height: '100%'}}>
+      <StatusBar barStyle='dark-content' />
+      <ScrollView>
+        <ImageHeader title={route.params.name} navigation={navigation}/>
+        {renderContent()}
+      </ScrollView>
+      <BottomButton onPress={() => navigation.navigate('TourGuideList')} title="View Suggested Itinerary"/>
+    </View>
+  );
 }
 
-class Counter extends React.Component {
-    state = this.props.maxPeople ? {count: this.props.maxPeople} : {count: 0};
-
-    subtractCount = () => this.setState(
-        prevState => ({ ...prevState, count: this.state.count > 1 ? this.state.count - 1 : this.state.count })
-    )
-    
-    addCount = () => this.setState(
-        prevState => ({ ...prevState, count: this.state.count + 1 })
-    )
-  
-    render() {
-      const { count } = this.state;
-      return (
-        <View style={{flexDirection: 'row'}}>
-            <TouchableOpacity style={styles.removeButton} onPress={this.subtractCount}>
-                <Ionicons name={'remove'} size={16} style={{color: '#9B9BA7'}}/>
-            </TouchableOpacity>
-            <Text style={{paddingHorizontal: 8}}>{count}</Text>
-            <TouchableOpacity style={styles.addButton} onPress={this.addCount}>
-                <Ionicons name={'add'} size={16} style={{color: 'white'}}/>
-            </TouchableOpacity>
-        </View>
-      );
-    }
-  }
 
 const styles = StyleSheet.create({
     divider: {
         position: 'relative',
         marginTop: 5,
         marginBottom: 20,
-        borderBottomColor: '#9B9BA7',
+        borderBottomColor: grayDark,
         borderBottomWidth: 1,
         alignSelf: 'center',
         width: '80%',
@@ -192,7 +130,7 @@ const styles = StyleSheet.create({
   titleText: {
     fontSize: 32,
     fontWeight: '600',
-    color: 'white',
+    color: white,
     top: 80,
   },
   sectionText: {
@@ -204,7 +142,7 @@ const styles = StyleSheet.create({
   bodyText: {
     fontSize: 14,
     fontWeight: '200',
-    color: 'black',
+    color: black,
     marginBottom: 15,
     fontFamily: 'Helvetica',
     paddingLeft: 45,
@@ -231,7 +169,7 @@ const styles = StyleSheet.create({
     borderRadius: 15,
   },
   backIcon: {
-    backgroundColor: '#3154A5',
+    backgroundColor: primary,
     borderRadius: 10,
     borderColor: white,
     borderWidth: 1,
@@ -248,17 +186,17 @@ const styles = StyleSheet.create({
     bottom: -80,
     left: 20,
     right: 20,
-    backgroundColor: '#3154A5',
+    backgroundColor: primary,
     height: 50,
     justifyContent: 'center',
     borderRadius: 10,
-    shadowColor: '#adadad',
+    shadowColor: grayShadow,
     shadowOffset: {width: 2, height: 2},
     shadowOpacity: 0.8,
     shadowRadius: 3,
   },
   input: {
-      borderColor: '#9B9BA7',
+      borderColor: grayDark,
       borderWidth: 1,
       borderRadius: 5,
       width: 35,
@@ -267,7 +205,16 @@ const styles = StyleSheet.create({
       marginHorizontal: 5,
   },
   removeButton: {
-    borderColor: '#9B9BA7',
+    borderColor: primary,
+    borderWidth: 1,
+    paddingHorizontal: 2,
+    borderRadius: 5,
+    paddingVertical: 1,
+    marginLeft: 5,
+    backgroundColor: primary,
+  },
+  removeButtonGray: {
+    borderColor: grayDark,
     borderWidth: 1,
     paddingHorizontal: 2,
     borderRadius: 5,
@@ -275,21 +222,27 @@ const styles = StyleSheet.create({
     marginLeft: 5,
   },
   addButton: {
-    borderColor: '#3154A5',
+    borderColor: primary,
     borderWidth: 1,
     paddingHorizontal: 2,
     borderRadius: 5,
-    backgroundColor: '#3154A5',
-    },
+    backgroundColor: primary,
+  },
+  addButtonGray: {
+    borderColor: grayDark,
+    borderWidth: 1,
+    paddingHorizontal: 2,
+    borderRadius: 5,
+  },
   buttonText: {
       fontSize: 16,
-    },
+  },
   inputIntro: {
     alignSelf: 'center',
     height: 140,
-    width: "75%",
+    width: '75%',
     borderWidth: 1,
-    borderColor: '#9B9BA7',
+    borderColor: grayDark,
     borderRadius: 7,
     paddingLeft: 10,
     marginTop: 10,

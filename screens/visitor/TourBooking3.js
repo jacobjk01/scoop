@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   View,
   Text,
@@ -11,83 +11,89 @@ import {
   FlatList,
   TextInput,
 } from 'react-native';
-import {black, white, primary, grayLight, grayDark} from '../../config/colors';
+import { black, white, primary, grayLight, grayDark } from '../../config/colors';
 
-import MapView, {PROVIDER_GOOGLE} from 'react-native-maps';
-import {Marker} from 'react-native-maps';
-import {Calendar} from 'react-native-calendars';
+import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
+import { Marker } from 'react-native-maps';
+import { Calendar } from 'react-native-calendars';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import moment from 'moment';
-import toursData from '../../data/toursData';
+import { viewTourSettings} from '../../api/tours';
+import Header from '../../components/Header'
+import BottomButton from '../../components/BottomButton';
+/*
+Parameters:
+tour: {"description": "Get to know the neighborhood: where to grocery shop, where the best hangout places are, and where to grab a bite with your fellow hungry bruins.", "id": "4Wey5tUxBInxLq4tZRlS", "picture": "https://pbs.twimg.com/media/EFG56vjU4AAJ_xL?format=jpg&name=4096x4096", "title": "Westwood Tour"}
+guideInfo: {"id": "bVkVyZQ5cXTrw83zpBfpNvpVThX2", "major": "cybernetics", "name": "josh test", "profilePicture": "https://lh3.googleusercontent.com/a-/AOh14GgTtZB1w7Jq_jiaCtfaOnE6z4xgCZCtelE6FQwD=s96-c", "type": undefined}
+Selected Date: 2021-12-13 (OPTIONAL)
+*/
+const TourBooking3 = ({navigation, route}) => {
 
-class TourBooking3 extends Component {
-  constructor(props) {
-    super(props);
+  const tour = route.params.tour
+  const guideInfo = route.params.guideInfo
+  //all of the tourSettings that are led by this specific guide and is this specific tour
+  const [tourSettings, setTourSettings] = useState()
+  //all of the toursettings that are led by a specific guide, a specific tour, and on a specific day
+  const [dayTourSettings, setDayTourSettings] = useState()
+  const [visitorCount, setVisitorCount] = useState(1)
+  const [selectedDay, setSelectedDay] = useState(route.params.selectedDay)
+  const [times, setTimes] = useState()
+  //this is the INDEX of the selected Time, not the time itself
+  const [selectedTime, setSelectedTime] = useState(-1)
+  const [selectedMeet, setSelectedMeet] = useState(0)
+  const [modalVisible, setModalVisible] = useState(false)
+  const [customSnapshot, setCustomSnapshot] = useState()
+  const [map, setMap] = useState()
+  const [region, setRegion] = useState({
+    latitude: 34.06938658533915,
+    longitude: -118.44459559768438,
+    latitudeDelta: 0.005,
+    longitudeDelta: 0.0011,
+  })
+  const [marks, setMarks] = useState([])
 
-    this.state = {
-      chosenTourIndex: props.route.params.chosenTourIndex,
-      generalTour: props.route.params.generalTour,
-      tour: props.route.params.generalTour.tours[props.route.params.chosenTourIndex],
-      guide: toursData.guides[props.route.params.generalTour.tours[props.route.params.chosenTourIndex].guide],
-      visitorCount: 1,
-      selectedDate: '',
-      times: [new Date(), new Date(), new Date(), new Date(), new Date()],
-      selectedTime: -1,
-      selectedMeet: 0,
-      modalVisible: false,
-      region: {
-        latitude: 34.06938658533915,
-        longitude: -118.44459559768438,
-        latitudeDelta: 0.005,
-        longitudeDelta: 0.0011,
-      },
-      marks: [
-        '2012-05-16',
-        '2021-10-18',
-        '2021-10-19',
-        '2021-10-21',
-        '2021-10-22',
-        '2021-10-23',
-        '2021-10-26',
-        '2021-10-27',
-      ],
-    };
+  //tour[1].guide._documentPath._parts[1] this gets the id of a reference
+  useEffect(() => {
+    let isMounted = true
+    if (isMounted) {
+      viewTourSettings(tour.id).then(allTourSettings => {
+          let filteredTourSettings = []
+          let marks = []
+          let times = []
+          let dayTourSettings = []
+          for(let i = 0; i < allTourSettings.length; i++) {
+            if(guideInfo.id == allTourSettings[i].guide._documentPath._parts[1]) {
+              filteredTourSettings.push(allTourSettings[i])
+              for(let j = 0; j < allTourSettings[i].timeAvailable.length; j++) {
+                marks.push(moment(allTourSettings[i].timeAvailable[j]).format("YYYY" + "-" + "MM" + "-" + "DD"))
+                if (moment(allTourSettings[i].timeAvailable[j]).format("YYYY" + "-" + "MM" + "-" + "DD") == selectedDay) {
+                  times.push(allTourSettings[i].timeAvailable[j])
+                  dayTourSettings.push(allTourSettings[i])
+                }
+              }
+            }
+          }
+          setTourSettings(filteredTourSettings)
+          setMarks(marks)
+          setTimes(times)
+          setDayTourSettings(dayTourSettings)
+      })
+    }
+
+    return () => {isMounted = false}
+  }, [])
+  const openModal = () => {
+    setModalVisible(true)
+    setSelectedMeet(1)
   }
 
-  setVisitorCount(count) {
-    this.setState({
-      visitorCount: count,
-    });
+  const closeModal = () => {
+    setModalVisible(false)
+    takeSnapshot()
   }
 
-  setSelectedTime(time) {
-    this.setState({
-      selectedTime: time,
-    });
-  }
-
-  setSelectedMeet(meet) {
-    this.setState({
-      selectedMeet: meet,
-    });
-  }
-
-  openModal() {
-    this.setState({
-      modalVisible: true,
-      selectedMeet: 1,
-    });
-  }
-
-  closeModal() {
-    this.setState({
-      modalVisible: false,
-    });
-    this.takeSnapshot();
-  }
-
-  timeSelect(index) {
-    if (this.state.selectedTime == index) {
+  const timeSelect = (index) => {
+    if (selectedTime == index) {
       return (
         <TouchableOpacity
           key={index}
@@ -101,7 +107,7 @@ class TourBooking3 extends Component {
             marginBottom: 10,
           }}>
           <Text style={{color: white, fontSize: 15}}>
-            {moment(this.state.times[index]).format('LT')}
+            {moment(times[index]).format('LT')}
           </Text>
         </TouchableOpacity>
       );
@@ -120,95 +126,115 @@ class TourBooking3 extends Component {
             marginLeft: 7,
             marginBottom: 10,
           }}
-          onPress={() => this.setSelectedTime(index)}>
+          onPress={() => setSelectedTime(index)}>
           <Text style={{color: primary, fontSize: 15}}>
-            {moment(this.state.times[index]).format('LT')}
+            {moment(times[index]).format('LT')}
           </Text>
         </TouchableOpacity>
       );
     }
   }
-
-  onRegionChange = region => {
-    this.setState({
-      region,
-      // region: {
-      //     latitude: region.latitude - 0.00059, //error correction
-      //     longitude: region.longitude + 0.00099,
-      //     latitudeDelta: 0.0050,
-      //     longitudeDelta: 0.0011,
-      // }
-    });
+  const onRegionChange = region => {
+    setRegion(region)
+    // region: {
+    //     latitude: region.latitude - 0.00059, //error correction
+    //     longitude: region.longitude + 0.00099,
+    //     latitudeDelta: 0.0050,
+    //     longitudeDelta: 0.0011,
+    // }
   };
+  // const takeDefaultSnapshot = () => {
+  //   // 'takeSnapshot' takes a config object with the
+  //   // following options
+  //   const snapshot = map.takeSnapshot({
+  //     width: 320, // optional, when omitted the view-width is used
+  //     height: 90, // optional, when omitted the view-height is used
+  //     region: {
+  //       latitude: 34.07106828093279,
+  //       longitude: -118.444993904947,
+  //       latitudeDelta: 0.005,
+  //       longitudeDelta: 0.0011,
+  //     }, // iOS only, optional region to render
+  //     format: 'jpg', // image formats: 'png', 'jpg' (default: 'png')
+  //     quality: 0.8, // image quality: 0..1 (only relevant for jpg, default: 1)
+  //     result: 'file', // result types: 'file', 'base64' (default: 'file')
+  //   });
+  //   snapshot.then(uri => {
+  //     return uri;
+  //   });
+  // }
 
-  takeDefaultSnapshot() {
+  const takeSnapshot = () => {
     // 'takeSnapshot' takes a config object with the
     // following options
-    const snapshot = this.map.takeSnapshot({
+    const snapshot = map.takeSnapshot({
       width: 320, // optional, when omitted the view-width is used
       height: 90, // optional, when omitted the view-height is used
-      region: {
-        latitude: 34.07106828093279,
-        longitude: -118.444993904947,
-        latitudeDelta: 0.005,
-        longitudeDelta: 0.0011,
-      }, // iOS only, optional region to render
+      region: region, // iOS only, optional region to render
       format: 'jpg', // image formats: 'png', 'jpg' (default: 'png')
       quality: 0.8, // image quality: 0..1 (only relevant for jpg, default: 1)
       result: 'file', // result types: 'file', 'base64' (default: 'file')
     });
     snapshot.then(uri => {
-      return uri;
-    });
-  }
-
-  takeSnapshot() {
-    // 'takeSnapshot' takes a config object with the
-    // following options
-    const snapshot = this.map.takeSnapshot({
-      width: 320, // optional, when omitted the view-width is used
-      height: 90, // optional, when omitted the view-height is used
-      region: this.state.region, // iOS only, optional region to render
-      format: 'jpg', // image formats: 'png', 'jpg' (default: 'png')
-      quality: 0.8, // image quality: 0..1 (only relevant for jpg, default: 1)
-      result: 'file', // result types: 'file', 'base64' (default: 'file')
-    });
-    snapshot.then(uri => {
-      this.setState({customSnapshot: uri});
+      setCustomSnapshot(uri);
     });
 
   }
-  createMarkings = () => {
+  const createMarkings = () => {
     let calenderMarkings = {};
-    for (let i = 0; i < this.state.marks.length; i++) {
-      calenderMarkings[this.state.marks[i]] = {};
-      calenderMarkings[this.state.marks[i]].marked = true;
-      if (this.state.marks[i] == this.state.selectedDate) {
-        calenderMarkings[this.state.marks[i]].selected = true;
+    for (let i = 0; i < marks.length; i++) {
+      calenderMarkings[marks[i]] = {};
+      calenderMarkings[marks[i]].marked = true;
+      if (marks[i] == selectedDay) {
+        calenderMarkings[marks[i]].selected = true;
       }
     }
     return calenderMarkings;
   };
-  onDayPress = day => {
-    for (let i = 0; i < this.state.marks.length; i++) {
-      if (day == this.state.marks[i]) this.setState({selectedDate: day});
+  const onDayPress = day => {
+    for (let i = 0; i < marks.length; i++) {
+      if (day == marks[i] && selectedDay == '') {
+        setSelectedDay(day)
+      }
+      else if (day == marks[i] && selectedDay != ''){
+        setSelectedDay('')
+      }
+    }
+    let times = []
+    let dayTourSettings = []
+    if (selectedDay == '') {
+      for (let i = 0; i < tourSettings.length; i++) {
+        for (let j = 0; j < tourSettings[i].timeAvailable.length; j++) {
+          if (moment(tourSettings[i].timeAvailable[j]).format("YYYY" + "-" + "MM" + "-" + "DD") == day) {
+            times.push(tourSettings[i].timeAvailable[j])
+            dayTourSettings.push(tourSettings[i])
+          }
+        }
+      }
+
+      setTimes(times)
+      setDayTourSettings(dayTourSettings)
+    }
+    else {
+      setTimes()
     }
   };
-  showMeetingPoint = () => {
-    if (this.state.selectedTime != -1) {
+
+  const showMeetingPoint = () => {
+    if (selectedTime != -1) {
       return (
         <View>
           <Text style={styles.sectionText}>Meeting Point</Text>
           <View style={{flexDirection: 'row', marginTop: 12}}>
             <TouchableOpacity
               style={styles.circle}
-              onPress={() => this.setSelectedMeet(0)}>
+              onPress={() => setSelectedMeet(0)}>
               <View
                 style={[
                   styles.innerCircle,
                   {
                     backgroundColor:
-                      this.state.selectedMeet == 0 ? '#3154A5' : 'white',
+                      selectedMeet == 0 ? '#3154A5' : 'white',
                   },
                 ]}></View>
             </TouchableOpacity>
@@ -253,13 +279,13 @@ class TourBooking3 extends Component {
           <View style={{flexDirection: 'row', marginTop: 25}}>
             <TouchableOpacity
               style={styles.circle}
-              onPress={() => this.setSelectedMeet(1)}>
+              onPress={() => setSelectedMeet(1)}>
               <View
                 style={[
                   styles.innerCircle,
                   {
                     backgroundColor:
-                      this.state.selectedMeet == 1 ? '#3154A5' : 'white',
+                      selectedMeet == 1 ? '#3154A5' : 'white',
                   },
                 ]}></View>
             </TouchableOpacity>
@@ -267,22 +293,22 @@ class TourBooking3 extends Component {
           </View>
           <TouchableOpacity
             style={{height: 90, backgroundColor: 'grey', marginTop: 10}}
-            onPress={() => this.openModal()}>
+            onPress={() => openModal()}>
             <MapView
               pointerEvents="none"
               style={{flex: 1}}
               provider={PROVIDER_GOOGLE}
               region={{
-                latitude: this.state.region.latitude,
-                longitude: this.state.region.longitude,
+                latitude: region.latitude,
+                longitude: region.longitude,
                 latitudeDelta: 0.0015,
                 longitudeDelta: 0.002,
               }}>
               <Marker
                 key={2}
                 coordinate={{
-                  latitude: this.state.region.latitude,
-                  longitude: this.state.region.longitude,
+                  latitude: region.latitude,
+                  longitude: region.longitude,
                 }}
                 title="Bruin Statue"
                 description="Recommended Meeting Point"
@@ -325,325 +351,306 @@ class TourBooking3 extends Component {
       );
     }
   };
-
-  
-
-  render() {
-    return (
-      <SafeAreaView style={{backgroundColor: '#E5E5E5'}}>
-        <Modal
-          animationType="slide"
-          visible={this.state.modalVisible}
-          onRequestClose={() => {
-            this.closeModal.bind(this);
+  return (
+    <SafeAreaView style={{backgroundColor: '#E5E5E5'}}>
+      <Modal
+        animationType="slide"
+        visible={modalVisible}
+        onRequestClose={() => {
+          closeModal();
+        }}>
+        <MapView
+          ref={map => {
+            setMap(map)
+          }}
+          style={{flex: 1, justifyContent: 'center'}}
+          provider={PROVIDER_GOOGLE}
+          showsUserLocation
+          initialRegion={region}
+          onRegionChangeComplete={onRegionChange}></MapView>
+        <TouchableOpacity
+          style={[styles.backIcon, {backgroundColor: primary}]}
+          onPress={() => closeModal()}>
+          <Ionicons name="chevron-back-outline" size={20} color={white} />
+        </TouchableOpacity>
+        <View
+          pointerEvents="none"
+          style={{
+            position: 'absolute',
+            left: 0,
+            right: 0,
+            top: 0,
+            bottom: 0,
+            justifyContent: 'center',
+            alignItems: 'center',
           }}>
-          <MapView
-            ref={map => {
-              this.map = map;
-            }}
-            style={{flex: 1, justifyContent: 'center'}}
-            provider={PROVIDER_GOOGLE}
-            showsUserLocation
-            initialRegion={this.state.region}
-            onRegionChangeComplete={this.onRegionChange}></MapView>
-          <TouchableOpacity
-            style={[styles.backIcon, {backgroundColor: primary}]}
-            onPress={() => this.closeModal()}>
-            <Ionicons name="chevron-back-outline" size={20} color={white} />
-          </TouchableOpacity>
-          <View
-            pointerEvents="none"
-            style={{
-              position: 'absolute',
-              left: 0,
-              right: 0,
-              top: 0,
-              bottom: 0,
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}>
-            <ImageBackground
-              style={{width: 25, height: 40}}
-              source={require('../../images/marker.png')}></ImageBackground>
-          </View>
-        </Modal>
-        <FlatList
-          style={{height: '100%'}}
-          ListHeaderComponent={
-            <View style={{marginTop: 80}}>
-              <View style={{height: 100, flex: 1, position: 'relative'}}>
-                <ImageBackground
-                  style={styles.imageHeader}
-                  source={this.state.generalTour.src}>
-                  <View style={styles.shader}></View>
-                  <Text
-                    style={{
-                      color: white,
-                      position: 'absolute',
-                      bottom: 25,
-                      left: 20,
-                      fontSize: 30,
-                      fontFamily: 'Helvetica-Bold',
-                    }}>
-                    {this.state.generalTour.name}
-                  </Text>
-                  <Text style={styles.tourGuideText}>Tour Guide: {this.state.guide.name}</Text>
-                  <ImageBackground
-                    style={styles.tourGuideProfile}
-                    imageStyle={{borderRadius: 40}}
-                    source={this.state.guide.src}></ImageBackground>
-                </ImageBackground>
-              </View>
-              <View
-                style={{
-                  flex: 1,
-                  height: 60,
-                  backgroundColor: white,
-                  justifyContent: 'center',
-                }}>
-                <Text style={{marginLeft: 20, fontWeight: '700', fontSize: 19}}>
-                  Visitors
-                </Text>
-                <TouchableOpacity
-                  style={
-                    this.state.visitorCount == 1
-                      ? styles.minusDisabled
-                      : styles.minus
-                  }
-                  onPress={() =>
-                    this.setVisitorCount(this.state.visitorCount - 1)
-                  }
-                  disabled={this.state.visitorCount == 1 ? true : false}>
-                  <Ionicons
-                    name="remove-outline"
-                    color={this.state.visitorCount == 1 ? '#9B9BA7' : 'white'}
-                    style={{
-                      alignSelf: 'center',
-                      marginTop: 'auto',
-                      marginBottom: 'auto',
-                    }}
-                    size={15}></Ionicons>
-                </TouchableOpacity>
-                <Text style={styles.number}>{this.state.visitorCount}</Text>
-                <TouchableOpacity
-                  style={styles.plus}
-                  onPress={() =>
-                    this.setVisitorCount(this.state.visitorCount + 1)
-                  }>
-                  <Text style={{color: white, alignSelf: 'center'}}>+</Text>
-                </TouchableOpacity>
-              </View>
-              {/*Calender__________________________________________________________________________ */}
-              <View style={[styles.backCard, {paddingBottom: 30}]}>
-                <Text style={[styles.sectionText, {marginTop: 20}]}>
-                  Select Date
-                </Text>
-                <View style={styles.calenderLine}></View>
-                <Calendar
-                  // minDate={'2012-05-10'}
-                  // maxDate={'2012-05-30'}
-                  onDayPress={day => {
-                    this.onDayPress(day.dateString);
-                  }}
-                  // Month format in calendar title. Formatting values: http://arshaw.com/xdate/#Formatting
-                  monthFormat={'MMMM yyyy'}
-                  // If firstDay=1 week starts from Monday. Note that dayNames and dayNamesShort should still start from Sunday
-                  firstDay={1}
-                  // Handler which gets executed when press arrow icon left. It receive a callback can go back month
-                  onPressArrowLeft={subtractMonth => subtractMonth()}
-                  // Handler which gets executed when press arrow icon right. It receive a callback can go next month
-                  onPressArrowRight={addMonth => addMonth()}
-                  // Disable all touch events for disabled days. can be override with disableTouchEvent in markedDates
-                  disableAllTouchEventsForDisabledDays={true}
-                  // Enable the option to swipe between months. Default = false
-                  enableSwipeMonths={true}
-                  renderArrow={direction => {
-                    if (direction == 'left') {
-                      return (
-                        <View
-                          style={{
-                            borderWidth: 1,
-                            borderRadius: 20,
-                            borderColor: grayLight,
-                          }}>
-                          <Ionicons
-                            name="chevron-back-outline"
-                            size={11}
-                            color={primary}
-                            style={{padding: 4}}
-                          />
-                        </View>
-                      );
-                    } else {
-                      return (
-                        <View
-                          style={{
-                            borderWidth: 1,
-                            borderRadius: 20,
-                            borderColor: grayLight,
-                          }}>
-                          <Ionicons
-                            name="chevron-forward-outline"
-                            size={11}
-                            color={primary}
-                            style={{padding: 4}}
-                          />
-                        </View>
-                      );
-                    }
-                  }}
-                  theme={{
-                    arrowColor: primary,
-                    todayTextColor: black,
-                    textDayFontFamily: 'Roboto-Medium',
-                    textDayFontSize: 16,
-                    monthTextColor: black,
-                    textMonthFontSize: 17,
-                    textMonthFontFamily: 'Raleway-SemiBold',
-                    dotColor: primary,
-                    selectedDotColor: primary,
-                    dayTextColor: black,
-                    selectedDayTextColor: white,
-                    selectedDayBackgroundSize: 20,
-                    selectedDotColor: white,
-                    textDayHeaderFontFamily: 'Raleway-Medium',
-
-                    'stylesheet.day.basic': {
-                      base: {
-                        width: 45,
-                        height: 45,
-                        alignItems: 'center',
-                        padding: 5,
-                        margin: 1,
-                      },
-                      selected: {
-                        borderRadius: 25,
-                        backgroundColor: primary,
-                      },
-                    },
-                    'stylesheet.calendar.main': {
-                      container: {
-                        marginTop: 0,
-                        paddingLeft: 20,
-                        paddingRight: 20,
-                        backgroundColor: white,
-                        borderRadius: 25,
-                      },
-                      week: {
-                        marginTop: 0,
-                        marginBottom: 0,
-                        flexDirection: 'row',
-                        justifyContent: 'space-around',
-                      },
-                    },
-                    'stylesheet.calendar.header': {
-                      header: {
-                        flexDirection: 'row',
-                        justifyContent: 'center',
-                        paddingLeft: 10,
-                        paddingRight: 10,
-                        alignItems: 'center',
-                      },
-                      monthText: {
-                        fontSize: 17,
-                        fontFamily: 'Raleway-SemiBold',
-                        color: black,
-                        margin: 10,
-                        marginBottom: 17,
-                      },
-                    },
-                  }}
-                  markedDates={this.createMarkings()}></Calendar>
-              </View>
-
-              {/*Select Time________________________________________________________ */}
-              <View style={[styles.backCard, {paddingBottom: 5}]}>
-                <Text style={styles.sectionText}>Select Time</Text>
-                <View style={styles.timeView}>
-                  {[...Array(this.state.times.length).keys()].map(index =>
-                    this.timeSelect(index),
-                  )}
-                </View>
-              </View>
-
-              {/* Meeting Point_______________________________________________________________ */}
-              <View
-                style={[
-                  styles.backCard,
-                  {paddingLeft: 40, paddingRight: 40, paddingBottom: 30},
-                ]}>
-                {this.showMeetingPoint()}
-              </View>
-
-              {/* Aditional Requests_______________________________ */}
-              <View
-                style={[
-                  styles.backCard,
-                  {paddingLeft: 30, paddingRight: 30, paddingBottom: 30},
-                ]}>
-                <Text style={styles.sectionText}>Additional Requests</Text>
-
-                <TextInput
+          <ImageBackground
+            style={{width: 25, height: 40}}
+            source={require('../../images/marker.png')}></ImageBackground>
+        </View>
+      </Modal>
+      <FlatList
+        style={{height: '100%'}}
+        ListHeaderComponent={
+          <View style={{marginTop: 80}}>
+            <View style={{height: 100, flex: 1, position: 'relative'}}>
+              <ImageBackground
+                style={styles.imageHeader}
+                source={{uri: tour.picture}}>
+                <View style={styles.shader}></View>
+                <Text
                   style={{
-                    flex: 1,
-                    borderColor: '#9B9BA7',
-                    borderRadius: 10,
-                    borderWidth: 1,
-                    marginTop: 20,
-                    padding: 10,
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                  }}
-                  multiline={true}
-                />
-              </View>
-              <View
-                style={{
-                  flex: 1,
-                  height: 100,
-                  backgroundColor: white,
-                  marginTop: 10,
-                  justifyContent: 'center',
-                  padding: 20,
-                }}>
-                <TouchableOpacity
-                  style={styles.continue}
-                  onPress={item => {
-                    //TODO: fix this
-                    this.props.navigation.navigate('BookingCheckout', [this.state.generalTour, this.state.chosenTourIndex]);
+                    color: white,
+                    position: 'absolute',
+                    bottom: 25,
+                    left: 20,
+                    fontSize: 28,
+                    fontFamily: 'Helvetica-Bold',
                   }}>
-                  <Text
-                    style={{
-                      alignSelf: 'center',
-                      color: white,
-                      fontWeight: '600',
-                    }}>
-                    Continue
-                  </Text>
-                </TouchableOpacity>
+                  {tour.title}
+                </Text>
+                <Text style={styles.tourGuideText}>Tour Guide: {guideInfo.name}</Text>
+                <ImageBackground
+                  style={styles.tourGuideProfile}
+                  imageStyle={{borderRadius: 40}}
+                  source={{uri: guideInfo.profilePicture}}></ImageBackground>
+              </ImageBackground>
+            </View>
+            
+            {/*Calender__________________________________________________________________________ */}
+            <View style={[styles.backCard, {paddingBottom: 30}]}>
+              <Text style={[styles.sectionText, {marginTop: 20}]}>
+                Select Date
+              </Text>
+              <View style={styles.calenderLine}></View>
+              <Calendar
+                // minDate={'2012-05-10'}
+                // maxDate={'2012-05-30'}
+                onDayPress={day => {
+                  onDayPress(day.dateString);
+                }}
+                // Month format in calendar title. Formatting values: http://arshaw.com/xdate/#Formatting
+                monthFormat={'MMMM yyyy'}
+                // If firstDay=1 week starts from Monday. Note that dayNames and dayNamesShort should still start from Sunday
+                firstDay={1}
+                // Handler which gets executed when press arrow icon left. It receive a callback can go back month
+                onPressArrowLeft={subtractMonth => subtractMonth()}
+                // Handler which gets executed when press arrow icon right. It receive a callback can go next month
+                onPressArrowRight={addMonth => addMonth()}
+                // Disable all touch events for disabled days. can be override with disableTouchEvent in markedDates
+                disableAllTouchEventsForDisabledDays={true}
+                // Enable the option to swipe between months. Default = false
+                enableSwipeMonths={true}
+                renderArrow={direction => {
+                  if (direction == 'left') {
+                    return (
+                      <View
+                        style={{
+                          borderWidth: 1,
+                          borderRadius: 20,
+                          borderColor: grayLight,
+                        }}>
+                        <Ionicons
+                          name="chevron-back-outline"
+                          size={11}
+                          color={primary}
+                          style={{padding: 4}}
+                        />
+                      </View>
+                    );
+                  } else {
+                    return (
+                      <View
+                        style={{
+                          borderWidth: 1,
+                          borderRadius: 20,
+                          borderColor: grayLight,
+                        }}>
+                        <Ionicons
+                          name="chevron-forward-outline"
+                          size={11}
+                          color={primary}
+                          style={{padding: 4}}
+                        />
+                      </View>
+                    );
+                  }
+                }}
+                theme={{
+                  arrowColor: primary,
+                  todayTextColor: black,
+                  textDayFontFamily: 'Roboto-Medium',
+                  textDayFontSize: 16,
+                  monthTextColor: black,
+                  textMonthFontSize: 17,
+                  textMonthFontFamily: 'Raleway-SemiBold',
+                  dotColor: primary,
+                  selectedDotColor: primary,
+                  dayTextColor: black,
+                  selectedDayTextColor: white,
+                  selectedDayBackgroundSize: 20,
+                  selectedDotColor: white,
+                  textDayHeaderFontFamily: 'Raleway-Medium',
+
+                  'stylesheet.day.basic': {
+                    base: {
+                      width: 45,
+                      height: 45,
+                      alignItems: 'center',
+                      padding: 5,
+                      margin: 1,
+                    },
+                    selected: {
+                      borderRadius: 25,
+                      backgroundColor: primary,
+                    },
+                  },
+                  'stylesheet.calendar.main': {
+                    container: {
+                      marginTop: 0,
+                      paddingLeft: 20,
+                      paddingRight: 20,
+                      backgroundColor: white,
+                      borderRadius: 25,
+                    },
+                    week: {
+                      marginTop: 0,
+                      marginBottom: 0,
+                      flexDirection: 'row',
+                      justifyContent: 'space-around',
+                    },
+                  },
+                  'stylesheet.calendar.header': {
+                    header: {
+                      flexDirection: 'row',
+                      justifyContent: 'center',
+                      paddingLeft: 10,
+                      paddingRight: 10,
+                      alignItems: 'center',
+                    },
+                    monthText: {
+                      fontSize: 17,
+                      fontFamily: 'Raleway-SemiBold',
+                      color: black,
+                      margin: 10,
+                      marginBottom: 17,
+                    },
+                  },
+                }}
+                markedDates={createMarkings()}></Calendar>
+            </View>
+            {/* select visitors */}
+            <View
+              style={{
+                flex: 1,
+                height: 60,
+                backgroundColor: white,
+                justifyContent: 'center',
+                borderRadius: 20,
+                marginHorizontal: 10,
+                marginTop: 10,
+              }}>
+              <Text style={{marginLeft: 20,  paddingLeft: 10, fontWeight: '700', fontSize: 19}}>
+                Visitors
+              </Text>
+              <TouchableOpacity
+                style={
+                  visitorCount == 1
+                    ? styles.minusDisabled
+                    : styles.minus
+                }
+                onPress={() =>
+                  setVisitorCount(visitorCount - 1)
+                }
+                disabled={visitorCount == 1 ? true : false}>
+                <Ionicons
+                  name="remove-outline"
+                  color={visitorCount == 1 ? '#9B9BA7' : 'white'}
+                  style={{
+                    alignSelf: 'center',
+                    marginTop: 'auto',
+                    marginBottom: 'auto',
+                  }}
+                  size={15}></Ionicons>
+              </TouchableOpacity>
+              <Text style={styles.number}>{visitorCount}</Text>
+              <TouchableOpacity
+                style={styles.plus}
+                onPress={() =>
+                  setVisitorCount(visitorCount + 1)
+                }>
+                <Text style={{color: white, alignSelf: 'center'}}>+</Text>
+              </TouchableOpacity>
+            </View>
+            {/*Select Time________________________________________________________ */}
+            {times != undefined &&
+              <View style={[styles.backCard]}>
+              <Text style={styles.sectionText}>Select Time</Text>
+              <View style={styles.timeView}>
+                {[...Array(times.length).keys()].map(index =>
+                  timeSelect(index),
+                )}
               </View>
             </View>
-          }
-        />
+            }
 
-        {/*Header_________________________________________________________________ */}
-        <View
-          style={{
-            backgroundColor: primary,
-            height: 80,
-            width: '100%',
-            position: 'absolute',
-          }}>
-          <Text style={[styles.titleText, {marginTop: 20}]}>Booking</Text>
-        </View>
-        <TouchableOpacity
-          style={styles.backIcon}
-          onPress={() => this.props.navigation.goBack()}>
-          <Ionicons name="chevron-back-outline" size={22} color={primary} />
-        </TouchableOpacity>
-      </SafeAreaView>
-    );
-  }
+            {/* Meeting Point_______________________________________________________________ */}
+            <View
+              style={[
+                styles.backCard,
+                {paddingLeft: 40, paddingRight: 40, paddingBottom: 30},
+              ]}>
+              {showMeetingPoint()}
+            </View>
+
+            {/* Aditional Requests_______________________________ */}
+            <View
+              style={[
+                styles.backCard,
+                {paddingLeft: 30, paddingRight: 30, paddingBottom: 30},
+              ]}>
+              <Text style={styles.sectionText}>Additional Requests</Text>
+
+              <TextInput
+                style={{
+                  flex: 1,
+                  borderColor: '#9B9BA7',
+                  borderRadius: 10,
+                  borderWidth: 1,
+                  marginTop: 20,
+                  padding: 10,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
+                multiline={true}
+              />
+            </View>
+          </View>
+        }
+      />
+      <BottomButton
+        title='Continue'
+        onPress={() => {
+          if (selectedTime != -1) {
+            let tourSetting
+            let timeIndex
+            for (let i = 0; i < dayTourSettings.length; i++) {
+              for (let j = 0; j < dayTourSettings[i].timeAvailable.length; j++) {
+                if (times[selectedTime] == dayTourSettings[i].timeAvailable[j]) {
+                  tourSetting = dayTourSettings[i]
+                  timeIndex = j
+                }
+              }
+            }
+            navigation.navigate('BookingCheckout', {tourSetting, tour, guideInfo, visitorCount, timeIndex});
+          }
+        }}
+      />
+
+      {/*Header_________________________________________________________________ */}
+      <Header title='Booking' navigation={navigation}/>
+    </SafeAreaView>
+  );
 }
 
 const styles = StyleSheet.create({
@@ -733,6 +740,8 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: white,
     marginTop: 10,
+    paddingTop:10,
+    paddingBottom: 20,
     borderRadius: 20,
     marginLeft: 10,
     marginRight: 10,

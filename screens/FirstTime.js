@@ -1,9 +1,9 @@
 import React, { useContext, useEffect } from 'react'
 import { SafeAreaView, Text, Button} from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler'
-import { UserContext } from '../contexts'
-import SigninButton from '../components/SigninButton';
-import SignoutButton from '../components/SignoutButton';
+import { UserContext } from 'contexts'
+import SigninButton from 'components/SigninButton';
+import SignoutButton from 'components/SignoutButton';
 export default  ({navigation}) => {
     const {mode, setMode} = useContext(UserContext);
     useEffect(() => {
@@ -33,6 +33,9 @@ export default  ({navigation}) => {
                 //setFirstTimeOpen(false);
                 //TODO: go to login account page
             }} title='Already have an account'/>
+            <Button onPress={() => {
+                navigation.navigate('Feedback')
+            }} title='Feedback'/>
 
             <SigninButton/>
             <SignoutButton/>

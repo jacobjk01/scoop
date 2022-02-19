@@ -1,10 +1,8 @@
-import {placeholder} from '@babel/types';
-import React, {useState} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import {
   View,
   Text,
   TextInput,
-  Select,
   SafeAreaView,
   ScrollView,
   StyleSheet,
@@ -13,121 +11,199 @@ import {
   ImageBackground,
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import tourGuides from '../../data/tourGuides';
+import { useIsFocused } from '@react-navigation/core';
+import { useNavigation } from '@react-navigation/native';
+import { UserContext } from 'contexts';
+import { getPicture, changeName, changePicture, changeMajor, changeYear, changeIntro, changeLanguages, changeHometown } from 'api/users';
+import {request, check, PERMISSIONS, RESULTS} from 'react-native-permissions';
+import { primary, grayDark, white, black, grayShadow, grayVeryDark } from 'config/colors';
 
 const AccountEdit = ({navigation}) => {
-  const item = tourGuides[0];
-  // const {item} = route.params;
-  /* Below is temporary until I can find out how to connect route from Account.js*/
-  // const item = {
-  //   name: 'Brittany',
-  //   year: 'Junior',
-  //   major: 'Mechanical Eng.',
-  //   src: require('../../images/brittany.png'),
-  //   hometown: 'Irvine, Orange County',
-  //   intro: 'I am a proud first-generation college student! Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sapien velit elementum malesuada leo sociis. Leo nisi, facilisis fames dignissim euismod nec. Tempus scelerisque tempor proin diam int',
-  // };
-  // const {item} = navigation;
-  /*---------------------------------------------*/
+  const nav = useNavigation();
+  const {user, setUser, userAuth, setUserAuth} = useContext(UserContext);
+  const [name, setName] = useState(user.name);
+  const [year, setYear] = useState(user.year);
+  const [major, setMajor] = useState(user.major);
+  const [intro, setIntro] = useState(user.intro);
+  const [hometown, setHometown] = useState(user.hometown);
+  const [imageData, setImageData] = useState(null);
+  const [profilePicture, setProfilePicture] = useState(null);
+  const [backgroundPicture, setBackgroundPicture] = useState(null);
+  const isFocused = useIsFocused();
 
-  return (
-    <ScrollView>
-      <ImageBackground
-        source={require('../../images/Santa_Monica.png')}
-        style={styles.backgroundImage}>
-        {renderGuideImage(item.picture)}
+  useEffect(async () => {
+    setProfilePicture(await getPicture(userAuth.uid, 'profilePicture'));
+    setBackgroundPicture(await getPicture(userAuth.uid, 'backgroundPicture'));
+  }, [isFocused])
+
+  saveFields = () => {
+    const uid = userAuth.uid;
+    changeName(uid, name);
+    changePicture(uid, profilePicture, 'profilePicture');
+    changePicture(uid, backgroundPicture, 'backgroundPicture');
+    changeMajor(uid, major);
+    changeYear(uid, year);
+    changeIntro(uid, intro);
+    changeHometown(uid, hometown);
+    // changeLanguages(uid, languages);
+    setUser({hometown, intro, major, name, profilePicture, backgroundPicture, userType: user.userType, year});
+  };
+
+  handlePhotoPicker = async (type) => {
+    request(PERMISSIONS.IOS.PHOTO_LIBRARY);
+    check(PERMISSIONS.IOS.PHOTO_LIBRARY)
+      .then((result) => {
+        switch (result) {
+          case RESULTS.UNAVAILABLE:
+            console.log('Photo Library: This feature is not available (on this device / in this context)');
+            break;
+          case RESULTS.DENIED:
+            console.log('Photo Library: The permission has not been requested / is denied but requestable');
+            break;
+          case RESULTS.LIMITED:
+            console.log('Photo Library: The permission is limited: some actions are possible');
+            break;
+          case RESULTS.GRANTED:
+            console.log('Photo Library: The permission is granted');
+            break;
+          case RESULTS.BLOCKED:
+            console.log('Photo Library: The permission is denied and not requestable anymore');
+            break;
+        }
+      })
+    launchImageLibrary(type);
+  }
+
+  launchImageLibrary = (type) => {
+    let options = {
+      storageOptions: {
+        skipBackup: true,
+        path: 'images',
+      },
+    };
+    const ImagePicker = require('react-native-image-picker');
+    ImagePicker.launchImageLibrary(options, (response) => {
+      if (response.didCancel) {
+        console.log('User cancelled image picker');
+      } else if (response.errorCode) {
+        console.log('ImagePicker Error: ', response.errorCode);
+      } else if (response.customButton) {
+        console.log('User tapped custom button: ', response.customButton);
+        alert(response.customButton);
+      } else {
+        const data = response.assets[0];
+        if (type == 'PROFILE') {
+          setProfilePicture(data.uri);
+        } else if (type == 'BACKGROUND') {
+          setBackgroundPicture(data.uri);
+        }
+        setImageData({
+          uri: data.uri,
+          name: data.fileName,
+          size: data.fileSize,
+          height: data.height,
+          width: data.width,
+          type: data.type,
+        });
+      }
+    });
+  }
+  const renderGuideBio = (user) => {
+    return (
+      <View style={{ paddingTop: 80, paddingBottom: 80 }}>
+        <Text style={styles.titleText}>
+          {'First Name'}
+        </Text>
+        <TextInput style={styles.input} placeholder='Edit your name'
+          onChangeText={name => setName(name)}>
+          {user.name}
+        </TextInput>
+        <Text style={styles.titleText}>
+          {'Year'}
+        </Text>
+        <TextInput style={styles.input} placeholder='Select Year'
+          onChangeText={year => setYear(year)}>
+          {user.year}
+        </TextInput>
+        <Text style={styles.titleText}>
+          {'Major'}
+        </Text>
+        <TextInput style={styles.input} placeholder='Edit your major'
+          onChangeText={major => setMajor(major)}>
+          {user.major}
+        </TextInput>
+        <Text style={styles.titleText}>
+          {'Intro'}
+        </Text>
+        <TextInput style={styles.inputIntro} placeholder='Tell us about yourself!' multiline={true}
+          onChangeText={intro => setIntro(intro)}>
+          {user.intro}
+        </TextInput>
+        <Text style={styles.titleText}>
+          {'Hometown'}
+        </Text>
+        <TextInput style={styles.input} placeholder='Edit your hometown'
+          onChangeText={hometown => setHometown(hometown)}>
+          {user.hometown}
+        </TextInput>
+        <View style={styles.divider} />
+        <Ionicons name='add' style={styles.addIcon} size={30}/>
+        <Text style={styles.bodyText}>Add another language</Text>
         <TouchableOpacity
-          // onPress={() => }
-          style={{position: 'absolute', right: 25, top: 120}}>
-          <Ionicons name={'camera'} size={25} color={'#9B9BA7'} />
+          style={styles.saveButton}
+          onPress={() => (nav.goBack(), saveFields())}>
+          <Text style={{alignSelf: 'center', color: white, fontWeight: '700'}}>
+            {'Save'}
+          </Text>
         </TouchableOpacity>
-        <View
-          style={{
-            marginTop: '40%',
-            paddingRight: 20,
-            paddingLeft: 20,
-            height: '100%',
-            backgroundColor: 'white',
-            borderTopLeftRadius: 20,
-            borderTopRightRadius: 20,
-          }}>
-          <SafeAreaView style={{top: 80}}>
-            <Text style={styles.titleText}>{'First Name'}</Text>
-            <TextInput style={styles.input} placeholder="Edit your name">
-              {item.name}
-            </TextInput>
-            <Text style={styles.titleText}>{'Year'}</Text>
-            <TextInput style={styles.input} placeholder="Select Year">
-              {item.year}
-            </TextInput>
-            <Text style={styles.titleText}>{'Major'}</Text>
-            <TextInput style={styles.input} placeholder="Edit your major">
-              {item.major}
-            </TextInput>
-            <Text style={styles.titleText}>{'Intro'}</Text>
-            <TextInput
-              style={styles.inputIntro}
-              placeholder="Tell us about yourself!"
-              multiline="true">
-              {item.intro}
-            </TextInput>
-            <Text style={styles.titleText}>{'Hometown'}</Text>
-            <TextInput style={styles.input} placeholder="Edit your hometown">
-              {item.hometown}
-            </TextInput>
-            <View style={styles.divider} />
-            <Ionicons name="add" style={styles.addIcon} />
-            <Text style={styles.bodyText}>Add another language</Text>
-          </SafeAreaView>
-        </View>
-      </ImageBackground>
-    </ScrollView>
+      </View>
+    );
+  };
+  return (
+    <ImageBackground
+      source={{uri: backgroundPicture}}
+      style={styles.backgroundImage}>
+    <ScrollView>
+      <TouchableOpacity
+        onPress={() => handlePhotoPicker('BACKGROUND')}
+        style={{position: 'absolute', right: 25, top: 120}}>
+        <Ionicons name={'camera'} size={25} color={grayDark}/>
+      </TouchableOpacity>
+      <View
+        style={{
+          marginTop: '40%',
+          paddingRight: 20,
+          paddingLeft: 20,
+          height: '100%',
+          backgroundColor: white,
+          borderTopLeftRadius: 20,
+          borderTopRightRadius: 20,
+        }}
+      >
+      {renderGuideImage(profilePicture)}
+        {renderGuideBio(user)}
+      </View>
+      </ScrollView>
+    </ImageBackground>
   );
 };
 
-const renderGuideImage = ({item}) => {
+const renderGuideImage = (profilePicture) => {
   return (
     <TouchableOpacity
-      // onPress={() => }
-      style={{
-        position: 'absolute',
-        alignSelf: 'center',
-        left: '50%',
-        justifyContent: 'center',
-        top: 135,
-        zIndex: 1,
-      }}>
+      onPress={() => handlePhotoPicker('PROFILE')}
+      style={{position: 'absolute', alignSelf: 'center', justifyContent: 'center', zIndex: 1}}>
       <View
         style={{
-          top: 140,
+          top: 120,
           alignItems: 'center',
           zIndex: 1,
         }}>
-        <Image style={styles.guideImage} source={item} />
-        <Ionicons
-          style={{position: 'absolute', bottom: 105}}
-          name={'camera'}
-          size={35}
-          color={'white'}
-        />
+        <Image style={styles.guideImage} source={{uri: profilePicture}} />
+        <View style={styles.circleOverlay}/>
+        <Ionicons style={{position: 'absolute', bottom: 105}} name={'camera'} size={35} color={white}/>
       </View>
     </TouchableOpacity>
-  );
-};
-
-const renderGuideBio = ({item}) => {
-  return (
-    <View
-      style={{
-        paddingTop: 30,
-        justifyContent: 'center',
-        alignItems: 'center',
-      }}>
-      <Text style={styles.sectionText}>{item.name}</Text>
-      <Text style={styles.baseText}>
-        {item.major + ','} {item.year}
-      </Text>
-    </View>
   );
 };
 
@@ -140,8 +216,8 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     position: 'relative',
     marginTop: 20,
-    marginBottom: 20,
-    borderBottomColor: '#9B9BA7',
+    marginBottom: 0,
+    borderBottomColor: grayDark,
     borderBottomWidth: 1,
     width: '92%',
   },
@@ -150,7 +226,7 @@ const styles = StyleSheet.create({
     height: 45,
     width: '92%',
     borderWidth: 1,
-    borderColor: '#9B9BA7',
+    borderColor: grayDark,
     borderRadius: 7,
     paddingLeft: 15,
     marginTop: 10,
@@ -161,9 +237,9 @@ const styles = StyleSheet.create({
     height: 100,
     width: '92%',
     borderWidth: 1,
-    borderColor: '#9B9BA7',
+    borderColor: grayDark,
     borderRadius: 7,
-    paddingLeft: 15,
+    paddingHorizontal: 15,
     marginTop: 10,
     marginBottom: 30,
     paddingBottom: 50,
@@ -173,9 +249,18 @@ const styles = StyleSheet.create({
     width: 100,
     height: 100,
     borderRadius: 100,
-    backgroundColor: '#00BCD4',
+    backgroundColor: grayDark,
     position: 'absolute',
     bottom: 70,
+  },
+  circleOverlay: {
+    width: 100,
+    height: 100,
+    borderRadius: 100,
+    backgroundColor: black,
+    position: 'absolute',
+    bottom: 70,
+    opacity: 0.2,
   },
   baseText: {
     fontFamily: 'Helvetica',
@@ -196,21 +281,33 @@ const styles = StyleSheet.create({
     fontWeight: '400',
     marginTop: 5,
     fontStyle: 'italic',
-    color: '#9B9BA7',
+    color: grayDark,
   },
   bodyText: {
     fontSize: 16,
     fontWeight: '400',
     left: 52,
-    color: '#525252',
-    bottom: 3,
+    color: grayVeryDark,
+    top: -5,
+    paddingBottom: 40,
   },
   addIcon: {
-    color: '#525252',
+    color: grayVeryDark,
     fontSize: 25,
-    position: 'absolute',
+    position: 'relative',
     left: 25,
-    bottom: 0,
+    top: 17,
+  },
+  saveButton: {
+    marginHorizontal: 20,
+    backgroundColor: primary,
+    height: 50,
+    justifyContent: 'center',
+    borderRadius: 10,
+    shadowColor: grayShadow,
+    shadowOffset: {width: 2, height: 2},
+    shadowOpacity: 0.8,
+    shadowRadius: 3,
   },
 });
 

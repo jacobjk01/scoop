@@ -14,7 +14,7 @@ export default  ({navigation}) => {
         mode, setMode,
         guideDone, setGuideDone,
         visitorDone, setVisitorDone,
-        visitorBone, setVisitorBone} = useContext(UserContext);
+        visitorBone, setVisitorBone, hasNotFinishedBareOnboarding} = useContext(UserContext);
         
     useEffect(() => {
         if (mode != 'visitor') {
@@ -249,6 +249,7 @@ export default  ({navigation}) => {
                 <Button
                     onPress={() => {
                         setVisitorBone(true)
+                        console.log(hasNotFinishedBareOnboarding)
                     }} title={'Skip Onboarding'}
                 />
             }

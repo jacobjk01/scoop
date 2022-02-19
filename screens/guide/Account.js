@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import {
   View,
   Text,
@@ -10,89 +10,93 @@ import {
   ImageBackground,
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import tourGuides from '../../data/tourGuides';
-import { onAuthStateChanged } from '../../api/auth';
-import { createUser, changeIntro, changeName, getUser, createPrivateData } from '../../api/users';
+import { UserContext } from 'contexts'
+import { useIsFocused } from '@react-navigation/core';
+import { getPicture } from 'api/users';
+import { grayDark, white } from 'config/colors';
 
+const Account = ({ navigation }) => {
+  const { user, userAuth } = useContext(UserContext);
+  const isFocused = useIsFocused();
+  const [profilePicture, setProfilePicture] = useState(null);
+  const [backgroundPicture, setBackgroundPicture] = useState(null);
 
-const Account = ({navigation}) => {
-  const item = tourGuides[0];
-  const [userAuth, setUserAuth] = useState(null);
-  const user = getUser(userAuth);
+  useEffect(() => { }, [user])
 
-  useEffect(() => {
-    var unsubscribe1 = onAuthStateChanged(async user => {
-        if (user) {
-            setUserAuth(user);
-            const currentUser = await getUser(user);
-            setUserType(currentUser.data().userType)
-            setUserName(currentUser.data().name)
-            setUserIntro(currentUser.data().intro)
-        } else {
-            setUserAuth(null);
-        }
-    })
-    return () => {
-        unsubscribe1();
-    }
-  })
+  useEffect(async () => {
+    setProfilePicture(await getPicture(userAuth.uid, 'profilePicture'));
+    setBackgroundPicture(await getPicture(userAuth.uid, 'backgroundPicture'));
+  }, [isFocused])
 
   return (
     <ImageBackground
-      source={require('../../images/Santa_Monica.png')}
+      source={{ uri: backgroundPicture }}
       style={styles.backgroundImage}>
-      {renderGuideImage(userAuth ? user.profilePicture : item.picture)}
-      <ScrollView
-        style={{
-          marginTop: '40%',
-          paddingRight: 20,
-          paddingLeft: 20,
-          height: '100%',
-          backgroundColor: 'white',
-          borderTopLeftRadius: 20,
-          borderTopRightRadius: 20,
-        }}>
-        <SafeAreaView>
-          {renderGuideBio({item})}
-          <TouchableOpacity
-            onPress={() => navigation.navigate('AccountEdit', item)}
-            style={{position: 'absolute', right: 10, top: 20}}>
-            <View>
-              <Text style={{color: '#9B9BA7'}}>
-                Edit <Ionicons name={'pencil'} size={16} />
-              </Text>
-            </View>
-          </TouchableOpacity>
+      <ScrollView>
+        <View
+          style={{
+            marginTop: '40%',
+            paddingRight: 20,
+            paddingLeft: 20,
+            height: '100%',
+            backgroundColor: white,
+            borderTopLeftRadius: 20,
+            borderTopRightRadius: 20,
+          }}
+        >
+          {renderGuideImage(profilePicture)}
+          <SafeAreaView>
+            {renderGuideBio(user ? user : '')}
+            <TouchableOpacity
+              onPress={() => navigation.navigate('AccountEdit')}
+              style={{ position: 'absolute', right: 10, top: 20 }}>
+              <View>
+                <Text style={{ color: grayDark }}>Edit <Ionicons name={'pencil'} size={16} /></Text>
+              </View>
+            </TouchableOpacity>
+            <View style={styles.divider} />
+          </SafeAreaView>
+          <View>
+            <Text style={styles.titleText}>
+              {'Introduction'}
+            </Text>
+            <Text style={styles.subtitleText}>
+              {'Hometown:'} {user.hometown ? user.hometown : ''}
+            </Text>
+            <Text style={styles.bodyText}>
+              {user.intro ? user.intro : ''}
+            </Text>
+          </View>
           <View style={styles.divider} />
-        </SafeAreaView>
-        <View>
-          <Text style={styles.titleText}>{'Introduction'}</Text>
-          <Text style={styles.subtitleText}>
-            {'Hometown: ' + item.hometown}
+          <Text style={{ fontSize: 20, fontWeight: '700', paddingBottom: 400 }}>
+            {'Languages'}
+            {/* <View style={{flex: 1, height: 10}}> */}
+            {/* <Image source={require('images/languages/us.png')} style={{flex: 1}} resizeMode={'stretch'}></Image> */}
+            {/* </View> */}
           </Text>
-          <Text style={styles.bodyText}>{item.intro}</Text>
+
         </View>
-        <View style={styles.divider} />
-        <Text style={{fontSize: 20, fontWeight: '700'}}>{'Languages'}</Text>
       </ScrollView>
     </ImageBackground>
   );
 };
 
-const renderGuideImage = ({item}) => {
+const renderGuideImage = (profilePicture) => {
   return (
     <View
       style={{
-        top: 275,
+        top: 120,
         alignItems: 'center',
         zIndex: 1,
       }}>
-      <Image style={styles.guideImage} source={item} />
+      <Image style={styles.guideImage} source={{
+        uri: profilePicture
+      }} />
     </View>
   );
 };
 
-const renderGuideBio = ({item}) => {
+const renderGuideBio = (user) => {
   return (
     <View
       style={{
@@ -100,9 +104,9 @@ const renderGuideBio = ({item}) => {
         justifyContent: 'center',
         alignItems: 'center',
       }}>
-      <Text style={styles.sectionText}>{item.name}</Text>
+      <Text style={styles.sectionText}>{user.name}</Text>
       <Text style={styles.baseText}>
-        {item.major + ','} {item.year}
+        {user.major && user.year ? user.major + ', ' + user.year : ''}
       </Text>
     </View>
   );
@@ -117,14 +121,14 @@ const styles = StyleSheet.create({
     position: 'relative',
     marginTop: 20,
     marginBottom: 20,
-    borderBottomColor: '#9B9BA7',
+    borderBottomColor: grayDark,
     borderBottomWidth: 1,
   },
   guideImage: {
     width: 100,
     height: 100,
     borderRadius: 100,
-    backgroundColor: '#00BCD4',
+    backgroundColor: grayDark,
     position: 'absolute',
     bottom: 70,
   },
@@ -146,7 +150,7 @@ const styles = StyleSheet.create({
     fontWeight: '400',
     marginTop: 5,
     fontStyle: 'italic',
-    color: '#9B9BA7',
+    color: grayDark,
   },
   bodyText: {
     fontSize: 16,

@@ -1,4 +1,4 @@
-import React, {Component, useState} from 'react';
+import React, {Component, useState, useEffect} from 'react';
 import {
   View,
   Text,
@@ -8,128 +8,155 @@ import {
   ImageBackground,
   Animated,
   StatusBar,
+  PanResponder,
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import LinearGradient from 'react-native-linear-gradient';
-import {white} from '../../config/colors';
+import { primary, white, grayDark, black, grayShadow } from 'config/colors';
+import ImageHeader from '../../components/ImageHeader';
+import BottomButton from '../../components/BottomButton'
 
-const {event, ValueXY} = Animated;
-class TourEdit extends Component {
-  constructor(props) {
-    super(props);
-    this.scrollY = new ValueXY();
-    this.navigation = this.props.navigation;
-    this.tour = this.props.route.params.tour;
+//note: grid is kind of laggy when upsized, will work on fixing
+const TourEdit = ({navigation, route}) => {
+  const tour = route.params.tour;
+  const [slots, setSlots] = useState(new Array(7).fill().map(_ => new Array(24).fill(true)))
+
+  useEffect(() => {
+    let temp = slots
+    temp[0][0] = true
+    setSlots(temp)
+    return () => {console.log(slots)}
+  }, [])
+
+  const whatDay = (i) => {
+    switch (i) {
+      case 0:
+        return 'S'
+      case 1:
+        return 'M'
+      case 2:
+        return 'T'
+      case 3:
+        return 'W'
+      case 4:
+        return 'T'
+      case 5:
+        return 'F'
+      case 6:
+        return 'S'
+    }
   }
-
-  componentDidMount() {
-    this.scrollY.addListener(({value}) => (this._value = value));
-  }
-
-  renderForeground() {
-    // const tour = this.props.route.params.tour;
-    return (
-      <View style={{flex: 1, borderRadius: 15}}>
-        <ImageBackground
-          style={styles.imageHeader}
-          imageStyle={{borderBottomLeftRadius: 15, borderBottomRightRadius: 15}}
-          source={require('../../images/Westwood_village.png')}>
-          <LinearGradient
-            colors={['transparent', 'black']}
-            style={styles.linearGradTour}
+  const renderAvailabilities = () => {
+    let days = []
+    for (let i = 0; i < 7; i++) {
+      let hours = []
+      for (let j = 0; j < 24; j++) {
+        hours.push(
+          <View 
+            style={{
+              backgroundColor: slots[i][j]?primary:white,
+              width: 12,
+              height: 10,
+              borderTopLeftRadius: j==0?10:0,
+              borderTopRightRadius: j==0?10:0,
+              borderBottomLeftRadius: j==23?10:0,
+              borderBottomRightRadius: j==23?10:0,
+            }}
+            key={j}
           />
-          <View style={styles.imageOverlay}>
-            <Text style={styles.titleText}>
-              {this.tour.name}
-            </Text>
+        )
+      }
+      days.push(
+        <View 
+          style={{marginLeft: 10, display: 'flex', alignItems: 'center'}}
+          key={i}
+        >
+          <Text style={{fontSize: 13, fontFamily: 'Helvetica-Bold'}}>
+            {whatDay(i)}
+          </Text>
+          <View style={{display: 'flex', flexDirection: 'column', justifyContent: 'center'}}>
+            {hours}
           </View>
-        </ImageBackground>
+        </View>
+      )
+    }
+    return (
+      <View style={{display: 'flex', flexDirection: 'row'}}>
+        {days}
       </View>
-    );
+    )
   }
-
-  renderHeader() {
+  const renderContent = () => {
     return (
-      <View
-        style={{
-          flex: 1,
-          backgroundColor: 'white',
-          alignItems: 'center',
-        }}></View>
-    );
-  }
-
-  renderContent() {
-    return (
-      <View style={{marginBottom: 70}}>
+      <View style={{marginBottom: 100}}>
         <TouchableOpacity
-            onPress={() => this.navigation.navigate('TourEdit3', this.tour)}
+            onPress={() => navigation.navigate('TourEdit3', tour)}
             style={{position: 'absolute', right: 30, top: 30}}>
             <View>
-              <Text style={{color: '#9B9BA7'}}>Edit <Ionicons name={'pencil'} size={16}/></Text>
+              <Text style={{color: grayDark}}>Edit <Ionicons name={'pencil'} size={16}/></Text>
             </View>
         </TouchableOpacity>
         <Text style={[styles.sectionText, {marginTop: 40}]}>Basic Info</Text>
         <Text style={[styles.bodyText, {marginTop: 20}]}>
-            {'Duration :'} {this.tour.duration} {'min'}
+            {'Duration :'} {tour.duration} {'min'}
         </Text>
         <Text style={[styles.bodyText]}>
-            {'Max Group :'} {this.tour.maxPeople}
+            {'Max Group :'} {tour.maxPeople}
         </Text>
         <Text style={[styles.bodyText]}>
-            {'Transportation :'} {this.tour.transportation}
+            {'Transportation :'} {tour.transportation}
         </Text>
         <Text style={[styles.bodyText]}>
-            {'Recommended Meetup Point :'} {this.tour.meetPoint}
+            {'Recommended Meetup Point :'} {tour.meetPoint}
         </Text>
         <View style={styles.divider} />
         <Text style={[styles.sectionText, {marginTop: 0}]}>Introduction</Text>
         <Text style={[styles.bodyText, {marginTop: 20}]}>
-            {this.tour.introduction}
+            {tour.introduction}
         </Text>
-      </View>
-    );
-  }
-
-  render() {
-    return (
-      <View>
-        <StatusBar barStyle="dark-content" />
-        <ScrollView>
-          {this.renderForeground()}
-          {this.renderContent()}
+        <View style={styles.divider} />
+        <View style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between', paddingRight: 30}}>
+          <Text style={[styles.sectionText, {marginTop: 0}]}>My Availability</Text>
           <TouchableOpacity
-            style={styles.backIcon}
-            onPress={() => this.navigation.goBack()}>
-            <Ionicons name="chevron-back-outline" size={20} color={white} />
+              onPress={() => {
+                navigation.navigate('Availability', tour)}}
+              style={{}}>
+              <View>
+                <Text style={{color: grayDark}}>Edit <Ionicons name={'pencil'} size={16}/></Text>
+              </View>
           </TouchableOpacity>
-        </ScrollView>
-        <TouchableOpacity
-          style={styles.continue}
-          onPress={() => this.navigation.navigate('TourEdit2')}>
-          <Text style={{alignSelf: 'center', color: white, fontWeight: '700'}}>
-            {'View Suggested Itinerary'}
-          </Text>
-        </TouchableOpacity>
+        </View>
+        {renderAvailabilities()}
       </View>
     );
   }
+ 
+  return (
+    <View style={{backgroundColor: white, height: '100%'}}>
+      <ScrollView>
+        <ImageHeader navigation={navigation} title={tour.name}/>
+        {renderContent()}
+      </ScrollView>
+      <BottomButton onPress={() => navigation.navigate('TourEdit2')} title='View Suggested Itinierary'/>
+    </View>
+  );
+
 }
 
 const styles = StyleSheet.create({
-    divider: {
-        position: 'relative',
-        marginTop: 5,
-        marginBottom: 20,
-        borderBottomColor: '#9B9BA7',
-        borderBottomWidth: 1,
-        alignSelf: 'center',
-        width: '80%',
-    },
+  divider: {
+      position: 'relative',
+      marginTop: 5,
+      marginBottom: 20,
+      borderBottomColor: grayDark,
+      borderBottomWidth: 1,
+      alignSelf: 'center',
+      width: '80%',
+  },
   titleText: {
     fontSize: 32,
     fontWeight: '600',
-    color: 'white',
+    color: white,
     top: 80,
   },
   sectionText: {
@@ -141,7 +168,7 @@ const styles = StyleSheet.create({
   bodyText: {
     fontSize: 14,
     fontWeight: '200',
-    color: 'black',
+    color: black,
     marginBottom: 15,
     fontFamily: 'Helvetica',
     paddingLeft: 45,
@@ -168,7 +195,7 @@ const styles = StyleSheet.create({
     borderRadius: 15,
   },
   backIcon: {
-    backgroundColor: '#3154A5',
+    backgroundColor: primary,
     borderRadius: 10,
     borderColor: white,
     borderWidth: 1,
@@ -182,14 +209,14 @@ const styles = StyleSheet.create({
   },
   continue: {
     position: 'absolute',
-    bottom: -80,
+    bottom: 50,
     left: 20,
     right: 20,
-    backgroundColor: '#3154A5',
+    backgroundColor: primary,
     height: 50,
     justifyContent: 'center',
     borderRadius: 10,
-    shadowColor: '#adadad',
+    shadowColor: grayShadow,
     shadowOffset: {width: 2, height: 2},
     shadowOpacity: 0.8,
     shadowRadius: 3,
