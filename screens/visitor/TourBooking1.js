@@ -514,7 +514,7 @@ const TourBooking1 = ({navigation, route}) => {
       <FlatList
         style={{height: '100%'}}
         ListHeaderComponent={
-          <View style={{marginTop: 85, marginRight: 12, marginLeft: 12}}>
+          <View style={{marginTop: 40, marginRight: 12, marginLeft: 12}}>
             {/*Calender__________________________________________________________________________ */}
             <View style={[styles.backCard, {paddingBottom: 15}]}>
               <View style={styles.calenderLine}></View>
@@ -795,12 +795,13 @@ const TourBooking1 = ({navigation, route}) => {
                     key={index}
                     style={{
                       backgroundColor: backColor,
-                      padding: 8,
-                      marginRight: 9,
-                      marginLeft: 9,
+                      padding: 12,
+                      // marginRight: 9,
+                      // marginLeft: 9,
                       marginBottom: 4,
                       marginTop: 5,
-                      width: 170,
+                      marginHorizontal:'2.5%',
+                      width: '45%',
                       elevation: 10,
                       borderRadius: 5,
                     }}
@@ -811,11 +812,12 @@ const TourBooking1 = ({navigation, route}) => {
                     <Text
                       style={{
                         color: textColor,
-                        fontSize: 16.5,
+                        fontSize: 14,
                         fontFamily: 'Helvetica',
                         marginLeft: 'auto',
                         marginRight: 'auto',
                         fontWeight: '700',
+                        paddingBottom: 4
                       }}>
                       {range[index]}
                     </Text>
@@ -823,7 +825,7 @@ const TourBooking1 = ({navigation, route}) => {
                       style={{
                         color: subTextColor,
                         alignSelf: 'center',
-                        fontSize: 12,
+                        fontSize: 10,
                         fontWeight: '400',
                       }}>
                       {displayTimeRanges(index)}
@@ -948,15 +950,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  calenderLine: {
-    width: '90%',
-    height: 0.75,
-    backgroundColor: grayMed,
-    position: 'absolute',
-    top: 95,
-    alignSelf: 'center',
-    zIndex: 10,
-  },
+  // calenderLine: {
+  //   width: '90%',
+  //   height: 0.75,
+  //   backgroundColor: grayMed,
+  //   position: 'absolute',
+  //   top: 95,
+  //   alignSelf: 'center',
+  //   zIndex: 10,
+  // },
 });
 
 export default TourBooking1;

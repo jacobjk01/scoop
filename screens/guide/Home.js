@@ -153,6 +153,7 @@ const styles = StyleSheet.create({
     right: 5,
     flexDirection: 'row',
     marginVertical: 10,
+    paddingVertical:10
   },
   forwardIcon: {
     alignSelf: 'center',

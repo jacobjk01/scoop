@@ -15,7 +15,7 @@ const TourList = ({navigation, route}) => {
 
   return (
     <SafeAreaView>
-      <ScrollView style={{paddingRight: 20, paddingLeft: 20, height: '100%'}}>
+      <ScrollView style={{paddingRight: 20, paddingLeft: 20, height: '100%', backgroundColor:'white'}}>
         <Text style={styles.titleText}>Tour List</Text>
         <FlatList
           style={{marginBottom: 10}}

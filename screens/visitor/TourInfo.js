@@ -34,18 +34,26 @@ const TourInfo = ({ navigation, route }) => {
 
   const renderForeground = () => {
     return (
-      <View style={{ backgroundColor: red, flex: 1, borderRadius: 10}}>
+      <View style={{ backgroundColor: red, flex: 1, borderRadius: 10, }}>
         <ImageBackground style={styles.imageHeader} source={{ uri: tour.picture }}>
           <LinearGradient
             colors={['transparent', black]}
             style={styles.linearGradTour}
           />
-          <View style={styles.imageOverlay}>
-            <Text style={styles.titleText}>{tour.title}</Text>
-            <Text style={styles.detailText}>
+          <View style={{...styles.imageOverlay
+            
+          }}>
+            <Text style={{...styles.titleText, marginBottom: 15}}>{title}</Text>
+            {/* <Text style={styles.detailText}>
               60 min | Max 6 people | person
             </Text>
-            <Text style={styles.subText}> $8 per person</Text>
+            <Text style={styles.subText}> $8 per person</Text> */}
+            <Text
+              style={[
+                styles.summaryText,
+              ]}>
+              {description}
+            </Text>
           </View>
 
           <Text
@@ -123,10 +131,10 @@ const styles = StyleSheet.create({
     fontWeight: '400',
     color: white,
     marginTop: 20,
-    marginBottom: 20,
+    // marginBottom: 20,
   },
   summaryText: {
-    fontSize: 18,
+    fontSize: 14,
     fontWeight: '200',
     color: white,
     marginBottom: 30,
@@ -139,8 +147,21 @@ const styles = StyleSheet.create({
   },
   imageOverlay: {
     position: 'absolute',
-    bottom: 120,
-    paddingLeft: 25,
+    bottom: 20,
+    paddingLeft: 24,
+    paddingRight: 40,
+  },
+  backCard: {
+    flex: 1,
+    backgroundColor: 'white',
+    // marginTop: 10,
+    borderRadius: 20,
+    marginLeft: 20,
+    marginRight: 40,
+    shadowColor: black,
+    shadowOffset: { width: 1, height: 1 },
+    shadowOpacity: 0.2,
+    shadowRadius: 5,
   },
   linearGradTour: {
     position: 'absolute',
