@@ -29,7 +29,7 @@ export default  ({navigation}) => {
 
     const marks = () => {
         return (
-            <View style={{display: 'flex', flexDirection: 'row', alignSelf: 'center', top: 50, position: 'absolute'}}>
+            <View style={{display: 'flex', flexDirection: 'row', alignSelf: 'center', top: 60, position: 'absolute'}}>
                 <View style={page == 1 ? styles.oval: styles.dots}/>
                 <View style={page == 2 ? styles.oval: styles.dots}/>
                 <View style={page == 3 ? styles.oval: styles.dots}/>
@@ -41,7 +41,7 @@ export default  ({navigation}) => {
     const dropdownIcon = () => {
         return (
             <Ionicons
-                name={dropdown?'caret-down-outline':'caret-back-outline'}
+                name={'caret-down-outline'}
                 size={24}
                 color={primary}
             />
@@ -137,11 +137,11 @@ export default  ({navigation}) => {
         // For the Text that is 2 lines
         switch (page) {
             case 1:
-                positionTop = 4
+                positionTop = 0
                 question = 'Enter your name'
                 break;
             case 2:
-                positionTop = 4
+                positionTop = 0
                 question = 'Select Your School'
                 break
             case 3:
@@ -156,7 +156,7 @@ export default  ({navigation}) => {
         if (page == 5) {
             return (
                 <View style={{width: '80%', display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: 'auto', marginLeft: 'auto', marginRight: 'auto', marginBottom: 'auto'}}>
-                    <Text style={{...mediumBold, width: '70%', textAlign: 'center'}}>
+                    <Text style={{...mediumBold, width: '70%', textAlign: 'center', paddingBottom: 10}}>
                         You are all set!
                     </Text>
                     <Text style={{color: grayMed}}>
@@ -164,18 +164,24 @@ export default  ({navigation}) => {
                     </Text>
                     <Image
                         source={require('../../images/onboardingHuman.png')}
-                        style={{marginVertical: 30, marginLeft: 10}}
+                        style={{marginTop: 60, marginBottom: 30, marginLeft: 23}}
                     />
                     <TouchableOpacity
                         onPress={() => {
                             setVisitorBone(true);
                             setPage(0)
                         }}
-                        style={{backgroundColor: primary, paddingHorizontal: 20, paddingVertical: 10, borderRadius: 30}}
+                        style={{backgroundColor: primary, paddingLeft: 20, paddingRight: 10, paddingVertical: 10, borderRadius: 30, display:'flex', flexDirection: 'row'}}
                     >
-                        <Text style={{...mediumBold, color: white, textAlign: 'center'}}>
+                        <Text style={{fontFamily: 'Helvetica-Bold', fontSize: 16, color: white, textAlign: 'center'}}>
                             Start Exploring
                         </Text>
+                        <Ionicons
+                            style={{paddingLeft: 3}}
+                            name={'chevron-forward-outline'}
+                            size={20}
+                            color={white}
+                        />
                     </TouchableOpacity>
                 </View>
 
@@ -214,7 +220,7 @@ export default  ({navigation}) => {
                             </Text>
                         </TouchableOpacity>
                     </View>
-                    {page == 1 &&
+                    {page == 1 && false &&
                         <TouchableOpacity
                             disabled={page!=1}
                             style={{width: 300, height: 50, elevation: 15, position: 'relative', top: 0, zIndex: 100, backgroundColor: white}}
