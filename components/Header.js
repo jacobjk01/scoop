@@ -21,7 +21,7 @@ const Header = (params) => {
                     fontSize: 27,
                     color: white,
                     fontFamily: 'Helvetica-Bold',
-                    marginTop: 20,
+                    marginTop: 23,
                 }}
             >
                 {params.title}

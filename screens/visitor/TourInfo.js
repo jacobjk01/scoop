@@ -47,7 +47,7 @@ const TourInfo = ({ navigation, route }) => {
           />
         </View>
         <View style={{width: '85%', marginLeft: 'auto', marginRight: 'auto', marginTop: 'auto', marginBottom: 40}}>
-          <Text style={{...titleText, color: white}}>{title || "Placeholder title"}</Text>
+          <Text style={{...titleText, color: white, fontSize: 32}}>{title || "Placeholder title"}</Text>
           <Text
             style={{...mediumLight, color: white, marginTop: 30}}>
             {description}
@@ -84,10 +84,10 @@ const TourInfo = ({ navigation, route }) => {
           <View style={{ marginBottom: 80 }}>
             {renderForeground()}
             <Reviews reviews={reviews} />
+            <BackButton navigation={navigation}/>
           </View>
         }
       />
-      <BackButton navigation={navigation}/>
       <BottomButton title={pageType=='guideFlow'?'Book Tour':'Find a Tour Guide'} onPress={() => {navigation.navigate(pageType=='guideFlow'?'TourBooking2':'TourBooking1', pageType=='guideFlow'?{tour, guide}:tour);
           }}/>
     </View>

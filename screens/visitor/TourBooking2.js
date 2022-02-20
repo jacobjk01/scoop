@@ -409,7 +409,7 @@ const TourBooking2 = ({navigation, route}) => {
                       position: 'absolute',
                       bottom: 25,
                       left: 20,
-                      fontSize: 30,
+                      fontSize: 28,
                       fontFamily: 'Helvetica-Bold',
                     }}>
                     {tour.title}
@@ -555,6 +555,7 @@ const TourBooking2 = ({navigation, route}) => {
                   borderRadius: 20,
                   marginHorizontal: 10,
                   marginTop: 10,
+                  elevation: 10,
                 }}>
                 <Text style={{marginLeft: 20, fontWeight: '700', fontSize: 19}}>
                   Visitors

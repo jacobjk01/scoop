@@ -10,8 +10,12 @@ const BottomButton = (params) => {
             width: '100%',
             position: 'absolute',
             bottom: 0,
-            elevation: 20,
+            elevation: 10,
             zIndex: 100,
+
+            shadowColor: black,
+            shadowOpacity: 1,
+            shadowOffset: {width: 0, height: 2},
             }}
         >
             <TouchableOpacity
@@ -32,7 +36,7 @@ const BottomButton = (params) => {
                 elevation: 10,
             }}
             onPress={params.onPress}>
-            <Text style={{ alignSelf: 'center', color: 'white', fontFamily: 'Helvetica-Bold' }}>
+            <Text style={{ alignSelf: 'center', color: 'white', fontFamily: 'Helvetica-Bold', fontSize: 18 }}>
                 {params.title}
             </Text>
             </TouchableOpacity>

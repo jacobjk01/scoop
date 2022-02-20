@@ -36,12 +36,13 @@ const Checkout = ({navigation, route}) => {
     }
   }
   return (
-    <SafeAreaView style={{backgroundColor: '#E5E5E5', fontFamily: 'Helvetica',}}>
+    <SafeAreaView style={{backgroundColor: white, fontFamily: 'Helvetica',}}>
       <FlatList style={{height: '100%'}}
         ListHeaderComponent={
           <View>
+                  <Header title='Checkout' navigation={navigation}/>
             {/*Top Container___________________________________________________________ */}
-            <View style={styles.topContainer}>
+            <View>
               <View style={{display: 'flex', flexDirection: 'row', marginLeft: '10%', marginTop: '10%'}}>
                 <Image
                   style={{width: '45%', height: 115, resizeMode: 'cover', borderRadius: 10, marginRight: '5%'}}
@@ -82,7 +83,7 @@ const Checkout = ({navigation, route}) => {
             </View>
 
             {/*Bottom area*/}
-            <View style={styles.bottomContainer}>
+            {/* <View style={{marginBottom: 80}}>
               <Text style={{...mediumBold, color: black, marginTop: 40, marginLeft: 30, marginRight: 'auto'}}>
                 Select Payment Method
               </Text>
@@ -104,7 +105,7 @@ const Checkout = ({navigation, route}) => {
                 </View>
                 <Text style={{fontSize: 15, color: black, marginLeft: 10}}>Cash</Text>
               </TouchableOpacity>
-            </View>
+            </View> */}
           </View>
         }/>
       {/* Confirmation_________________________________ */}
@@ -155,7 +156,6 @@ const Checkout = ({navigation, route}) => {
           </View>
         </View>
       </Modal>
-      <Header title='Checkout' navigation={navigation}/>
     </SafeAreaView>
   );
 };

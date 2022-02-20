@@ -177,7 +177,7 @@ export default  ({navigation}) => {
                             Start Exploring
                         </Text>
                         <Ionicons
-                            style={{paddingLeft: 3}}
+                            style={{paddingLeft: 3, marginTop: 'auto', marginBottom: 'auto'}}
                             name={'chevron-forward-outline'}
                             size={20}
                             color={white}
