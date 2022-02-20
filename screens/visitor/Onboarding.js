@@ -29,7 +29,7 @@ export default  ({navigation}) => {
 
     const marks = () => {
         return (
-            <View style={{display: 'flex', flexDirection: 'row', alignSelf: 'center', top: -5}}>
+            <View style={{display: 'flex', flexDirection: 'row', alignSelf: 'center', top: 30, position: 'absolute'}}>
                 <View style={page == 1 ? styles.oval: styles.dots}/>
                 <View style={page == 2 ? styles.oval: styles.dots}/>
                 <View style={page == 3 ? styles.oval: styles.dots}/>
@@ -41,7 +41,7 @@ export default  ({navigation}) => {
     const dropdownIcon = () => {
         return (
             <Ionicons
-                name={'caret-down-outline'}
+                name={dropdown?'caret-down-outline':'caret-back-outline'}
                 size={24}
                 color={primary}
             />
@@ -155,7 +155,7 @@ export default  ({navigation}) => {
         }
         if (page == 5) {
             return (
-                <View style={{width: '80%', height: '60%', display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '25%', marginLeft: 'auto', marginRight: 'auto'}}>
+                <View style={{width: '80%', display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: 'auto', marginLeft: 'auto', marginRight: 'auto', marginBottom: 'auto'}}>
                     <Text style={{...mediumBold, width: '70%', textAlign: 'center'}}>
                         You are all set!
                     </Text>
@@ -183,7 +183,7 @@ export default  ({navigation}) => {
         }
         else {
             return (
-                <View style={{width: '80%', height: '50%', display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '40%', marginLeft: 'auto', marginRight: 'auto'}}>
+                <View style={{width: '80%', display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: 'auto', marginLeft: 'auto', marginRight: 'auto', marginBottom: 'auto'}}>
                     <Text style={{...mediumBold, textAlign: 'center', width: '70%', top: positionTop, position: 'absolute'}}>
                         {question}
                     </Text>
@@ -202,7 +202,7 @@ export default  ({navigation}) => {
                                 Back
                             </Text>
                         </TouchableOpacity>
-                        <TouchableOpacity 
+                        <TouchableOpacity
                             style={{borderWidth: 1.25, borderRadius: 10, paddingHorizontal: 30, paddingVertical: 7,  borderColor: data[page - 1] != '-'?primary:grayMed, backgroundColor: data[page - 1] != '-'?primary:white,}}
                             onPress={() => {
                                 if (data[page - 1] != '-')
@@ -214,52 +214,60 @@ export default  ({navigation}) => {
                             </Text>
                         </TouchableOpacity>
                     </View>
+                    {page == 1 &&
+                        <TouchableOpacity
+                            disabled={page!=1}
+                            style={{width: 300, height: 50, elevation: 15, position: 'relative', top: 0, zIndex: 100, backgroundColor: white}}
+                            onPress={() => {
+                                setVisitorBone(true)
+                                console.log(hasNotFinishedBareOnboarding)
+                            }}
+                        >
+                            <Text style={{marginLeft: 'auto', marginRight: 'auto', marginBottom: 'auto', marginTop:'auto'}}>
+                                Skip
+                            </Text>
+                        </TouchableOpacity>
+                    }
                 </View>
             )
         }
     }
     
     return (
-        <SafeAreaView style={{height: '100%', backgroundColor: white}}>
-            <TouchableOpacity
+        <SafeAreaView style={{height: '100%', backgroundColor: white, flex: 1}}>
+            {/* <TouchableOpacity
                 style={{left: 20, top: 22, ...backIcon}}
                 onPress={() => navigation.goBack()}
             >
                 <Ionicons name="chevron-back-outline" size={22} color={white} />
-            </TouchableOpacity>
+            </TouchableOpacity> */}
             {marks()}
             {mainSection()}
-            {page >= 3 && page <= 4 &&
-                <TouchableOpacity 
-                    style={{color: grayMed, alignSelf:'center', padding: 10, display: 'flex', flexDirection: 'row', alignItems: 'center'}}
-                    onPress={() => setPage(page + 1)}
-                >
-                            <Text style={{color: grayDark, fontSize: 13}}>
-                                skip
-                            </Text>
-                            <Ionicons 
-                                name="chevron-forward-outline"
-                                color={grayDark}
-                                size={15}
-                                style={{top: 1}}
-                            />
-                </TouchableOpacity>
-            }
-            {page == 1 &&
-                <Button
-                    onPress={() => {
-                        setVisitorBone(true)
-                        console.log(hasNotFinishedBareOnboarding)
-                    }} title={'Skip Onboarding'}
-                />
-            }
+            <TouchableOpacity
+                disabled={page < 3 || page > 4}
+                style={{color: grayMed, alignSelf:'center', paddingBottom: 30, display: 'flex', flexDirection: 'row', alignItems: 'center', }}
+                onPress={() => setPage(page + 1)}
+            >
+                {page >= 3 && page <= 4 &&
+                    <>
+                        <Text style={{color: grayDark, fontSize: 13}}>
+                            Skip
+                        </Text>
+                        <Ionicons 
+                            name="chevron-forward-outline"
+                            color={grayDark}
+                            size={15}
+                            style={{top: 1.5}}
+                        />
+                    </>
+                }
+            </TouchableOpacity>
         </SafeAreaView>
     )
 }
 
 const styles = StyleSheet.create({
     dropdownButton: {
-        
         borderWidth: 0.75,
         borderLeftWidth: 1.25,
         borderRightWidth: 1.25,
@@ -275,17 +283,6 @@ const styles = StyleSheet.create({
     },
     itemStyle: {
         backgroundColor: black
-    },
-    inputStyle: {
-        borderWidth: 0.75,
-        borderRadius: 5,
-        borderColor: grayDark,
-        paddingHorizontal: 20,
-        paddingVertical: 7,
-        width: '100%',
-        marginTop: 40,
-        marginBottom: 25,
-        fontSize: 18,
     },
     oval: {
         backgroundColor: primary,
