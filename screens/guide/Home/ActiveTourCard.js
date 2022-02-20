@@ -8,12 +8,13 @@ import {
 } from "react-native";
 import { capitalizeFirstLetter } from "utils";
 import TextQuadrant from "./TextQuadrant";
+
 /**
  * 
- * @param {{currentTour: {name, tourMonth,startTime,visitors,meetPoint,tourDay}, navigation}} param0 
+ * @param {{currentTour, navigation}} props 
  * @returns 
  */
-const ActiveTourCard = ({currentTour, navigation}) => {
+const ActiveTourCard = ({currentTour, navigation, asdfsdf}) => {
   return (
     <TouchableOpacity style={styles.currentTourCard} onPress={() => navigation.navigate('ViewTour', {tour: currentTour})}>
             <View style={{padding: 30}}>
