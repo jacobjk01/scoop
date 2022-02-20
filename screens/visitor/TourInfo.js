@@ -35,24 +35,25 @@ const TourInfo = ({ navigation, route }) => {
 
   const renderForeground = () => {
     return (
-      <View style={{backgroundColor: '#d92726', flex: 1, borderRadius: 10}}>
-        <ImageBackground
-          style={styles.imageHeader}
-          source={{uri: tour && tour.picture}}
-        >
+      <ImageBackground
+        style={styles.imageHeader}
+        source={{uri: tour && tour.picture}}
+        imageStyle={{ borderBottomLeftRadius: 10, borderBottomRightRadius: 10 }}
+      >
+        <View style={{height: '100%', width: '100%'}}>
           <LinearGradient
             colors={['transparent', 'black']}
-            style={{...linearGrad, position: 'absolute', top: 150, bottom: 0, left: 0, right: 0}}
+            style={{...linearGrad, height: '100%', width: '100%'}}
           />
-          <View style={{width: '90%', marginLeft: 'auto', marginRight: 'auto', marginTop: 'auto', marginBottom: 30}}>
-            <Text style={{...titleText, color: white}}>{title || "Placeholder title"}</Text>
-            <Text
-              style={{...mediumLight, color: white}}>
-              {description}
-            </Text>
-          </View>
-        </ImageBackground>
-      </View>
+        </View>
+        <View style={{width: '85%', marginLeft: 'auto', marginRight: 'auto', marginTop: 'auto', marginBottom: 40}}>
+          <Text style={{...titleText, color: white}}>{title || "Placeholder title"}</Text>
+          <Text
+            style={{...mediumLight, color: white, marginTop: 30}}>
+            {description}
+          </Text>
+        </View>
+      </ImageBackground>
     );
   };
 
@@ -132,8 +133,6 @@ const styles = StyleSheet.create({
   imageHeader: {
     width: '100%',
     height: 600,
-    borderRadius: 10,
-    zIndex: -10,
   },
   imageOverlay: {
     position: 'absolute',

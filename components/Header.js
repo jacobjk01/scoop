@@ -8,11 +8,10 @@ const Header = (params) => {
     return (
         <View
             style={{
-                marginTop:80,
                 backgroundColor: primary,
-                height: 0,
+                height: 90,
                 width: '100%',
-                position: 'absolute',
+                zIndex: 100
             }}
         >
             <Text 

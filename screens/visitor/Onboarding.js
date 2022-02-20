@@ -29,7 +29,7 @@ export default  ({navigation}) => {
 
     const marks = () => {
         return (
-            <View style={{display: 'flex', flexDirection: 'row', alignSelf: 'center', top: 30, position: 'absolute'}}>
+            <View style={{display: 'flex', flexDirection: 'row', alignSelf: 'center', top: 50, position: 'absolute'}}>
                 <View style={page == 1 ? styles.oval: styles.dots}/>
                 <View style={page == 2 ? styles.oval: styles.dots}/>
                 <View style={page == 3 ? styles.oval: styles.dots}/>
@@ -164,7 +164,7 @@ export default  ({navigation}) => {
                     </Text>
                     <Image
                         source={require('../../images/onboardingHuman.png')}
-                        style={{marginVertical: 30}}
+                        style={{marginVertical: 30, marginLeft: 10}}
                     />
                     <TouchableOpacity
                         onPress={() => {
