@@ -116,20 +116,20 @@ const HomePage = ({ navigation }) => {
             </TouchableOpacity>
           </View>
         </View> */}
-        <View style={{backgroundColor: primary, marginHorizontal: '5%', width: '90%', paddingVertical: 15, paddingHorizontal: 20,
+        <View style={{backgroundColor: white, marginHorizontal: '5%', width: '90%', paddingVertical: 15, paddingHorizontal: 20,
         borderRadius: 15, elevation: 5, display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginVertical: 15}}
         >
           <View style={{display: 'flex', flexWrap:'wrap',flexDirection: 'column', justifyContent:'space-between',}}>
             <View style={{margin: 5}}>
-              <Text style={{...graySmallText}}>
+              <Text style={{...graySmallText, color: grayDark}}>
                 Upcoming Tour</Text>
-              <Text style={{...mediumBold, color: white}}>
+              <Text style={{...mediumBold, color: black}}>
                 Westwood Tour</Text>
             </View>
             <View style={{margin: 5}}>
-              <Text style={{...graySmallText}}>
+              <Text style={{...graySmallText, color: grayDark}}>
                 Date</Text>
-              <Text style={{...mediumBold, color: white}}>
+              <Text style={{...mediumBold, color: black}}>
                 Jul 14</Text>
             </View>
           </View>
@@ -139,22 +139,22 @@ const HomePage = ({ navigation }) => {
               flexWrap: 'wrap',
               flexDirection: 'column',
             }}>
-            <View style={{ margin: 5, display: 'flex', flexDirection: 'row' }}>
+            <View style={{ margin: 5, display: 'flex', flexDirection: 'row', justifyContent: 'space-between', width: 150 }}>
               <View>
-                <Text style={{...graySmallText}}>
+                <Text style={{...graySmallText, color: grayDark}}>
                   Tour Guide</Text>
-                <Text style={{...mediumBold, color: white}}>
+                <Text style={{...mediumBold, color: black}}>
                   Brittany</Text>
               </View>
               <Image
-                style={{ height: 50, width: 50, borderRadius: 25 }}
+                style={{ height: 50, width: 50, borderRadius: 25}}
                 source={require('../../images/brittany.png')}
               />
             </View>
             <View style={{margin: 5}}>
-              <Text style={{...graySmallText}}>
+              <Text style={{...graySmallText, color: grayDark}}>
                 Time</Text>
-              <Text style={{...mediumBold, color: white}}>
+              <Text style={{...mediumBold, color: black}}>
                 12:00 PM</Text>
             </View>
           </View>

@@ -375,265 +375,268 @@ const TourBooking2 = ({navigation, route}) => {
       <FlatList
         style={{height: '100%'}}
         ListHeaderComponent={
-          <View style={{marginTop: 80}}>
-            <View style={{height: 100, flex: 1, position: 'relative'}}>
-              <ImageBackground
-                style={styles.imageHeader}
-                source={{uri: tour.picture}}>
-                <View style={styles.shader}></View>
-                <Text
-                  style={{
-                    color: white,
-                    position: 'absolute',
-                    bottom: 25,
-                    left: 20,
-                    fontSize: 30,
-                    fontFamily: 'Helvetica-Bold',
-                  }}>
-                  {tour.title}
-                </Text>
-                <Text style={styles.tourGuideText}>Tour Guide: {guide.name}</Text>
-                <ImageBackground
-                  style={styles.tourGuideProfile}
-                  imageStyle={{borderRadius: 40}}
-                  source={{uri: guide.profilePicture}}></ImageBackground>
-              </ImageBackground>
-            </View>
-            
-            {/*Calender__________________________________________________________________________ */}
-            <View style={[styles.backCard, {paddingBottom: 30}]}>
-              <Text style={[styles.sectionText, {marginTop: 20}]}>
-                Select Date
-              </Text>
-              <View style={styles.calenderLine}></View>
-              <Calendar
-                // minDate={'2012-05-10'}
-                // maxDate={'2012-05-30'}
-                onDayPress={day => {
-                  onDayPress(day.dateString)
-                  setSelectedTime(-1)
-                }}
-                // Month format in calendar title. Formatting values: http://arshaw.com/xdate/#Formatting
-                monthFormat={'MMMM yyyy'}
-                // If firstDay=1 week starts from Monday. Note that dayNames and dayNamesShort should still start from Sunday
-                firstDay={1}
-                // Handler which gets executed when press arrow icon left. It receive a callback can go back month
-                onPressArrowLeft={subtractMonth => subtractMonth()}
-                // Handler which gets executed when press arrow icon right. It receive a callback can go next month
-                onPressArrowRight={addMonth => addMonth()}
-                // Disable all touch events for disabled days. can be override with disableTouchEvent in markedDates
-                disableAllTouchEventsForDisabledDays={true}
-                // Enable the option to swipe between months. Default = false
-                enableSwipeMonths={true}
-                renderArrow={direction => {
-                  if (direction == 'left') {
-                    return (
-                      <View
-                        style={{
-                          borderWidth: 1,
-                          borderRadius: 20,
-                          borderColor: grayLight,
-                        }}>
-                        <Ionicons
-                          name="chevron-back-outline"
-                          size={11}
-                          color={primary}
-                          style={{padding: 4}}
-                        />
-                      </View>
-                    );
-                  } else {
-                    return (
-                      <View
-                        style={{
-                          borderWidth: 1,
-                          borderRadius: 20,
-                          borderColor: grayLight,
-                        }}>
-                        <Ionicons
-                          name="chevron-forward-outline"
-                          size={11}
-                          color={primary}
-                          style={{padding: 4}}
-                        />
-                      </View>
-                    );
+          <>
+            <BottomButton
+              title='Continue'
+              onPress={() => {
+                if (selectedTime != -1) {
+                  let tourSetting
+                  let timeIndex
+                  for (let i = 0; i < dayTourSettings.length; i++) {
+                    for (let j = 0; j < dayTourSettings[i].timeAvailable.length; j++) {
+                      if (times[selectedTime] == dayTourSettings[i].timeAvailable[j]) {
+                        tourSetting = dayTourSettings[i]
+                        timeIndex = j
+                      }
+                    }
                   }
-                }}
-                theme={{
-                  arrowColor: primary,
-                  todayTextColor: black,
-                  textDayFontFamily: 'Roboto-Medium',
-                  textDayFontSize: 16,
-                  monthTextColor: black,
-                  textMonthFontSize: 17,
-                  textMonthFontFamily: 'Raleway-SemiBold',
-                  dotColor: primary,
-                  selectedDotColor: primary,
-                  dayTextColor: black,
-                  selectedDayTextColor: white,
-                  selectedDayBackgroundSize: 20,
-                  selectedDotColor: white,
-                  textDayHeaderFontFamily: 'Raleway-Medium',
+                  navigation.navigate('BookingCheckout', {tourSetting, tour, guide, visitorCount, timeIndex});
+                }
+              }}
+            />
 
-                  'stylesheet.day.basic': {
-                    base: {
-                      width: 45,
-                      height: 45,
-                      alignItems: 'center',
-                      padding: 5,
-                      margin: 1,
-                    },
-                    selected: {
-                      borderRadius: 25,
-                      backgroundColor: primary,
-                    },
-                  },
-                  'stylesheet.calendar.main': {
-                    container: {
-                      marginTop: 0,
-                      paddingLeft: 20,
-                      paddingRight: 20,
-                      backgroundColor: white,
-                      borderRadius: 25,
-                    },
-                    week: {
-                      marginTop: 0,
-                      marginBottom: 0,
-                      flexDirection: 'row',
-                      justifyContent: 'space-around',
-                    },
-                  },
-                  'stylesheet.calendar.header': {
-                    header: {
-                      flexDirection: 'row',
-                      justifyContent: 'center',
-                      paddingLeft: 10,
-                      paddingRight: 10,
-                      alignItems: 'center',
-                    },
-                    monthText: {
-                      fontSize: 17,
-                      fontFamily: 'Raleway-SemiBold',
-                      color: black,
-                      margin: 10,
-                      marginBottom: 17,
-                    },
-                  },
-                }}
-                markedDates={createMarkings()}></Calendar>
-            </View>
-            {/* select visitors */}
-            <View
-              style={{
-                flex: 1,
-                height: 60,
-                backgroundColor: white,
-                justifyContent: 'center',
-                borderRadius: 20,
-                marginHorizontal: 10,
-                marginTop: 10,
-              }}>
-              <Text style={{marginLeft: 20, fontWeight: '700', fontSize: 19}}>
-                Visitors
-              </Text>
-              <TouchableOpacity
-                style={
-                  visitorCount == 1
-                    ? styles.minusDisabled
-                    : styles.minus
-                }
-                onPress={() =>
-                  setVisitorCount(visitorCount - 1)
-                }
-                disabled={visitorCount == 1 ? true : false}>
-                <Ionicons
-                  name="remove-outline"
-                  color={visitorCount == 1 ? '#9B9BA7' : 'white'}
-                  style={{
-                    alignSelf: 'center',
-                    marginTop: 'auto',
-                    marginBottom: 'auto',
-                  }}
-                  size={15}></Ionicons>
-              </TouchableOpacity>
-              <Text style={styles.number}>{visitorCount}</Text>
-              <TouchableOpacity
-                style={styles.plus}
-                onPress={() =>
-                  setVisitorCount(visitorCount + 1)
-                }>
-                <Text style={{color: white, alignSelf: 'center'}}>+</Text>
-              </TouchableOpacity>
-            </View>
-            {/*Select Time________________________________________________________ */}
-            {times != undefined &&
-              <View style={[styles.backCard, {paddingBottom: 5}]}>
-              <Text style={styles.sectionText}>Select Time</Text>
-              <View style={styles.timeView}>
-                {[...Array(times.length).keys()].map(index =>
-                  timeSelect(index),
-                )}
+            {/*Header_________________________________________________________________ */}
+            <Header title='Booking' navigation={navigation}/>
+            <View>
+              <View style={{height: 100, flex: 1, position: 'relative'}}>
+                <ImageBackground
+                  style={styles.imageHeader}
+                  source={{uri: tour.picture}}>
+                  <View style={styles.shader}></View>
+                  <Text
+                    style={{
+                      color: white,
+                      position: 'absolute',
+                      bottom: 25,
+                      left: 20,
+                      fontSize: 28,
+                      fontFamily: 'Helvetica-Bold',
+                    }}>
+                    {tour.title}
+                  </Text>
+                  <Text style={styles.tourGuideText}>Tour Guide: {guide.name}</Text>
+                  <ImageBackground
+                    style={styles.tourGuideProfile}
+                    imageStyle={{borderRadius: 40}}
+                    source={{uri: guide.profilePicture}}></ImageBackground>
+                </ImageBackground>
               </View>
-            </View>
-            }
+              
+              {/*Calender__________________________________________________________________________ */}
+              <View style={[styles.backCard, {paddingBottom: 30}]}>
+                <Text style={[styles.sectionText, {marginTop: 20}]}>
+                  Select Date
+                </Text>
+                <View style={styles.calenderLine}></View>
+                <Calendar
+                  // minDate={'2012-05-10'}
+                  // maxDate={'2012-05-30'}
+                  onDayPress={day => {
+                    onDayPress(day.dateString)
+                    setSelectedTime(-1)
+                  }}
+                  // Month format in calendar title. Formatting values: http://arshaw.com/xdate/#Formatting
+                  monthFormat={'MMMM yyyy'}
+                  // If firstDay=1 week starts from Monday. Note that dayNames and dayNamesShort should still start from Sunday
+                  firstDay={1}
+                  // Handler which gets executed when press arrow icon left. It receive a callback can go back month
+                  onPressArrowLeft={subtractMonth => subtractMonth()}
+                  // Handler which gets executed when press arrow icon right. It receive a callback can go next month
+                  onPressArrowRight={addMonth => addMonth()}
+                  // Disable all touch events for disabled days. can be override with disableTouchEvent in markedDates
+                  disableAllTouchEventsForDisabledDays={true}
+                  // Enable the option to swipe between months. Default = false
+                  enableSwipeMonths={true}
+                  renderArrow={direction => {
+                    if (direction == 'left') {
+                      return (
+                        <View
+                          style={{
+                            borderWidth: 1,
+                            borderRadius: 20,
+                            borderColor: grayLight,
+                          }}>
+                          <Ionicons
+                            name="chevron-back-outline"
+                            size={11}
+                            color={primary}
+                            style={{padding: 4}}
+                          />
+                        </View>
+                      );
+                    } else {
+                      return (
+                        <View
+                          style={{
+                            borderWidth: 1,
+                            borderRadius: 20,
+                            borderColor: grayLight,
+                          }}>
+                          <Ionicons
+                            name="chevron-forward-outline"
+                            size={11}
+                            color={primary}
+                            style={{padding: 4}}
+                          />
+                        </View>
+                      );
+                    }
+                  }}
+                  theme={{
+                    arrowColor: primary,
+                    todayTextColor: black,
+                    textDayFontFamily: 'Roboto-Medium',
+                    textDayFontSize: 16,
+                    monthTextColor: black,
+                    textMonthFontSize: 17,
+                    textMonthFontFamily: 'Raleway-SemiBold',
+                    dotColor: primary,
+                    selectedDotColor: primary,
+                    dayTextColor: black,
+                    selectedDayTextColor: white,
+                    selectedDayBackgroundSize: 20,
+                    selectedDotColor: white,
+                    textDayHeaderFontFamily: 'Raleway-Medium',
 
-            {/* Meeting Point_______________________________________________________________ */}
-            {/* <View
-              style={[
-                styles.backCard,
-                {paddingLeft: 40, paddingRight: 40, paddingBottom: 30},
-              ]}>
-              {showMeetingPoint()}
-            </View> */}
-
-            {/* Aditional Requests_______________________________ */}
-            <View
-              style={[
-                styles.backCard,
-                {paddingLeft: 30, paddingRight: 30, paddingBottom: 30, marginBottom: 100},
-              ]}>
-              <Text style={styles.sectionText}>Additional Requests</Text>
-
-              <TextInput
+                    'stylesheet.day.basic': {
+                      base: {
+                        width: 45,
+                        height: 45,
+                        alignItems: 'center',
+                        padding: 5,
+                        margin: 1,
+                      },
+                      selected: {
+                        borderRadius: 25,
+                        backgroundColor: primary,
+                      },
+                    },
+                    'stylesheet.calendar.main': {
+                      container: {
+                        marginTop: 0,
+                        paddingLeft: 20,
+                        paddingRight: 20,
+                        backgroundColor: white,
+                        borderRadius: 25,
+                      },
+                      week: {
+                        marginTop: 0,
+                        marginBottom: 0,
+                        flexDirection: 'row',
+                        justifyContent: 'space-around',
+                      },
+                    },
+                    'stylesheet.calendar.header': {
+                      header: {
+                        flexDirection: 'row',
+                        justifyContent: 'center',
+                        paddingLeft: 10,
+                        paddingRight: 10,
+                        alignItems: 'center',
+                      },
+                      monthText: {
+                        fontSize: 17,
+                        fontFamily: 'Raleway-SemiBold',
+                        color: black,
+                        margin: 10,
+                        marginBottom: 17,
+                      },
+                    },
+                  }}
+                  markedDates={createMarkings()}></Calendar>
+              </View>
+              {/* select visitors */}
+              <View
                 style={{
                   flex: 1,
-                  borderColor: '#9B9BA7',
-                  borderRadius: 10,
-                  borderWidth: 1,
-                  marginTop: 20,
-                  padding: 10,
-                  alignItems: 'center',
+                  height: 60,
+                  backgroundColor: white,
                   justifyContent: 'center',
-                  height: 40,
-                }}
-                multiline={true}
-              />
+                  borderRadius: 20,
+                  marginHorizontal: 10,
+                  marginTop: 10,
+                  elevation: 10,
+                }}>
+                <Text style={{marginLeft: 20, fontWeight: '700', fontSize: 19}}>
+                  Visitors
+                </Text>
+                <TouchableOpacity
+                  style={
+                    visitorCount == 1
+                      ? styles.minusDisabled
+                      : styles.minus
+                  }
+                  onPress={() =>
+                    setVisitorCount(visitorCount - 1)
+                  }
+                  disabled={visitorCount == 1 ? true : false}>
+                  <Ionicons
+                    name="remove-outline"
+                    color={visitorCount == 1 ? '#9B9BA7' : 'white'}
+                    style={{
+                      alignSelf: 'center',
+                      marginTop: 'auto',
+                      marginBottom: 'auto',
+                    }}
+                    size={15}></Ionicons>
+                </TouchableOpacity>
+                <Text style={styles.number}>{visitorCount}</Text>
+                <TouchableOpacity
+                  style={styles.plus}
+                  onPress={() =>
+                    setVisitorCount(visitorCount + 1)
+                  }>
+                  <Text style={{color: white, alignSelf: 'center'}}>+</Text>
+                </TouchableOpacity>
+              </View>
+              {/*Select Time________________________________________________________ */}
+              {times != undefined &&
+                <View style={[styles.backCard, {paddingBottom: 5}]}>
+                <Text style={styles.sectionText}>Select Time</Text>
+                <View style={styles.timeView}>
+                  {[...Array(times.length).keys()].map(index =>
+                    timeSelect(index),
+                  )}
+                </View>
+              </View>
+              }
+
+              {/* Meeting Point_______________________________________________________________ */}
+              {/* <View
+                style={[
+                  styles.backCard,
+                  {paddingLeft: 40, paddingRight: 40, paddingBottom: 30},
+                ]}>
+                {showMeetingPoint()}
+              </View> */}
+
+              {/* Aditional Requests_______________________________ */}
+              <View
+                style={[
+                  styles.backCard,
+                  {paddingLeft: 30, paddingRight: 30, paddingBottom: 30, marginBottom: 100},
+                ]}>
+                <Text style={styles.sectionText}>Additional Requests</Text>
+
+                <TextInput
+                  style={{
+                    flex: 1,
+                    borderColor: '#9B9BA7',
+                    borderRadius: 10,
+                    borderWidth: 1,
+                    marginTop: 20,
+                    padding: 10,
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    height: 40,
+                  }}
+                  multiline={true}
+                />
+              </View>
             </View>
-          </View>
+          </>
         }
       />
-      <BottomButton
-        title='Continue'
-        onPress={() => {
-          if (selectedTime != -1) {
-            let tourSetting
-            let timeIndex
-            for (let i = 0; i < dayTourSettings.length; i++) {
-              for (let j = 0; j < dayTourSettings[i].timeAvailable.length; j++) {
-                if (times[selectedTime] == dayTourSettings[i].timeAvailable[j]) {
-                  tourSetting = dayTourSettings[i]
-                  timeIndex = j
-                }
-              }
-            }
-            navigation.navigate('BookingCheckout', {tourSetting, tour, guide, visitorCount, timeIndex});
-          }
-        }}
-      />
-
-      {/*Header_________________________________________________________________ */}
-      <Header title='Booking' navigation={navigation}/>
     </SafeAreaView>
   );
 }
