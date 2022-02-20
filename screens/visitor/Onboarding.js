@@ -60,7 +60,7 @@ export default  ({navigation}) => {
         for(let i = 0; i < options.length; i++) {
             rows.push(
                 <TouchableOpacity
-                    style={{paddingVertical: 8, paddingLeft: 15, borderColor: grayDark, borderBottomWidth: i != options.length - 1?0.5:0}}
+                    style={{ paddingVertical: 8, paddingLeft: 15, borderColor: grayDark, borderBottomWidth: i != options.length - 1?0.5:0}}
                     key={i}
                     onPress={() => {
                         let temp = [...data]
@@ -224,7 +224,7 @@ export default  ({navigation}) => {
                             }}
                         >
                             <Text style={{marginLeft: 'auto', marginRight: 'auto', marginBottom: 'auto', marginTop:'auto'}}>
-                                Skip
+                                Skip (DEV - TODO - DELETE WEN LAUNCH)
                             </Text>
                         </TouchableOpacity>
                     }
