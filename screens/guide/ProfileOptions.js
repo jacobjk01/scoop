@@ -22,8 +22,11 @@ const ProfileOptions = ({ navigation }) => {
 
   useEffect(() => { }, [user])
 
-  useEffect(async () => {
-    setProfilePicture(await getPicture(userAuth.uid, 'profilePicture'));
+  useEffect(() => {
+    async function getData() {
+      setProfilePicture(await getPicture(userAuth.uid, 'profilePicture'));
+    }
+    getData();
   }, [isFocused])
 
   return (
