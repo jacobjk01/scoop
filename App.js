@@ -115,10 +115,13 @@ const App: () => Node = () => {
               case 'ManageTours':
                 iconName = focused ? 'map' : 'map-outline';
                 break;
-              case 'Tours':
+              case 'TourList':
                 iconName = focused ? 'map' : 'map-outline';
                 break;
-              case 'ProfileOptions' || 'AccountGuide' || 'AccountVisitor':
+              case 'AccountVisitor':
+              case 'AccountGuide':
+              case 'ProfileOptions':
+              case 'Account':
                 iconName = focused ? 'person' : 'person-outline';
                 break;
               default:

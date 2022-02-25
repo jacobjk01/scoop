@@ -26,7 +26,8 @@ import { viewMyTours, getTour } from '../../api/tours';
 import BackButton from '../../components/BackButton';
 
 const Profile = ({ navigation, route }) => {
-
+  console.log('made it to guide')
+  console.log('made it to guide')
   const [tours, setTours] = useState();
   let guideModel = {
     name: '',
@@ -154,29 +155,31 @@ const Profile = ({ navigation, route }) => {
       </View>
     );
   };
-
   return (
-    <View style={{height: '100%'}}>
-      <ImageBackground
-        style={styles.imageHeader}
-        source={require('../../images/Westwood_village.jpg')}
-      />
+    <ImageBackground
+      style={{
+        height: '100%',
+        borderTopLeftRadius: 0,
+        borderTopRightRadius: 0,
+        borderRadius: 10,
+      }}
+      source={require('../../images/Westwood_village.jpg')}
+    >
+      <BackButton navigation={navigation}/>
       <ScrollView
         nestedScrollEnabled={true}
         style={{
-          position: 'absolute',
-          top: 0,
-          bottom: 0,
           width: '100%',
-        }}>
-        <View style={{backgroundColor: 'transparent', height: 230}}></View>
+        }}
+      >
         <View
           style={{
             backgroundColor: 'white',
             borderTopLeftRadius: 30,
             borderTopRightRadius: 30,
-            marginTop: -20,
-          }}>
+            marginTop: 200,
+          }}
+        >
           <View
             style={{
               display: 'flex',
@@ -188,7 +191,7 @@ const Profile = ({ navigation, route }) => {
 
           </View>
 
-          {route.params.pageType=='guideFlow' && 
+          {route.params.pageType=='guideFlow' &&
             <>
               <View style={styles.divider} />
               <View style={{ marginTop: 10, marginHorizontal: 20 }}>
@@ -273,8 +276,7 @@ const Profile = ({ navigation, route }) => {
           <Reviews reviews={reviews} />
         </View>
       </ScrollView>
-      <BackButton navigation={navigation}/>
-    </View>
+    </ImageBackground>
   );
 };
 
