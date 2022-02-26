@@ -6,6 +6,7 @@ import {
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { renderStars } from '../../components/Stars';
+import {titleText, graySmallText, mediumBold, largeBoldText, linearGrad} from '../../config/typography.js'
 import toursData from '../../data/toursData';
 import BackButton from '../../components/BackButton';
 
@@ -25,7 +26,6 @@ const TourList = ({navigation, route}) => {
             data={tours}
             renderItem={touritem => (
               <View>
-                {console.log(touritem.item.name)}
                 <FlatList
                   style={{marginTop: 30, marginBottom: 15}}
                   horizontal={true}
@@ -59,7 +59,7 @@ const TourList = ({navigation, route}) => {
                     };
                     navigation.navigate('TourInfo', {itemInfo});
                   }}>
-                  <Text style={styles.sectionText}>{touritem.item.name}</Text>
+                  <Text style={{...mediumBold}}>{touritem.item.name}</Text>
                   {renderStars(4.5)}
                   <Text style={{marginTop: 5}}>Duration: 60 min</Text>
                   <Text style={{marginTop: 5}}>Transportation: Walking</Text>

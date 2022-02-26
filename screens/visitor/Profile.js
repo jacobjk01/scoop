@@ -19,16 +19,14 @@ import {withSafeAreaInsets} from 'react-native-safe-area-context';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import LinearGradient from 'react-native-linear-gradient';
 import Reviews from '../../components/Reviews';
-import { primary, grayDark, white, black, tappableBlue } from 'config/colors';
+import { primary, grayDark, white, black, tappableBlue, grayLight, grayMed } from 'config/colors';
 import reviewData from '../../data/reviews';
 import { getUser, getUserById } from '../../api/users';
 import { viewMyTours, getTour } from '../../api/tours';
 import BackButton from '../../components/BackButton';
 
 const Profile = ({ navigation, route }) => {
-  console.log('made it to guide')
-  console.log('made it to guide')
-  const [tours, setTours] = useState();
+  const [tours, setTours] = useState([]);
   let guideModel = {
     name: '',
     hometown: '',
@@ -137,9 +135,6 @@ const Profile = ({ navigation, route }) => {
             alignItems: 'center',
             marginTop: 10,
           }}>
-          <TouchableOpacity onPress={() => {}} style={styles.roundButton1}>
-            <Text style={styles.messageFont}>Message</Text>
-          </TouchableOpacity>
           {route.params.pageType=='tourFlow' &&
             <TouchableOpacity
             onPress={() => {
@@ -165,13 +160,13 @@ const Profile = ({ navigation, route }) => {
       }}
       source={require('../../images/Westwood_village.jpg')}
     >
-      <BackButton navigation={navigation}/>
       <ScrollView
         nestedScrollEnabled={true}
         style={{
           width: '100%',
         }}
       >
+        <BackButton navigation={navigation}/>
         <View
           style={{
             backgroundColor: 'white',
@@ -210,10 +205,22 @@ const Profile = ({ navigation, route }) => {
                 data={tours}
                 renderItem={item => navigateCheckout(item)}
               />
+              {tours[0] == null &&
+                <Text
+                  style={{
+                    fontSize: 18,
+                    color: grayLight,
+                    marginLeft: 'auto',
+                    marginRight: 'auto'
+                  }}
+                >
+                  No Available Tours
+                </Text>
+              }
             </>
           }
           <View style={styles.divider} />
-          <View style={{marginLeft: 20}}>
+          <View style={{marginLeft: 'auto', marginRight: 'auto', width: '90%'}}>
             <Text
               style={{
                 marginTop: 20,
@@ -233,7 +240,7 @@ const Profile = ({ navigation, route }) => {
               Hometown: {guide.hometown}
             </Text>
             <View
-              style={{marginRight: 30, marginTop: 3, backgroundColor: 'white'}}>
+              style={{marginTop: 3, backgroundColor: 'white', width: '100%'}}>
               {!seeMore && (
                 <LinearGradient
                   colors={['#ffffff00', 'white']}
@@ -249,6 +256,7 @@ const Profile = ({ navigation, route }) => {
                 style={styles.seeMoreButton}>
                 {seeMore ? 'Read Less' : 'Read More'}
               </Text>
+
             </View>
           </View>
           <View style={styles.divider} />
@@ -294,19 +302,10 @@ const styles = StyleSheet.create({
     resizeMode: 'cover',
   },
   divider: {
-    position: 'relative',
-    marginTop: 50,
+    marginTop: 30,
 
     borderBottomColor: grayDark,
     borderBottomWidth: 1,
-  },
-  divider2: {
-    position: 'relative',
-    marginTop: 20,
-
-    borderBottomColor: grayDark,
-    borderBottomWidth: 1,
-    marginHorizontal: 30,
   },
   backgroundRectangle: {
     position: 'absolute',
@@ -352,7 +351,7 @@ const styles = StyleSheet.create({
     width: 100,
     height: 100,
     borderRadius: 100,
-    backgroundColor: grayDark,
+    backgroundColor: 'transparent',
   },
   baseText: {
     fontFamily: 'Helvetica',
@@ -465,7 +464,7 @@ const styles = StyleSheet.create({
   },
   regularText: {},
   limitedText: {
-    height: 80,
+    maxHeight: 80,
   },
   seeMoreButton: {
     marginTop: 10,

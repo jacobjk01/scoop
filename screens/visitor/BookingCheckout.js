@@ -50,8 +50,7 @@ const Checkout = ({navigation, route}) => {
       <FlatList style={{height: '100%'}}
         ListHeaderComponent={
           <View>
-                  <Header title='Checkout' navigation={navigation}/>
-            {/*Top Container___________________________________________________________ */}
+            <Header title='Checkout' navigation={navigation}/>
             <View>
               <View style={{display: 'flex', flexDirection: 'row', marginLeft: '10%', marginTop: '10%'}}>
                 <Image
@@ -80,7 +79,7 @@ const Checkout = ({navigation, route}) => {
                 </View>
                 <View style={{width: '50%'}}>
                   <Text style={styles.infoTitle}>Meetup Point</Text>
-                  <Text style={styles.info}>{meetingPt}</Text>
+                  <Text style={styles.info}>{meetingPt?meetingPt:'N/A'}</Text>
                 </View>
               </View>
               <View style={styles.divider}>
@@ -117,9 +116,10 @@ const Checkout = ({navigation, route}) => {
               </TouchableOpacity>
             </View> */}
           </View>
-        }/>
+        }
+      />
       {/* Confirmation_________________________________ */}
-      <BottomButton title='Continue' 
+      <BottomButton title='Confirm' 
         onPress={() => {
           if (payOption != null){
             setModalVisible(true)
