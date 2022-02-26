@@ -100,6 +100,9 @@ const TourBooking2 = ({navigation, route}) => {
           }
         }
       }
+      if(times[selectedTime] == null){
+        setSelectedTime(-1)
+      }
       setTimes(times)
       setDayTourSettings(dayTourSettings)
 
@@ -495,6 +498,7 @@ const TourBooking2 = ({navigation, route}) => {
                 </Text>
                 <View style={styles.calenderLine}></View>
                 <Calendar
+                  current={selectedDay}
                   // minDate={'2012-05-10'}
                   // maxDate={'2012-05-30'}
                   onDayPress={day => {
