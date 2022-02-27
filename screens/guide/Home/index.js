@@ -20,36 +20,38 @@ const Home = ({navigation}) => {
     <SafeAreaView >
       <ScrollView style={{height: '100%'}}>
         {activeTour && <ActiveTourCard currentTour={activeTour} navigation={navigation} />}
-        <View style={activeTour ? {marginTop: 20} : {marginTop: 50}}>
-          <Text style={[activeTour ? null : {marginBottom: 30}, {marginLeft: 30, fontSize: 24, fontWeight: '700'}]}>
-            Upcoming Tours
-          </Text>
-          {activeTour ? <View style={[styles.divider, {paddingTop: 20}]}></View> : null}
-        </View>
-        <View style={{flexWrap: 'wrap', alignContent: 'center'}}>
-          {tours.map((tour) => {
-            return(
-              <TouchableOpacity key={tour.id} style={styles.tourCard} onPress={() => navigation.navigate('ViewTour', {tour})}>
-                {/* <Image style={styles.tourImage} source={tour.src}></Image> */}
-                <View style={styles.tourTextSection}>
-                    <View style={styles.tourDateSection}>
-                        <Text style={styles.tourDateText}>{tour.tourMonth}</Text>
-                        <Text style={styles.tourDateText}>{tour.tourDay}</Text>
-                    </View>
-                    <View style={styles.tourInfoSection}>
-                        <Text style={styles.tourNameText}>{tour.name}</Text>
-                        <Text style={{marginTop: 5}}>{tour.startTime}</Text>
-                        <Text style={{marginTop: 5}}>{tour.meetPoint}</Text>
-                    </View>
-                    <View style={styles.forwardIcon}>
-                        <Ionicons name='chevron-forward-outline' size={20} color={grayDark} />
-                    </View>
-                </View>
-                <View style={styles.divider}></View>
-              </TouchableOpacity>
-            )
-          })}
-        </View>
+        <>
+          <View style={activeTour ? {marginTop: 20} : {marginTop: 50}}>
+            <Text style={[activeTour ? null : {marginBottom: 30}, {marginLeft: 30, fontSize: 24, fontWeight: '700'}]}>
+              Upcoming Tours
+            </Text>
+            <View style={[styles.divider, {paddingTop: 20}]} />
+          </View>
+          <View style={{flexWrap: 'wrap', alignContent: 'center'}}>
+            {tours.map((tour) => {
+              return(
+                <TouchableOpacity key={tour.id} style={styles.tourCard} onPress={() => navigation.navigate('ViewTour', {tour})}>
+                  {/* <Image style={styles.tourImage} source={tour.src}></Image> */}
+                  <View style={styles.tourTextSection}>
+                      <View style={styles.tourDateSection}>
+                          <Text style={styles.tourDateText}>{tour.tourMonth}</Text>
+                          <Text style={styles.tourDateText}>{tour.tourDay}</Text>
+                      </View>
+                      <View style={styles.tourInfoSection}>
+                          <Text style={styles.tourNameText}>{tour.name}</Text>
+                          <Text style={{marginTop: 5}}>{tour.startTime}</Text>
+                          <Text style={{marginTop: 5}}>{tour.meetPoint}</Text>
+                      </View>
+                      <View style={styles.forwardIcon}>
+                          <Ionicons name='chevron-forward-outline' size={20} color={grayDark} />
+                      </View>
+                  </View>
+                  <View style={styles.divider}></View>
+                </TouchableOpacity>
+              )
+            })}
+          </View>
+        </>
       </ScrollView>
     </SafeAreaView>
   );
