@@ -123,10 +123,10 @@ const Profile = ({ navigation, route }) => {
           justifyContent: 'center',
           alignItems: 'center',
         }}>
-        <Image style={styles.listGuideImage} source={{uri: guide.profilePicture}} />
+        <Image style={styles.listGuideImage} source={guide.profilePicture==undefined?require('../../images/defaultpfp.png'):{uri: guide.profilePicture}} />
         <Text style={styles.sectionText}>{guide.name}</Text>
         <Text style={styles.baseText}>
-          {guide.major + ','} {guide.year}
+          {guide.major==undefined?'':guide.major}{guide.major==undefined && guide.year==undefined?'':','} {guide.year==undefined?'':guide.year}
         </Text>
         <View
           style={{
@@ -138,7 +138,7 @@ const Profile = ({ navigation, route }) => {
           {route.params.pageType=='tourFlow' &&
             <TouchableOpacity
             onPress={() => {
-              const tour = route.params.tour
+              const tour = route.params .tour
               const selectedDay = route.params.selectedDay
               navigation.navigate('TourBooking2', {tour, selectedDay, guide})}
             }
@@ -210,7 +210,7 @@ const Profile = ({ navigation, route }) => {
                   style={{
                     fontSize: 18,
                     color: grayLight,
-                    marginLeft: 'auto',
+                    marginLeft: 20,
                     marginRight: 'auto'
                   }}
                 >
@@ -241,12 +241,12 @@ const Profile = ({ navigation, route }) => {
             </Text>
             <View
               style={{marginTop: 3, backgroundColor: 'white', width: '100%'}}>
-              {!seeMore && (
+              {/* {!seeMore && (
                 <LinearGradient
                   colors={['#ffffff00', 'white']}
                   style={styles.linearGradText}
                 />
-              )}
+              )} */}
               {/* <View style={styles.opacityBlock} /> */}
               <Text style={seeMore ? styles.regularText : styles.limitedText}>
                 {guide.intro}
@@ -254,7 +254,7 @@ const Profile = ({ navigation, route }) => {
               <Text
                 onPress={() => setSeeMore(!seeMore)}
                 style={styles.seeMoreButton}>
-                {seeMore ? 'Read Less' : 'Read More'}
+                {/* {seeMore ? 'Read Less' : 'Read More'} */}
               </Text>
 
             </View>
