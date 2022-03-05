@@ -201,14 +201,14 @@ const HomePage = ({ navigation }) => {
               <ImageBackground
                 style={styles.listGuideImage}
                 imageStyle={{ borderRadius: 10 }}
-                source={{ uri: item.profilePicture }}>
+                source={item.profilePicture == undefined?require('../../images/defaultpfp.png'):{ uri: item.profilePicture }}>
                 <LinearGradient
-                  colors={['transparent', 'rgba(0,0,0,0.6)']}
-                  style={{...linearGrad, marginTop: 'auto', height: '70%', width: '100%'}}
+                  colors={['transparent', 'rgba(0,0,0,0.4)']}
+                  style={{...linearGrad, marginTop: 'auto', height: '100%', width: '100%'}}
                 >
-                  <View style={{display: 'flex', flexDirection: 'row', marginTop: 'auto', margin: 10}}>
+                  <View style={{display: 'flex', flexDirection: 'row', marginTop: 'auto', margin: 10, flexWrap: 'wrap'}}>
                     <Text style={{color: white, fontFamily: 'Helvetica-Bold'}}>
-                      {item.name},{' '}
+                      {item.name}{item.year == undefined?'':', '}
                     </Text>
                     <Text
                       style={{ color: white, fontFamily: 'Helvetica-Oblique' }}>

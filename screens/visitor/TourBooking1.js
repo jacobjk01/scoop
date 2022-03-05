@@ -201,7 +201,7 @@ const TourBooking1 = ({navigation, route}) => {
       selectedTimes[3] == false &&
       selectedDay != ''
     ) {
-      text = 'Please select a time';
+      text = 'Please select a Time';
     } else {
       text = 'Please Select a Time and Date';
     }

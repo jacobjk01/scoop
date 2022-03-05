@@ -37,7 +37,7 @@ const TourBooking2 = ({navigation, route}) => {
   const [dayTourSettings, setDayTourSettings] = useState()
   const [visitorCount, setVisitorCount] = useState(1)
   const [selectedDay, setSelectedDay] = useState(route.params.selectedDay)
-  const [times, setTimes] = useState()
+  const [times, setTimes] = useState([])
   //this is the INDEX of the selected Time, not the time itself
   const [selectedTime, setSelectedTime] = useState(-1)
   const [selectedMeet, setSelectedMeet] = useState(0)
@@ -71,8 +71,12 @@ const TourBooking2 = ({navigation, route}) => {
               }
             }
           }
+          //get rid of duplicate days, causes bugs for select Time when there are duplicate marks
+          let filteredMarks = marks.filter((mark, index) => {
+            return marks.indexOf(mark) === index
+          })
           setTourSettings(filteredTourSettings)
-          setMarks(marks)
+          setMarks(filteredMarks)
           setTimes(times)
           setDayTourSettings(dayTourSettings)
       })
@@ -80,6 +84,35 @@ const TourBooking2 = ({navigation, route}) => {
 
     return () => {isMounted = false}
   }, [])
+  useEffect(() => {
+    let times = []
+    let dayTourSettings = []
+    if(selectedDay == ''){
+      setTimes([])
+    }
+    else if (tourSettings != null && selectedDay != ''){
+      for (let i = 0; i < tourSettings.length; i++) {
+        for (let j = 0; j < tourSettings[i].timeAvailable.length; j++) {
+          //only show times that correlate to toursetting that can hold the # of visitors the user wants, and if the day/time is the same
+          if (moment(tourSettings[i].timeAvailable[j]).format("YYYY" + "-" + "MM" + "-" + "DD") == selectedDay && tourSettings[i].maxPeople >= visitorCount) {
+            times.push(tourSettings[i].timeAvailable[j])
+            dayTourSettings.push(tourSettings[i])
+          }
+        }
+      }
+      if(times[selectedTime] == null){
+        setSelectedTime(-1)
+      }
+      setTimes(times)
+      setDayTourSettings(dayTourSettings)
+
+    }
+    return() => {
+      if (times[0] == null){
+        setSelectedTime(-1)
+      }
+    }
+  }, [selectedDay, visitorCount])
   const openModal = () => {
     setModalVisible(true)
     setSelectedMeet(1)
@@ -178,31 +211,58 @@ const TourBooking2 = ({navigation, route}) => {
     return calenderMarkings;
   };
   const onDayPress = day => {
-    let times = []
-    let dayTourSettings = []
     //for loop checks if selected day has a dot underneath (dots indicate there is a tour on that day)
     for (let i = 0; i < marks.length; i++) {
       if (day == marks[i] && selectedDay == day){
         setSelectedDay('')
-        setTimes()
       }
-      else if (day == marks[i]) {
+      else if (day == marks[i] && selectedDay != day) {
         setSelectedDay(day)
-        for (let i = 0; i < tourSettings.length; i++) {
-          for (let j = 0; j < tourSettings[i].timeAvailable.length; j++) {
-            if (moment(tourSettings[i].timeAvailable[j]).format("YYYY" + "-" + "MM" + "-" + "DD") == day) {
-              times.push(tourSettings[i].timeAvailable[j])
-              dayTourSettings.push(tourSettings[i])
-            }
-          }
-        }
-  
-        setTimes(times)
-        setDayTourSettings(dayTourSettings)
       }
     }
   };
 
+  const noTimes = () => {
+    if (selectedDay == '') {
+      return(
+        <Text 
+          style={{
+            color: grayLight,
+            borderWidth: 2,
+            borderColor: grayLight,
+            paddingHorizontal: 17,
+            paddingVertical: 10,
+            fontSize: 18,
+            borderRadius: 15,
+            marginBottom: 15
+          }}
+        >
+          Please Select a Day
+        </Text>
+      )
+    }
+    else if (times[0] == null){
+      return(
+        <Text 
+          style={{
+            color: grayLight,
+            borderWidth: 2,
+            borderColor: grayLight,
+            paddingHorizontal: 17,
+            paddingVertical: 10,
+            fontSize: 18,
+            borderRadius: 15,
+            marginBottom: 15
+          }}
+        >
+          No Times with {visitorCount} visitors
+        </Text>
+      )
+    }
+    else{
+      return ([...Array(times.length).keys()].map(index =>timeSelect(index)))
+    }
+  }
   const showMeetingPoint = () => {
     if (selectedTime != -1) {
       return (
@@ -378,6 +438,14 @@ const TourBooking2 = ({navigation, route}) => {
           <>
             <BottomButton
               title='Continue'
+              disabled={() => {
+                if (selectedTime == -1) {
+                  return true
+                }
+                else{
+                  return false
+                }
+              }}
               onPress={() => {
                 if (selectedTime != -1) {
                   let tourSetting
@@ -390,6 +458,7 @@ const TourBooking2 = ({navigation, route}) => {
                       }
                     }
                   }
+
                   navigation.navigate('BookingCheckout', {tourSetting, tour, guide, visitorCount, timeIndex});
                 }
               }}
@@ -429,6 +498,7 @@ const TourBooking2 = ({navigation, route}) => {
                 </Text>
                 <View style={styles.calenderLine}></View>
                 <Calendar
+                  current={selectedDay}
                   // minDate={'2012-05-10'}
                   // maxDate={'2012-05-30'}
                   onDayPress={day => {
@@ -552,10 +622,10 @@ const TourBooking2 = ({navigation, route}) => {
                   height: 60,
                   backgroundColor: white,
                   justifyContent: 'center',
-                  borderRadius: 20,
+                  borderRadius: 15,
                   marginHorizontal: 10,
                   marginTop: 10,
-                  elevation: 10,
+                  elevation: 5,
                 }}>
                 <Text style={{marginLeft: 20, fontWeight: '700', fontSize: 19}}>
                   Visitors
@@ -590,16 +660,13 @@ const TourBooking2 = ({navigation, route}) => {
                 </TouchableOpacity>
               </View>
               {/*Select Time________________________________________________________ */}
-              {times != undefined &&
-                <View style={[styles.backCard, {paddingBottom: 5}]}>
+              <View style={[styles.backCard, {paddingBottom: 5}]}>
                 <Text style={styles.sectionText}>Select Time</Text>
                 <View style={styles.timeView}>
-                  {[...Array(times.length).keys()].map(index =>
-                    timeSelect(index),
-                  )}
+                  {noTimes()}
                 </View>
               </View>
-              }
+
 
               {/* Meeting Point_______________________________________________________________ */}
               {/* <View
