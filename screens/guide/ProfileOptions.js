@@ -30,7 +30,6 @@ const ProfileOptions = ({ navigation }) => {
     <ScrollView
       style={{
         backgroundColor: white,
-        paddingTop: '40%',
       }}
     >
       <SafeAreaView style={{ alignItems: 'center' }}>
@@ -53,7 +52,6 @@ const renderGuideImage = (profilePicture) => {
   return (
     <View
       style={{
-        top: 120,
         alignItems: 'center',
         zIndex: 1
       }}>
@@ -91,11 +89,7 @@ const viewProfileButton = (navigation) => {
           name='chevron-forward-outline'
           size={20}
           color={white}
-          style={{
-            position: 'absolute',
-            right: -28,
-            bottom: -2,
-          }}
+
         />
       </View>
 

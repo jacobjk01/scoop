@@ -17,6 +17,7 @@ import { black, white, primary, grayLight, grayDark, grayMed } from '../../confi
 
 const Account = ({ navigation }) => {
   const { user, userAuth } = useContext(UserContext)
+  console.log(user)
   const [dropdown, setDropdown] = useState(false)
   const [modal, setModal] = useState(false)
   const [interests, setInterests] = useState(['Publication', 'Biology Research', 'Dance', 'Photography', 'Art'])
@@ -90,7 +91,7 @@ const Account = ({ navigation }) => {
               MAJOR
             </Text>
             <Text style={styles.dropdownInfo}>
-              Biology
+              {user.major}
             </Text>
           </View>
           <View>
@@ -98,7 +99,7 @@ const Account = ({ navigation }) => {
               HOMETOWN
             </Text>
             <Text style={styles.dropdownInfo}>
-              Irvine, CA
+              {user.hometown}
             </Text>
           </View>
         </View>
@@ -118,19 +119,32 @@ const Account = ({ navigation }) => {
       <ScrollView>
         <View style={{ display: 'flex', alignSelf: 'center', alignItems: 'center', width: '70%', paddingTop: 40 }}>
           <Image
-            source={require('../../images/brittany.png')}
+            source={user.profilePicture == undefined?require('../../images/defaultpfp.png'):{uri:user.profilePicture}}
             style={{ borderRadius: 50, width: 110, height: 110 }}
           />
-          <Text style={{ color: black, fontSize: 18, marginTop: 20 }}>Elizabeth</Text>
+          <Text style={{ color: black, fontSize: 18, marginTop: 20 }}>{user.username}</Text>
           <Text style={{ color: primary, fontSize: 17, top: -5, marginBottom: 5 }}>UCLA</Text>
-          <TouchableOpacity style={{ backgroundColor: primary, borderRadius: 20, display: 'flex', flexDirection: 'row', paddingLeft: 20, paddingRight: 10, paddingVertical: 5, marginBottom: 15, alignItems: 'center', width: 130 }}>
+          <TouchableOpacity 
+            style={{ 
+              backgroundColor: primary,
+              borderRadius: 20,
+              display: 'flex',
+              flexDirection: 'row',
+              paddingLeft: 20,
+              paddingRight: 10,
+              paddingVertical: 5,
+              marginBottom: 15,
+              alignItems: 'center',
+              width: 130 }}
+            onPress={() => {navigation.navigate('Profile', {pageType: 'Account'})}}
+          >
             <Text style={{ color: white, fontSize: 14, marginRight: 'auto' }}>
-              Edit Profile
+              View Profile
             </Text>
             <Ionicons name='chevron-forward-outline' size={22} color={white} />
           </TouchableOpacity>
-          <Text style={{ fontSize: 15 }}>
-            Loream ipsum ahkshkshksh kshkshk shks hksh kshksh asd asda asd awojaofuhauihf ahsd hsah
+          {/* <Text style={{ fontSize: 15 }}>
+            {user.intro}
           </Text>
           {dropdown &&
             renderDropdown()
@@ -143,7 +157,7 @@ const Account = ({ navigation }) => {
               {dropdown ? 'Collapse' : 'Expand'}
             </Text>
             <Ionicons name={dropdown ? 'chevron-up-outline' : 'chevron-down-outline'} size={20} color={grayMed} />
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
         <View style={styles.divider} />
         <View style={{ width: '90%', marginLeft: 'auto', marginRight: 'auto' }}>

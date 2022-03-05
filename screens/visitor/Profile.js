@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 //import SeeMore from 'react-native-see-more-inline';
 import {
   View,
@@ -15,6 +15,7 @@ import {
   ReadMore,
   StatusBar,
 } from 'react-native';
+import { UserContext } from 'contexts';
 import {withSafeAreaInsets} from 'react-native-safe-area-context';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import LinearGradient from 'react-native-linear-gradient';
@@ -26,7 +27,7 @@ import { viewMyTours, getTour } from '../../api/tours';
 import BackButton from '../../components/BackButton';
 
 const Profile = ({ navigation, route }) => {
-
+  const { user, userAuth } = useContext(UserContext)
   const [tours, setTours] = useState();
   let guideModel = {
     name: '',
@@ -81,6 +82,9 @@ const Profile = ({ navigation, route }) => {
     else if (route.params.pageType=='tourFlow') {
       setGuide(route.params.guide)
     }
+    else if (route.params.pageType=='Account') {
+      setGuide(user)
+    }
     return () => {
       isMounted = false
     }
@@ -125,6 +129,14 @@ const Profile = ({ navigation, route }) => {
           alignItems: 'center',
         }}>
         <Image style={styles.listGuideImage} source={{uri: guide.profilePicture}} />
+        {route.params.pageType == 'Account' &&
+          <TouchableOpacity
+            style={{position: 'absolute', right: 30}}
+            onPress={() => {navigation.navigate('AccountEdit')}}
+          >
+            <Text style={{ color: grayDark}}>Edit <Ionicons name={'pencil'} size={16} /></Text>
+          </TouchableOpacity>
+        }
         <Text style={styles.sectionText}>{guide.name}</Text>
         <Text style={styles.baseText}>
           {guide.major + ','} {guide.year}
@@ -187,7 +199,7 @@ const Profile = ({ navigation, route }) => {
             {renderGuideImage()}
 
           </View>
-
+          
           {route.params.pageType=='guideFlow' && 
             <>
               <View style={styles.divider} />
