@@ -27,12 +27,8 @@ import { viewMyTours, getTour } from '../../api/tours';
 import BackButton from '../../components/BackButton';
 
 const Profile = ({ navigation, route }) => {
-<<<<<<< HEAD
   const { user, userAuth } = useContext(UserContext)
   const [tours, setTours] = useState();
-=======
-  const [tours, setTours] = useState([]);
->>>>>>> staging
   let guideModel = {
     name: '',
     hometown: '',
