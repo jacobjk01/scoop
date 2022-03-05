@@ -20,15 +20,19 @@ import {withSafeAreaInsets} from 'react-native-safe-area-context';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import LinearGradient from 'react-native-linear-gradient';
 import Reviews from '../../components/Reviews';
-import { primary, grayDark, white, black, tappableBlue } from 'config/colors';
+import { primary, grayDark, white, black, tappableBlue, grayLight, grayMed } from 'config/colors';
 import reviewData from '../../data/reviews';
 import { getUser, getUserById } from '../../api/users';
 import { viewMyTours, getTour } from '../../api/tours';
 import BackButton from '../../components/BackButton';
 
 const Profile = ({ navigation, route }) => {
+<<<<<<< HEAD
   const { user, userAuth } = useContext(UserContext)
   const [tours, setTours] = useState();
+=======
+  const [tours, setTours] = useState([]);
+>>>>>>> staging
   let guideModel = {
     name: '',
     hometown: '',
@@ -128,7 +132,7 @@ const Profile = ({ navigation, route }) => {
           justifyContent: 'center',
           alignItems: 'center',
         }}>
-        <Image style={styles.listGuideImage} source={{uri: guide.profilePicture}} />
+        <Image style={styles.listGuideImage} source={guide.profilePicture==undefined?require('../../images/defaultpfp.png'):{uri: guide.profilePicture}} />
         {route.params.pageType == 'Account' &&
           <TouchableOpacity
             style={{position: 'absolute', right: 30}}
@@ -139,7 +143,7 @@ const Profile = ({ navigation, route }) => {
         }
         <Text style={styles.sectionText}>{guide.name}</Text>
         <Text style={styles.baseText}>
-          {guide.major + ','} {guide.year}
+          {guide.major==undefined?'':guide.major}{guide.major==undefined && guide.year==undefined?'':','} {guide.year==undefined?'':guide.year}
         </Text>
         <View
           style={{
@@ -148,13 +152,10 @@ const Profile = ({ navigation, route }) => {
             alignItems: 'center',
             marginTop: 10,
           }}>
-          <TouchableOpacity onPress={() => {}} style={styles.roundButton1}>
-            <Text style={styles.messageFont}>Message</Text>
-          </TouchableOpacity>
           {route.params.pageType=='tourFlow' &&
             <TouchableOpacity
             onPress={() => {
-              const tour = route.params.tour
+              const tour = route.params .tour
               const selectedDay = route.params.selectedDay
               navigation.navigate('TourBooking2', {tour, selectedDay, guide})}
             }
@@ -166,29 +167,31 @@ const Profile = ({ navigation, route }) => {
       </View>
     );
   };
-
   return (
-    <View style={{height: '100%'}}>
-      <ImageBackground
-        style={styles.imageHeader}
-        source={require('../../images/Westwood_village.jpg')}
-      />
+    <ImageBackground
+      style={{
+        height: '100%',
+        borderTopLeftRadius: 0,
+        borderTopRightRadius: 0,
+        borderRadius: 10,
+      }}
+      source={require('../../images/Westwood_village.jpg')}
+    >
       <ScrollView
         nestedScrollEnabled={true}
         style={{
-          position: 'absolute',
-          top: 0,
-          bottom: 0,
           width: '100%',
-        }}>
-        <View style={{backgroundColor: 'transparent', height: 230}}></View>
+        }}
+      >
+        <BackButton navigation={navigation}/>
         <View
           style={{
             backgroundColor: 'white',
             borderTopLeftRadius: 30,
             borderTopRightRadius: 30,
-            marginTop: -20,
-          }}>
+            marginTop: 200,
+          }}
+        >
           <View
             style={{
               display: 'flex',
@@ -219,10 +222,22 @@ const Profile = ({ navigation, route }) => {
                 data={tours}
                 renderItem={item => navigateCheckout(item)}
               />
+              {tours[0] == null &&
+                <Text
+                  style={{
+                    fontSize: 18,
+                    color: grayLight,
+                    marginLeft: 20,
+                    marginRight: 'auto'
+                  }}
+                >
+                  No Available Tours
+                </Text>
+              }
             </>
           }
           <View style={styles.divider} />
-          <View style={{marginLeft: 20}}>
+          <View style={{marginLeft: 'auto', marginRight: 'auto', width: '90%'}}>
             <Text
               style={{
                 marginTop: 20,
@@ -242,13 +257,13 @@ const Profile = ({ navigation, route }) => {
               Hometown: {guide.hometown}
             </Text>
             <View
-              style={{marginRight: 30, marginTop: 3, backgroundColor: 'white'}}>
-              {!seeMore && (
+              style={{marginTop: 3, backgroundColor: 'white', width: '100%'}}>
+              {/* {!seeMore && (
                 <LinearGradient
                   colors={['#ffffff00', 'white']}
                   style={styles.linearGradText}
                 />
-              )}
+              )} */}
               {/* <View style={styles.opacityBlock} /> */}
               <Text style={seeMore ? styles.regularText : styles.limitedText}>
                 {guide.intro}
@@ -256,8 +271,9 @@ const Profile = ({ navigation, route }) => {
               <Text
                 onPress={() => setSeeMore(!seeMore)}
                 style={styles.seeMoreButton}>
-                {seeMore ? 'Read Less' : 'Read More'}
+                {/* {seeMore ? 'Read Less' : 'Read More'} */}
               </Text>
+
             </View>
           </View>
           <View style={styles.divider} />
@@ -285,8 +301,7 @@ const Profile = ({ navigation, route }) => {
           <Reviews reviews={reviews} />
         </View>
       </ScrollView>
-      <BackButton navigation={navigation}/>
-    </View>
+    </ImageBackground>
   );
 };
 
@@ -304,19 +319,10 @@ const styles = StyleSheet.create({
     resizeMode: 'cover',
   },
   divider: {
-    position: 'relative',
-    marginTop: 50,
+    marginTop: 30,
 
     borderBottomColor: grayDark,
     borderBottomWidth: 1,
-  },
-  divider2: {
-    position: 'relative',
-    marginTop: 20,
-
-    borderBottomColor: grayDark,
-    borderBottomWidth: 1,
-    marginHorizontal: 30,
   },
   backgroundRectangle: {
     position: 'absolute',
@@ -362,7 +368,7 @@ const styles = StyleSheet.create({
     width: 100,
     height: 100,
     borderRadius: 100,
-    backgroundColor: grayDark,
+    backgroundColor: 'transparent',
   },
   baseText: {
     fontFamily: 'Helvetica',
@@ -475,7 +481,7 @@ const styles = StyleSheet.create({
   },
   regularText: {},
   limitedText: {
-    height: 80,
+    maxHeight: 80,
   },
   seeMoreButton: {
     marginTop: 10,

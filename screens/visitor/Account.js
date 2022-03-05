@@ -13,7 +13,7 @@ import { UserContext } from 'contexts';
 import SigninButton from 'components/SigninButton';
 import SignoutButton from 'components/SignoutButton';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { black, white, primary, grayLight, grayDark, grayMed } from '../../config/colors';
+import { black, white, primary, grayLight, grayDark, grayMed, grayVeryDark } from '../../config/colors';
 
 const Account = ({ navigation }) => {
   const { user, userAuth } = useContext(UserContext)
@@ -77,7 +77,7 @@ const Account = ({ navigation }) => {
   const renderDropdown = () => {
     return (
       <>
-        <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '100%', marginTop: 20 }}>
+        <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '100%', marginVertical: 20 }}>
           <View>
             <Text style={styles.dropdownTitle}>
               YEAR
@@ -103,14 +103,14 @@ const Account = ({ navigation }) => {
             </Text>
           </View>
         </View>
-        <View style={{ alignSelf: 'flex-start', marginTop: 25, width: '100%' }}>
+        {/* <View style={{ alignSelf: 'flex-start', marginTop: 25, width: '100%' }}>
           <Text style={styles.dropdownTitle}>
             INTERESTS
           </Text>
           <View style={{ display: 'flex', flexWrap: 'wrap', flexDirection: 'row', width: '100%', justifyContent: 'space-between' }}>
             {renderInterests()}
           </View>
-        </View>
+        </View> */}
       </>
     )
   }
@@ -146,10 +146,10 @@ const Account = ({ navigation }) => {
           {/* <Text style={{ fontSize: 15 }}>
             {user.intro}
           </Text>
-          {dropdown &&
+          {
             renderDropdown()
           }
-          <TouchableOpacity
+          {/* <TouchableOpacity
             style={{ alignSelf: 'flex-end', display: 'flex', flexDirection: 'row', marginVertical: 15, marginTop: 25 }}
             onPress={() => setDropdown(!dropdown)}
           >
@@ -216,7 +216,7 @@ const styles = StyleSheet.create({
   },
   dropdownInfo: {
     fontSize: 15,
-    color: grayDark,
+    color: grayVeryDark,
 
   }
 })

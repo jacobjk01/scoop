@@ -284,6 +284,15 @@ export const getBooking = async (guideId, tourId, userId) => {
   }
   );
 }
+/**
+ * gets all tourSettings that guide has created
+ * @param {*} guideId 
+ * @returns 
+ */
+export const getAllTourSettings = async (guideId) => {
+  const tourSettingsSnapshot = await db.collectionGroup("tourSettings").where("guide", "==", user(guideId)).get()
+  return querySnapshotFormatter(tourSettingsSnapshot)
+}
 
 
 /**

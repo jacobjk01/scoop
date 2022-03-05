@@ -18,6 +18,7 @@ function BackButton({navigation}) {
                 height: 45,
                 alignItems: 'center',
                 justifyContent: 'center',
+                zIndex: 100,
             }}
             onPress={() => navigation.goBack()}>
             <Ionicons name="chevron-back-outline" size={22} color={'white'} />
