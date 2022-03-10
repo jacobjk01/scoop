@@ -3,8 +3,7 @@ import {grayDark} from '../../../config/colors'
 import React from "react";
 /**
  * 
- * @param {{name, info}} 
- * @returns 
+ * @param {{name, info}} props
  */
 const TextQuadrant = ({name, info}) => {
   return (

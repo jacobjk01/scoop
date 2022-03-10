@@ -15,6 +15,7 @@ import {
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import LinearGradient from 'react-native-linear-gradient';
 import { primary, black, white, grayDark, blueDark, grayShadow, red } from 'config/colors';
+import {titleText, graySmallText, mediumBold, largeBoldText, linearGrad, mediumLight} from '../../config/typography.js'
 import Reviews from '../../components/Reviews';
 import BottomButton from '../../components/BottomButton';
 import BackButton from '../../components/BackButton';
@@ -30,47 +31,29 @@ const TourInfo = ({ navigation, route }) => {
     return <Error errorMsg="TourInfo.js, route.params.tour is not defined"/>
   }
   const { title, picture, id, description } = route.params.tour;
-  console.log(route.params)
+  console.log(route.params.tour)
 
   const renderForeground = () => {
     return (
-      <View style={{backgroundColor: '#d92726', flex: 1, borderRadius: 10}}>
-        <ImageBackground
-          style={styles.imageHeader}
-          source={{uri: this.state.tour && this.state.tour.picture}}>
+      <ImageBackground
+        style={styles.imageHeader}
+        source={{uri: tour && tour.picture}}
+        imageStyle={{ borderBottomLeftRadius: 10, borderBottomRightRadius: 10 }}
+      >
+        <View style={{height: '100%', width: '100%'}}>
           <LinearGradient
             colors={['transparent', 'black']}
-            style={{...linearGrad, position: 'absolute', top: 150, bottom: 0, left: 0, right: 0}}
+            style={{...linearGrad, height: '100%', width: '100%'}}
           />
-          <View style={styles.imageOverlay}>
-            <Text style={{...titleText, color: white}}>{"Placeholder title" || title}</Text>
-            {/* <Text style={{...lightSmallText}}>
-              60 min | Max 6 people | person
-            </Text>
-            <Text style={{...medLargeText, marginTop: 20, marginBottom: 20}}>$8 per person</Text> */}
-            <Text
-              style={[
-                styles.summaryText,
-              ]}>
-              {description}
-            </Text>
-          </View>
-
+        </View>
+        <View style={{width: '85%', marginLeft: 'auto', marginRight: 'auto', marginTop: 'auto', marginBottom: 40}}>
+          <Text style={{...titleText, color: white, fontSize: 32}}>{title || "Placeholder title"}</Text>
           <Text
-            style={[
-              {...mediumLight, color: white, marginBottom: 30},
-              {
-                position: 'absolute',
-                bottom: 0,
-                left: 25,
-                flex: 1,
-                paddingRight: 20,
-              },
-            ]}>
-            {tour.description}
+            style={{...mediumLight, color: white, marginTop: 30}}>
+            {description}
           </Text>
-        </ImageBackground>
-      </View>
+        </View>
+      </ImageBackground>
     );
   };
 
@@ -93,7 +76,6 @@ const TourInfo = ({ navigation, route }) => {
       </View>
     );
   };
-  console.log(guide)
   return (
     <View>
       <StatusBar barStyle="dark-content" />
@@ -102,10 +84,10 @@ const TourInfo = ({ navigation, route }) => {
           <View style={{ marginBottom: 80 }}>
             {renderForeground()}
             <Reviews reviews={reviews} />
+            <BackButton navigation={navigation}/>
           </View>
         }
       />
-      <BackButton navigation={navigation}/>
       <BottomButton title={pageType=='guideFlow'?'Book Tour':'Find a Tour Guide'} onPress={() => {navigation.navigate(pageType=='guideFlow'?'TourBooking2':'TourBooking1', pageType=='guideFlow'?{tour, guide}:tour);
           }}/>
     </View>
@@ -151,8 +133,6 @@ const styles = StyleSheet.create({
   imageHeader: {
     width: '100%',
     height: 600,
-    borderRadius: 10,
-    zIndex: -10,
   },
   imageOverlay: {
     position: 'absolute',

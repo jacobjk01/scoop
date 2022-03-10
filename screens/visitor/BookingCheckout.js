@@ -1,6 +1,6 @@
 import { black, grayDark, grayMed, primary, white } from 'config/colors';
 import moment from 'moment';
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import {
   FlatList,
   Image,
@@ -13,18 +13,28 @@ import BottomButton from '../../components/BottomButton';
 import Header from '../../components/Header';
 import { UserContext } from '../../contexts';
 import { grayMedText, largeBoldText, linearGrad, mediumBold, titleText } from '../../config/typography.js';
+import { getMeetingPt } from '../../api/tours';
 
 const Checkout = ({navigation, route}) => {
-  const tour = route.params.tour
-  const tourSetting = route.params.tourSetting
-  const guide = route.params.guide
-  const visitorCount = route.params.visitorCount
+  const {tour, tourSetting, guide, visitorCount} = route.params
+  console.log(tourSetting)
   const date = tourSetting.timeAvailable[route.params.timeIndex]
   const {
     userAuth, setUserAuth
   } = useContext(UserContext)
   const [payOption, setPayOption] = useState();
   const [isModalVisible, setModalVisible] = useState(false);
+  const [meetingPt, setMeetingPt] = useState()
+
+  useEffect(() => {
+    let isMounted = true
+    if (isMounted) {
+      getMeetingPt(tourSetting.meetingPt).then((meetingPt) => {
+        setMeetingPt(meetingPt.title)
+      })
+    }
+    return () => isMounted = false
+  }, [])
 
   const showDot = (option) => {
     if (payOption == option) {
@@ -36,12 +46,12 @@ const Checkout = ({navigation, route}) => {
     }
   }
   return (
-    <SafeAreaView style={{backgroundColor: '#E5E5E5', fontFamily: 'Helvetica',}}>
+    <SafeAreaView style={{backgroundColor: white, fontFamily: 'Helvetica',}}>
       <FlatList style={{height: '100%'}}
         ListHeaderComponent={
           <View>
-            {/*Top Container___________________________________________________________ */}
-            <View style={styles.topContainer}>
+            <Header title='Checkout' navigation={navigation}/>
+            <View>
               <View style={{display: 'flex', flexDirection: 'row', marginLeft: '10%', marginTop: '10%'}}>
                 <Image
                   style={{width: '45%', height: 115, resizeMode: 'cover', borderRadius: 10, marginRight: '5%'}}
@@ -69,7 +79,7 @@ const Checkout = ({navigation, route}) => {
                 </View>
                 <View style={{width: '50%'}}>
                   <Text style={styles.infoTitle}>Meetup Point</Text>
-                  <Text style={styles.info}>Meet pt</Text>
+                  <Text style={styles.info}>{meetingPt?meetingPt:'N/A'}</Text>
                 </View>
               </View>
               <View style={styles.divider}>
@@ -82,7 +92,7 @@ const Checkout = ({navigation, route}) => {
             </View>
 
             {/*Bottom area*/}
-            <View style={styles.bottomContainer}>
+            {/* <View style={{marginBottom: 80}}>
               <Text style={{...mediumBold, color: black, marginTop: 40, marginLeft: 30, marginRight: 'auto'}}>
                 Select Payment Method
               </Text>
@@ -104,11 +114,12 @@ const Checkout = ({navigation, route}) => {
                 </View>
                 <Text style={{fontSize: 15, color: black, marginLeft: 10}}>Cash</Text>
               </TouchableOpacity>
-            </View>
+            </View> */}
           </View>
-        }/>
+        }
+      />
       {/* Confirmation_________________________________ */}
-      <BottomButton title='Continue' 
+      <BottomButton title='Confirm' 
         onPress={() => {
           if (payOption != null){
             setModalVisible(true)
@@ -155,7 +166,6 @@ const Checkout = ({navigation, route}) => {
           </View>
         </View>
       </Modal>
-      <Header title='Checkout' navigation={navigation}/>
     </SafeAreaView>
   );
 };

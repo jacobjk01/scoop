@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import {View, Text, Image, TouchableOpacity, SafeAreaView, ScrollView} from 'react-native'
 import colors, {black, grayDark, grayLight, grayMed, white, primary} from '../../config/colors';
+import BackButton from 'components/BackButton';
 
 const MyTrips = ({navigation}) => {
     const [option, setOption] = useState('upcoming')
@@ -69,7 +70,8 @@ const MyTrips = ({navigation}) => {
     return(
         <SafeAreaView style={{backgroundColor: white, height: '100%', width: '100%'}}>
             <ScrollView>
-                <View style={{marginHorizontal: 30, marginTop: 40, marginBottom: 30}}>
+                <BackButton navigation={navigation}/>
+                <View style={{marginHorizontal: 30, marginTop: 100, marginBottom: 30}}>
                     <Text style={{fontSize: 25, fontFamily:'Helvetica-Bold'}}>
                         My Trips
                     </Text>
