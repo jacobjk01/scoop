@@ -28,7 +28,7 @@ import BackButton from '../../components/BackButton';
 
 const Profile = ({ navigation, route }) => {
   const { user, userAuth } = useContext(UserContext)
-  const [tours, setTours] = useState();
+  const [tours, setTours] = useState([]);
   let guideModel = {
     name: '',
     hometown: '',
@@ -131,7 +131,7 @@ const Profile = ({ navigation, route }) => {
         <Image style={styles.listGuideImage} source={guide.profilePicture==undefined?require('../../images/defaultpfp.png'):{uri: guide.profilePicture}} />
         {route.params.pageType == 'Account' &&
           <TouchableOpacity
-            style={{position: 'absolute', right: 30}}
+            style={{position: 'absolute', right: 30, top: 110}}
             onPress={() => {navigation.navigate('AccountEdit')}}
           >
             <Text style={{ color: grayDark}}>Edit <Ionicons name={'pencil'} size={16} /></Text>
@@ -233,7 +233,7 @@ const Profile = ({ navigation, route }) => {
             </>
           }
           <View style={styles.divider} />
-          <View style={{marginLeft: 'auto', marginRight: 'auto', width: '90%'}}>
+          <View style={{marginLeft: 'auto', marginRight: 'auto', width: '85%'}}>
             <Text
               style={{
                 marginTop: 20,
@@ -275,7 +275,9 @@ const Profile = ({ navigation, route }) => {
           <View style={styles.divider} />
           <Text
             style={{
-              marginLeft: 20,
+              marginLeft: 'auto',
+              marginRight: 'auto',
+              width: '85%',
               marginTop: 20,
               fontSize: 20,
               fontWeight: '700',
@@ -316,9 +318,11 @@ const styles = StyleSheet.create({
   },
   divider: {
     marginTop: 30,
-
+    marginLeft: 'auto',
+    marginRight: 'auto',
     borderBottomColor: grayDark,
     borderBottomWidth: 1,
+    width: '90%'
   },
   backgroundRectangle: {
     position: 'absolute',
