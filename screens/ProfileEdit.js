@@ -13,10 +13,11 @@ import {
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useIsFocused } from '@react-navigation/core';
 import { useNavigation } from '@react-navigation/native';
-import { UserContext } from 'contexts';
-import { getPicture, changeName, changePicture, changeMajor, changeYear, changeIntro, changeLanguages, changeHometown } from 'api/users';
+import { UserContext } from '../contexts';
+import { getPicture, changeName, changePicture, changeMajor, changeYear, changeIntro, changeLanguages, changeHometown } from '../api/users';
 import {request, check, PERMISSIONS, RESULTS} from 'react-native-permissions';
-import { primary, grayDark, white, black, grayShadow, grayVeryDark } from 'config/colors';
+import { primary, grayDark, white, black, grayShadow, grayVeryDark } from '../config/colors';
+import BackButton from 'components/BackButton';
 
 const AccountEdit = ({navigation}) => {
   const nav = useNavigation();
@@ -164,6 +165,7 @@ const AccountEdit = ({navigation}) => {
       source={{uri: backgroundPicture}}
       style={styles.backgroundImage}>
     <ScrollView>
+      <BackButton navigation={navigation}/>
       <TouchableOpacity
         onPress={() => handlePhotoPicker('BACKGROUND')}
         style={{position: 'absolute', right: 25, top: 120}}>

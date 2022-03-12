@@ -9,11 +9,11 @@ import {
   ScrollView,
   Modal,
 } from 'react-native';
-import { UserContext } from 'contexts';
-import SigninButton from 'components/SigninButton';
-import SignoutButton from 'components/SignoutButton';
+import { UserContext } from '../contexts';
+import SigninButton from '../components/SigninButton';
+import SignoutButton from '../components/SignoutButton';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { black, white, primary, grayLight, grayDark, grayMed, grayVeryDark } from '../../config/colors';
+import { black, white, primary, grayLight, grayDark, grayMed, grayVeryDark } from '../config/colors';
 
 const Account = ({ navigation }) => {
   const { user, userAuth } = useContext(UserContext)
@@ -119,7 +119,7 @@ const Account = ({ navigation }) => {
       <ScrollView>
         <View style={{ display: 'flex', alignSelf: 'center', alignItems: 'center', width: '70%', paddingTop: 40 }}>
           <Image
-            source={user.profilePicture == undefined?require('../../images/defaultpfp.png'):{uri:user.profilePicture}}
+            source={user.profilePicture == undefined?require('../images/defaultpfp.png'):{uri:user.profilePicture}}
             style={{ borderRadius: 50, width: 110, height: 110 }}
           />
           <Text style={{ color: black, fontSize: 18, marginTop: 20 }}>{user.username}</Text>
@@ -178,7 +178,7 @@ const Account = ({ navigation }) => {
               <Text style={{ fontFamily: 'Helvetica-Bold', fontSize: 22, marginTop: 50, marginBottom: 20 }}>Create a Tour Guide Account</Text>
               <Text style={{ fontSize: 15, textAlign: 'center' }}>You don't have an existing tour guide account, Are you interested in signing up as a tour guide?</Text>
               <Image
-                source={require('../../images/tourGuideVector.png')}
+                source={require('../images/tourGuideVector.png')}
                 style={{ marginTop: 90, marginBottom: 20, height: 150, width: 150 }}
               />
             </View>

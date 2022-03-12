@@ -15,16 +15,16 @@ import {
   ReadMore,
   StatusBar,
 } from 'react-native';
-import { UserContext } from 'contexts';
+import { UserContext } from '../contexts';
 import {withSafeAreaInsets} from 'react-native-safe-area-context';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import LinearGradient from 'react-native-linear-gradient';
-import Reviews from '../../components/Reviews';
-import { primary, grayDark, white, black, tappableBlue, grayLight, grayMed } from 'config/colors';
-import reviewData from '../../data/reviews';
-import { getUser, getUserById } from '../../api/users';
-import { viewMyTours, getTour } from '../../api/tours';
-import BackButton from '../../components/BackButton';
+import Reviews from '../components/Reviews';
+import { primary, grayDark, white, black, tappableBlue, grayLight, grayMed } from '../config/colors';
+import reviewData from '../data/reviews';
+import { getUser, getUserById } from '../api/users';
+import { viewMyTours, getTour } from '../api/tours';
+import BackButton from '../components/BackButton';
 
 const Profile = ({ navigation, route }) => {
   const { user, userAuth } = useContext(UserContext)
@@ -128,11 +128,11 @@ const Profile = ({ navigation, route }) => {
           justifyContent: 'center',
           alignItems: 'center',
         }}>
-        <Image style={styles.listGuideImage} source={guide.profilePicture==undefined?require('../../images/defaultpfp.png'):{uri: guide.profilePicture}} />
+        <Image style={styles.listGuideImage} source={guide.profilePicture==undefined?require('../images/defaultpfp.png'):{uri: guide.profilePicture}} />
         {route.params.pageType == 'Account' &&
           <TouchableOpacity
             style={{position: 'absolute', right: 30, top: 110}}
-            onPress={() => {navigation.navigate('AccountEdit')}}
+            onPress={() => {navigation.navigate('ProfileEdit')}}
           >
             <Text style={{ color: grayDark}}>Edit <Ionicons name={'pencil'} size={16} /></Text>
           </TouchableOpacity>
@@ -171,7 +171,7 @@ const Profile = ({ navigation, route }) => {
         borderTopRightRadius: 0,
         borderRadius: 10,
       }}
-      source={require('../../images/Westwood_village.jpg')}
+      source={require('../images/Westwood_village.jpg')}
     >
       <ScrollView
         nestedScrollEnabled={true}
