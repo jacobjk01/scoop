@@ -118,9 +118,7 @@ const ManageTours = ({navigation}) => {
           >
             <SubmitButton title='Add Tour' onPress={() => {
               setModalVisible(false)
-              //TODO(jonathanng) - link properly to correct screen
-              console.error('ctrl + f me: touredit not linked properly,  touredit properly not a page')
-              validate(selection) && navigation.navigate('TourEdit', selection);
+              validate(selection) && navigation.navigate('AddTour', selection);
             }} isDisabled={selection !== ''}/>
           </Pressable>
           <Pressable
