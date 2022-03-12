@@ -28,6 +28,7 @@ import { white, black, grayVeryDark, grayMed, tappableBlue } from 'config/colors
 import BottomButton from 'components/BottomButton';
 import { UserContext } from 'contexts';
 import SubmitButton from 'components/SubmitButton';
+import TourDropdown from './TourDropdown';
 
 const validate = (selection) => {
   console.log(selection)
@@ -49,7 +50,7 @@ const ManageTours = ({navigation}) => {
     user,
     setUser
   } = useContext(UserContext);
-
+  const [template, setTemplate] = useState('')
   useEffect(async () => {
     console.log(userAuth.uid)
     const tourSettings = await getAllTourSettings(userAuth.uid)
@@ -106,7 +107,11 @@ const ManageTours = ({navigation}) => {
             {renderModalButtonCard('Customized Tour', setSelection, selection, 'customized')}
             {renderModalButtonCard('Preset Tour', setSelection, selection, 'preset')}
           </View>
-          {/* {preset ? renderTourDropdown() : null} */}
+          {selection === 'preset' && <TourDropdown
+            selectedValue={template}
+            setSelectedValue={setTemplate}
+            />
+          }
           <Pressable
             style={[styles.button]}
             onPress={() => setModalVisible(true)}
