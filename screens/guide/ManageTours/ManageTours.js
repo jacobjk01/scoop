@@ -118,7 +118,7 @@ const ManageTours = ({navigation}) => {
           >
             <SubmitButton title='Add Tour' onPress={() => {
               setModalVisible(false)
-              validate(selection) && navigation.navigate('AddTour', selection);
+              validate(selection) && navigation.navigate('AddTour', template);
             }} isDisabled={selection !== ''}/>
           </Pressable>
           <Pressable

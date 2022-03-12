@@ -21,18 +21,31 @@ import Header from './Header';
 import Content from './Content';
 /**
  * 
- * @param {{navigation: {navigate : () => {}}}} props 
+ * @param {{
+ *    navigation: {
+ *      navigate : () => {}
+ *    },
+ *    route: {
+ *      params: {
+ *        description: any,
+ *        id: any,
+ *        picture: any,
+ *        ref: any,
+ *        title: any
+ *    }
+ *    }} props 
  */
 const AddTour = (props) => {
-  const [name, setName] = useState('')
+  const {description, id,picture,ref,title} = props.route.params
+  const [name, setName] = useState(title ||'')
   const [duration, setDuration] = useState('')
   const [maxPeople, setMaxPeople] = useState(1)
   const [transportation, setTransportation] = useState('walking')
   const [meetPoint, setMeetPoint] = useState('Bruin Bear')
-  const [introduction, setIntroduction] = useState('')
-  const [backgroundImage, setBackgroundImage] = useState('')
+  const [introduction, setIntroduction] = useState(description || '')
+  const [backgroundImage, setBackgroundImage] = useState(picture || '')
   useEffect(() => {
-    console.log(props.navigation)
+    console.log(props.route.params)
   }, [])
   return (
     <View style={{backgroundColor: white}}>
@@ -41,10 +54,16 @@ const AddTour = (props) => {
             <Foreground backgroundImage={backgroundImage}/>
             <Content 
               transportation={transportation}
+              setTransportation={setTransportation}
+              name={name}
               setName={setName}
+              duration={duration}
               setDuration={setDuration}
               maxPeople={maxPeople}
+              setMaxPeople={setMaxPeople}
               meetPoint={meetPoint}
+              setMeetPoint={setMeetPoint}
+              introduction={introduction}
               setIntroduction={setIntroduction}
             />
             <TouchableOpacity

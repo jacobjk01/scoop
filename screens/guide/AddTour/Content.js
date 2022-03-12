@@ -18,17 +18,19 @@ import { primary, white, grayDark, black, red, grayShadow } from 'config/colors'
 import { styles } from './styles';
 /**
  * 
- * @param {{setName, setDuration, maxPeople, transportation, meetPoint, setIntroduction}} props 
+ * @param {{name, setName, duration, setDuration, maxPeople, setMaxPeople, transportation, meetPoint, setIntroduction, introduction}} props 
  * @returns 
  */
-const Content = ({setName, setDuration, maxPeople, transportation, meetPoint, setIntroduction}) => {
+const Content = ({name, setName, duration, setDuration, maxPeople, setMaxPeople, transportation, meetPoint, setIntroduction, introduction}) => {
   return (
     <View style={{marginBottom: 70, paddingTop: 25}}>
             <Text style={styles.sectionText}>Tour Name</Text>
             <TextInput
                 style={styles.tourNameBox}
                 placeholder='Add Tour Name'
-                onChangeText={name => setName(name)}>
+                onChangeText={name => setName(name)}
+                value={name}
+              >
             </TextInput>
             <Text style={[styles.sectionText, {marginTop: 0}]}>Basic Info</Text>
             <View style={[styles.bodyText, {flexDirection: 'row', marginTop: 20}]}>
@@ -37,6 +39,7 @@ const Content = ({setName, setDuration, maxPeople, transportation, meetPoint, se
                 </Text>
                 <TextInput
                     style={styles.input}
+                    value={duration}
                     onChangeText={duration => setDuration(duration)}>
                 </TextInput>
                 <Text>
@@ -47,7 +50,7 @@ const Content = ({setName, setDuration, maxPeople, transportation, meetPoint, se
                 <Text>
                     {'Max Group :'}
                 </Text>
-                <Counter maxPeople={maxPeople}/>
+                <Counter maxPeople={maxPeople} onChange={setMaxPeople}/>
             </View>
             <View style={styles.bodyText}>
                 <Text >
@@ -73,7 +76,7 @@ const Content = ({setName, setDuration, maxPeople, transportation, meetPoint, se
                         <Marker
                             key={1}
                             coordinate={{latitude: 34.07106828093279, longitude: -118.444993904947}}
-                            title='Bruin Statue'
+                            title={meetPoint}
                             description='Recommended Meeting Point'
                         />
                     </MapView>
@@ -86,6 +89,7 @@ const Content = ({setName, setDuration, maxPeople, transportation, meetPoint, se
                 style={styles.inputIntro}
                 multiline={true}
                 placeholder='Write an intro about the tour!'
+                value={introduction}
                 onChangeText={introduction => setIntroduction(introduction)}>
             </TextInput>
         </View>
@@ -97,13 +101,19 @@ export default Content
 class Counter extends React.Component {
   state = this.props.maxPeople ? {count: this.props.maxPeople} : {count: 0};
 
-  subtractCount = () => this.setState(
+  subtractCount = () => {
+    this.setState(
       prevState => ({ ...prevState, count: this.state.count > 1 ? this.state.count - 1 : this.state.count })
-  )
+    )
+    this.props.onChange(maxPeople)
+  }
   
-  addCount = () => this.setState(
+  addCount = () => {
+    this.setState(
       prevState => ({ ...prevState, count: this.state.count < 10 ? this.state.count + 1 : this.state.count})
-  )
+    )
+    this.props.onChange(maxPeople)
+  }
 
   render() {
     const { count } = this.state;
