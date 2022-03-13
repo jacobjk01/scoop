@@ -42,8 +42,14 @@ export const convertToTourSummary = (processedTourSettings) => {
   throw 'Not Implemented'
 }
 
-
-export const bookTour = async (tourSettingRef, partySize, visitorId) => {
+/**
+ * 
+ * @param {*} tourSettingRef 
+ * @param {*} partySize 
+ * @param {*} visitorId 
+ * @param {*} comment additional request information
+ */
+export const bookTour = async (tourSettingRef, partySize, visitorId, comment) => {
   if (!visitorId) {
     throw new Error("visitor is not defined")
   }
@@ -56,7 +62,8 @@ export const bookTour = async (tourSettingRef, partySize, visitorId) => {
     isCancelled: false,
     //TODO: do time
     time: new Date(),
-    isCompleted: false
+    isCompleted: false,
+    comment
   })
 }
 
@@ -77,9 +84,17 @@ export const getVisitorBookings = async (visitorId) => {
 }
 
 //guide Functions
-
-export const viewAllTours = async () => {
-  const queryTourSnapshots = await tours.get();
+/**
+ * gets the first tours sorted by title, starting at variable 'parameter' and ending  
+ * @param {docId} start defaults to '', expects the documentReference id
+ * @param {number} limit defaults to 99
+ * @returns 
+ */
+export const viewAllTours = async (start = '', limit=99) => {
+  if (start !== '') {
+    start = await tours.doc(start).get()
+  }
+  const queryTourSnapshots = await tours.orderBy('title').startAt(start).limit(limit).get();
   if (queryTourSnapshots.empty) {
     console.warn("No tours found!")
   }
@@ -87,7 +102,6 @@ export const viewAllTours = async () => {
   //AFTER-MVP: limit documents seen for performance
   return querySnapshotFormatter(queryTourSnapshots);
 }
-
 
 export const viewMyTours = async (guideId) => {
 
