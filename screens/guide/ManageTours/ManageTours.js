@@ -30,11 +30,16 @@ import { UserContext } from 'contexts';
 import SubmitButton from 'components/SubmitButton';
 import TourDropdown from './TourDropdown';
 
-const validate = (selection) => {
-  console.log(selection)
+const validate = (selection, template) => {
+  console.log(template)
+  console.log('^^')
   if (selection !== '') {
     return true
-  } else {
+  } else if (selection === 'preset' && template === '') {
+    //if user wants to create a preset template, they must select a template also
+    return false
+  }
+  else {
     alert('Please select a tour type')
     return false
   }
@@ -117,14 +122,18 @@ const ManageTours = ({navigation}) => {
             onPress={() => setModalVisible(true)}
           >
             <SubmitButton title='Add Tour' onPress={() => {
+              if (!validate(selection, template)) return
               setModalVisible(false)
-              validate(selection) && navigation.navigate('AddTour', template);
-            }} isDisabled={selection !== ''}/>
+              setTemplate('')
+              navigation.navigate('AddTour', template);
+              console.log(template)
+            }} isDisabled={template === ''}/>
           </Pressable>
           <Pressable
             style={[styles.button]}
             onPress={() => {
               setModalVisible(false)
+              setTemplate('')
             }}
           >
             <Text style={styles.textStyle}>Cancel</Text>
