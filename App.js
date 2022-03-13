@@ -36,7 +36,7 @@ import OnboardingGuide from './screens/guide/Onboarding';
 import Feedback from './screens/Feedback';
 
 //guide imports
-import ManageTours from './screens/guide/ManageTours';
+import ManageTours from './screens/guide/ManageTours/ManageTours';
 import TourEdit from './screens/guide/TourEdit';
 import TourEdit2 from './screens/guide/TourEdit2';
 import TourEdit3 from './screens/guide/TourEdit3';
