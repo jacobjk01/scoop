@@ -43,7 +43,7 @@ const validate = (selection) => {
 const ManageTours = ({navigation}) => {
   const [tours, setTours] = useState([] || toursData.tours);
   const [modalVisible, setModalVisible] = useState(false)
-  const [selection, setSelection] = useState('')
+  const [selection, setSelection] = useState('preset')
   const {
     userAuth,
     setUserAuth,
@@ -70,12 +70,12 @@ const ManageTours = ({navigation}) => {
   }, [userAuth])
 
   const renderModalButtonCard = ( buttonTitle, setState, state, desiredState) => {
-    const borderColor = state === desiredState ? { borderColor: tappableBlue } : {}
+    const borderColor = state === desiredState ? { borderColor: tappableBlue, color: tappableBlue } : {color: grayVeryDark}
     return (
       <TouchableOpacity style={[styles.modalSelectCard, borderColor]}
         onPress={() => (setState(desiredState))}
       >
-        <Text style={{fontSize: 11, fontWeight: '400', color: grayVeryDark, textAlign: 'center', top: 1}}>
+        <Text style={[{fontSize: 11, fontWeight: '400', textAlign: 'center', top: 1}, borderColor]}>
           {buttonTitle}
         </Text>
       </TouchableOpacity>
@@ -104,7 +104,7 @@ const ManageTours = ({navigation}) => {
           <Text style={[styles.titleText, { marginTop: 15, marginBottom: 15 }]}>New Tour</Text>
           <Text style={[styles.textStyle, { marginBottom: 20, fontSize: 12, color: grayVeryDark }]}>Select the type of tour you would like to add.</Text>
           <View style={{display: 'flex', flexDirection: 'row'}}>
-            {renderModalButtonCard('Customized Tour', setSelection, selection, 'customized')}
+            {false && renderModalButtonCard('Customized Tour', setSelection, selection, 'customized')}
             {renderModalButtonCard('Preset Tour', setSelection, selection, 'preset')}
           </View>
           {selection === 'preset' && <TourDropdown
@@ -125,7 +125,6 @@ const ManageTours = ({navigation}) => {
             style={[styles.button]}
             onPress={() => {
               setModalVisible(false)
-              setSelection('')
             }}
           >
             <Text style={styles.textStyle}>Cancel</Text>
