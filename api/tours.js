@@ -98,9 +98,23 @@ export const viewAllTours = async (start = '', limit=99) => {
   if (queryTourSnapshots.empty) {
     console.warn("No tours found!")
   }
-  const docTourSnapshots = queryTourSnapshots.docs;
-  //AFTER-MVP: limit documents seen for performance
-  return querySnapshotFormatter(queryTourSnapshots);
+  const res = querySnapshotFormatter(queryTourSnapshots)
+
+  return res;
+}
+/**
+ * gets the toursettings using a tourRef
+ * @param {DocumentRef} tourRef 
+ * @returns {{empty:boolean, tourSetting:[]}}
+ * 
+ */
+export const checkIfTourEmpty = async (tourRef) => {
+  const tourSettingsQuerySnapshots = await tourRef.collection('tourSettings').get()
+  console.warn(querySnapshotFormatter(tourSettingsQuerySnapshots))
+  return {
+    empty: tourSettingsQuerySnapshots.empty,
+    tourSetting: querySnapshotFormatter(tourSettingsQuerySnapshots)
+  }
 }
 
 export const viewMyTours = async (guideId) => {
