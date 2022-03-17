@@ -829,6 +829,8 @@ PODS:
     - React-perflogger (= 0.64.2)
   - RNCMaskedView (0.1.11):
     - React
+  - RNCPicker (2.2.1):
+    - React-Core
   - RNFBApp (13.1.1):
     - Firebase/CoreOnly (= 8.10.0)
     - React-Core
@@ -954,6 +956,7 @@ DEPENDENCIES:
   - React-runtimeexecutor (from `../node_modules/react-native/ReactCommon/runtimeexecutor`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
   - "RNCMaskedView (from `../node_modules/@react-native-community/masked-view`)"
+  - "RNCPicker (from `../node_modules/@react-native-picker/picker`)"
   - "RNFBApp (from `../node_modules/@react-native-firebase/app`)"
   - "RNFBAuth (from `../node_modules/@react-native-firebase/auth`)"
   - "RNFBDatabase (from `../node_modules/@react-native-firebase/database`)"
@@ -1078,6 +1081,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon"
   RNCMaskedView:
     :path: "../node_modules/@react-native-community/masked-view"
+  RNCPicker:
+    :path: "../node_modules/@react-native-picker/picker"
   RNFBApp:
     :path: "../node_modules/@react-native-firebase/app"
   RNFBAuth:
@@ -1176,6 +1181,7 @@ SPEC CHECKSUMS:
   React-runtimeexecutor: a9904c6d0218fb9f8b19d6dd88607225927668f9
   ReactCommon: 149906e01aa51142707a10665185db879898e966
   RNCMaskedView: 0e1bc4bfa8365eba5fbbb71e07fbdc0555249489
+  RNCPicker: cb57c823d5ce8d2d0b5dfb45ad97b737260dc59e
   RNFBApp: 6e20f07b316346d96737191f377777f61f51a8d2
   RNFBAuth: e2ba12680f849537c643e049df5f0d0d4f1b0ee1
   RNFBDatabase: ac2ea4a368e9875ea2eb01dbefd4094840aeefdf

@@ -27,7 +27,6 @@ export default ({ navigation }) => {
       height: 60,
       backgroundColor: "#3154A5",
       borderRadius: 10,
-
     },
     submitText: {
       color: "#fff",
@@ -86,13 +85,13 @@ export default ({ navigation }) => {
             What are you giving us feedback on?
           </Text>
         </View>
-        <SelectDropdown
+        {/* <SelectDropdown
           data={feedbackOptions}
           onSelect={(topic, index) => setTopic(topic)}
           defaultButtonText={"Select"}
           buttonTextStyle={style.defaultText}
           buttonTextAfterSelection={(topic, index) => {
-            selected = topic;
+            var selected = topic;
             return (
               <Text style={{ color: "#000" }}>{selected}</Text>
             );
@@ -113,7 +112,7 @@ export default ({ navigation }) => {
             );
           }}
           dropdownIconPosition={"right"}
-        />
+        /> */}
         <TextInput
           style={{ padding: 10, paddingTop: 10, marginTop: 15, borderRadius: 10, borderWidth: 1, borderColor: "#D9D9D9", height: 375 }}
           multiline={true}

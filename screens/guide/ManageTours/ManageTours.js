@@ -9,8 +9,12 @@ import {
   TouchableOpacity,
   FlatList,
   Image,
+  Modal,
+  Alert,
   ImageBackground,
+  Pressable,
 } from 'react-native';
+// import { Picker } from "@react-native-picker/picker";
 import {withSafeAreaInsets} from 'react-native-safe-area-context';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import LinearGradient from 'react-native-linear-gradient';
@@ -20,23 +24,33 @@ import {color} from 'react-native-reanimated';
 import { getUser } from 'api/users';
 import { getAllTourSettings } from 'api/tours';
 import { onAuthStateChanged } from 'api/auth';
-import { white, black, grayVeryDark, tappableBlue } from 'config/colors';
+import { white, black, grayVeryDark, grayMed, tappableBlue } from 'config/colors';
+import BottomButton from 'components/BottomButton';
 import { UserContext } from 'contexts';
+import SubmitButton from 'components/SubmitButton';
+import TourDropdown from './TourDropdown';
+
+const validate = (selection) => {
+  console.log(selection)
+  if (selection !== '') {
+    return true
+  } else {
+    alert('Please select a tour type')
+    return false
+  }
+}
+
 const ManageTours = ({navigation}) => {
-  const [tours, setTours] = useState(toursData.tours);
-  console.log(tours)
+  const [tours, setTours] = useState([] || toursData.tours);
+  const [modalVisible, setModalVisible] = useState(false)
+  const [selection, setSelection] = useState('')
   const {
     userAuth,
     setUserAuth,
     user,
     setUser
-  } = useContext(UserContext)
-
-  if (!user) return (
-    <SafeAreaView>
-        <Text>User not logged in</Text>
-    </SafeAreaView>
-  );
+  } = useContext(UserContext);
+  const [template, setTemplate] = useState('')
   useEffect(async () => {
     console.log(userAuth.uid)
     const tourSettings = await getAllTourSettings(userAuth.uid)
@@ -54,8 +68,71 @@ const ManageTours = ({navigation}) => {
     }
     setTours(_tours)
   }, [userAuth])
+
+  const renderModalButtonCard = ( buttonTitle, setState, state, desiredState) => {
+    const borderColor = state === desiredState ? { borderColor: tappableBlue } : {}
+    return (
+      <TouchableOpacity style={[styles.modalSelectCard, borderColor]}
+        onPress={() => (setState(desiredState))}
+      >
+        <Text style={{fontSize: 11, fontWeight: '400', color: grayVeryDark, textAlign: 'center', top: 1}}>
+          {buttonTitle}
+        </Text>
+      </TouchableOpacity>
+    );
+  }
+  if (!user) {
+    return (
+      <SafeAreaView>
+          <Text>User not logged in</Text>
+      </SafeAreaView>
+    );
+  }
   return (
     <SafeAreaView style={{backgroundColor: white}}>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          Alert.alert("Modal has been closed.");
+          setModalVisible(!modalVisible);
+        }}
+      >
+      <View style={styles.centeredView}>
+        <View style={styles.modalView}>
+          <Text style={[styles.titleText, { marginTop: 15, marginBottom: 15 }]}>New Tour</Text>
+          <Text style={[styles.textStyle, { marginBottom: 20, fontSize: 12, color: grayVeryDark }]}>Select the type of tour you would like to add.</Text>
+          <View style={{display: 'flex', flexDirection: 'row'}}>
+            {renderModalButtonCard('Customized Tour', setSelection, selection, 'customized')}
+            {renderModalButtonCard('Preset Tour', setSelection, selection, 'preset')}
+          </View>
+          {selection === 'preset' && <TourDropdown
+            selectedValue={template}
+            setSelectedValue={setTemplate}
+            />
+          }
+          <Pressable
+            style={[styles.button]}
+            onPress={() => setModalVisible(true)}
+          >
+            <SubmitButton title='Add Tour' onPress={() => {
+              setModalVisible(false)
+              validate(selection) && navigation.navigate('AddTour', template);
+            }} isDisabled={selection !== ''}/>
+          </Pressable>
+          <Pressable
+            style={[styles.button]}
+            onPress={() => {
+              setModalVisible(false)
+              setSelection('')
+            }}
+          >
+            <Text style={styles.textStyle}>Cancel</Text>
+          </Pressable>
+        </View>
+      </View>
+    </Modal>
       <ScrollView style={{paddingRight: 20, paddingLeft: 20, height: '100%'}}>
         <View style={{marginTop: 50}}>
           <Text style={{marginLeft: 20, fontSize: 24, fontWeight: '700', marginBottom: 35}}>
@@ -66,14 +143,23 @@ const ManageTours = ({navigation}) => {
           </TouchableOpacity>
         </View>
         <View style={{flexDirection: 'row', flexWrap: 'wrap'}}>
-          <TouchableOpacity style={styles.addNewTourCard} onPress={async () => {
-            navigation.navigate('AddTour')
-          }}>
+          <TouchableOpacity style={styles.addNewTourCard}
+            onPress={() => setModalVisible(true)}
+            // navigation.navigate('AddTour')
+            // () => setModalVisible(true);
+          >
+            
             <Ionicons name={'add'} size={24} style={{color: grayVeryDark, position: 'absolute', left: 8}}/>
             <Text style={{fontSize: 16, fontWeight: '400', color: grayVeryDark, textAlign: 'center', left: 8, top: 1}}>
               Add a new tour
             </Text>
           </TouchableOpacity>
+          <Pressable
+            // style={[styles.button, styles.buttonClose]}
+            onPress={() => setModalVisible(!modalVisible)}
+          >
+            {/* <Text >Hide Modal</Text> */}
+          </Pressable>
           {tours.map((tour) => {
             return(
               <TouchableOpacity key={tour.id} style={styles.tourCard} onPress={() => navigation.navigate('TourEdit', {tour})}>
@@ -94,16 +180,65 @@ const ManageTours = ({navigation}) => {
       </ScrollView>
     </SafeAreaView>
   );
-}
+};
+
 
 const styles = StyleSheet.create({
+  submitText: {
+    color: "#fff",
+    fontSize: 14,
+    fontFamily: 'Helvetica-Bold',
+    textAlign: "center",
+    padding: 17,
+  },
+  centeredView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 22,
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: "white",
+    borderRadius: 20,
+    padding: 25,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+    width: '80%',
+  },
+  button: {
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2,
+    width: '100%',
+  },
+  buttonOpen: {
+    backgroundColor: "#F194FF",
+  },
+  textStyle: {
+    color: "black",
+    // fontWeight: "bold",
+    textAlign: "center"
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: "center",
+    fontWeight: '700',
+  },
   baseText: {
     fontFamily: 'Helvetica',
   },
   titleText: {
     fontSize: 24,
-    fontWeight: '600',
-    marginTop: 50,
+    fontWeight: '700',
+    marginTop: 60,
   },
   selectButton: {
     position: 'absolute',
@@ -148,15 +283,6 @@ const styles = StyleSheet.create({
     left: 10,
     color: white,
   },
-  linearGradTour: {
-    position: 'absolute',
-    top: 150,
-    bottom: 0,
-    left: 0,
-    right: 0,
-    backgroundColor: 'transparent',
-    borderRadius: 10,
-  },
   linearGradGuide: {
     position: 'absolute',
     top: 60,
@@ -190,6 +316,18 @@ const styles = StyleSheet.create({
     shadowOffset: {width: 1, height: 1},
     shadowOpacity: 0.2,
     shadowRadius: 5,
+  },
+  modalSelectCard: {
+    borderWidth: 1,
+    // stroke-dasharray: '8, 3',
+    borderColor: grayMed,
+    width: '45%',
+    height: 100,
+    margin: 8,
+    borderRadius: 8,
+    justifyContent: 'center',
+    // textAlign: 'center',
+    alignItems: 'center',
   },
   tourImage: {
     position: 'absolute',
