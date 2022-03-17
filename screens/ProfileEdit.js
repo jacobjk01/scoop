@@ -28,12 +28,12 @@ const AccountEdit = ({navigation}) => {
   const [intro, setIntro] = useState(user.intro);
   const [hometown, setHometown] = useState(user.hometown);
   const [imageData, setImageData] = useState(null);
-  const [profilePicture, setProfilePicture] = useState(null);
+  const [profilePicture, setProfilePicture] = useState(user.profilePicture);
   const [backgroundPicture, setBackgroundPicture] = useState(null);
   const isFocused = useIsFocused();
 
   useEffect(async () => {
-    setProfilePicture(await getPicture(userAuth.uid, 'profilePicture'));
+    // setProfilePicture(await getPicture(userAuth.uid, 'profilePicture'));
     setBackgroundPicture(await getPicture(userAuth.uid, 'backgroundPicture'));
   }, [isFocused])
 
@@ -111,7 +111,7 @@ const AccountEdit = ({navigation}) => {
   }
   const renderGuideBio = (user) => {
     return (
-      <View style={{ paddingTop: 80, paddingBottom: 80 }}>
+      <View style={{ paddingTop: 10, paddingBottom: 80 }}>
         <Text style={styles.titleText}>
           {'First Name'}
         </Text>
@@ -171,18 +171,20 @@ const AccountEdit = ({navigation}) => {
         style={{position: 'absolute', right: 25, top: 120}}>
         <Ionicons name={'camera'} size={25} color={grayDark}/>
       </TouchableOpacity>
+      {renderGuideImage(profilePicture)}
       <View
         style={{
-          marginTop: '40%',
+          marginTop: -40,
+          paddingTop: 80,
           paddingRight: 20,
           paddingLeft: 20,
           height: '100%',
           backgroundColor: white,
           borderTopLeftRadius: 20,
           borderTopRightRadius: 20,
+          zIndex: 0
         }}
       >
-      {renderGuideImage(profilePicture)}
         {renderGuideBio(user)}
       </View>
       </ScrollView>
@@ -192,20 +194,23 @@ const AccountEdit = ({navigation}) => {
 
 const renderGuideImage = (profilePicture) => {
   return (
-    <TouchableOpacity
-      onPress={() => handlePhotoPicker('PROFILE')}
-      style={{position: 'absolute', alignSelf: 'center', justifyContent: 'center', zIndex: 1}}>
-      <View
-        style={{
-          top: 120,
-          alignItems: 'center',
-          zIndex: 1,
-        }}>
-        <Image style={styles.guideImage} source={{uri: profilePicture}} />
-        <View style={styles.circleOverlay}/>
-        <Ionicons style={{position: 'absolute', bottom: 105}} name={'camera'} size={35} color={white}/>
-      </View>
-    </TouchableOpacity>
+    <ImageBackground 
+      style={styles.guideImage}
+      imageStyle={{borderRadius: 100}}
+      source={{uri: profilePicture}} 
+    >
+      <TouchableOpacity
+        onPress={() => {handlePhotoPicker('PROFILE')
+        console.log('press')
+      }}
+        style={{alignSelf: 'center', justifyContent: 'center', zIndex: 1, height: '100%', width: '100%', zIndex: 100}}
+      >
+        <Ionicons 
+          style={{marginLeft: 'auto', marginRight: 'auto', marginBottom: 'auto', marginTop: 'auto'}}
+          name={'camera'} size={35} color={white}/>
+        {/* <View style={styles.circleOverlay}/> */}
+      </TouchableOpacity>
+    </ImageBackground>
   );
 };
 
@@ -252,8 +257,10 @@ const styles = StyleSheet.create({
     height: 100,
     borderRadius: 100,
     backgroundColor: grayDark,
-    position: 'absolute',
-    bottom: 70,
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    marginTop: '25%',
+    zIndex: 100,
   },
   circleOverlay: {
     width: 100,

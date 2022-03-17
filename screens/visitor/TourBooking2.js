@@ -695,7 +695,8 @@ const TourBooking2 = ({navigation, route}) => {
                     padding: 10,
                     alignItems: 'center',
                     justifyContent: 'center',
-                    height: 40,
+                    minHeight: 40,
+                    maxHeight: 200,
                   }}
                   multiline={true}
                 />

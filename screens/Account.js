@@ -122,7 +122,7 @@ const Account = ({ navigation }) => {
             source={user.profilePicture == undefined?require('../images/defaultpfp.png'):{uri:user.profilePicture}}
             style={{ borderRadius: 50, width: 110, height: 110 }}
           />
-          <Text style={{ color: black, fontSize: 18, marginTop: 20 }}>{user.username}</Text>
+          <Text style={{ color: black, fontSize: 18, marginTop: 20 }}>{user.name}</Text>
           <Text style={{ color: primary, fontSize: 17, top: -5, marginBottom: 5 }}>UCLA</Text>
           <TouchableOpacity 
             style={{ 
