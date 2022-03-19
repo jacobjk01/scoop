@@ -130,11 +130,12 @@ const TourEdit = ({navigation, route}) => {
       </View>
     );
   }
- 
+
   return (
     <View style={{backgroundColor: white, height: '100%'}}>
       <ScrollView>
-        <ImageHeader navigation={navigation} title={tour.name}/>
+        {/* Todo: Make performant. Image is refetched here and in ManageTours. */}
+        <ImageHeader navigation={navigation} title={tour.name} image={tour.src} />
         {renderContent()}
       </ScrollView>
       <BottomButton onPress={() => navigation.navigate('TourEdit2')} title='View Suggested Itinierary'/>
