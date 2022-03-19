@@ -19,6 +19,7 @@ import { styles } from './styles';
 import SubmitButton from 'components/SubmitButton';
 import { addTour } from 'api/tours';
 import { UserContext } from 'contexts';
+import Counter from './Counter';
 /**
  * 
  * @param {{name, setName, duration, setDuration, maxPeople, setMaxPeople, transportation, meetPoint, setIntroduction, introduction, id}} props 
@@ -106,36 +107,3 @@ const Content = ({name, setName, duration, setDuration, maxPeople, setMaxPeople,
 }
 
 export default Content
-
-class Counter extends React.Component {
-  state = this.props.maxPeople ? {count: this.props.maxPeople} : {count: 0};
-
-  subtractCount = () => {
-    this.setState(
-      prevState => ({ ...prevState, count: this.state.count > 1 ? this.state.count - 1 : this.state.count })
-    )
-    this.props.onChange(maxPeople)
-  }
-  
-  addCount = () => {
-    this.setState(
-      prevState => ({ ...prevState, count: this.state.count < 10 ? this.state.count + 1 : this.state.count})
-    )
-    this.props.onChange(maxPeople)
-  }
-
-  render() {
-    const { count } = this.state;
-    return (
-      <View style={{flexDirection: 'row'}}>
-          <TouchableOpacity style={count > 1 ? styles.removeButton : styles.removeButtonGray} onPress={this.subtractCount}>
-              <Ionicons name={'remove'} size={16} style={count > 1 ? {color: white} : {color: grayDark}}/>
-          </TouchableOpacity>
-          <Text style={{paddingHorizontal: 8}}>{count}</Text>
-          <TouchableOpacity style={count < 10 ? styles.addButton : styles.addButtonGray} onPress={this.addCount}>
-              <Ionicons name={'add'} size={16} style={count < 10 ? {color: white} : {color: grayDark}}/>
-          </TouchableOpacity>
-      </View>
-    );
-  }
-}

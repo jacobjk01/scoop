@@ -172,7 +172,6 @@ const ManageTours = ({navigation}) => {
             {/* <Text >Hide Modal</Text> */}
           </Pressable>
           {tours.map((tour) => {
-            console.log(tour)
             return(
               <TouchableOpacity key={tour.id} style={styles.tourCard} onPress={() => navigation.navigate('TourEdit', {tour})}>
                 <ImageBackground style={styles.tourImage} source={{uri: tour.src}} imageStyle={{borderRadius: 10}}>

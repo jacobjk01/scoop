@@ -53,7 +53,7 @@ const AddTour = (props) => {
     <View style={{backgroundColor: white}}>
         <StatusBar barStyle='dark-content' />
         <ScrollView>
-          <BackButton />
+          <BackButton navigation={props.navigation}/>
             <Foreground backgroundImage={backgroundImage}/>
             <Content 
               id={id}
