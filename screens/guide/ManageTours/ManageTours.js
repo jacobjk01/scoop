@@ -65,10 +65,10 @@ const ManageTours = ({navigation}) => {
     const parents = await Promise.all(tourSettings.map(tourSetting => getParentData(tourSetting.ref))) 
     for (let i = 0; i < tourSettings.length; i++) {
       _tours.push({
+        src: parents[i].picture,
         id: tourSettings[i].id,
-        src: 1,
-        name: parents[i].title || "No name",
-        duration: tourSettings[i].duration,
+        name: parents[i].title || "Missing Name",
+        duration: tourSettings[i].duration || 0,
         transportation: tourSettings[i].transportation,
         maxPeople: tourSettings[i].maxPeople,
       })
@@ -172,9 +172,10 @@ const ManageTours = ({navigation}) => {
             {/* <Text >Hide Modal</Text> */}
           </Pressable>
           {tours.map((tour) => {
+            console.log(tour)
             return(
               <TouchableOpacity key={tour.id} style={styles.tourCard} onPress={() => navigation.navigate('TourEdit', {tour})}>
-                <ImageBackground style={styles.tourImage} source={tour.src} imageStyle={{borderRadius: 10}}>
+                <ImageBackground style={styles.tourImage} source={{uri: tour.src}} imageStyle={{borderRadius: 10}}>
                   <LinearGradient
                     colors={['transparent', black]}
                     style={styles.linearGradTour}
