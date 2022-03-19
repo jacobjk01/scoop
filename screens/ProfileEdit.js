@@ -115,35 +115,35 @@ const AccountEdit = ({navigation}) => {
         <Text style={styles.titleText}>
           {'First Name'}
         </Text>
-        <TextInput style={styles.input} placeholder='Edit your name'
+        <TextInput style={styles.input} placeholder='Edit your name' maxLength={50}
           onChangeText={name => setName(name)}>
           {user.name}
         </TextInput>
         <Text style={styles.titleText}>
           {'Year'}
         </Text>
-        <TextInput style={styles.input} placeholder='Select Year'
+        <TextInput style={styles.input} placeholder='Select Year' maxLength={200}
           onChangeText={year => setYear(year)}>
           {user.year}
         </TextInput>
         <Text style={styles.titleText}>
           {'Major'}
         </Text>
-        <TextInput style={styles.input} placeholder='Edit your major'
+        <TextInput style={styles.input} placeholder='Edit your major' maxLength={50}
           onChangeText={major => setMajor(major)}>
           {user.major}
         </TextInput>
         <Text style={styles.titleText}>
           {'Intro'}
         </Text>
-        <TextInput style={styles.inputIntro} placeholder='Tell us about yourself!' multiline={true}
+        <TextInput style={styles.inputIntro} placeholder='Tell us about yourself!' multiline={true} maxLength={200}
           onChangeText={intro => setIntro(intro)}>
           {user.intro}
         </TextInput>
         <Text style={styles.titleText}>
           {'Hometown'}
         </Text>
-        <TextInput style={styles.input} placeholder='Edit your hometown'
+        <TextInput style={styles.input} placeholder='Edit your hometown' maxLength={50}
           onChangeText={hometown => setHometown(hometown)}>
           {user.hometown}
         </TextInput>
@@ -241,7 +241,7 @@ const styles = StyleSheet.create({
   },
   inputIntro: {
     alignSelf: 'center',
-    height: 100,
+    minHeight: 0,
     width: '92%',
     borderWidth: 1,
     borderColor: grayDark,
@@ -249,7 +249,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     marginTop: 10,
     marginBottom: 30,
-    paddingBottom: 50,
     paddingTop: 10,
   },
   guideImage: {

@@ -16,13 +16,12 @@ import { grayMedText, largeBoldText, linearGrad, mediumBold, titleText } from '.
 import { getMeetingPt } from '../../api/tours';
 
 const Checkout = ({navigation, route}) => {
-  const {tour, tourSetting, guide, visitorCount} = route.params
+  const {tour, tourSetting, guide, visitorCount, comment} = route.params
   console.log(tourSetting)
   const date = tourSetting.timeAvailable[route.params.timeIndex]
   const {
     userAuth, setUserAuth
   } = useContext(UserContext)
-  const [payOption, setPayOption] = useState();
   const [isModalVisible, setModalVisible] = useState(false);
   const [meetingPt, setMeetingPt] = useState()
 
@@ -121,10 +120,8 @@ const Checkout = ({navigation, route}) => {
       {/* Confirmation_________________________________ */}
       <BottomButton title='Confirm' 
         onPress={() => {
-          if (payOption != null){
-            setModalVisible(true)
-            bookTour(tourSetting.ref, visitorCount, userAuth.uid)
-          }
+          setModalVisible(true)
+          bookTour(tourSetting.ref, visitorCount, userAuth.uid, comment)
         }}
       />
       {/*Modal____________________________________________________________________*/}
