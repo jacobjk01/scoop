@@ -18,16 +18,20 @@ const ViewTour = ({ navigation, route }) => {
         {'name': 'Elyse Bakery', 'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'},
     ]
     return (
-        <SafeAreaView>
-            <ScrollView style={{height: '100%', paddingTop: 100}}>
+      <>
+      <SafeAreaView style={{backgroundColor: primary, flex: 0}}/>
+        <SafeAreaView style={{flex:1}}>
+            <ScrollView style={{height: '100%', paddingTop: 0}}>
+            <Header title='Westwood Tour' navigation={navigation}/>
                 {activeTour ? null : renderTourInfo(tour)}
                 {renderVisitorInfo(tour)}
                 {activeTour ? renderItinerary(itinerary) : null}
             </ScrollView>
             {activeTour ? renderCompleteButton() : null}
-            <Header title='Westwood Tour' navigation={navigation}/>
+            
             <BottomButton title='Complete This Tour' onPress={() => {}}/>
         </SafeAreaView>
+      </>
     )
 }
 

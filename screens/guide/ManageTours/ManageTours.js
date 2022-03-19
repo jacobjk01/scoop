@@ -30,7 +30,7 @@ import { UserContext } from 'contexts';
 import SubmitButton from 'components/SubmitButton';
 import TourDropdown from './TourDropdown';
 import { getParentData } from 'api/utilities';
-
+import TourCardList from './TourCardList';
 const validate = (selection, template) => {
   console.log(template)
   console.log('^^')
@@ -171,22 +171,28 @@ const ManageTours = ({navigation}) => {
           >
             {/* <Text >Hide Modal</Text> */}
           </Pressable>
-          {tours.map((tour) => {
-            return(
-              <TouchableOpacity key={tour.id} style={styles.tourCard} onPress={() => navigation.navigate('TourEdit', {tour})}>
-                <ImageBackground style={styles.tourImage} source={{uri: tour.src}} imageStyle={{borderRadius: 10}}>
-                  <LinearGradient
-                    colors={['transparent', black]}
-                    style={styles.linearGradTour}
-                    />
-                </ImageBackground>
-                <View style={styles.tourTextSection}>
-                  <Text style={styles.tourTitle}>{tour.name}</Text>
-                  <Text style={styles.tourText}>{tour.duration} min | <Ionicons name={'people'} size={12}/> Max {tour.maxPeople} people | <Ionicons name={tour.transportation} size={12}/></Text>
-                </View>
-              </TouchableOpacity>
-            )
-          })}
+          <TourCardList
+            tours={tours}
+          >
+            {(tour) => {
+                return(
+                  <TouchableOpacity key={tour.id} style={styles.tourCard} onPress={() => navigation.navigate('TourEdit', {tour})}>
+                    <ImageBackground style={styles.tourImage} source={{uri: tour.src}} imageStyle={{borderRadius: 10}}>
+                      <LinearGradient
+                        colors={['transparent', black]}
+                        style={styles.linearGradTour}
+                        />
+                    </ImageBackground>
+                    <View style={styles.tourTextSection}>
+                      <Text style={styles.tourTitle}>{tour.name}</Text>
+                      <Text style={styles.tourText}>{tour.duration} min | <Ionicons name={'people'} size={12}/> Max {tour.maxPeople} people | <Ionicons name={tour.transportation} size={12}/></Text>
+                    </View>
+                  </TouchableOpacity>
+                )
+              }}
+
+          </TourCardList>
+          
         </View>
       </ScrollView>
     </SafeAreaView>

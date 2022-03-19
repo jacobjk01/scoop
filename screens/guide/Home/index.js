@@ -1,7 +1,9 @@
+import { getGuideBookings } from 'api/tours';
 import { black, grayDark, grayVeryLight, primary, white } from 'config/colors';
 import { UserContext } from 'contexts';
 import toursData from 'data/toursData';
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
+import { useState } from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -12,9 +14,20 @@ import ActiveTourCard from './ActiveTourCard';
 
 const Home = ({navigation}) => {
   const curTime = '12:00 PM';
-  const activeTour = toursData.tours[0].startTime == curTime ? toursData.tours[0] : null;
-  const tours = activeTour ? toursData.tours.slice(1) : toursData.tours;
+  const [activeBooking, setActiveBooking] = useState(toursData.tours[0].startTime == curTime ? toursData.tours[0] : null)
+  const [bookings, setBookings] = useState(activeBooking ? toursData.tours.slice(1) : toursData.tours)
   const {userAuth, setUserAuth, user, setUser} = useContext(UserContext);
+  //legacy mappings
+  const tours = bookings
+  const activeTour = activeBooking
+  
+  useEffect(() => {
+    if (!userAuth) return;
+    getGuideBookings(userAuth.uid).then(bookings => {
+      console.log(bookings)
+      // setBookings(bookings)
+    })
+  }, [])
 
   return (
     <SafeAreaView >
@@ -29,6 +42,17 @@ const Home = ({navigation}) => {
           </View>
           <View style={{flexWrap: 'wrap', alignContent: 'center'}}>
             {tours.map((tour) => {
+              if (!(tour.id && tour.tourMonth && tour.tourDay && tour.name && tour.startTime && tour.meetPoint)) {
+                console.log ({
+                  id: tour.id,
+                  month: tour.tourMonth,
+                  day: tour.tourDay,
+                  name: tour.name,
+                  startTime: tour.startTime,
+                  meetPoint: tour.meetPoint
+                })
+                throw new Error('Missing a parameter')
+              }
               return(
                 <TouchableOpacity key={tour.id} style={styles.tourCard} onPress={() => navigation.navigate('ViewTour', {tour})}>
                   {/* <Image style={styles.tourImage} source={tour.src}></Image> */}
