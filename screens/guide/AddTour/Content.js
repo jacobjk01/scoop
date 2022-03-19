@@ -1,4 +1,4 @@
-import React, {Component, useState} from 'react';
+import React, {Component, useContext, useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -16,14 +16,18 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import LinearGradient from 'react-native-linear-gradient';
 import { primary, white, grayDark, black, red, grayShadow } from 'config/colors';
 import { styles } from './styles';
+import SubmitButton from 'components/SubmitButton';
+import { addTour } from 'api/tours';
+import { UserContext } from 'contexts';
 /**
  * 
- * @param {{name, setName, duration, setDuration, maxPeople, setMaxPeople, transportation, meetPoint, setIntroduction, introduction}} props 
+ * @param {{name, setName, duration, setDuration, maxPeople, setMaxPeople, transportation, meetPoint, setIntroduction, introduction, id}} props 
  * @returns 
  */
-const Content = ({name, setName, duration, setDuration, maxPeople, setMaxPeople, transportation, meetPoint, setIntroduction, introduction}) => {
+const Content = ({name, setName, duration, setDuration, maxPeople, setMaxPeople, transportation, meetPoint, setIntroduction, introduction, id}) => {
+  const {userAuth} = useContext(UserContext);
   return (
-    <View style={{marginBottom: 70, paddingTop: 25}}>
+    <View style={{marginBottom: 10, paddingTop: 25}}>
             <Text style={styles.sectionText}>Tour Name</Text>
             <TextInput
                 style={styles.tourNameBox}
@@ -92,6 +96,11 @@ const Content = ({name, setName, duration, setDuration, maxPeople, setMaxPeople,
                 value={introduction}
                 onChangeText={introduction => setIntroduction(introduction)}>
             </TextInput>
+            <SubmitButton title={"Create Tour"} style={{margin: 10}} onPress={() => {
+              if (duration === "") duration = 0
+              addTour(userAuth.uid,id,["category 1", "category 2"],0,duration,introduction,true,maxPeople,"MEETINGPT PLACEHOLDER","TIMEAVAILABLE PLACEHOLDER","walking")
+              
+            }}/>
         </View>
   )
 }

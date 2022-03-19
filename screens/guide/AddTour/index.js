@@ -19,6 +19,8 @@ import { styles } from './styles';
 import Foreground from './Foreground';
 import Header from './Header';
 import Content from './Content';
+import BackButton from 'components/BackButton'
+import SubmitButton from 'components/SubmitButton';
 /**
  * 
  * @param {{
@@ -41,7 +43,7 @@ const AddTour = (props) => {
   const [duration, setDuration] = useState('')
   const [maxPeople, setMaxPeople] = useState(1)
   const [transportation, setTransportation] = useState('walking')
-  const [meetPoint, setMeetPoint] = useState('Bruin Bear')
+  const [meetPoint, setMeetPoint] = useState('PLACEHOLDER')
   const [introduction, setIntroduction] = useState(description || '')
   const [backgroundImage, setBackgroundImage] = useState(picture || '')
   useEffect(() => {
@@ -51,8 +53,10 @@ const AddTour = (props) => {
     <View style={{backgroundColor: white}}>
         <StatusBar barStyle='dark-content' />
         <ScrollView>
+          <BackButton />
             <Foreground backgroundImage={backgroundImage}/>
             <Content 
+              id={id}
               transportation={transportation}
               setTransportation={setTransportation}
               name={name}
@@ -66,11 +70,6 @@ const AddTour = (props) => {
               introduction={introduction}
               setIntroduction={setIntroduction}
             />
-            <TouchableOpacity
-            style={styles.backIcon}
-            onPress={() => props.navigation.goBack()}>
-            <Ionicons name='chevron-back-outline' size={20} color={white} />
-            </TouchableOpacity>
         </ScrollView>
         <TouchableOpacity
             style={styles.continue}

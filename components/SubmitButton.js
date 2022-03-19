@@ -1,7 +1,7 @@
 import React from "react";
 import { TouchableOpacity, Text } from "react-native";
 import { blueDark, blueMed, grayMed, primary } from "config/colors";
-const SubmitButton = ({ onPress, title, isDisabled }) => {
+const SubmitButton = ({ onPress, title, isDisabled, style }) => {
   const fontColor = {
     backgroundColor: primary
   }
@@ -10,9 +10,10 @@ const SubmitButton = ({ onPress, title, isDisabled }) => {
   }
   return (
     <TouchableOpacity style={[{
+      margin: 'auto',
       height: 50,
       borderRadius: 10,
-    },fontColor]} onPress={() => {
+    },fontColor, style]} onPress={() => {
       !isDisabled && onPress()
     }}>
       <Text style={{
