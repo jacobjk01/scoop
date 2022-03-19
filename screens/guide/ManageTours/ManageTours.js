@@ -29,6 +29,7 @@ import BottomButton from 'components/BottomButton';
 import { UserContext } from 'contexts';
 import SubmitButton from 'components/SubmitButton';
 import TourDropdown from './TourDropdown';
+import { getParentData } from 'api/utilities';
 
 const validate = (selection, template) => {
   console.log(template)
@@ -60,17 +61,19 @@ const ManageTours = ({navigation}) => {
     console.log(userAuth.uid)
     const tourSettings = await getAllTourSettings(userAuth.uid)
     const _tours = [] 
+    //should be more optimal that running through a for loop
+    const parents = await Promise.all(tourSettings.map(tourSetting => getParentData(tourSetting.ref))) 
     for (let i = 0; i < tourSettings.length; i++) {
-      console.log(tourSettings[i])
       _tours.push({
         id: tourSettings[i].id,
         src: 1,
-        name: tourSettings[i].name || "No name",
+        name: parents[i].title || "No name",
         duration: tourSettings[i].duration,
         transportation: tourSettings[i].transportation,
         maxPeople: tourSettings[i].maxPeople,
       })
     }
+    console.log('this should be last')
     setTours(_tours)
   }, [userAuth])
 
