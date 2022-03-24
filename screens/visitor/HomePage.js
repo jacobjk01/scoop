@@ -117,7 +117,7 @@ const HomePage = ({ navigation }) => {
           </View>
         </View> */}
         <View style={{backgroundColor: white, marginHorizontal: '5%', width: '90%', paddingVertical: 15, paddingHorizontal: 20,
-        borderRadius: 15, elevation: 5, display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginVertical: 15}}
+        borderRadius: 15, elevation: 5, shadowColor: black, shadowOffset: {width: 1, height: 1}, shadowOpacity: 0.2, display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginVertical: 15}}
         >
           <View style={{display: 'flex', flexWrap:'wrap',flexDirection: 'column', justifyContent:'space-between',}}>
             <View style={{margin: 5}}>
