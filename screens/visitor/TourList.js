@@ -62,7 +62,7 @@ const TourList = ({navigation, route}) => {
                   <Text style={{...mediumBold}}>{touritem.item.name}</Text>
                   {renderStars(4.5)}
                   <Text style={{marginTop: 5}}>Duration: 60 min</Text>
-                  <Text style={{marginTop: 5}}>Transportation: Walking</Text>
+                  <Text style={{marginTop: 5, marginBottom: 10}}>Transportation: Walking</Text>
                 </TouchableOpacity>
               </View>
             )}></FlatList>
