@@ -1,7 +1,9 @@
-import { getGuideBookings } from 'api/tours';
+import { getGuideBookings, getMeetingPt } from 'api/tours';
+import { getParentData } from 'api/utilities';
 import { black, grayDark, grayVeryLight, primary, white } from 'config/colors';
 import { UserContext } from 'contexts';
 import toursData from 'data/toursData';
+import moment from 'moment';
 import React, { useContext, useEffect } from 'react';
 import { useState } from 'react';
 import {
@@ -23,9 +25,33 @@ const Home = ({navigation}) => {
   
   useEffect(() => {
     if (!userAuth) return;
-    getGuideBookings(userAuth.uid).then(bookings => {
-      console.log(bookings)
-      // setBookings(bookings)
+    getGuideBookings(userAuth.uid).then(async bookings => {
+      let tourSettings
+      let meetingPts
+      let tours
+      try {
+        tourSettings = await Promise.all(bookings.map(booking => getParentData(booking.ref)))
+        meetingPts = await Promise.all(tourSettings.map(tourSetting => getMeetingPt(tourSetting.meetingPt)))
+        console.log(meetingPts)
+        tours = await Promise.all(tourSettings.map(tourSetting => getParentData(tourSetting.ref)))
+      } catch (e) {
+        console.error(e)
+      }
+      let _bookings = bookings.map((booking, i) => {
+        let tourMonth = moment(booking.time.toDate()).format('MMM') || "Loading..."
+        let tourDay = moment(booking.time.toDate()).format('DD') || "Loading..."
+        let startTime = moment(booking.time.toDate()).format('LT') || "Loading..."
+        let name = tours[i] && tours[i].title || "Loading..."
+        let meetPoint = meetingPts[i].title || "Loading..."
+        return ({
+        id: booking.id, //not sure if this needs to be tour or booking
+        tourMonth,
+        tourDay,
+        name,
+        startTime,
+        meetPoint
+      })})
+      setBookings(_bookings)
     })
   }, [])
 
@@ -41,7 +67,9 @@ const Home = ({navigation}) => {
             <View style={[styles.divider, {paddingTop: 20}]} />
           </View>
           <View style={{flexWrap: 'wrap', alignContent: 'center'}}>
-            {tours.map((tour) => {
+            {bookings.map((tour) => {
+              if (tours === [] || tours === null) return;
+
               if (!(tour.id && tour.tourMonth && tour.tourDay && tour.name && tour.startTime && tour.meetPoint)) {
                 console.log ({
                   id: tour.id,

@@ -81,5 +81,5 @@ export const userId = (userRef) => {
  */
 export const getParentData = async (ref) => {
   let parent = await ref.parent.parent.get()
-  return parent.data()
+  return docSnapshotFormatter(parent)
 }

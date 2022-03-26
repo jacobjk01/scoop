@@ -85,7 +85,7 @@ export const viewAvailableTours = async () => {
  * @returns 
  */
 export const getVisitorBookings = async (visitorId) => {
-  const queryTourSettingSnapshots = await db.collectionGroup("bookings").where("visitor", "==", user(visitorId)).get().orderBy("time","desc");
+  const queryTourSettingSnapshots = await db.collectionGroup("bookings").where("visitor", "==", user(visitorId)).orderBy("time","desc").get()
   return querySnapshotFormatter(queryTourSettingSnapshots)
 }
 
@@ -264,8 +264,7 @@ export const getGuideBookings : Promise <{id : any,isCancelled : any,isCompleted
     guideBookings = guideBookings.concat(querySnapshotFormatter(c));
 
   }
-
-  return guideBookings
+  return guideBookings.sort((a,b) => a.time > b.time)
 }
 
 export const addTimeRanges = async (guideId) => {
