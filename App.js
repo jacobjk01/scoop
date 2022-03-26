@@ -38,6 +38,7 @@ import Account from './screens/Account';
 import Profile from './screens/Profile';
 import ProfileEdit from './screens/ProfileEdit';
 import MyTrips from './screens/MyTrips';
+import LogOut from './screens/LogOut';
 
 //guide imports
 import ManageTours from './screens/guide/ManageTours';
@@ -259,6 +260,11 @@ const App: () => Node = () => {
               <Stack.Screen
                 name="MyTrips"
                 component={MyTrips}
+                options={{ headerShown: false }}
+              />
+              <Stack.Screen
+                name="LogOut"
+                component={LogOut}
                 options={{ headerShown: false }}
               />
               <Stack.Screen
