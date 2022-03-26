@@ -14,7 +14,8 @@ import { UserContext } from '../../contexts'
 import {titleText, graySmallText, mediumBold, largeBoldText, linearGrad} from '../../config/typography.js'
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {
-  viewAvailableTours
+  viewAvailableTours,
+  checkIfTourEmpty,
 } from '../../api/tours';
 import { getGuides } from '../../api/users';
 import { SCHOOL } from '../../config/initialState';
@@ -35,7 +36,12 @@ const HomePage = ({ navigation }) => {
       //You are not suppose to use async/await functions in useEffect
       //jon has no idea how these 3 isMounted are connected...
       if (isMounted) {
-        setTours(tours);
+        checkTourPromises = []
+        tours.forEach((element) => {checkTourPromises.push(checkIfTourEmpty(element.ref))})
+        Promise.all(checkTourPromises).then(values => {
+          tours = tours.filter((tour, index) => values[index].empty == false)
+          setTours(tours);
+        })
       }
     });
     getGuides().then(guides => {

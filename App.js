@@ -34,6 +34,10 @@ import OnboardingGuide from './screens/guide/Onboarding';
 
 //visitor & guide imports
 import Feedback from './screens/Feedback';
+import Account from './screens/Account';
+import Profile from './screens/Profile';
+import ProfileEdit from './screens/ProfileEdit';
+import MyTrips from './screens/MyTrips';
 
 //guide imports
 import ManageTours from './screens/guide/ManageTours/ManageTours';
@@ -41,16 +45,12 @@ import TourEdit from './screens/guide/TourEdit';
 import TourEdit2 from './screens/guide/TourEdit2';
 import TourEdit3 from './screens/guide/TourEdit3';
 import Availability from './screens/guide/Availability';
-import ProfileOptionsGuide from './screens/guide/ProfileOptions';
-import AccountGuide from './screens/guide/Account';
-import AccountEdit from './screens/guide/AccountEdit';
 import AddTour from './screens/guide/AddTour';
 import EditTour from './screens/guide/EditTour';
 import HomeGuide from './screens/guide/Home';
 import ViewTour from './screens/guide/ViewTour';
 
 //visitor imports
-import AccountVisitor from './screens/visitor/Account';
 import TourList from './screens/visitor/TourList';
 import Conversation from './screens/visitor/Conversation';
 import GuideBooking from './screens/visitor/GuideBooking';
@@ -59,11 +59,9 @@ import TourBooking2 from './screens/visitor/TourBooking2';
 import BookingCheckout from './screens/visitor/BookingCheckout';
 import HomeVisitor from './screens/visitor/HomePage';
 import TourInfo from './screens/visitor/TourInfo';
-import Profile from './screens/visitor/Profile';
 import Messages from './screens/visitor/Messages';
 import GuideList from './screens/visitor/GuideList';
 import SelectSchool from './screens/visitor/SelectSchool';
-import MyTrips from './screens/visitor/MyTrips';
 
 //authorization and authentication
 import RequireAuth from './components/RequireAuth';
@@ -118,9 +116,6 @@ const App: () => Node = () => {
               case 'TourList':
                 iconName = focused ? 'map' : 'map-outline';
                 break;
-              case 'AccountVisitor':
-              case 'AccountGuide':
-              case 'ProfileOptions':
               case 'Account':
                 iconName = focused ? 'person' : 'person-outline';
                 break;
@@ -146,7 +141,7 @@ const App: () => Node = () => {
               options={{ tabBarVisible: true }}
             />
             <Tab.Screen name="TourList" component={TourList} />
-            <Tab.Screen name="Account" component={AccountVisitor} />
+            <Tab.Screen name="Account" component={Account} />
           </>
         )}
         {(mode === 'guide') && (
@@ -154,8 +149,8 @@ const App: () => Node = () => {
             <Tab.Screen name="Home" component={HomeGuide} />
             <Tab.Screen name="ManageTours" component={ManageTours} />
             <Tab.Screen
-              name="ProfileOptions"
-              component={ProfileOptionsGuide}
+              name="Account"
+              component={Account}
             />
           </>
         )}
@@ -164,7 +159,7 @@ const App: () => Node = () => {
             <Tab.Screen name="HomeVisitor" component={HomeVisitor} />
             <Tab.Screen name="HomeGuide" component={HomeGuide} />
             <Tab.Screen name="ManageTours" component={ManageTours} />
-            <Tab.Screen name="Account" component={AccountGuide} />
+            <Tab.Screen name="Account" component={Account} />
             <Tab.Screen name="Test" component={Test} />
           </>
         )}
@@ -245,23 +240,33 @@ const App: () => Node = () => {
                 component={Test}
                 options={{ headerShown: false }}
               />
-
+              {/* Both Routes */}
+              <Stack.Screen
+                name="Account"
+                component={Account}
+                options={{ headerShown: false }}
+              />
+              <Stack.Screen
+                name="Profile"
+                component={Profile}
+                options={{ headerShown: false }}
+              />
+              <Stack.Screen
+                name="ProfileEdit"
+                component={RequireAuth(ProfileEdit)}
+                options={{ headerShown: false }}
+              />
+              <Stack.Screen
+                name="MyTrips"
+                component={MyTrips}
+                options={{ headerShown: false }}
+              />
+              <Stack.Screen
+                name="Feedback"
+                component={Feedback}
+                options={{ headerShown: true }}
+              />
               {/* Guide Routes */}
-              <Stack.Screen
-                name="ProfileOptionsGuide"
-                component={RequireAuth(ProfileOptionsGuide)}
-                options={{ headerShown: true }}
-              />
-              <Stack.Screen
-                name="AccountGuide"
-                component={RequireAuth(AccountGuide)}
-                options={{ headerShown: true }}
-              />
-              <Stack.Screen
-                name="AccountEdit"
-                component={RequireAuth(AccountEdit)}
-                options={{ headerShown: true }}
-              />
               <Stack.Screen
                 name="AddTour"
                 component={RequireAuth(AddTour)}
@@ -305,11 +310,6 @@ const App: () => Node = () => {
 
               {/* Visitor Routes */}
               <Stack.Screen
-                name="AccountVisitor"
-                component={AccountVisitor}
-                options={{ headerShown: false }}
-              />
-              <Stack.Screen
                 name="TourList"
                 component={TourList}
                 options={{ headerShown: false }}
@@ -350,11 +350,6 @@ const App: () => Node = () => {
                 options={{ headerShown: false }}
               />
               <Stack.Screen
-                name="Profile"
-                component={Profile}
-                options={{ headerShown: false }}
-              />
-              <Stack.Screen
                 name="Messages"
                 component={Messages}
                 options={{ headerShown: false }}
@@ -368,16 +363,6 @@ const App: () => Node = () => {
                 name="SelectSchool"
                 component={SelectSchool}
                 options={{ headerShown: false }}
-              />
-              <Stack.Screen
-                name="MyTrips"
-                component={MyTrips}
-                options={{ headerShown: false }}
-              />
-              <Stack.Screen
-                name="Feedback"
-                component={Feedback}
-                options={{ headerShown: true }}
               />
             </Stack.Navigator>
           </NavigationContainer>
