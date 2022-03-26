@@ -12,111 +12,48 @@ import {
   Animated,
   StatusBar,
 } from 'react-native';
-import { withSafeAreaInsets } from 'react-native-safe-area-context';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import LinearGradient from 'react-native-linear-gradient';
-
-import StickyParallaxHeader from 'react-native-sticky-parallax-header';
-import { Calendar } from 'react-native-calendars';
-import {
-  primary,
-  black,
-  white,
-  grayDark,
-  blueDark,
-  grayShadow,
-  red,
-} from 'config/colors';
+import { primary, black, white, grayDark, blueDark, grayShadow, red } from 'config/colors';
+import {titleText, graySmallText, mediumBold, largeBoldText, linearGrad, mediumLight} from '../../config/typography.js'
 import Reviews from '../../components/Reviews';
-
-const { event, ValueXY } = Animated;
+import BottomButton from '../../components/BottomButton';
+import BackButton from '../../components/BackButton';
+import { FAKE_REVIEWS } from '../../config/initialState';
+import Error from '../Error';
 
 const TourInfo = ({ navigation, route }) => {
-  const { title, picture, id, description } = route.params.itemInfo;
-  const [reviews, setReviews] = useState([
-    {
-      stars: 4.8,
-      year: 'Incoming Freshman',
-      comment:
-        'Brittany was really helpful!! She showed me where the students get groceries from and hangout in Westwood. She also shared a lot of interesting stories as we visit each places, highly recommend incoming freshman who want to familiarize themselves with the area sign up!! ',
-    },
-    {
-      stars: 4.3,
-      year: 'Incoming Junior',
-      comment:
-        'Being a sophomore, I kinda know what Westwood is like already; however, Brittany was able to show me interesting places I’ve never discovered!',
-    },
-  ]);
-  const [scrollY, setScrollY] = useState(new ValueXY());
-  console.log(route.params.itemInfo)
-  // constructor(props) {
-  //   super(props);
-
-  //   this.state = {
-  //     navigation: props.navigation,
-  //     route: props.route,
-  //     tour: props.route.params.itemInfo,
-
-  //     reviews: [
-  //       {
-  //         stars: 4.8,
-  //         year: 'Incoming Freshman',
-  //         comment:
-  //           'Brittany was really helpful!! She showed me where the students get groceries from and hangout in Westwood. She also shared a lot of interesting stories as we visit each places, highly recommend incoming freshman who want to familiarize themselves with the area sign up!! ',
-  //       },
-  //       {
-  //         stars: 4.3,
-  //         year: 'Incoming Junior',
-  //         comment:
-  //           'Being a sophomore, I kinda know what Westwood is like already; however, Brittany was able to show me interesting places I’ve never discovered!',
-  //       },
-  //     ],
-  //   };
-  // this.scrollY = new ValueXY();
-
-  // componentDidMount() {
-  //   this.scrollY.addListener(({value}) => (this._value = value));
-  // }
-  // componentWillUnmount() {
-  //   this.scrollY.removeAllListeners();
-  // }
+  const tour = route.params.tour;
+  const guide = route.params.guide
+  const pageType = route.params.pageType
+  const [reviews, setReviews] = useState(FAKE_REVIEWS);
+  if (!route.params.tour) {
+    return <Error errorMsg="TourInfo.js, route.params.tour is not defined"/>
+  }
+  const { title, picture, id, description } = route.params.tour;
+  console.log(route.params.tour)
 
   const renderForeground = () => {
     return (
-      <View style={{ backgroundColor: red, flex: 1, borderRadius: 10 }}>
-        <ImageBackground style={styles.imageHeader} source={{ uri: picture }}>
+      <ImageBackground
+        style={styles.imageHeader}
+        source={{uri: tour && tour.picture}}
+        imageStyle={{ borderBottomLeftRadius: 10, borderBottomRightRadius: 10 }}
+      >
+        <View style={{height: '100%', width: '100%'}}>
           <LinearGradient
-            colors={['transparent', black]}
-            style={styles.linearGradTour}
+            colors={['transparent', 'black']}
+            style={{...linearGrad, height: '100%', width: '100%'}}
           />
-          <View style={styles.imageOverlay}>
-            <Text style={styles.titleText}>{title}</Text>
-            <Text style={styles.detailText}>
-              60 min | Max 6 people | person
-            </Text>
-            <Text style={styles.subText}> $8 per person</Text>
-          </View>
-
+        </View>
+        <View style={{width: '85%', marginLeft: 'auto', marginRight: 'auto', marginTop: 'auto', marginBottom: 40}}>
+          <Text style={{...titleText, color: white, fontSize: 32}}>{title || "Placeholder title"}</Text>
           <Text
-            style={[
-              styles.summaryText,
-              {
-                position: 'absolute',
-                bottom: 0,
-                left: 25,
-                flex: 1,
-                paddingRight: 20,
-              },
-            ]}>
+            style={{...mediumLight, color: white, marginTop: 30}}>
             {description}
           </Text>
-        </ImageBackground>
-        <Text>TODO: Make Tour Info Page a functional component</Text>
-        <Text>
-          TODO: Make Tour Info Page accept data instead of it being hard coded
-          so that multiple tours work
-        </Text>
-      </View>
+        </View>
+      </ImageBackground>
     );
   };
 
@@ -136,33 +73,27 @@ const TourInfo = ({ navigation, route }) => {
                         <Text style={{color: blueDark}}>Message</Text>
                     </TouchableOpacity>
                 </Animated.View> */}
-        <Text style={[styles.sectionText, { marginTop: 40 }]}>Reviews</Text>
-        <Reviews reviews={reviews} />
       </View>
     );
   };
-
   return (
     <View>
       <StatusBar barStyle="dark-content" />
-      <ScrollView>
-        {renderForeground()}
-        {renderContent()}
-      </ScrollView>
-      <TouchableOpacity
-        style={styles.backIcon}
-        onPress={() => navigation.goBack()}>
-        <Ionicons name="chevron-back-outline" size={22} color={'white'} />
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.continue}
+      <FlatList
+        ListHeaderComponent={
+          <View style={{ marginBottom: 80 }}>
+            {renderForeground()}
+            <Reviews reviews={reviews} />
+            <BackButton navigation={navigation}/>
+          </View>
+        }
+      />
+      <BottomButton 
+        title={pageType=='guideFlow'?'Book Tour':'Find a Tour Guide'}
         onPress={() => {
-          navigation.navigate('TourBooking1', {title, picture, id, description});
-        }}>
-        <Text style={{ alignSelf: 'center', color: 'white', fontWeight: '600' }}>
-          Find A Tour Guide
-        </Text>
-      </TouchableOpacity>
+          navigation.navigate(pageType=='guideFlow'?'TourBooking2':'TourBooking1', pageType=='guideFlow'?{tour, guide}:tour);
+        }}
+      />
     </View>
   );
 };
@@ -170,6 +101,15 @@ const TourInfo = ({ navigation, route }) => {
 const styles = StyleSheet.create({
   baseText: {
     fontFamily: 'Helvetica',
+  },
+  headerView: {
+    width: '100%',
+    borderTopLeftRadius: 0,
+    borderTopRightRadius: 0,
+  },
+  smallHeaderView: {
+    width: '100%',
+    height: 200,
   },
   titleText: {
     fontSize: 32,
@@ -181,54 +121,36 @@ const styles = StyleSheet.create({
     fontWeight: '200',
     color: white,
   },
-  sectionText: {
-    fontSize: 18,
-    fontWeight: '600',
-    alignSelf: 'center',
-    marginTop: 20,
-  },
   subText: {
     fontSize: 20,
     fontWeight: '400',
     color: white,
     marginTop: 20,
-    marginBottom: 20,
+    // marginBottom: 20,
   },
   summaryText: {
-    fontSize: 18,
+    fontSize: 14,
     fontWeight: '200',
     color: white,
     marginBottom: 30,
   },
-  headerView: {
-    width: '100%',
-    borderTopLeftRadius: 0,
-    borderTopRightRadius: 0,
-  },
-  smallHeaderView: {
-    width: '100%',
-    height: 200,
-  },
   imageHeader: {
     width: '100%',
     height: 600,
-    borderTopLeftRadius: 0,
-    borderTopRightRadius: 0,
-    borderRadius: 10,
-    zIndex: -10,
   },
   imageOverlay: {
     position: 'absolute',
-    bottom: 120,
-    paddingLeft: 25,
+    bottom: 20,
+    paddingLeft: 24,
+    paddingRight: 40,
   },
   backCard: {
     flex: 1,
     backgroundColor: 'white',
-    marginTop: 10,
+    // marginTop: 10,
     borderRadius: 20,
     marginLeft: 20,
-    marginRight: 20,
+    marginRight: 40,
     shadowColor: black,
     shadowOffset: { width: 1, height: 1 },
     shadowOpacity: 0.2,
@@ -269,39 +191,12 @@ const styles = StyleSheet.create({
     paddingRight: 10,
     marginRight: 10,
   },
-  backIcon: {
-    backgroundColor: primary,
-    borderRadius: 10,
-    borderColor: 'white',
-    borderWidth: 1,
-    position: 'absolute',
-    left: 20,
-    top: 40,
-    width: 45,
-    height: 45,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  continue: {
-    position: 'absolute',
-    bottom: 20,
-    left: 20,
-    right: 20,
-    backgroundColor: primary,
-    height: 50,
-    justifyContent: 'center',
-    borderRadius: 10,
-    shadowColor: grayShadow,
-    shadowOffset: { width: 2, height: 2 },
-    shadowOpacity: 0.8,
-    shadowRadius: 3,
-  },
   floatCard: {
     position: 'absolute',
     bottom: 0,
-    backgroundColor: white,
+    backgroundColor: 'white',
     height: 80,
-  },
+  }
 });
 
 export default TourInfo;

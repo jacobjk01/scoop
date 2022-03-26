@@ -1,8 +1,9 @@
-import React, { useContext, useEffect, useState } from 'react'
-import { View, SafeAreaView, Text, Button, TextInput, StyleSheet, Image } from 'react-native'
-import { TouchableOpacity } from 'react-native-gesture-handler'
-import { UserContext } from 'contexts'
-import { black, white, grayMed, grayDark, primary } from '../../config/colors.js'
+import React, { useContext, useEffect, useState} from 'react'
+import { View, SafeAreaView, Text, Button, TextInput, StyleSheet, Image} from 'react-native'
+import { TouchableOpacity} from 'react-native-gesture-handler'
+import { UserContext } from '../../contexts'
+import {black, white, grayMed, grayDark, grayLight, primary} from '../../config/colors.js'
+import {mediumBold, backIcon, inputStyle, dropdownButton} from '../../config/typography.js'
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 export default  ({navigation}) => {
@@ -13,7 +14,7 @@ export default  ({navigation}) => {
         mode, setMode,
         guideDone, setGuideDone,
         visitorDone, setVisitorDone,
-        visitorBone, setVisitorBone} = useContext(UserContext);
+        visitorBone, setVisitorBone, hasNotFinishedBareOnboarding} = useContext(UserContext);
         
     useEffect(() => {
         if (mode != 'visitor') {
@@ -28,7 +29,7 @@ export default  ({navigation}) => {
 
     const marks = () => {
         return (
-            <View style={{display: 'flex', flexDirection: 'row', alignSelf: 'center', top: -5}}>
+            <View style={{display: 'flex', flexDirection: 'row', alignSelf: 'center', top: 60, position: 'absolute'}}>
                 <View style={page == 1 ? styles.oval: styles.dots}/>
                 <View style={page == 2 ? styles.oval: styles.dots}/>
                 <View style={page == 3 ? styles.oval: styles.dots}/>
@@ -59,7 +60,7 @@ export default  ({navigation}) => {
         for(let i = 0; i < options.length; i++) {
             rows.push(
                 <TouchableOpacity
-                    style={{paddingVertical: 8, paddingLeft: 15, borderColor: grayDark, borderBottomWidth: i != options.length - 1?0.5:0}}
+                    style={{ paddingVertical: 8, paddingLeft: 15, borderColor: grayDark, borderBottomWidth: i != options.length - 1?0.5:0}}
                     key={i}
                     onPress={() => {
                         let temp = [...data]
@@ -79,7 +80,8 @@ export default  ({navigation}) => {
         return (
             <View style={{marginBottom: 25}}>
                 <TouchableOpacity 
-                    style={[styles.dropdownButton, {borderBottomRightRadius: dropdown == true? 0: 5,borderBottomLeftRadius: dropdown == true? 0: 5, }]}
+                    style={[{...dropdownButton, display: 'flex',flexDirection: 'row',paddingVertical: 8, paddingHorizontal: 15,marginTop: 40}, 
+                    {borderBottomRightRadius: dropdown == true? 0: 5,borderBottomLeftRadius: dropdown == true? 0: 5, }]}
                     onPress={() => setDropdown(!dropdown)}
                 >
                     <Text style={{marginRight: 'auto', fontSize: 18, color: data[index]!='-'?black:grayDark}}>{data[index]}</Text>
@@ -102,7 +104,7 @@ export default  ({navigation}) => {
             case 1:
                 return(
                     <TextInput
-                        style={styles.inputStyle}
+                        style={{...inputStyle, paddingHorizontal: 20, paddingVertical: 7, marginTop: 40, marginBottom: 25}}
                         placeholder={'First Name'}
                         onChangeText={(text) => {
                             let temp = [...data]
@@ -118,7 +120,7 @@ export default  ({navigation}) => {
             case 4:
                 return(
                     <TextInput
-                        style={styles.inputStyle}
+                        style={{...inputStyle, paddingHorizontal: 20, paddingVertical: 7, marginTop: 40,marginBottom: 25}}
                         onChangeText={(text) => {
                             let temp = [...data]
                             temp[3] = text
@@ -135,11 +137,11 @@ export default  ({navigation}) => {
         // For the Text that is 2 lines
         switch (page) {
             case 1:
-                positionTop = 4
+                positionTop = 0
                 question = 'Enter your name'
                 break;
             case 2:
-                positionTop = 4
+                positionTop = 0
                 question = 'Select Your School'
                 break
             case 3:
@@ -153,8 +155,8 @@ export default  ({navigation}) => {
         }
         if (page == 5) {
             return (
-                <View style={{width: '80%', height: '60%', display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '25%', marginLeft: 'auto', marginRight: 'auto'}}>
-                    <Text style={{fontFamily: 'Helvetica-Bold', fontSize: 20, width: '70%', textAlign: 'center',}}>
+                <View style={{width: '80%', display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: 'auto', marginLeft: 'auto', marginRight: 'auto', marginBottom: 'auto'}}>
+                    <Text style={{...mediumBold, width: '70%', textAlign: 'center', paddingBottom: 10}}>
                         You are all set!
                     </Text>
                     <Text style={{color: grayMed}}>
@@ -162,18 +164,24 @@ export default  ({navigation}) => {
                     </Text>
                     <Image
                         source={require('../../images/onboardingHuman.png')}
-                        style={{marginVertical: 30}}
+                        style={{marginTop: 60, marginBottom: 30, marginLeft: 23}}
                     />
                     <TouchableOpacity
                         onPress={() => {
                             setVisitorBone(true);
                             setPage(0)
                         }}
-                        style={{backgroundColor: primary, paddingHorizontal: 20, paddingVertical: 10, borderRadius: 30}}
+                        style={{backgroundColor: primary, paddingLeft: 20, paddingRight: 10, paddingVertical: 10, borderRadius: 30, display:'flex', flexDirection: 'row'}}
                     >
-                        <Text style={{fontSize: 18, fontFamily: 'Helvetica-Bold', color: white}}>
+                        <Text style={{fontFamily: 'Helvetica-Bold', fontSize: 16, color: white, textAlign: 'center'}}>
                             Start Exploring
                         </Text>
+                        <Ionicons
+                            style={{paddingLeft: 3, marginTop: 'auto', marginBottom: 'auto'}}
+                            name={'chevron-forward-outline'}
+                            size={20}
+                            color={white}
+                        />
                     </TouchableOpacity>
                 </View>
 
@@ -181,8 +189,8 @@ export default  ({navigation}) => {
         }
         else {
             return (
-                <View style={{width: '80%', height: '50%', display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '40%', marginLeft: 'auto', marginRight: 'auto'}}>
-                    <Text style={{fontFamily: 'Helvetica-Bold', fontSize: 20, width: '70%', textAlign: 'center', top: positionTop, position: 'absolute'}}>
+                <View style={{width: '80%', display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: 'auto', marginLeft: 'auto', marginRight: 'auto', marginBottom: 'auto'}}>
+                    <Text style={{...mediumBold, textAlign: 'center', width: '70%', top: positionTop, position: 'absolute'}}>
                         {question}
                     </Text>
                     <View style={{height: 10}}/>
@@ -196,67 +204,76 @@ export default  ({navigation}) => {
                                 }
                             }
                         >
-                            <Text style={{fontSize: 18, color: primary, fontFamily: 'Helvetica-Bold'}}>
+                            <Text style={{color: primary, ...mediumBold, textAlign: 'center'}}>
                                 Back
                             </Text>
                         </TouchableOpacity>
-                        <TouchableOpacity 
+                        <TouchableOpacity
                             style={{borderWidth: 1.25, borderRadius: 10, paddingHorizontal: 30, paddingVertical: 7,  borderColor: data[page - 1] != '-'?primary:grayMed, backgroundColor: data[page - 1] != '-'?primary:white,}}
                             onPress={() => {
                                 if (data[page - 1] != '-')
                                     setPage(page + 1)
                             }}
                         >
-                            <Text style={{fontSize: 18, color: data[page - 1] != '-'?white:grayMed, fontFamily: 'Helvetica-Bold'}}>
+                            <Text style={{...mediumBold, textAlign: 'center', color: data[page - 1] != '-'?white:grayMed,}}>
                                 Next
                             </Text>
                         </TouchableOpacity>
                     </View>
+                    {page == 1 && false &&
+                        <TouchableOpacity
+                            disabled={page!=1}
+                            style={{width: 300, height: 50, elevation: 15, position: 'relative', top: 0, zIndex: 100, backgroundColor: white}}
+                            onPress={() => {
+                                setVisitorBone(true)
+                                console.log(hasNotFinishedBareOnboarding)
+                            }}
+                        >
+                            <Text style={{marginLeft: 'auto', marginRight: 'auto', marginBottom: 'auto', marginTop:'auto'}}>
+                                Skip (DEV - TODO - DELETE WEN LAUNCH)
+                            </Text>
+                        </TouchableOpacity>
+                    }
                 </View>
             )
         }
     }
     
     return (
-        <SafeAreaView style={{height: '100%', backgroundColor: white}}>
-            <TouchableOpacity
-                style={styles.backIcon}
+        <SafeAreaView style={{height: '100%', backgroundColor: white, flex: 1}}>
+            {/* <TouchableOpacity
+                style={{left: 20, top: 22, ...backIcon}}
                 onPress={() => navigation.goBack()}
             >
                 <Ionicons name="chevron-back-outline" size={22} color={white} />
-            </TouchableOpacity>
+            </TouchableOpacity> */}
             {marks()}
             {mainSection()}
-            {page >= 3 && page <= 4 &&
-                <TouchableOpacity 
-                    style={{color: grayMed, alignSelf:'center', padding: 10, display: 'flex', flexDirection: 'row', alignItems: 'center'}}
-                    onPress={() => setPage(page + 1)}
-                >
-                            <Text style={{color: grayDark, fontSize: 13}}>
-                                skip
-                            </Text>
-                            <Ionicons 
-                                name="chevron-forward-outline"
-                                color={grayDark}
-                                size={15}
-                                style={{top: 1}}
-                            />
-                </TouchableOpacity>
-            }
-            {page == 1 &&
-                <Button
-                    onPress={() => {
-                        setVisitorBone(true)
-                    }} title={'Skip Onboarding'}
-                />
-            }
+            <TouchableOpacity
+                disabled={page < 3 || page > 4}
+                style={{color: grayMed, alignSelf:'center', paddingBottom: 30, display: 'flex', flexDirection: 'row', alignItems: 'center', }}
+                onPress={() => setPage(page + 1)}
+            >
+                {page >= 3 && page <= 4 &&
+                    <>
+                        <Text style={{color: grayDark, fontSize: 13}}>
+                            Skip
+                        </Text>
+                        <Ionicons 
+                            name="chevron-forward-outline"
+                            color={grayDark}
+                            size={15}
+                            style={{top: 1.5}}
+                        />
+                    </>
+                }
+            </TouchableOpacity>
         </SafeAreaView>
     )
 }
 
 const styles = StyleSheet.create({
     dropdownButton: {
-        marginTop: 40,
         borderWidth: 0.75,
         borderLeftWidth: 1.25,
         borderRightWidth: 1.25,
@@ -268,21 +285,10 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         paddingVertical: 8,
         paddingHorizontal: 15,
+        marginTop: 40,
     },
     itemStyle: {
         backgroundColor: black
-    },
-    inputStyle: {
-        borderWidth: 0.75,
-
-        borderRadius: 5,
-        borderColor: grayDark,
-        paddingHorizontal: 20,
-        paddingVertical: 7,
-        width: '100%',
-        marginTop: 40,
-        marginBottom: 25,
-        fontSize: 18,
     },
     oval: {
         backgroundColor: primary,

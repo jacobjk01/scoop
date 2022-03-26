@@ -57,7 +57,15 @@ export const querySnapshotFormatter = (querySnapshotSnapshots) => {
     return querySnapshotSnapshots.docs.map(docSnapshotFormatter)
 }
 
-
+export const querySnapshotFormatterWithParent = (querySnapshotSnapshots) => {
+    return querySnapshotSnapshots.docs.map(doc => {
+      return {
+        ...docSnapshotFormatter(doc),
+        parentRef: doc.ref.parent.parent,
+        parentId: doc.ref.parent.parent.id
+      }
+    })
+  }
 
 export const userRef = (userId) => {
     return db().collection('users').doc(userId)
@@ -65,4 +73,13 @@ export const userRef = (userId) => {
 
 export const userId = (userRef) => {
     return userRef.id
+}
+
+/**
+ * returns data of the parent
+ * @param {DocumentRef} ref 
+ */
+export const getParentData = async (ref) => {
+  let parent = await ref.parent.parent.get()
+  return parent.data()
 }

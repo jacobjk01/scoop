@@ -1,6 +1,7 @@
 import firestore from '@react-native-firebase/firestore';
 import {
   querySnapshotFormatter,
+  querySnapshotFormatterWithParent,
   docSnapshotFormatter
 } from './utilities';
 const db = firestore();
@@ -41,8 +42,14 @@ export const convertToTourSummary = (processedTourSettings) => {
   throw 'Not Implemented'
 }
 
-
-export const bookTour = async (tourSettingRef, partySize, visitorId) => {
+/**
+ * 
+ * @param {*} tourSettingRef 
+ * @param {*} partySize 
+ * @param {*} visitorId 
+ * @param {*} comment additional request information
+ */
+export const bookTour = async (tourSettingRef, partySize, visitorId, comment) => {
   if (!visitorId) {
     throw new Error("visitor is not defined")
   }
@@ -55,7 +62,8 @@ export const bookTour = async (tourSettingRef, partySize, visitorId) => {
     isCancelled: false,
     //TODO: do time
     time: new Date(),
-    isCompleted: false
+    isCompleted: false,
+    comment
   })
 }
 
@@ -76,30 +84,49 @@ export const getVisitorBookings = async (visitorId) => {
 }
 
 //guide Functions
-
-export const viewAllTours = async () => {
-  const queryTourSnapshots = await tours.get();
+/**
+ * gets the first tours sorted by title, starting at variable 'parameter' and ending  
+ * @param {docId} start defaults to '', expects the documentReference id
+ * @param {number} limit defaults to 99
+ * @returns 
+ */
+export const viewAllTours = async (start = '', limit=99) => {
+  if (start !== '') {
+    start = await tours.doc(start).get()
+  }
+  const queryTourSnapshots = await tours.orderBy('title').startAt(start).limit(limit).get();
   if (queryTourSnapshots.empty) {
     console.warn("No tours found!")
   }
-  const docTourSnapshots = queryTourSnapshots.docs;
-  //AFTER-MVP: limit documents seen for performance
-  return querySnapshotFormatter(queryTourSnapshots);
+  const res = querySnapshotFormatter(queryTourSnapshots)
+
+  return res;
+}
+/**
+ * gets the toursettings using a tourRef
+ * @param {DocumentRef} tourRef 
+ * @returns {{empty:boolean, tourSetting:[]}}
+ * 
+ */
+export const checkIfTourEmpty = async (tourRef) => {
+  const tourSettingsQuerySnapshots = await tourRef.collection('tourSettings').get()
+  console.warn(querySnapshotFormatter(tourSettingsQuerySnapshots))
+  return {
+    empty: tourSettingsQuerySnapshots.empty,
+    tourSetting: querySnapshotFormatter(tourSettingsQuerySnapshots)
+  }
 }
 
-
 export const viewMyTours = async (guideId) => {
-  console.log(guideId)
 
   const queryTourSettingSnapshots = await db.collectionGroup("tourSettings")
     .where("guide", "==", user(guideId))
-    // .where("isArchived", "==", false)
-    // .where("isPublished", "==", true)
-    .where("flags", "==", ["published"])
+    .where("isArchived", "==", false)
+    .where("isPublished", "==", true)
     //gets all tours for guide that only have published flag
     .get()
 
-  return querySnapshotFormatter(queryTourSettingSnapshots)
+  return querySnapshotFormatterWithParent(queryTourSettingSnapshots)
 }
 
 // get attractions of a tour
@@ -265,7 +292,8 @@ export const switchTour = async (guideId, tourId, tourId2) => {
 
 
 //utility functions
-export const getTour = async (guideId, tourId) => {
+export const getTour = async (tourId) => await tours.doc(tourId).get()
+export const getTourSetting = async (guideId, tourId) => {
   await tours.where("guide", "==", user(guideId)).where('tourId', '==', tourId).where('archive', '==', false).get().then(querySnapshot => {
     querySnapshot.forEach((documentSnapshot) => {
       return documentSnapshot;
@@ -273,16 +301,25 @@ export const getTour = async (guideId, tourId) => {
   });
 }
 export const getBooking = async (guideId, tourId, userId) => {
-  await tours.where("guide", "==", user(guideId)).where('tourId', '==', tourId).where('archive', '==', false).get().then(querySnapshot => {
+  const querySnapshot = await tours.where("guide", "==", user(guideId)).where('tourId', '==', tourId).where('archive', '==', false).get().then(querySnapshot => {
     querySnapshot.forEach(documentSnapshot => {
       tours.doc(documentSnapshot.id).collection('bookings').where('userId', '==', userId).get().then(querySnapshot2 => {
         querySnapshot2.forEach(documentSnapshot2 => {
-          return documentSnapshot2;
+          return docSnapshotFormatter(documentSnapshot2);
         });
       });
     });
   }
   );
+}
+/**
+ * gets all tourSettings that guide has created
+ * @param {*} guideId 
+ * @returns 
+ */
+export const getAllTourSettings = async (guideId) => {
+  const tourSettingsSnapshot = await db.collectionGroup("tourSettings").where("guide", "==", user(guideId)).get()
+  return querySnapshotFormatter(tourSettingsSnapshot)
 }
 
 

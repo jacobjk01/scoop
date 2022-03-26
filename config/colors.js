@@ -9,9 +9,10 @@ module.exports = {
     grayMed: '#8f8f8f',
     grayDark: '#9B9BA7',
     grayLight: '#d8d8d8',
+    grayLight2: '#f2f2f2',
     grayLightBlue: '#F7F7F8', //tint of blue
     blueDark: '#41479B',
-    red: 'EA4336',
+    red: '#EA4336',
     grayVeryDark: '#525252',
     blueMed: '#3D68CC',
     grayShadow: '#adadad',

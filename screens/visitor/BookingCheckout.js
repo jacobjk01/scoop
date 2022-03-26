@@ -1,28 +1,40 @@
-import React, {useState} from 'react';
-
+import { black, grayDark, grayMed, primary, white } from 'config/colors';
+import moment from 'moment';
+import React, { useContext, useState, useEffect } from 'react';
 import {
-  View,
-  Text,
-  SafeAreaView,
-  StyleSheet,
-  TouchableOpacity,
-  TouchableWithoutFeedback,
   FlatList,
   Image,
-  Modal
+  Modal, SafeAreaView,
+  StyleSheet, Text, TouchableOpacity, View
 } from 'react-native';
-import { primary, white, black, grayDark, grayMed } from 'config/colors';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import toursData from '../../data/toursData';
-
+import { bookTour } from '../../api/tours';
+import BottomButton from '../../components/BottomButton';
+import Header from '../../components/Header';
+import { UserContext } from '../../contexts';
+import { grayMedText, largeBoldText, linearGrad, mediumBold, titleText } from '../../config/typography.js';
+import { getMeetingPt } from '../../api/tours';
 
 const Checkout = ({navigation, route}) => {
-
-  const generalTour = route.params[0]
-  const tour = generalTour.tours[route.params[1]]
-  const guideInfo = toursData.guides[tour.guide]
-  const [payOption, setPayOption] = useState();
+  const {tour, tourSetting, guide, visitorCount, comment} = route.params
+  console.log(tourSetting)
+  const date = tourSetting.timeAvailable[route.params.timeIndex]
+  const {
+    userAuth, setUserAuth
+  } = useContext(UserContext)
   const [isModalVisible, setModalVisible] = useState(false);
+  const [meetingPt, setMeetingPt] = useState()
+
+  useEffect(() => {
+    let isMounted = true
+    if (isMounted) {
+      getMeetingPt(tourSetting.meetingPt).then((meetingPt) => {
+        setMeetingPt(meetingPt.title)
+      })
+    }
+    return () => isMounted = false
+  }, [])
+
   const showDot = (option) => {
     if (payOption == option) {
       return (
@@ -33,40 +45,40 @@ const Checkout = ({navigation, route}) => {
     }
   }
   return (
-    <SafeAreaView style={{backgroundColor: '#E5E5E5', fontFamily: 'Helvetica'}}>
+    <SafeAreaView style={{backgroundColor: white, fontFamily: 'Helvetica',}}>
       <FlatList style={{height: '100%'}}
         ListHeaderComponent={
           <View>
-            {/*Top Container___________________________________________________________ */}
-            <View style={styles.topContainer}>
-              <View style={{display: 'flex', flexDirection: 'row', marginLeft: '5%', marginTop: '10%'}}>
+            <Header title='Checkout' navigation={navigation}/>
+            <View>
+              <View style={{display: 'flex', flexDirection: 'row', marginLeft: '10%', marginTop: '10%'}}>
                 <Image
-                  style={{width: 180, height: 115, resizeMode: 'cover', borderRadius: 10}}
-                  source={generalTour.src}
+                  style={{width: '45%', height: 115, resizeMode: 'cover', borderRadius: 10, marginRight: '5%'}}
+                  source={{uri: tour.picture}}
                 />
-                <View style={{marginTop: 'auto', marginBottom: 'auto', marginLeft: 10}}>
-                  <Text style={{fontFamily: 'Helvetica-Bold', color: black, fontSize: 18}}>{generalTour.name}</Text>
-                  <Text style={{fontSize: 15, color: grayMed}}>{guideInfo.name}</Text>
+                <View style={{marginTop: 'auto', marginBottom: 'auto'}}>
+                  <Text style={{fontFamily: 'Helvetica-Bold', color: black, fontSize: 18,}}>{tour.title}</Text>
+                  <Text style={{fontSize: 15, color: grayMed}}>with {guide.name}</Text>
                 </View>
               </View>
               <View style={{display: 'flex', flexDirection: 'row', marginTop: 30, marginLeft: '10%'}}>
                 <View style={{width: '50%'}}>
                   <Text style={styles.infoTitle}>Date</Text>
-                  <Text style={styles.info}>July 14</Text>
+                  <Text style={styles.info}>{moment(date).format('MMM DD')}</Text>
                 </View>
                 <View style={{width: '50%'}}>
                   <Text style={styles.infoTitle}>Time</Text>
-                  <Text style={styles.info}>10:00 AM</Text>
+                  <Text style={styles.info}>{moment(date).format('LT')}</Text>
                 </View>
               </View>
               <View style={{display: 'flex', flexDirection: 'row', marginTop: 20, marginLeft: '10%', marginBottom: 30}}>
                 <View style={{width: '50%'}}>
                   <Text style={styles.infoTitle}>Visitors</Text>
-                  <Text style={styles.info}>2</Text>
+                  <Text style={styles.info}>{visitorCount}</Text>
                 </View>
                 <View style={{width: '50%'}}>
                   <Text style={styles.infoTitle}>Meetup Point</Text>
-                  <Text style={styles.info}>{tour.meetPoint}</Text>
+                  <Text style={styles.info}>{meetingPt?meetingPt:'N/A'}</Text>
                 </View>
               </View>
               <View style={styles.divider}>
@@ -74,13 +86,13 @@ const Checkout = ({navigation, route}) => {
               </View>
               <View style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginLeft: 'auto', marginRight: 'auto', width: '80%', marginTop: 33, marginBottom: 33}}>
                 <Text style={styles.info}>Total</Text>
-                <Text style={styles.info}>${tour.cost}</Text>
+                <Text style={styles.info}>${tourSetting.cost}</Text>
               </View>
             </View>
 
             {/*Bottom area*/}
-            <View style={styles.bottomContainer}>
-              <Text style={{fontSize: 18, fontFamily: 'Helvetica-Bold', color: black, marginTop: 40, marginLeft: 30, marginRight: 'auto'}}>
+            {/* <View style={{marginBottom: 80}}>
+              <Text style={{...mediumBold, color: black, marginTop: 40, marginLeft: 30, marginRight: 'auto'}}>
                 Select Payment Method
               </Text>
               <TouchableOpacity 
@@ -101,19 +113,17 @@ const Checkout = ({navigation, route}) => {
                 </View>
                 <Text style={{fontSize: 15, color: black, marginLeft: 10}}>Cash</Text>
               </TouchableOpacity>
-            </View>
+            </View> */}
           </View>
-        }/>
+        }
+      />
       {/* Confirmation_________________________________ */}
-      <View style={styles.confirmContainer}>
-        <TouchableOpacity
-          style={payOption==null?styles.disabledConfirmButton:styles.confirmButton}
-          onPress={() => {if (payOption != null){setModalVisible(true)}}}  
-          disabled={payOption == null}
-        >
-          <Text style={payOption==null?styles.disabledConfirmText:styles.confirmText}>Confirm</Text>
-        </TouchableOpacity>
-      </View>
+      <BottomButton title='Confirm' 
+        onPress={() => {
+          setModalVisible(true)
+          bookTour(tourSetting.ref, visitorCount, userAuth.uid, comment)
+        }}
+      />
       {/*Modal____________________________________________________________________*/}
       <Modal
         visible={isModalVisible}
@@ -153,13 +163,6 @@ const Checkout = ({navigation, route}) => {
           </View>
         </View>
       </Modal>
-      {/*Header______________________________________________________________________________ */}
-      <View style={{backgroundColor: primary, height: 80, width: '100%', position: 'absolute'}}>
-        <Text style={[styles.titleText, {marginTop: 20}]}>Checkout</Text>
-      </View>
-      <TouchableOpacity style={styles.backIcon} onPress={() => navigation.goBack()}>
-        <Ionicons name='chevron-back-outline' size={20} color={primary} />
-      </TouchableOpacity>
     </SafeAreaView>
   );
 };
@@ -170,7 +173,8 @@ const styles = StyleSheet.create({
   },
   infoTitle: {
     fontSize: 16,
-    color: grayMed
+    color: grayMed,
+    paddingVertical: 4
   },
   info: {
     fontSize: 18,
@@ -212,18 +216,19 @@ const styles = StyleSheet.create({
     width: 200,
   },
   topContainer: {
-    width: 390,
+    width: '92%',
     marginTop: 90,
     marginLeft: 'auto',
     marginRight: 'auto',
     borderRadius: 20,
     backgroundColor: white,
+
     //android only
     elevation: 10
   },
   bottomContainer: {
 
-    width: 390,
+    width: '92%',
     marginLeft: 'auto',
     marginRight: 'auto',
     marginTop: 10,

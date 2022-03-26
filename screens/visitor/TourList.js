@@ -1,86 +1,73 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import {
-  View,
-  Text,
-  SafeAreaView,
+  FlatList, ImageBackground, SafeAreaView,
   ScrollView,
-  StyleSheet,
-  TextInput,
-  TouchableOpacity,
-  FlatList,
-  Image,
-  ImageBackground,
+  StyleSheet, Text, TouchableOpacity, View
 } from 'react-native';
-import {withSafeAreaInsets} from 'react-native-safe-area-context';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import LinearGradient from 'react-native-linear-gradient';
-import {NavigationContainer} from '@react-navigation/native';
-import {createStackNavigator} from '@react-navigation/stack';
+import { renderStars } from '../../components/Stars';
+import {titleText, graySmallText, mediumBold, largeBoldText, linearGrad} from '../../config/typography.js'
 import toursData from '../../data/toursData';
-import {renderStars} from '../../components/Stars';
+import BackButton from '../../components/BackButton';
 
 const TourList = ({navigation, route}) => {
   const [guideimages, setGuideImages] = useState(toursData.guides);
   const [tours, setTours] = useState(toursData.tours);
-  const {item} = route.params;
 
   return (
     <SafeAreaView>
-      <ScrollView style={{paddingRight: 20, paddingLeft: 20, height: '100%'}}>
-        <Text style={styles.titleText}>Tour List</Text>
-        <FlatList
-          style={{marginBottom: 10}}
-          horizontal={false}
-          data={tours}
-          renderItem={touritem => (
-            <View>
-              {console.log(touritem.item.name)}
-              <FlatList
-                style={{marginTop: 30, marginBottom: 15}}
-                horizontal={true}
-                data={guideimages}
-                renderItem={({item}) => (
-                  <TouchableOpacity
-                    key={item.id}
-                    onPress={() => {
-                      const itemInfo = {
-                        title: touritem.item.name,
-                        picture: '',
-                        id: touritem.item.id,
-                        description: touritem.item.introduction,
-                      };
-                      navigation.navigate('TourInfo', {itemInfo});
-                    }}>
-                    <ImageBackground
-                      style={styles.listGuideImage}
-                      imageStyle={{borderRadius: 10}}
-                      source={item.src}></ImageBackground>
-                  </TouchableOpacity>
-                )}
-              />
-              <TouchableOpacity
-                onPress={() => {
-                  const itemInfo = {
-                    title: touritem.item.name,
-                    picture: '',
-                    id: touritem.item.id,
-                    description: touritem.item.introduction,
-                  };
-                  navigation.navigate('TourInfo', {itemInfo});
-                }}>
-                <Text style={styles.sectionText}>{touritem.item.name}</Text>
-                {renderStars(4.5)}
-                <Text style={{marginTop: 5}}>Duration: 60 min</Text>
-                <Text style={{marginTop: 5}}>Transportation: Walking</Text>
-              </TouchableOpacity>
-            </View>
-          )}></FlatList>
+      <ScrollView style={{height: '100%', width: '100%', backgroundColor:'white'}}>
+        <BackButton navigation={navigation}/>
+        <View style={{marginLeft: 20}}>
+          <Text style={{...styles.titleText, marginTop: 100}}>Tours</Text>
+          <FlatList
+            style={{marginBottom: 10}}
+            horizontal={false}
+            data={tours}
+            renderItem={touritem => (
+              <View>
+                <FlatList
+                  style={{marginTop: 30, marginBottom: 15}}
+                  horizontal={true}
+                  data={guideimages}
+                  renderItem={({item}) => (
+                    <TouchableOpacity
+                      key={item.id}
+                      onPress={() => {
+                        const itemInfo = {
+                          title: touritem.item.name,
+                          picture: '',
+                          id: touritem.item.id,
+                          description: touritem.item.introduction,
+                        };
+                        navigation.navigate('TourInfo', {itemInfo});
+                      }}>
+                      <ImageBackground
+                        style={styles.listGuideImage}
+                        imageStyle={{borderRadius: 10}}
+                        source={item.src}></ImageBackground>
+                    </TouchableOpacity>
+                  )}
+                />
+                <TouchableOpacity
+                  onPress={() => {
+                    const itemInfo = {
+                      title: touritem.item.name,
+                      picture: '',
+                      id: touritem.item.id,
+                      description: touritem.item.introduction,
+                    };
+                    navigation.navigate('TourInfo', {itemInfo});
+                  }}>
+                  <Text style={{...mediumBold}}>{touritem.item.name}</Text>
+                  {renderStars(4.5)}
+                  <Text style={{marginTop: 5}}>Duration: 60 min</Text>
+                  <Text style={{marginTop: 5, marginBottom: 10}}>Transportation: Walking</Text>
+                </TouchableOpacity>
+              </View>
+            )}></FlatList>
+        </View>
       </ScrollView>
-      <TouchableOpacity
-        style={styles.backIcon}
-        onPress={() => navigation.goBack()}>
-        <Ionicons name="chevron-back-outline" size={20} color={'white'} />
-      </TouchableOpacity>
     </SafeAreaView>
   );
 };
@@ -92,7 +79,6 @@ const styles = StyleSheet.create({
   titleText: {
     fontSize: 24,
     fontWeight: '700',
-    marginTop: 50,
   },
   sectionText: {
     fontSize: 20,

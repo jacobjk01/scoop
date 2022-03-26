@@ -1,5 +1,6 @@
 import React, {useState, useRef, useEffect} from 'react';
 import {
+  Image,
   View,
   Text,
   SafeAreaView,
@@ -14,25 +15,24 @@ import {
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import LinearGradient from 'react-native-linear-gradient';
 import { primary, white, grayLight, black, blueMed, grayVeryLight, grayMed, grayDark } from 'config/colors';
-import {color} from 'react-native-reanimated';
-import GuideProfile from './GuideProfile';
-import { Colors } from 'react-native/Libraries/NewAppScreen';
+import GuideProfile from '../Profile';
 import { Calendar } from 'react-native-calendars';
 import moment from 'moment';
 import DatePicker from 'react-native-date-picker';
-import { viewTourSettings, convertToGuides } from '../../api/tours';
-import { getUsersByRef, getUserByRef } from '../../api/users';
+import toursData from '../../data/toursDatav2';
+import {titleText, backIcon, mediumBold, mediumOblique, primaryButton} from '../../config/typography.js';
+import { viewTourSettings} from '../../api/tours';
+import { getUsersByRef} from '../../api/users';
+import Header from '../../components/Header'
 
 const TourBooking1 = ({navigation, route}) => {
 
   const tour = route.params
 
   const [guides, setGuides] = useState([])
-  const [filteredGuides, setFilteredGuides] = useState([])
   //Array of objects with properties: ID and Dates. Dates is an array of dates, ID is the guideID
   const [info, setInfo] = useState([]);
   const [filterByTimeDates, setFilterByTimeDates] = useState([])
-  const [fullyFilteredDates, setFullyFilteredDates] = useState([])
   const [selectedDay, setSelectedDay] = useState('')
   const [selectedTimes, setSelectedTimes] = useState([false, false, false, false])
   const [disabledTimes, setDisabledTimes] = useState([false, false, false, false])
@@ -83,26 +83,27 @@ const TourBooking1 = ({navigation, route}) => {
       }
       else return arr
     }
-    viewTourSettings(route.params.id).then(tours => {
-      //https://stackoverflow.com/questions/53949393/cant-perform-a-react-state-update-on-an-unmounted-component
-      //You are not suppose to use async/await functions in useEffect
-      //jon has no idea how these 3 isMounted are connected...
-      if (isMounted) {
-        let temp = []
-        for(let i = 0; i < tours.length; i++) {
-          for(let j = 0; j < tours[i].timeAvailable.length; j++) {
-            let tempObject = {}
-            let tempObject2 = {}
-            tempObject2.tourSettingRef = tours[i].id
-            tempObject2.guideRef = tours[i].guide
-            tempObject[tours[i].timeAvailable[j]] = tempObject2
-            temp.push(tempObject)
+    if (isMounted) {
+      viewTourSettings(route.params.id).then(tours => {
+        //https://stackoverflow.com/questions/53949393/cant-perform-a-react-state-update-on-an-unmounted-component
+        //You are not suppose to use async/await functions in useEffect
+        //jon has no idea how these 3 isMounted are connected...
+
+          let temp = []
+          for(let i = 0; i < tours.length; i++) {
+            for(let j = 0; j < tours[i].timeAvailable.length; j++) {
+              let tempObject = {}
+              let tempObject2 = {}
+              tempObject2.tourSettingRef = tours[i].id
+              tempObject2.guideRef = tours[i].guide
+              tempObject[tours[i].timeAvailable[j]] = tempObject2
+              temp.push(tempObject)
+            }
           }
-        }
-        temp = quickSort(temp)
-        setInfo(temp)
-      }
-    });
+          temp = quickSort(temp)
+          setInfo(temp)
+      });
+    }
     
     return () => {
       isMounted = false
@@ -112,21 +113,15 @@ const TourBooking1 = ({navigation, route}) => {
   const filterGuides = (day, semifilteredDates) => {
     let guideRefs = []
     //we need this so we can pass it to tourbooking 3 select time
-    let fullyFilteredDates = []
     let i = binarySearch(semifilteredDates, day, 0) + 1
 
     while(typeof semifilteredDates[i] !== 'undefined' && moment(Object.keys(semifilteredDates[i])[0]).format("YYYY" + "-" + "MM" + "-" + "DD") == day){
       guideRefs.push(semifilteredDates[i][Object.keys(semifilteredDates[i])[0]].guideRef)
-      fullyFilteredDates.push(semifilteredDates[i])
       i++
     }
-
     getUsersByRef(guideRefs).then(guides => {
       setGuides(guides)
-      console.log(guides)
     })
-
-    setFullyFilteredDates(fullyFilteredDates)
   }
 
   useEffect(() => {
@@ -206,7 +201,7 @@ const TourBooking1 = ({navigation, route}) => {
       selectedTimes[3] == false &&
       selectedDay != ''
     ) {
-      text = 'Please select a time';
+      text = 'Please select a Time';
     } else {
       text = 'Please Select a Time and Date';
     }
@@ -235,34 +230,33 @@ const TourBooking1 = ({navigation, route}) => {
     }
   };
 
-  // console.log(fullyFilteredDates, 'full dates')
-  // console.log(guides, 'guides')
   const renderGuide = ({item, index}) => {
-    let guideInfo = {
+    let guide = {
       id: item.id,
       major: item.major,
       name: item.name,
       profilePicture: item.profilePicture,
       type: item.type
     }
-
     const handleOnPress = () => {
-      navigation.navigate('TourBooking2', {tour, guideInfo, fullyFilteredDates, selectedDay})
+      console.log(guide)
+      navigation.navigate('Profile', {tour, guide, selectedDay, pageType: 'tourFlow'})
     };
-
     return (
       <TouchableOpacity onPress={handleOnPress}>
-        <View>
-          <ImageBackground
+        <View style={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
+          <Image
             style={styles.listGuideImage}
-            imageStyle={{borderRadius: 60}}
-            source={{uri: item.profilePicture}}></ImageBackground>
-          <Text style={styles.guideName}>{item.name}</Text>
-          <Text style={styles.guideTitle}>
-            {item.major}, {item.year}
-          </Text>
-          <View style={styles.line}></View>
+            source={item.profilePicture == null?require('../../images/defaultpfp.png'):{uri: item.profilePicture}}>
+          </Image>
+          <View style={{marginLeft: 15, flex: 1}}>
+            <Text style={{...mediumBold, top: 3}}>{item.name}</Text>
+            <Text style={{...mediumOblique, bottom: 3}}>
+              {item.major}, {item.year}
+            </Text>
+          </View>
         </View>
+        <View style={styles.line}></View>
       </TouchableOpacity>
     );
   };
@@ -436,11 +430,9 @@ const TourBooking1 = ({navigation, route}) => {
             setOfficialTimes(times)
           }}>
           <Text
-            style={{
+            style={{...primaryButton, 
               fontSize: 14,
               color: white,
-              backgroundColor: primary,
-              borderRadius: 8,
               paddingHorizontal: 14,
               paddingVertical: 6,
               marginVertical: 3,
@@ -522,359 +514,358 @@ const TourBooking1 = ({navigation, route}) => {
       <FlatList
         style={{height: '100%'}}
         ListHeaderComponent={
-          <View style={{marginTop: 85, marginRight: 12, marginLeft: 12}}>
-            {/*Calender__________________________________________________________________________ */}
-            <View style={[styles.backCard, {paddingBottom: 15}]}>
-              <View style={styles.calenderLine}></View>
-              <Calendar
-                // minDate={'2012-05-10'}
-                // maxDate={'2012-05-30'}
-                onDayPress={day => {
-                  onDayPress(day.dateString);
-                }}
-                // Month format in calendar title. Formatting values: http://arshaw.com/xdate/#Formatting
-                monthFormat={'MMMM yyyy'}
-                // If firstDay=1 week starts from Monday. Note that dayNames and dayNamesShort should still start from Sunday
-                firstDay={1}
-                // Handler which gets executed when press arrow icon left. It receive a callback can go back month
-                onPressArrowLeft={subtractMonth => subtractMonth()}
-                // Handler which gets executed when press arrow icon right. It receive a callback can go next month
-                onPressArrowRight={addMonth => addMonth()}
-                // Disable all touch events for disabled days. can be override with disableTouchEvent in markedDates
-                disableAllTouchEventsForDisabledDays={true}
-                // Enable the option to swipe between months. Default = false
-                enableSwipeMonths={true}
-                renderArrow={direction => {
-                  if (direction == 'left') {
-                    return (
-                      <View
-                        style={{
-                          borderWidth: 1,
-                          borderRadius: 20,
-                          borderColor: grayLight,
-                        }}>
-                        <Ionicons
-                          name="chevron-back-outline"
-                          size={11}
-                          color={primary}
-                          style={{padding: 4}}
-                        />
-                      </View>
-                    );
-                  } else {
-                    return (
-                      <View
-                        style={{
-                          borderWidth: 1,
-                          borderRadius: 20,
-                          borderColor: grayLight,
-                        }}>
-                        <Ionicons
-                          name="chevron-forward-outline"
-                          size={11}
-                          color={primary}
-                          style={{padding: 4}}
-                        />
-                      </View>
-                    );
-                  }
-                }}
-                theme={{
-                  arrowColor: primary,
-                  todayTextColor: black,
-                  textDayFontFamily: 'Roboto-Medium',
-                  textDayFontSize: 16,
-                  monthTextColor: black,
-                  textMonthFontSize: 17,
-                  textMonthFontFamily: 'Raleway-SemiBold',
-                  dotColor: primary,
-                  selectedDotColor: primary,
-                  dayTextColor: black,
-                  selectedDayTextColor: white,
-                  selectedDayBackgroundSize: 20,
-                  selectedDotColor: white,
-                  textDayHeaderFontFamily: 'Raleway-Medium',
+          <View>
+            {/*Header______________________________________________________________________________ */}
+            <Header title='Select Date' navigation={navigation}/>
+            <View style={{paddingLeft: 12, paddingRight: 12}}>
+              {/*Calender__________________________________________________________________________ */}
+              <View style={[styles.backCard, {paddingBottom: 15}]}>
+                <View style={styles.calenderLine}></View>
+                <Calendar
+                  // minDate={'2012-05-10'}
+                  // maxDate={'2012-05-30'}
+                  onDayPress={day => {
+                    onDayPress(day.dateString);
+                  }}
+                  // Month format in calendar title. Formatting values: http://arshaw.com/xdate/#Formatting
+                  monthFormat={'MMMM yyyy'}
+                  // If firstDay=1 week starts from Monday. Note that dayNames and dayNamesShort should still start from Sunday
+                  firstDay={1}
+                  // Handler which gets executed when press arrow icon left. It receive a callback can go back month
+                  onPressArrowLeft={subtractMonth => subtractMonth()}
+                  // Handler which gets executed when press arrow icon right. It receive a callback can go next month
+                  onPressArrowRight={addMonth => addMonth()}
+                  // Disable all touch events for disabled days. can be override with disableTouchEvent in markedDates
+                  disableAllTouchEventsForDisabledDays={true}
+                  // Enable the option to swipe between months. Default = false
+                  enableSwipeMonths={true}
+                  renderArrow={direction => {
+                    if (direction == 'left') {
+                      return (
+                        <View
+                          style={{
+                            borderWidth: 1,
+                            borderRadius: 20,
+                            borderColor: grayLight,
+                          }}>
+                          <Ionicons
+                            name="chevron-back-outline"
+                            size={11}
+                            color={primary}
+                            style={{padding: 4}}
+                          />
+                        </View>
+                      );
+                    } else {
+                      return (
+                        <View
+                          style={{
+                            borderWidth: 1,
+                            borderRadius: 20,
+                            borderColor: grayLight,
+                          }}>
+                          <Ionicons
+                            name="chevron-forward-outline"
+                            size={11}
+                            color={primary}
+                            style={{padding: 4}}
+                          />
+                        </View>
+                      );
+                    }
+                  }}
+                  theme={{
+                    arrowColor: primary,
+                    todayTextColor: black,
+                    textDayFontFamily: 'Roboto-Medium',
+                    textDayFontSize: 16,
+                    monthTextColor: black,
+                    textMonthFontSize: 17,
+                    textMonthFontFamily: 'Raleway-SemiBold',
+                    dotColor: primary,
+                    selectedDotColor: primary,
+                    dayTextColor: black,
+                    selectedDayTextColor: white,
+                    selectedDayBackgroundSize: 20,
+                    selectedDotColor: white,
+                    textDayHeaderFontFamily: 'Raleway-Medium',
 
-                  'stylesheet.day.basic': {
-                    base: {
-                      width: 45,
-                      height: 45,
-                      alignItems: 'center',
-                      padding: 5,
-                      margin: 1,
+                    'stylesheet.day.basic': {
+                      base: {
+                        width: 45,
+                        height: 45,
+                        alignItems: 'center',
+                        padding: 5,
+                        margin: 1,
+                      },
+                      selected: {
+                        borderRadius: 25,
+                        backgroundColor: primary,
+                      },
                     },
-                    selected: {
-                      borderRadius: 25,
-                      backgroundColor: primary,
+                    'stylesheet.calendar.main': {
+                      container: {
+                        marginTop: 10,
+                        paddingLeft: 20,
+                        paddingRight: 20,
+                        backgroundColor: white,
+                        borderRadius: 25,
+                      },
+                      week: {
+                        marginTop: 0,
+                        marginBottom: 0,
+                        flexDirection: 'row',
+                        justifyContent: 'space-around',
+                      },
                     },
-                  },
-                  'stylesheet.calendar.main': {
-                    container: {
-                      marginTop: 10,
-                      paddingLeft: 20,
-                      paddingRight: 20,
-                      backgroundColor: white,
-                      borderRadius: 25,
+                    'stylesheet.calendar.header': {
+                      header: {
+                        flexDirection: 'row',
+                        justifyContent: 'center',
+                        paddingLeft: 10,
+                        paddingRight: 10,
+                        alignItems: 'center',
+                      },
+                      monthText: {
+                        fontSize: 17,
+                        fontFamily: 'Raleway-SemiBold',
+                        color: black,
+                        margin: 10,
+                        marginBottom: 17,
+                      },
                     },
-                    week: {
-                      marginTop: 0,
-                      marginBottom: 0,
-                      flexDirection: 'row',
-                      justifyContent: 'space-around',
-                    },
-                  },
-                  'stylesheet.calendar.header': {
-                    header: {
-                      flexDirection: 'row',
-                      justifyContent: 'center',
-                      paddingLeft: 10,
-                      paddingRight: 10,
-                      alignItems: 'center',
-                    },
-                    monthText: {
-                      fontSize: 17,
-                      fontFamily: 'Raleway-SemiBold',
-                      color: black,
-                      margin: 10,
-                      marginBottom: 17,
-                    },
-                  },
-                }}
-                markedDates={createMarkings()}>
-              </Calendar>
-            </View>
+                  }}
+                  markedDates={createMarkings()}
+                >
+                </Calendar>
+              </View>
 
-            {/*Modal____________________________________________________________________*/}
-            <Modal visible={isModalVisible} transparent={true}>
-              <View
-                style={{
-                  backgroundColor: 'rgba(0,0,0,0.5)',
-                  width: '100%',
-                  height: '100%',
-                }}>
+              {/*Modal____________________________________________________________________*/}
+              <Modal visible={isModalVisible} transparent={true}>
                 <View
                   style={{
-                    backgroundColor: white,
-                    height: '42.5%',
-                    width: '53%',
-                    marginTop: 'auto',
-                    marginBottom: 'auto',
-                    marginRight: 'auto',
-                    marginLeft: 'auto',
-                    borderRadius: 10,
+                    backgroundColor: 'rgba(0,0,0,0.5)',
+                    width: '100%',
+                    height: '100%',
                   }}>
-                  <TouchableWithoutFeedback
-                    onPress={() => {
-                      setStartOrEnd(!startOrEnd);
-                      animation();
-                    }}>
-                    <View
-                      style={{
-                        backgroundColor: '#F2f2f2',
-                        display: 'flex',
-                        flexDirection: 'row',
-                        marginLeft: 'auto',
-                        marginRight: 'auto',
-                        marginTop: 15,
-                        borderRadius: 15,
-                      }}>
-                      <View
-                        style={{
-                          paddingLeft: 15,
-                          paddingRight: 10,
-                          paddingTop: 10,
-                          paddingBottom: 10,
-                        }}>
-                        <Text
-                          style={{
-                            fontSize: 14,
-                            fontWeight: '700',
-                            color: black,
-                          }}>
-                          Start
-                        </Text>
-                        <Text
-                          style={{
-                            fontSize: 10,
-                            color: black,
-                            width: 61,
-                          }}>
-                          {checkStart()}
-                        </Text>
-                      </View>
-                      <View
-                        style={{
-                          paddingLeft: 15,
-                          paddingRight: 15,
-                          paddingTop: 10,
-                          paddingBottom: 10,
-                        }}>
-                        <Text
-                          style={{
-                            fontSize: 14,
-                            fontWeight: '700',
-                            color: black,
-                          }}>
-                          End
-                        </Text>
-                        <Text
-                          style={{
-                            fontSize: 10,
-                            color: black,
-                            width: 61,
-                          }}>
-                          {checkEnd()}
-                        </Text>
-                      </View>
-                      <Animated.View
-                        style={{
-                          backgroundColor: white,
-                          position: 'absolute',
-                          top: '6%',
-                          left: slideAnim,
-                          height: '88%',
-                          width: 88,
-                          zIndex: -1,
-                          borderRadius: 13,
-                        }}></Animated.View>
-                    </View>
-                  </TouchableWithoutFeedback>
-                  {displayTimePicker()}
                   <View
                     style={{
-                      display: 'flex',
-                      flexDirection: 'row',
-                      width: '86%',
-                      marginRight: '7%',
-                      marginLeft: '7%',
+                      backgroundColor: white,
+                      height: '42.5%',
+                      width: '53%',
+                      marginTop: 'auto',
+                      marginBottom: 'auto',
+                      marginRight: 'auto',
+                      marginLeft: 'auto',
                       borderRadius: 10,
-                      justifyContent: 'space-evenly',
                     }}>
-                    {/*Cancel Button */}
-                    <TouchableOpacity
+                    <TouchableWithoutFeedback
                       onPress={() => {
-                        setModalVisible(false);
-                        let temp = [...selectedTimes];
-                        temp[3] = false;
-                        setSelectedTimes(temp)
-                        setCustomStartTime(officialTimes[0]);
-                        setCustomEndTime(officialTimes[1]);
-
-                      }}
-                      style={{
-                        fontSize: 14,
-                        color: white,
-                        backgroundColor: primary,
-                        borderRadius: 8,
-                        paddingHorizontal: 14,
-                        paddingVertical: 6,
-                        marginVertical: 3,
+                        setStartOrEnd(!startOrEnd);
+                        animation();
                       }}>
-                      <Text style={{color: white}}>Cancel</Text>
-                    </TouchableOpacity>
-                    {/* Confirm button________________________________________ */}
-                    {confirm()}
+                      <View
+                        style={{
+                          backgroundColor: '#F2f2f2',
+                          display: 'flex',
+                          flexDirection: 'row',
+                          marginLeft: 'auto',
+                          marginRight: 'auto',
+                          marginTop: 15,
+                          borderRadius: 15,
+                        }}>
+                        <View
+                          style={{
+                            paddingLeft: 15,
+                            paddingRight: 10,
+                            paddingTop: 10,
+                            paddingBottom: 10,
+                          }}>
+                          <Text
+                            style={{
+                              fontSize: 14,
+                              fontWeight: '700',
+                              color: black,
+                            }}>
+                            Start
+                          </Text>
+                          <Text
+                            style={{
+                              fontSize: 10,
+                              color: black,
+                              width: 61,
+                            }}>
+                            {checkStart()}
+                          </Text>
+                        </View>
+                        <View
+                          style={{
+                            paddingLeft: 15,
+                            paddingRight: 15,
+                            paddingTop: 10,
+                            paddingBottom: 10,
+                          }}>
+                          <Text
+                            style={{
+                              fontSize: 14,
+                              fontWeight: '700',
+                              color: black,
+                            }}>
+                            End
+                          </Text>
+                          <Text
+                            style={{
+                              fontSize: 10,
+                              color: black,
+                              width: 61,
+                            }}>
+                            {checkEnd()}
+                          </Text>
+                        </View>
+                        <Animated.View
+                          style={{
+                            backgroundColor: white,
+                            position: 'absolute',
+                            top: '6%',
+                            left: slideAnim,
+                            height: '88%',
+                            width: 88,
+                            zIndex: -1,
+                            borderRadius: 13,
+                          }}></Animated.View>
+                      </View>
+                    </TouchableWithoutFeedback>
+                    {displayTimePicker()}
+                    <View
+                      style={{
+                        display: 'flex',
+                        flexDirection: 'row',
+                        width: '86%',
+                        marginRight: '7%',
+                        marginLeft: '7%',
+                        borderRadius: 10,
+                        justifyContent: 'space-evenly',
+                      }}>
+                      {/*Cancel Button */}
+                      <TouchableOpacity
+                        onPress={() => {
+                          setModalVisible(false);
+                          let temp = [...selectedTimes];
+                          temp[3] = false;
+                          setSelectedTimes(temp)
+                          setCustomStartTime(officialTimes[0]);
+                          setCustomEndTime(officialTimes[1]);
+
+                        }}
+                        style={{
+                          fontSize: 14,
+                          color: white,
+                          backgroundColor: primary,
+                          borderRadius: 8,
+                          paddingHorizontal: 14,
+                          paddingVertical: 6,
+                          marginVertical: 3,
+                        }}>
+                        <Text style={{color: white}}>Cancel</Text>
+                      </TouchableOpacity>
+                      {/* Confirm button________________________________________ */}
+                      {confirm()}
+                    </View>
                   </View>
                 </View>
-              </View>
-            </Modal>
+              </Modal>
 
-            {/*Select times____________________________________________________________*/}
-            <View style={styles.timeView}>
-              {selectedTimes.map((date, index) => {
-                let range = ['Morning', 'Afternoon', 'Night', 'Custom'];
-                let backColor, textColor, subTextColor;
-                if (disabledTimes[index]) {
-                  backColor = white
-                  textColor = grayLight
-                  subTextColor = grayLight
-                } else if (selectedTimes[index] == true) {
-                  backColor = primary;
-                  textColor = white;
-                  subTextColor = white;
-                } else{
-                  backColor = white;
-                  textColor = black;
-                  subTextColor = grayDark;
-                }
-                return (
-                  <TouchableOpacity
-                    disabled={disabledTimes[index]}
-                    key={index}
-                    style={{
-                      backgroundColor: backColor,
-                      padding: 8,
-                      marginRight: 9,
-                      marginLeft: 9,
-                      marginBottom: 4,
-                      marginTop: 5,
-                      width: 170,
-                      elevation: 10,
-                      borderRadius: 5,
-                    }}
-                    onPress={() => {
-                      updateSelectedTime(index);
-                      viewModal(index);
-                    }}>
-                    <Text
+              {/*Select times____________________________________________________________*/}
+              <View style={styles.timeView}>
+                {selectedTimes.map((date, index) => {
+                  let range = ['Morning', 'Afternoon', 'Night', 'Custom'];
+                  let backColor, textColor, subTextColor;
+                  if (disabledTimes[index]) {
+                    backColor = white
+                    textColor = grayLight
+                    subTextColor = grayLight
+                  } else if (selectedTimes[index] == true) {
+                    backColor = primary;
+                    textColor = white;
+                    subTextColor = white;
+                  } else{
+                    backColor = white;
+                    textColor = black;
+                    subTextColor = grayDark;
+                  }
+                  return (
+                    <TouchableOpacity
+                      disabled={disabledTimes[index]}
+                      key={index}
                       style={{
-                        color: textColor,
-                        fontSize: 16.5,
-                        fontFamily: 'Helvetica',
-                        marginLeft: 'auto',
-                        marginRight: 'auto',
-                        fontWeight: '700',
+                        backgroundColor: backColor,
+                        padding: 12,
+                        // marginRight: 9,
+                        // marginLeft: 9,
+                        marginBottom: 4,
+                        marginTop: 5,
+                        marginHorizontal:'2.5%',
+                        width: '45%',
+                        elevation: 10,
+                        borderRadius: 5,
+                      }}
+                      onPress={() => {
+                        updateSelectedTime(index);
+                        viewModal(index);
                       }}>
-                      {range[index]}
-                    </Text>
-                    <Text
-                      style={{
-                        color: subTextColor,
-                        alignSelf: 'center',
-                        fontSize: 12,
-                        fontWeight: '400',
-                      }}>
-                      {displayTimeRanges(index)}
-                    </Text>
-                  </TouchableOpacity>
-                );
-              })}
-            </View>
-
-            {/*Tour Guides Available________________________________________________________*/}
-            <View style={styles.guideBox}>
-              <View style={{marginTop: 25}}>
-                <Text style={[styles.sectionText, {paddingBottom: 15}]}>
-                  Tour Guides Available
-                </Text>
-                <View style={styles.line}></View>
+                      <Text
+                        style={{
+                          color: textColor,
+                          fontSize: 14,
+                          fontFamily: 'Helvetica',
+                          marginLeft: 'auto',
+                          marginRight: 'auto',
+                          fontWeight: '700',
+                          paddingBottom: 4
+                        }}>
+                        {range[index]}
+                      </Text>
+                      <Text
+                        style={{
+                          color: subTextColor,
+                          alignSelf: 'center',
+                          fontSize: 10,
+                          fontWeight: '400',
+                        }}>
+                        {displayTimeRanges(index)}
+                      </Text>
+                    </TouchableOpacity>
+                  );
+                })}
               </View>
-              {checkDate()}
 
-              <View style={{width: '100%', height: 45}}></View>
+              {/*Tour Guides Available________________________________________________________*/}
+              <View style={{
+                backgroundColor: white,
+                borderRadius: 25,
+                marginBottom: 10,
+                minHeight: 160,
+                //ios only
+                shadowOffset:{  width: 10,  height: 20,  },
+                shadowColor: black,
+                shadowOpacity: 1.0,
+                //android only
+                elevation: 10,
+              }}>
+                <View style={{marginTop: 25}}>
+                  <Text style={{...mediumBold, alignSelf: 'center', paddingBottom: 15}}>
+                    Tour Guides Available
+                  </Text>
+                  <View style={styles.line}></View>
+                </View>
+                {checkDate()}
+
+                <View style={{width: '100%', height: 45}}></View>
+              </View>
             </View>
           </View>
         }
       />
-      {/*Header______________________________________________________________________________ */}
-      <View
-        style={{
-          backgroundColor: primary,
-          height: 80,
-          width: '100%',
-          position: 'absolute',
-        }}>
-        <Text style={[styles.titleText, {marginTop: 20}]}>Select Date</Text>
-      </View>
-      <TouchableOpacity
-        style={styles.backIcon}
-        onPress={() => navigation.goBack()}>
-        <Ionicons
-          name="chevron-back-outline"
-          size={20}
-          color={primary}
-        />
-      </TouchableOpacity>
     </SafeAreaView>
   );
 };
@@ -918,6 +909,9 @@ const styles = StyleSheet.create({
     //android only
     elevation: 10,
   },
+  baseText: {
+    fontFamily: 'Helvetica',
+  },
   titleText: {
     marginLeft: 'auto',
     marginRight: 'auto',
@@ -934,36 +928,28 @@ const styles = StyleSheet.create({
     marginLeft: 15,
     marginTop: 10,
     marginBottom: 10,
-
+    borderRadius: 60,
     width: 70,
     height: 70,
   },
-  guideBox: {
-    backgroundColor: white,
-    borderRadius: 25,
-    marginBottom: 10,
-    minHeight: 160,
-    //ios only
-    shadowOffset:{  width: 10,  height: 20,  },
-    shadowColor: black,
-    shadowOpacity: 1.0,
-    //android only
-    elevation: 10,
+  
+  calenderLine: {
+    width: '90%',
+    height: 0.75,
+    backgroundColor: '#D9D9D9',
+    position: 'absolute',
+    top: 95,
+    alignSelf: 'center',
+    zIndex: 10,
   },
   guideName: {
     fontSize: 18,
     fontFamily: 'Helvetica-Bold',
-    position: 'absolute',
-    top: 20,
-    left: 100,
     color: black,
   },
   guideTitle: {
     fontSize: 18,
     fontFamily: 'Helvetica-Oblique',
-    position: 'absolute',
-    bottom: 20,
-    left: 100,
     color: black,
   },
   backIcon: {
@@ -979,15 +965,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  calenderLine: {
-    width: '90%',
-    height: 0.75,
-    backgroundColor: grayMed,
-    position: 'absolute',
-    top: 95,
-    alignSelf: 'center',
-    zIndex: 10,
-  },
+  // calenderLine: {
+  //   width: '90%',
+  //   height: 0.75,
+  //   backgroundColor: grayMed,
+  //   position: 'absolute',
+  //   top: 95,
+  //   alignSelf: 'center',
+  //   zIndex: 10,
+  // },
 });
 
 export default TourBooking1;

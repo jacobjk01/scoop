@@ -1,8 +1,8 @@
 import db from '@react-native-firebase/firestore';
 import storage from '@react-native-firebase/storage';
-import { update, get } from './utilities';
+import {update, get} from './utilities';
 
-import { querySnapshotFormatter } from './utilities';
+import {querySnapshotFormatter} from './utilities';
 const Users = db().collection('users');
 
 /**
@@ -11,10 +11,10 @@ const Users = db().collection('users');
  * Signers may not have a user in the users collection
  * In this case, getUser will create a basic document for the user
  * However, that is below the abstraction
- * @param {*} userAuth 
+ * @param {*} userAuth
  * @returns the document of the user
  */
-export const getUser = async (userAuth) => {
+export const getUser = async userAuth => {
   try {
     const user = await get(Users, userAuth.uid);
     if (!user._exists) {
@@ -29,14 +29,14 @@ export const getUser = async (userAuth) => {
   } catch (e) {
     console.log(e);
   }
-}
+};
 
 /**
  * Gets the user's data given userAuth
  * @param userAuth
  * @returns user data if successful, null if not
  */
-export const getUserData = async (userAuth) => {
+export const getUserData = async userAuth => {
   try {
     const user = await get(Users, userAuth.uid);
     if (user._exists) {
@@ -46,11 +46,11 @@ export const getUserData = async (userAuth) => {
   } catch (e) {
     console.log(e);
   }
-}
+};
 
-export const getUserById = async (userId) => {
-  return await Users.doc(userId).get()
-}
+export const getUserById = async userId => {
+  return await Users.doc(userId).get();
+};
 
 /**
  * Gets the profile picture of the user in the db and storage
@@ -60,31 +60,33 @@ export const getUserById = async (userId) => {
  */
 export const getPicture = async (uid, type) => {
   try {
-    return await storage().ref('/' + uid + '/' + type).getDownloadURL();
+    return await storage()
+      .ref('/' + uid + '/' + type)
+      .getDownloadURL();
   } catch (e) {
     console.log(e);
   }
-}
+};
 
 /**
  * Creates private data for the user
- * @param {string} uid 
+ * @param {string} uid
  * @returns true if successful, false if not
  */
-export const createPrivateData = async (uid) => {
+export const createPrivateData = async uid => {
   try {
     return await Users.doc(uid).collection('private-data').add({
-      payment: 100
+      payment: 100,
     });
   } catch (e) {
     console.log(e);
   }
-}
+};
 
 /**
  * Updates the name of the user
- * @param {string} uid 
- * @param {string} name 
+ * @param {string} uid
+ * @param {string} name
  * @returns true if successful, false if not
  */
 export const changeName = async (uid, name) => {
@@ -93,27 +95,29 @@ export const changeName = async (uid, name) => {
   } catch (e) {
     console.log(e);
   }
-}
+};
 
 /**
  * Updates the profile or background picture of the user in the db and storage
- * @param {string} uid 
- * @param {string} picture 
+ * @param {string} uid
+ * @param {string} picture
  * @param {string} type can be profilePicture or backgroundPicture
  * @returns true if successful, false if not
  */
 export const changePicture = async (uid, picture, type) => {
   try {
-    return await storage().ref(uid + '/' + type).putFile(picture);
+    return await storage()
+      .ref(uid + '/' + type)
+      .putFile(picture);
   } catch (e) {
     console.log(e);
   }
-}
+};
 
 /**
  * Updates the major of the user
- * @param {string} uid 
- * @param {string} major 
+ * @param {string} uid
+ * @param {string} major
  * @returns true if successful, false if not
  */
 export const changeMajor = async (uid, major) => {
@@ -122,12 +126,12 @@ export const changeMajor = async (uid, major) => {
   } catch (e) {
     console.log(e);
   }
-}
+};
 
 /**
  * Updates the year of the user
- * @param {string} uid 
- * @param {string} year 
+ * @param {string} uid
+ * @param {string} year
  * @returns true if successful, false if not
  */
 export const changeYear = async (uid, year) => {
@@ -136,12 +140,12 @@ export const changeYear = async (uid, year) => {
   } catch (e) {
     console.log(e);
   }
-}
+};
 
 /**
  * Updates the intro of the user
- * @param {string} uid 
- * @param {string} intro 
+ * @param {string} uid
+ * @param {string} intro
  * @returns true if successful, false if not
  */
 export const changeIntro = async (uid, intro) => {
@@ -150,13 +154,13 @@ export const changeIntro = async (uid, intro) => {
   } catch (e) {
     console.log(e);
   }
-}
+};
 
 // TODO
 /**
  * Updates the languages of the user
- * @param {string} uid 
- * @param {string} languages 
+ * @param {string} uid
+ * @param {string} languages
  * @returns true if successful, false if not
  */
 // Represented as a list or from multi-selection
@@ -166,12 +170,12 @@ export const changeLanguages = async (uid, languages) => {
   } catch (e) {
     console.log(e);
   }
-}
+};
 
 /**
  * Updates the hometown of the user
- * @param {string} uid 
- * @param {string} hometown 
+ * @param {string} uid
+ * @param {string} hometown
  * @returns true if successful, false if not
  */
 export const changeHometown = async (uid, hometown) => {
@@ -180,14 +184,14 @@ export const changeHometown = async (uid, hometown) => {
   } catch (e) {
     console.log(e);
   }
-}
+};
 
 // TODO
 // Will need to send the full list of tours back, and update all
 /**
  * Updates the tours of the user
- * @param {string} uid 
- * @param {string} tours 
+ * @param {string} uid
+ * @param {string} tours
  * @returns true if successful, false if not
  */
 export const changeTours = async (uid, tours) => {
@@ -196,15 +200,15 @@ export const changeTours = async (uid, tours) => {
   } catch (e) {
     console.log(e);
   }
-}
+};
 
 // Specifics for searching may be different
 /**
  * Updates the name of the user
- * @param {string} searchQuery 
+ * @param {string} searchQuery
  * @returns ?
  */
-export const searchGuides = (searchQuery) => {
+export const searchGuides = searchQuery => {
   db()
     .collection('users')
     .where('type', '==', 'guide') // should this be 'array-contains'?
@@ -213,26 +217,41 @@ export const searchGuides = (searchQuery) => {
       /*      */
     })
     .then(() => {
-      console.log('Searched!')
+      console.log('Searched!');
     })
     .catch(err => {
-      console.error(err)
-    })
-}
+      console.error(err);
+    });
+};
 
+export const getGuides = async () => {
+  const queryTourSnapshots = await db()
+    .collection('users')
+    .where('type', '==', 'guide')
+    .get();
+  if (queryTourSnapshots.empty) {
+    console.warn('No guides found!');
+  }
+  //AFTER-MVP: limit documents seen for performance
+  return querySnapshotFormatter(queryTourSnapshots);
+};
 
-export const getUserByRef = async (guideRef) => {
-  return await guideRef.get()
-}
+export const getUserByRef = async guideRef => {
+  return await guideRef.get();
+};
 /**
- * 
- * @param {*} guideRefs 
+ *
+ * @param {*} guideRefs
  * @returns array of users that match guideRefs
  */
-export const getUsersByRef = async (guideRefs) => {
-  const querySnapshot = await Users.where(db.FieldPath.documentId(), "in", guideRefs).get()
+export const getUsersByRef = async guideRefs => {
+  const querySnapshot = await Users.where(
+    db.FieldPath.documentId(),
+    'in',
+    guideRefs,
+  ).get();
   if (querySnapshot.empty) {
-    console.warn(`did not find documents that matched any of your guideRefs`)
+    console.warn(`did not find documents that matched any of your guideRefs`);
   }
-  return querySnapshotFormatter(querySnapshot)
-}
+  return querySnapshotFormatter(querySnapshot);
+};
