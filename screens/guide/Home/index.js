@@ -16,12 +16,9 @@ import ActiveTourCard from './ActiveTourCard';
 
 const Home = ({navigation}) => {
   const curTime = '12:00 PM';
-  const [activeBooking, setActiveBooking] = useState(toursData.tours[0].startTime == curTime ? toursData.tours[0] : null)
+  const [activeBooking, setActiveBooking] = useState(null)
   const [bookings, setBookings] = useState(activeBooking ? toursData.tours.slice(1) : toursData.tours)
   const {userAuth, setUserAuth, user, setUser} = useContext(UserContext);
-  //legacy mappings
-  const tours = bookings
-  const activeTour = activeBooking
   
   useEffect(() => {
     if (!userAuth) return;
@@ -51,25 +48,37 @@ const Home = ({navigation}) => {
         startTime,
         meetPoint
       })})
-      setBookings(_bookings)
+      for (let i = 0; i < bookings.length; i++) {
+        let currentDate = bookings[i].time.seconds*1000
+        //if date is between now and hour later, then there is an active tour
+        console.log("current date" + i + ": " + currentDate)
+        console.log(Date.now() )
+        console.log(currentDate+60*60*1000)
+        if (Date.now() < currentDate) {
+          setBookings(_bookings.slice(i))
+          break;
+        } else if (currentDate < Date.now() && Date.now() < currentDate+60*60*1000) { //within 1 hour of start date
+          setActiveBooking(_bookings[i])
+          setBookings(_bookings.slice(i+1))
+          break;
+        }
+      }
     })
   }, [])
 
   return (
     <SafeAreaView >
       <ScrollView style={{height: '100%'}}>
-        {activeTour && <ActiveTourCard currentTour={activeTour} navigation={navigation} />}
+        {activeBooking && <ActiveTourCard currentTour={activeBooking} navigation={navigation} />}
         <>
-          <View style={activeTour ? {marginTop: 20} : {marginTop: 50}}>
-            <Text style={[activeTour ? null : {marginBottom: 30}, {marginLeft: 30, fontSize: 24, fontWeight: '700'}]}>
+          <View style={activeBooking ? {marginTop: 20} : {marginTop: 50}}>
+            <Text style={[{marginLeft: 30, fontSize: 24, fontWeight: '700'}]}>
               Upcoming Tours
             </Text>
             <View style={[styles.divider, {paddingTop: 20}]} />
           </View>
           <View style={{flexWrap: 'wrap', alignContent: 'center'}}>
             {bookings.map((tour) => {
-              if (tours === [] || tours === null) return;
-
               if (!(tour.id && tour.tourMonth && tour.tourDay && tour.name && tour.startTime && tour.meetPoint)) {
                 console.log ({
                   id: tour.id,
