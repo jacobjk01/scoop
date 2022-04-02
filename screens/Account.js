@@ -24,6 +24,7 @@ const Account = ({ navigation }) => {
   if (!user) {
     return(
     <SafeAreaView>
+      {/* navigation.navigate('LogOut') */}
       <Text>You are not logged in</Text>
       <SigninButton />
       <SignoutButton />
@@ -45,6 +46,9 @@ const Account = ({ navigation }) => {
               break
             case 'Feedback':
               navigation.navigate('Feedback')
+              break
+            case 'Log Out':
+              navigation.navigate('LogOut')
               break
           }
 

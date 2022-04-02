@@ -6,6 +6,7 @@ import SigninButton from 'components/SigninButton';
 import SignoutButton from 'components/SignoutButton';
 import {titleText, graySmallText, mediumBold, largeBoldText, linearGrad} from '../config/typography.js'
 import {black, grayDark, grayLight, grayMed, white, primary} from '../config/colors';
+
 export default  ({navigation}) => {
     const {mode, setMode} = useContext(UserContext);
     useEffect(() => {
