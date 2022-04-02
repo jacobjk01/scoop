@@ -199,9 +199,13 @@ export default  ({navigation}) => {
                         <TouchableOpacity 
                             style={{borderWidth: 1.25, borderRadius: 10, paddingHorizontal: 30, paddingVertical: 7, borderColor: primary}}
                             onPress={() => {
-                                if (page > 1)
-                                    setPage(page - 1)
+                                if (page === 1) {
+                                  navigation.goBack()
+                                } else if (page > 1) {
+                                  setPage(page - 1)
                                 }
+                                    
+                              } 
                             }
                         >
                             <Text style={{color: primary, ...mediumBold, textAlign: 'center'}}>

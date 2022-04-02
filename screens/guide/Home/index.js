@@ -1,7 +1,11 @@
+import { getGuideBookings, getMeetingPt } from 'api/tours';
+import { getParentData } from 'api/utilities';
 import { black, grayDark, grayVeryLight, primary, white } from 'config/colors';
 import { UserContext } from 'contexts';
 import toursData from 'data/toursData';
-import React, { useContext } from 'react';
+import moment from 'moment';
+import React, { useContext, useEffect } from 'react';
+import { useState } from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -12,23 +16,84 @@ import ActiveTourCard from './ActiveTourCard';
 
 const Home = ({navigation}) => {
   const curTime = '12:00 PM';
-  const activeTour = toursData.tours[0].startTime == curTime ? toursData.tours[0] : null;
-  const tours = activeTour ? toursData.tours.slice(1) : toursData.tours;
+  const [activeBooking, setActiveBooking] = useState(null)
+  const [bookings, setBookings] = useState([])
   const {userAuth, setUserAuth, user, setUser} = useContext(UserContext);
+  
+  useEffect(() => {
+    if (!userAuth) return;
+    getGuideBookings(userAuth.uid).then(async bookings => {
+      let tourSettings
+      let meetingPts
+      let tours
+      try {
+        tourSettings = await Promise.all(bookings.map(booking => getParentData(booking.ref)))
+        meetingPts = await Promise.all(tourSettings.map(tourSetting => getMeetingPt(tourSetting.meetingPt)))
+        console.log(meetingPts)
+        tours = await Promise.all(tourSettings.map(tourSetting => getParentData(tourSetting.ref)))
+      } catch (e) {
+        console.error(e)
+      }
+      let _bookings = bookings.map((booking, i) => {
+        let tourMonth = moment(booking.time.toDate()).format('MMM') || "Loading..."
+        let tourDay = moment(booking.time.toDate()).format('DD') || "Loading..."
+        let startTime = moment(booking.time.toDate()).format('LT') || "Loading..."
+        let name = tours[i] && tours[i].title || "Loading..."
+        let meetPoint = meetingPts[i].title || "Loading..."
+        return ({
+        id: booking.id, //not sure if this needs to be tour or booking
+        tourMonth,
+        tourDay,
+        name,
+        startTime,
+        meetPoint
+      })})
+      for (let i = 0; i < bookings.length; i++) {
+        let currentDate = bookings[i].time.seconds*1000
+        //if date is between now and hour later, then there is an active tour
+        console.log("current date" + i + ": " + currentDate)
+        console.log("now     date_" + ": " + Date.now() )
+        console.log(currentDate+60*60*1000)
+        if (Date.now() < currentDate) {
+          setBookings(_bookings.slice(i))
+          break;
+        } else if (currentDate < Date.now() && Date.now() < currentDate+60*60*1000) { //within 1 hour of start date
+          setActiveBooking(_bookings[i])
+          setBookings(_bookings.slice(i+1))
+          break;
+        } else if (currentDate > Date.now()) {
+          console.log("now")
+          setBookings(_bookings.slice(i))
+          break;
+        }
+      }
+    })
+  }, [])
 
   return (
     <SafeAreaView >
       <ScrollView style={{height: '100%'}}>
-        {activeTour && <ActiveTourCard currentTour={activeTour} navigation={navigation} />}
+        {activeBooking && <ActiveTourCard currentTour={activeBooking} navigation={navigation} />}
         <>
-          <View style={activeTour ? {marginTop: 20} : {marginTop: 50}}>
-            <Text style={[activeTour ? null : {marginBottom: 30}, {marginLeft: 30, fontSize: 24, fontWeight: '700'}]}>
+          <View style={activeBooking ? {marginTop: 20} : {marginTop: 50}}>
+            <Text style={[{marginLeft: 30, fontSize: 24, fontWeight: '700'}]}>
               Upcoming Tours
             </Text>
             <View style={[styles.divider, {paddingTop: 20}]} />
           </View>
           <View style={{flexWrap: 'wrap', alignContent: 'center'}}>
-            {tours.map((tour) => {
+            {bookings.map((tour) => {
+              if (!(tour.id && tour.tourMonth && tour.tourDay && tour.name && tour.startTime && tour.meetPoint)) {
+                console.log ({
+                  id: tour.id,
+                  month: tour.tourMonth,
+                  day: tour.tourDay,
+                  name: tour.name,
+                  startTime: tour.startTime,
+                  meetPoint: tour.meetPoint
+                })
+                throw new Error('Missing a parameter')
+              }
               return(
                 <TouchableOpacity key={tour.id} style={styles.tourCard} onPress={() => navigation.navigate('ViewTour', {tour})}>
                   {/* <Image style={styles.tourImage} source={tour.src}></Image> */}

@@ -20,12 +20,14 @@ import SubmitButton from 'components/SubmitButton';
 import { addTour } from 'api/tours';
 import { UserContext } from 'contexts';
 import Counter from './Counter';
+import DatePicker from 'components/DatePicker';
+import DatesDisplay from 'components/DatesDisplay';
 /**
  * 
- * @param {{name, setName, duration, setDuration, maxPeople, setMaxPeople, transportation, meetPoint, setIntroduction, introduction, id}} props 
+ * @param {{name, setName, duration, setDuration, maxPeople, setMaxPeople, transportation, meetPoint, setIntroduction, introduction, id, navigation,setDates,dates}} props 
  * @returns 
  */
-const Content = ({name, setName, duration, setDuration, maxPeople, setMaxPeople, transportation, meetPoint, setIntroduction, introduction, id}) => {
+const Content = ({name, setName, duration, setDuration, maxPeople, setMaxPeople, transportation, meetPoint, setIntroduction, introduction, id, navigation, setDates, dates}) => {
   const {userAuth} = useContext(UserContext);
   return (
     <View style={{marginBottom: 10, paddingTop: 25}}>
@@ -97,10 +99,14 @@ const Content = ({name, setName, duration, setDuration, maxPeople, setMaxPeople,
                 value={introduction}
                 onChangeText={introduction => setIntroduction(introduction)}>
             </TextInput>
-            <SubmitButton title={"Create Tour"} style={{margin: 10}} onPress={() => {
+            <DatesDisplay dates={dates}/>
+            <DatePicker title="Add dates" setDates={setDates} dates={dates}/>
+            <SubmitButton title={"Create Tour"} style={{margin: 10}} onPress={async () => {
               if (duration === "") duration = 0
-              addTour(userAuth.uid,id,["category 1", "category 2"],0,duration,introduction,true,maxPeople,"MEETINGPT PLACEHOLDER","TIMEAVAILABLE PLACEHOLDER","walking")
-              
+              const meetingPtRef = "tours/4Wey5tUxBInxLq4tZRlS/availableMeetingPts/QqKsGXwTwacCCcgHOgqa"
+              const tour = await addTour(userAuth.uid,id,["alpha"],0,duration,introduction,true,maxPeople,meetingPtRef,dates,"walking")
+              console.log(tour)
+              navigation.pop();
             }}/>
         </View>
   )
