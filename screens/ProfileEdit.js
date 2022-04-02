@@ -13,10 +13,11 @@ import {
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useIsFocused } from '@react-navigation/core';
 import { useNavigation } from '@react-navigation/native';
-import { UserContext } from 'contexts';
-import { getPicture, changeName, changePicture, changeMajor, changeYear, changeIntro, changeLanguages, changeHometown } from 'api/users';
+import { UserContext } from '../contexts';
+import { getPicture, changeName, changePicture, changeMajor, changeYear, changeIntro, changeLanguages, changeHometown } from '../api/users';
 import {request, check, PERMISSIONS, RESULTS} from 'react-native-permissions';
-import { primary, grayDark, white, black, grayShadow, grayVeryDark } from 'config/colors';
+import { primary, grayDark, white, black, grayShadow, grayVeryDark } from '../config/colors';
+import BackButton from 'components/BackButton';
 
 const AccountEdit = ({navigation}) => {
   const nav = useNavigation();
@@ -27,12 +28,12 @@ const AccountEdit = ({navigation}) => {
   const [intro, setIntro] = useState(user.intro);
   const [hometown, setHometown] = useState(user.hometown);
   const [imageData, setImageData] = useState(null);
-  const [profilePicture, setProfilePicture] = useState(null);
+  const [profilePicture, setProfilePicture] = useState(user.profilePicture);
   const [backgroundPicture, setBackgroundPicture] = useState(null);
   const isFocused = useIsFocused();
 
   useEffect(async () => {
-    setProfilePicture(await getPicture(userAuth.uid, 'profilePicture'));
+    // setProfilePicture(await getPicture(userAuth.uid, 'profilePicture'));
     setBackgroundPicture(await getPicture(userAuth.uid, 'backgroundPicture'));
   }, [isFocused])
 
@@ -110,39 +111,39 @@ const AccountEdit = ({navigation}) => {
   }
   const renderGuideBio = (user) => {
     return (
-      <View style={{ paddingTop: 80, paddingBottom: 80 }}>
+      <View style={{ paddingTop: 10, paddingBottom: 80 }}>
         <Text style={styles.titleText}>
           {'First Name'}
         </Text>
-        <TextInput style={styles.input} placeholder='Edit your name'
+        <TextInput style={styles.input} placeholder='Edit your name' maxLength={50}
           onChangeText={name => setName(name)}>
           {user.name}
         </TextInput>
         <Text style={styles.titleText}>
           {'Year'}
         </Text>
-        <TextInput style={styles.input} placeholder='Select Year'
+        <TextInput style={styles.input} placeholder='Select Year' maxLength={200}
           onChangeText={year => setYear(year)}>
           {user.year}
         </TextInput>
         <Text style={styles.titleText}>
           {'Major'}
         </Text>
-        <TextInput style={styles.input} placeholder='Edit your major'
+        <TextInput style={styles.input} placeholder='Edit your major' maxLength={50}
           onChangeText={major => setMajor(major)}>
           {user.major}
         </TextInput>
         <Text style={styles.titleText}>
           {'Intro'}
         </Text>
-        <TextInput style={styles.inputIntro} placeholder='Tell us about yourself!' multiline={true}
+        <TextInput style={styles.inputIntro} placeholder='Tell us about yourself!' multiline={true} maxLength={200}
           onChangeText={intro => setIntro(intro)}>
           {user.intro}
         </TextInput>
         <Text style={styles.titleText}>
           {'Hometown'}
         </Text>
-        <TextInput style={styles.input} placeholder='Edit your hometown'
+        <TextInput style={styles.input} placeholder='Edit your hometown' maxLength={50}
           onChangeText={hometown => setHometown(hometown)}>
           {user.hometown}
         </TextInput>
@@ -164,23 +165,26 @@ const AccountEdit = ({navigation}) => {
       source={{uri: backgroundPicture}}
       style={styles.backgroundImage}>
     <ScrollView>
+      <BackButton navigation={navigation}/>
       <TouchableOpacity
         onPress={() => handlePhotoPicker('BACKGROUND')}
         style={{position: 'absolute', right: 25, top: 120}}>
         <Ionicons name={'camera'} size={25} color={grayDark}/>
       </TouchableOpacity>
+      {renderGuideImage(profilePicture)}
       <View
         style={{
-          marginTop: '40%',
+          marginTop: -40,
+          paddingTop: 80,
           paddingRight: 20,
           paddingLeft: 20,
           height: '100%',
           backgroundColor: white,
           borderTopLeftRadius: 20,
           borderTopRightRadius: 20,
+          zIndex: 0
         }}
       >
-      {renderGuideImage(profilePicture)}
         {renderGuideBio(user)}
       </View>
       </ScrollView>
@@ -190,20 +194,23 @@ const AccountEdit = ({navigation}) => {
 
 const renderGuideImage = (profilePicture) => {
   return (
-    <TouchableOpacity
-      onPress={() => handlePhotoPicker('PROFILE')}
-      style={{position: 'absolute', alignSelf: 'center', justifyContent: 'center', zIndex: 1}}>
-      <View
-        style={{
-          top: 120,
-          alignItems: 'center',
-          zIndex: 1,
-        }}>
-        <Image style={styles.guideImage} source={{uri: profilePicture}} />
-        <View style={styles.circleOverlay}/>
-        <Ionicons style={{position: 'absolute', bottom: 105}} name={'camera'} size={35} color={white}/>
-      </View>
-    </TouchableOpacity>
+    <ImageBackground 
+      style={styles.guideImage}
+      imageStyle={{borderRadius: 100}}
+      source={{uri: profilePicture}} 
+    >
+      <TouchableOpacity
+        onPress={() => {handlePhotoPicker('PROFILE')
+        console.log('press')
+      }}
+        style={{alignSelf: 'center', justifyContent: 'center', zIndex: 1, height: '100%', width: '100%', zIndex: 100}}
+      >
+        <Ionicons 
+          style={{marginLeft: 'auto', marginRight: 'auto', marginBottom: 'auto', marginTop: 'auto'}}
+          name={'camera'} size={35} color={white}/>
+        {/* <View style={styles.circleOverlay}/> */}
+      </TouchableOpacity>
+    </ImageBackground>
   );
 };
 
@@ -234,7 +241,7 @@ const styles = StyleSheet.create({
   },
   inputIntro: {
     alignSelf: 'center',
-    height: 100,
+    minHeight: 0,
     width: '92%',
     borderWidth: 1,
     borderColor: grayDark,
@@ -242,7 +249,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     marginTop: 10,
     marginBottom: 30,
-    paddingBottom: 50,
     paddingTop: 10,
   },
   guideImage: {
@@ -250,8 +256,10 @@ const styles = StyleSheet.create({
     height: 100,
     borderRadius: 100,
     backgroundColor: grayDark,
-    position: 'absolute',
-    bottom: 70,
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    marginTop: '25%',
+    zIndex: 100,
   },
   circleOverlay: {
     width: 100,

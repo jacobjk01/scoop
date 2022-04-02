@@ -38,6 +38,7 @@ const TourBooking2 = ({navigation, route}) => {
   const [visitorCount, setVisitorCount] = useState(1)
   const [selectedDay, setSelectedDay] = useState(route.params.selectedDay)
   const [times, setTimes] = useState([])
+  const [comment, setComment] = useState()
   //this is the INDEX of the selected Time, not the time itself
   const [selectedTime, setSelectedTime] = useState(-1)
   const [selectedMeet, setSelectedMeet] = useState(0)
@@ -107,10 +108,10 @@ const TourBooking2 = ({navigation, route}) => {
       setDayTourSettings(dayTourSettings)
 
     }
-    return() => {
-      if (times[0] == null){
-        setSelectedTime(-1)
-      }
+    console.log(times, times[0] == null)
+    if (times[0] == null){
+      console.log('wtf 2')
+      setSelectedTime(-1)
     }
   }, [selectedDay, visitorCount])
   const openModal = () => {
@@ -459,7 +460,7 @@ const TourBooking2 = ({navigation, route}) => {
                     }
                   }
 
-                  navigation.navigate('BookingCheckout', {tourSetting, tour, guide, visitorCount, timeIndex});
+                  navigation.navigate('BookingCheckout', {tourSetting, tour, guide, visitorCount, timeIndex, comment});
                 }
               }}
             />
@@ -695,9 +696,12 @@ const TourBooking2 = ({navigation, route}) => {
                     padding: 10,
                     alignItems: 'center',
                     justifyContent: 'center',
-                    height: 40,
+                    minHeight: 40,
+                    maxHeight: 200,
                   }}
                   multiline={true}
+                  onChangeText={(text) => {setComment(text)}}
+                  maxLength={300}
                 />
               </View>
             </View>

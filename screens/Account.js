@@ -9,24 +9,27 @@ import {
   ScrollView,
   Modal,
 } from 'react-native';
-import { UserContext } from 'contexts';
-import SigninButton from 'components/SigninButton';
-import SignoutButton from 'components/SignoutButton';
+import { UserContext } from '../contexts';
+import SigninButton from '../components/SigninButton';
+import SignoutButton from '../components/SignoutButton';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { black, white, primary, grayLight, grayDark, grayMed, grayVeryDark } from '../../config/colors';
+import { black, white, primary, grayLight, grayDark, grayMed, grayVeryDark } from '../config/colors';
 
 const Account = ({ navigation }) => {
   const { user, userAuth } = useContext(UserContext)
+  console.log(user)
   const [dropdown, setDropdown] = useState(false)
   const [modal, setModal] = useState(false)
   const [interests, setInterests] = useState(['Publication', 'Biology Research', 'Dance', 'Photography', 'Art'])
   if (!user) {
-    return
+    return(
     <SafeAreaView>
+      {/* navigation.navigate('LogOut') */}
       <Text>You are not logged in</Text>
       <SigninButton />
       <SignoutButton />
     </SafeAreaView>
+    )
   }
 
   const renderOptions = (icon, text, destination) => {
@@ -43,6 +46,9 @@ const Account = ({ navigation }) => {
               break
             case 'Feedback':
               navigation.navigate('Feedback')
+              break
+            case 'Log Out':
+              navigation.navigate('LogOut')
               break
           }
 
@@ -90,7 +96,7 @@ const Account = ({ navigation }) => {
               MAJOR
             </Text>
             <Text style={styles.dropdownInfo}>
-              Biology
+              {user.major}
             </Text>
           </View>
           <View>
@@ -98,7 +104,7 @@ const Account = ({ navigation }) => {
               HOMETOWN
             </Text>
             <Text style={styles.dropdownInfo}>
-              Irvine, CA
+              {user.hometown}
             </Text>
           </View>
         </View>
@@ -118,24 +124,39 @@ const Account = ({ navigation }) => {
       <ScrollView>
         <View style={{ display: 'flex', alignSelf: 'center', alignItems: 'center', width: '70%', paddingTop: 40 }}>
           <Image
-            source={require('../../images/brittany.png')}
+            source={user.profilePicture == undefined?require('../images/defaultpfp.png'):{uri:user.profilePicture}}
             style={{ borderRadius: 50, width: 110, height: 110 }}
           />
-          <Text style={{ color: black, fontSize: 18, marginTop: 20 }}>Elizabeth</Text>
+          <Text style={{ color: black, fontSize: 18, marginTop: 20 }}>{user.name}</Text>
           <Text style={{ color: primary, fontSize: 17, top: -5, marginBottom: 5 }}>UCLA</Text>
-          <TouchableOpacity style={{ backgroundColor: primary, borderRadius: 20, display: 'flex', flexDirection: 'row', paddingLeft: 20, paddingRight: 10, paddingVertical: 5, marginBottom: 15, alignItems: 'center', width: 130 }}>
+          <TouchableOpacity 
+            style={{ 
+              backgroundColor: primary,
+              borderRadius: 20,
+              display: 'flex',
+              flexDirection: 'row',
+              paddingLeft: 20,
+              paddingRight: 10,
+              paddingVertical: 5,
+              marginBottom: 15,
+              alignItems: 'center',
+              width: 130 }}
+            onPress={() => {navigation.navigate('Profile', {pageType: 'Account'})}}
+          >
             <Text style={{ color: white, fontSize: 14, marginRight: 'auto' }}>
-              Edit Profile
+              View Profile
             </Text>
             <Ionicons name='chevron-forward-outline' size={22} color={white} />
           </TouchableOpacity>
-          <Text style={{ fontSize: 15 }}>
-            Loream ipsum ahkshkshksh kshkshk shks hksh kshksh asd asda asd awojaofuhauihf ahsd hsah
+          {/*<Text style={{ fontSize: 15 }}>
+            {user.intro}
           </Text>
           {
             renderDropdown()
           }
-          {/* <TouchableOpacity
+           */}
+           <Text style={{marginTop: 20}}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris ullamcorp vel purus eget ultricies.</Text>
+          <TouchableOpacity
             style={{ alignSelf: 'flex-end', display: 'flex', flexDirection: 'row', marginVertical: 15, marginTop: 25 }}
             onPress={() => setDropdown(!dropdown)}
           >
@@ -143,7 +164,7 @@ const Account = ({ navigation }) => {
               {dropdown ? 'Collapse' : 'Expand'}
             </Text>
             <Ionicons name={dropdown ? 'chevron-up-outline' : 'chevron-down-outline'} size={20} color={grayMed} />
-          </TouchableOpacity> */}
+          </TouchableOpacity>
         </View>
         <View style={styles.divider} />
         <View style={{ width: '90%', marginLeft: 'auto', marginRight: 'auto' }}>
@@ -164,7 +185,7 @@ const Account = ({ navigation }) => {
               <Text style={{ fontFamily: 'Helvetica-Bold', fontSize: 22, marginTop: 50, marginBottom: 20 }}>Create a Tour Guide Account</Text>
               <Text style={{ fontSize: 15, textAlign: 'center' }}>You don't have an existing tour guide account, Are you interested in signing up as a tour guide?</Text>
               <Image
-                source={require('../../images/tourGuideVector.png')}
+                source={require('../images/tourGuideVector.png')}
                 style={{ marginTop: 90, marginBottom: 20, height: 150, width: 150 }}
               />
             </View>

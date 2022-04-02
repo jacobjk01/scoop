@@ -14,7 +14,8 @@ import { UserContext } from '../../contexts'
 import {titleText, graySmallText, mediumBold, largeBoldText, linearGrad} from '../../config/typography.js'
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {
-  viewAvailableTours
+  viewAvailableTours,
+  checkIfTourEmpty,
 } from '../../api/tours';
 import { getGuides } from '../../api/users';
 import { SCHOOL } from '../../config/initialState';
@@ -35,7 +36,12 @@ const HomePage = ({ navigation }) => {
       //You are not suppose to use async/await functions in useEffect
       //jon has no idea how these 3 isMounted are connected...
       if (isMounted) {
-        setTours(tours);
+        checkTourPromises = []
+        tours.forEach((element) => {checkTourPromises.push(checkIfTourEmpty(element.ref))})
+        Promise.all(checkTourPromises).then(values => {
+          tours = tours.filter((tour, index) => values[index].empty == false)
+          setTours(tours);
+        })
       }
     });
     getGuides().then(guides => {
@@ -117,7 +123,7 @@ const HomePage = ({ navigation }) => {
           </View>
         </View> */}
         <View style={{backgroundColor: white, marginHorizontal: '5%', width: '90%', paddingVertical: 15, paddingHorizontal: 20,
-        borderRadius: 15, elevation: 5, display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginVertical: 15}}
+        borderRadius: 15, elevation: 5, shadowColor: black, shadowOffset: {width: 1, height: 1}, shadowOpacity: 0.2, display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginVertical: 15}}
         >
           <View style={{display: 'flex', flexWrap:'wrap',flexDirection: 'column', justifyContent:'space-between',}}>
             <View style={{margin: 5}}>
