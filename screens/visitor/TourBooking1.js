@@ -96,7 +96,7 @@ const TourBooking1 = ({navigation, route}) => {
               let tempObject2 = {}
               tempObject2.tourSettingRef = tours[i].id
               tempObject2.guideRef = tours[i].guide
-              tempObject[tours[i].timeAvailable[j]] = tempObject2
+              tempObject[tours[i].timeAvailable[j].toDate()] = tempObject2
               temp.push(tempObject)
             }
           }

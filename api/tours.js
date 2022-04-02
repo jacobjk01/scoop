@@ -269,6 +269,7 @@ export const getGuideBookings : Promise <{id : any,isCancelled : any,isCompleted
     guideBookings = guideBookings.concat(querySnapshotFormatter(c));
 
   }
+  console.log(guideBookings)
   return guideBookings.sort((a,b) => a.time > b.time)
 }
 
