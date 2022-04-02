@@ -46,6 +46,7 @@ const AddTour = (props) => {
   const [meetPoint, setMeetPoint] = useState('PLACEHOLDER')
   const [introduction, setIntroduction] = useState(description || '')
   const [backgroundImage, setBackgroundImage] = useState(picture || '')
+  const [dates, setDates] = useState([])
   useEffect(() => {
     console.log(props.route.params)
   }, [])
@@ -69,6 +70,9 @@ const AddTour = (props) => {
               setMeetPoint={setMeetPoint}
               introduction={introduction}
               setIntroduction={setIntroduction}
+              navigation={props.navigation}
+              setDates={setDates}
+              dates={dates}
             />
         </ScrollView>
         <TouchableOpacity

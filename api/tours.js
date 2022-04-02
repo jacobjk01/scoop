@@ -162,6 +162,7 @@ export const addTour = async (
   timeAvailable,
   transportation
 ) => {
+  //TODO - remove duplicates from timeAvailable
   const tour = tours.doc(tourId).collection("tourSettings").doc()
   await tour.set({
     guide: user(guideId),
@@ -252,7 +253,11 @@ export const duplicateTour = async (
 }
 
 
-
+/**
+ * 
+ * @param {*} guideId 
+ * @returns ordered list of bookings for the guide id 
+ */
 export const getGuideBookings : Promise <{id : any,isCancelled : any,isCompleted : any,partySize : any,ref : any,time : any,visitor : any}> = async (guideId) => {
   const tourSettingsSnapshot = await db.collectionGroup("tourSettings").where("guide", "==", user(guideId)).get()
   console.log("Number of tourSettings with " + guideId + ": " + tourSettingsSnapshot.size)

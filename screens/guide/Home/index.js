@@ -17,7 +17,7 @@ import ActiveTourCard from './ActiveTourCard';
 const Home = ({navigation}) => {
   const curTime = '12:00 PM';
   const [activeBooking, setActiveBooking] = useState(null)
-  const [bookings, setBookings] = useState(activeBooking ? toursData.tours.slice(1) : toursData.tours)
+  const [bookings, setBookings] = useState([])
   const {userAuth, setUserAuth, user, setUser} = useContext(UserContext);
   
   useEffect(() => {
@@ -52,7 +52,7 @@ const Home = ({navigation}) => {
         let currentDate = bookings[i].time.seconds*1000
         //if date is between now and hour later, then there is an active tour
         console.log("current date" + i + ": " + currentDate)
-        console.log(Date.now() )
+        console.log("now     date_" + ": " + Date.now() )
         console.log(currentDate+60*60*1000)
         if (Date.now() < currentDate) {
           setBookings(_bookings.slice(i))
@@ -60,6 +60,10 @@ const Home = ({navigation}) => {
         } else if (currentDate < Date.now() && Date.now() < currentDate+60*60*1000) { //within 1 hour of start date
           setActiveBooking(_bookings[i])
           setBookings(_bookings.slice(i+1))
+          break;
+        } else if (currentDate > Date.now()) {
+          console.log("now")
+          setBookings(_bookings.slice(i))
           break;
         }
       }
