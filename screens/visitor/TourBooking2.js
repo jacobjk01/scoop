@@ -64,14 +64,16 @@ const TourBooking2 = ({navigation, route}) => {
             if(guide.id == allTourSettings[i].guide._documentPath._parts[1]) {
               filteredTourSettings.push(allTourSettings[i])
               for(let j = 0; j < allTourSettings[i].timeAvailable.length; j++) {
-                marks.push(moment(allTourSettings[i].timeAvailable[j]).format("YYYY" + "-" + "MM" + "-" + "DD"))
-                if (moment(allTourSettings[i].timeAvailable[j]).format("YYYY" + "-" + "MM" + "-" + "DD") == selectedDay) {
-                  times.push(allTourSettings[i].timeAvailable[j])
+                let date = allTourSettings[i].timeAvailable[j].toDate()
+                marks.push(moment(date).format("YYYY" + "-" + "MM" + "-" + "DD"));
+                if (moment(date).format("YYYY" + "-" + "MM" + "-" + "DD") == selectedDay) {
+                  times.push(date)
                   dayTourSettings.push(allTourSettings[i])
                 }
               }
             }
           }
+          console.log(marks)
           //get rid of duplicate days, causes bugs for select Time when there are duplicate marks
           let filteredMarks = marks.filter((mark, index) => {
             return marks.indexOf(mark) === index
@@ -449,18 +451,18 @@ const TourBooking2 = ({navigation, route}) => {
               }}
               onPress={() => {
                 if (selectedTime != -1) {
+                  console.warn(selectedTime)
                   let tourSetting
                   let timeIndex
                   for (let i = 0; i < dayTourSettings.length; i++) {
                     for (let j = 0; j < dayTourSettings[i].timeAvailable.length; j++) {
-                      if (times[selectedTime] == dayTourSettings[i].timeAvailable[j]) {
+                      if (times[selectedTime] == dayTourSettings[i].timeAvailable[j].toDate()) {
                         tourSetting = dayTourSettings[i]
                         timeIndex = j
                       }
                     }
                   }
-
-                  navigation.navigate('BookingCheckout', {tourSetting, tour, guide, visitorCount, timeIndex, comment});
+                  navigation.navigate('BookingCheckout', {tourSetting:tourSettings[selectedTime], tour, guide, visitorCount, timeIndex, comment});
                 }
               }}
             />

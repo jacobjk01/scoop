@@ -21,6 +21,7 @@ import Header from './Header';
 import Content from './Content';
 import BackButton from 'components/BackButton'
 import SubmitButton from 'components/SubmitButton';
+import { getMeetingPts } from 'api/tours';
 /**
  * 
  * @param {{
@@ -43,13 +44,14 @@ const AddTour = (props) => {
   const [duration, setDuration] = useState('')
   const [maxPeople, setMaxPeople] = useState(1)
   const [transportation, setTransportation] = useState('walking')
-  const [meetPoint, setMeetPoint] = useState('PLACEHOLDER')
   const [introduction, setIntroduction] = useState(description || '')
   const [backgroundImage, setBackgroundImage] = useState(picture || '')
   const [dates, setDates] = useState([])
+  const [meetingPts, setMeetingPts] = useState([]);
   useEffect(() => {
-    console.log(props.route.params)
-  }, [])
+    getMeetingPts(id).then(setMeetingPts).catch(console.error)
+  },[id])
+
   return (
     <View style={{backgroundColor: white}}>
         <StatusBar barStyle='dark-content' />
@@ -66,13 +68,13 @@ const AddTour = (props) => {
               setDuration={setDuration}
               maxPeople={maxPeople}
               setMaxPeople={setMaxPeople}
-              meetPoint={meetPoint}
-              setMeetPoint={setMeetPoint}
               introduction={introduction}
               setIntroduction={setIntroduction}
               navigation={props.navigation}
               setDates={setDates}
               dates={dates}
+              meetingPts={meetingPts}
+              setMeetingPts={setMeetingPts}
             />
         </ScrollView>
         <TouchableOpacity

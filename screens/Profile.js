@@ -25,6 +25,7 @@ import reviewData from '../data/reviews';
 import { getUser, getUserById } from '../api/users';
 import { viewMyTours, getTour } from '../api/tours';
 import BackButton from '../components/BackButton';
+import Loading from 'components/Loading';
 
 const Profile = ({ navigation, route }) => {
   const { user, userAuth } = useContext(UserContext)
@@ -98,9 +99,8 @@ const Profile = ({ navigation, route }) => {
       id: item.id
     };
 
-    if (item === null) {
-      throw Error('checkout item cannot be null');
-    }
+    if (item === null) throw Error('checkout item cannot be null');
+    if (tour.picture === '') return <Loading />
     return (
       <TouchableOpacity
         onPress={() => {
@@ -121,6 +121,7 @@ const Profile = ({ navigation, route }) => {
   };
 
   const renderGuideImage = () => {
+    if (guide.profilePicture === '') return <Loading />
     return (
       <View
         style={{
