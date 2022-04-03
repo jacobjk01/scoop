@@ -7,6 +7,7 @@ import {
   StyleSheet,
   TextInput,
   TouchableOpacity,
+  TouchableWithoutFeedback,
   FlatList,
   Image,
   Modal,
@@ -31,9 +32,11 @@ import SubmitButton from 'components/SubmitButton';
 import TourDropdown from './TourDropdown';
 import { getParentData } from 'api/utilities';
 import TourCardList from './TourCardList';
+import Dropdown from '../../../components/Dropdown';
+import { viewAllTours } from 'api/tours';
+
+
 const validate = (selection, template) => {
-  console.log(template)
-  console.log('^^')
   if (selection !== '') {
     return true
   } else if (selection === 'preset' && template === '') {
@@ -56,9 +59,25 @@ const ManageTours = ({navigation}) => {
     user,
     setUser
   } = useContext(UserContext);
-  const [template, setTemplate] = useState('')
+  const [template, setTemplate] = useState('');
+  const [dropdown, setDropdown] = useState(false);
+  const [options, setOptions] = useState([]);
+
+  useEffect(() => {
+    const getTours = async () => {
+      let tourData = await viewAllTours();
+      let titles = [];
+      tourData.forEach((tour) => {
+        titles.push(tour.title)
+      })
+      setOptions(titles);
+    }
+    getTours()
+    return () => {
+    }
+  }, [])
+
   useEffect(async () => {
-    console.log(userAuth.uid)
     const tourSettings = await getAllTourSettings(userAuth.uid)
     const _tours = [] 
     //should be more optimal that running through a for loop
@@ -73,7 +92,6 @@ const ManageTours = ({navigation}) => {
         maxPeople: tourSettings[i].maxPeople,
       })
     }
-    console.log('this should be last')
     setTours(_tours)
   }, [userAuth])
 
@@ -96,6 +114,35 @@ const ManageTours = ({navigation}) => {
       </SafeAreaView>
     );
   }
+
+  const renderButtons = () => {
+    return (
+      <>
+        <Pressable
+          style={[styles.button]}
+          onPress={() => setModalVisible(true)}
+        >
+          <SubmitButton title='Add Tour' onPress={() => {
+            if (!validate(selection, template)) return
+            setModalVisible(false)
+            setTemplate('')
+            navigation.navigate('AddTour', template);
+          }} isDisabled={template === ''}/>
+        </Pressable>
+        <Pressable
+          style={[styles.button]}
+          onPress={() => {
+            setModalVisible(false)
+            setTemplate('')
+          }}
+        >
+          <Text style={styles.textStyle}>Cancel</Text>
+        </Pressable>
+      </>
+    );
+  }
+  
+
   return (
     <SafeAreaView style={{backgroundColor: white}}>
       <Modal
@@ -104,46 +151,33 @@ const ManageTours = ({navigation}) => {
         visible={modalVisible}
         onRequestClose={() => {
           Alert.alert("Modal has been closed.");
-          setModalVisible(!modalVisible);
+          setModalVisible(false);
         }}
       >
-      <View style={styles.centeredView}>
-        <View style={styles.modalView}>
-          <Text style={[styles.titleText, { marginTop: 15, marginBottom: 15 }]}>New Tour</Text>
-          <Text style={[styles.textStyle, { marginBottom: 20, fontSize: 12, color: grayVeryDark }]}>Select the type of tour you would like to add.</Text>
-          <View style={{display: 'flex', flexDirection: 'row'}}>
-            {false && renderModalButtonCard('Customized Tour', setSelection, selection, 'customized')}
-            {renderModalButtonCard('Preset Tour', setSelection, selection, 'preset')}
-          </View>
-          {selection === 'preset' && <TourDropdown
-            selectedValue={template}
-            setSelectedValue={setTemplate}
-            />
-          }
-          <Pressable
-            style={[styles.button]}
-            onPress={() => setModalVisible(true)}
-          >
-            <SubmitButton title='Add Tour' onPress={() => {
-              if (!validate(selection, template)) return
-              setModalVisible(false)
-              setTemplate('')
-              navigation.navigate('AddTour', template);
-              console.log(template)
-            }} isDisabled={template === ''}/>
-          </Pressable>
-          <Pressable
-            style={[styles.button]}
-            onPress={() => {
-              setModalVisible(false)
-              setTemplate('')
-            }}
-          >
-            <Text style={styles.textStyle}>Cancel</Text>
-          </Pressable>
+      <TouchableWithoutFeedback onPress={() => setModalVisible(false)}>
+        <View style={styles.centeredView} >
+          <TouchableWithoutFeedback>
+            <View style={styles.modalView} >
+              <Text style={[styles.titleText, { marginTop: 15, marginBottom: 15 }]}>New Tour</Text>
+              <Text style={[styles.textStyle, { marginBottom: 20, fontSize: 12, color: grayVeryDark }]}>Select the type of tour you would like to add.</Text>
+              <View style={{display: 'flex', flexDirection: 'row'}}>
+                {false && renderModalButtonCard('Customized Tour', setSelection, selection, 'customized')}
+                {renderModalButtonCard('Preset Tour', setSelection, selection, 'preset')}
+              </View>
+              {selection === 'preset' && /*<TourDropdown
+                selectedValue={template}
+                setSelectedValue={setTemplate}
+                />*/
+                <Dropdown selectedValue={template} setSelectedValue={setTemplate} options={options} visibility={dropdown} setVisibility={setDropdown} />
+              }
+
+              {!dropdown ? renderButtons() : <View style={{ height: 107 }}></View>}
+            </View>
+          </TouchableWithoutFeedback>
         </View>
-      </View>
+      </TouchableWithoutFeedback>
     </Modal>
+
       <ScrollView style={{paddingRight: 20, paddingLeft: 20, height: '100%'}}>
         <View style={{marginTop: 50}}>
           <Text style={{marginLeft: 20, fontSize: 24, fontWeight: '700', marginBottom: 35}}>
