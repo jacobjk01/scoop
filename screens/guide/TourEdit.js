@@ -15,6 +15,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import { primary, white, grayDark, black, grayShadow } from 'config/colors';
 import ImageHeader from '../../components/ImageHeader';
 import BottomButton from '../../components/BottomButton'
+import DatesDisplay from 'components/DatesDisplay';
 
 //note: grid is kind of laggy when upsized, will work on fixing
 const TourEdit = ({navigation, route}) => {
@@ -115,7 +116,9 @@ const TourEdit = ({navigation, route}) => {
             {tour.introduction}
         </Text>
         <View style={styles.divider} />
-        <View style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between', paddingRight: 30}}>
+        <DatesDisplay dates={tour.timeAvailable}/>
+        {/* Don't delete line below, use after mvp */}
+        {false && <View style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between', paddingRight: 30}}>
           <Text style={[styles.sectionText, {marginTop: 0}]}>My Availability</Text>
           <TouchableOpacity
               onPress={() => {
@@ -125,16 +128,18 @@ const TourEdit = ({navigation, route}) => {
                 <Text style={{color: grayDark}}>Edit <Ionicons name={'pencil'} size={16}/></Text>
               </View>
           </TouchableOpacity>
-        </View>
-        {renderAvailabilities()}
+        </View>}
+        {/* Don't delete line below, use after mvp */}
+        {false && renderAvailabilities() }
       </View>
     );
   }
- 
+
   return (
     <View style={{backgroundColor: white, height: '100%'}}>
       <ScrollView>
-        <ImageHeader navigation={navigation} title={tour.name}/>
+        {/* Todo: Make performant. Image is refetched here and in ManageTours. */}
+        <ImageHeader navigation={navigation} title={tour.name} image={tour.src} />
         {renderContent()}
       </ScrollView>
       <BottomButton onPress={() => navigation.navigate('TourEdit2')} title='View Suggested Itinierary'/>

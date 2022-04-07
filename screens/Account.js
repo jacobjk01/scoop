@@ -23,12 +23,14 @@ const Account = ({ navigation }) => {
   const [modal, setModal] = useState(false)
   const [interests, setInterests] = useState(['Publication', 'Biology Research', 'Dance', 'Photography', 'Art'])
   if (!user) {
-    return
+    return(
     <SafeAreaView>
+      {/* navigation.navigate('LogOut') */}
       <Text>You are not logged in</Text>
       <SigninButton />
       <SignoutButton />
     </SafeAreaView>
+    )
   }
 
   const renderOptions = (icon, text, destination) => {
@@ -47,6 +49,9 @@ const Account = ({ navigation }) => {
               break
             case 'Feedback':
               navigation.navigate('Feedback')
+              break
+            case 'Log Out':
+              navigation.navigate('LogOut')
               break
           }
 
@@ -146,13 +151,15 @@ const Account = ({ navigation }) => {
             </Text>
             <Ionicons name='chevron-forward-outline' size={22} color={white} />
           </TouchableOpacity>
-          {/* <Text style={{ fontSize: 15 }}>
+          {/*<Text style={{ fontSize: 15 }}>
             {user.intro}
           </Text>
           {
             renderDropdown()
           }
-          {/* <TouchableOpacity
+           */}
+           <Text style={{marginTop: 20}}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris ullamcorp vel purus eget ultricies.</Text>
+          <TouchableOpacity
             style={{ alignSelf: 'flex-end', display: 'flex', flexDirection: 'row', marginVertical: 15, marginTop: 25 }}
             onPress={() => setDropdown(!dropdown)}
           >
@@ -160,7 +167,7 @@ const Account = ({ navigation }) => {
               {dropdown ? 'Collapse' : 'Expand'}
             </Text>
             <Ionicons name={dropdown ? 'chevron-up-outline' : 'chevron-down-outline'} size={20} color={grayMed} />
-          </TouchableOpacity> */}
+          </TouchableOpacity>
         </View>
         <View style={styles.divider} />
         <View style={{ width: '90%', marginLeft: 'auto', marginRight: 'auto' }}>

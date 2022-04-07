@@ -7,6 +7,7 @@ import {
   StyleSheet,
   TextInput,
   TouchableOpacity,
+  TouchableWithoutFeedback,
   FlatList,
   Image,
   Modal,
@@ -29,12 +30,20 @@ import BottomButton from 'components/BottomButton';
 import { UserContext } from 'contexts';
 import SubmitButton from 'components/SubmitButton';
 import TourDropdown from './TourDropdown';
+import { getParentData } from 'api/utilities';
+import TourCardList from './TourCardList';
+import Dropdown from '../../../components/Dropdown';
+import { viewAllTours } from 'api/tours';
 
-const validate = (selection) => {
-  console.log(selection)
+
+const validate = (selection, template) => {
   if (selection !== '') {
     return true
-  } else {
+  } else if (selection === 'preset' && template === '') {
+    //if user wants to create a preset template, they must select a template also
+    return false
+  }
+  else {
     alert('Please select a tour type')
     return false
   }
@@ -43,25 +52,42 @@ const validate = (selection) => {
 const ManageTours = ({navigation}) => {
   const [tours, setTours] = useState([] || toursData.tours);
   const [modalVisible, setModalVisible] = useState(false)
-  const [selection, setSelection] = useState('')
+  const [selection, setSelection] = useState('preset')
   const {
     userAuth,
     setUserAuth,
     user,
     setUser
   } = useContext(UserContext);
-  const [template, setTemplate] = useState('')
+  const [template, setTemplate] = useState('');
+  const [dropdown, setDropdown] = useState(false);
+  const [options, setOptions] = useState([]);
+
+  useEffect(() => {
+    const getTours = async () => {
+      let tourData = await viewAllTours();
+      let titles = [];
+      tourData.forEach((tour) => {
+        titles.push(tour.title)
+      })
+      setOptions(titles);
+    }
+    getTours()
+    return () => {
+    }
+  }, [])
+
   useEffect(async () => {
-    console.log(userAuth.uid)
     const tourSettings = await getAllTourSettings(userAuth.uid)
     const _tours = [] 
+    //should be more optimal that running through a for loop
+    const parents = await Promise.all(tourSettings.map(tourSetting => getParentData(tourSetting.ref))) 
     for (let i = 0; i < tourSettings.length; i++) {
-      console.log(tourSettings[i])
       _tours.push({
+        src: parents[i].picture,
         id: tourSettings[i].id,
-        src: 1,
-        name: tourSettings[i].name || "No name",
-        duration: tourSettings[i].duration,
+        name: parents[i].title || "Missing Name",
+        duration: tourSettings[i].duration || 0,
         transportation: tourSettings[i].transportation,
         maxPeople: tourSettings[i].maxPeople,
       })
@@ -70,12 +96,12 @@ const ManageTours = ({navigation}) => {
   }, [userAuth])
 
   const renderModalButtonCard = ( buttonTitle, setState, state, desiredState) => {
-    const borderColor = state === desiredState ? { borderColor: tappableBlue } : {}
+    const borderColor = state === desiredState ? { borderColor: tappableBlue, color: tappableBlue } : {color: grayVeryDark}
     return (
       <TouchableOpacity style={[styles.modalSelectCard, borderColor]}
         onPress={() => (setState(desiredState))}
       >
-        <Text style={{fontSize: 11, fontWeight: '400', color: grayVeryDark, textAlign: 'center', top: 1}}>
+        <Text style={[{fontSize: 11, fontWeight: '400', textAlign: 'center', top: 1}, borderColor]}>
           {buttonTitle}
         </Text>
       </TouchableOpacity>
@@ -88,6 +114,35 @@ const ManageTours = ({navigation}) => {
       </SafeAreaView>
     );
   }
+
+  const renderButtons = () => {
+    return (
+      <>
+        <Pressable
+          style={[styles.button]}
+          onPress={() => setModalVisible(true)}
+        >
+          <SubmitButton title='Add Tour' onPress={() => {
+            if (!validate(selection, template)) return
+            setModalVisible(false)
+            setTemplate('')
+            navigation.navigate('AddTour', template);
+          }} isDisabled={template === ''}/>
+        </Pressable>
+        <Pressable
+          style={[styles.button]}
+          onPress={() => {
+            setModalVisible(false)
+            setTemplate('')
+          }}
+        >
+          <Text style={styles.textStyle}>Cancel</Text>
+        </Pressable>
+      </>
+    );
+  }
+  
+
   return (
     <SafeAreaView style={{backgroundColor: white}}>
       <Modal
@@ -96,43 +151,33 @@ const ManageTours = ({navigation}) => {
         visible={modalVisible}
         onRequestClose={() => {
           Alert.alert("Modal has been closed.");
-          setModalVisible(!modalVisible);
+          setModalVisible(false);
         }}
       >
-      <View style={styles.centeredView}>
-        <View style={styles.modalView}>
-          <Text style={[styles.titleText, { marginTop: 15, marginBottom: 15 }]}>New Tour</Text>
-          <Text style={[styles.textStyle, { marginBottom: 20, fontSize: 12, color: grayVeryDark }]}>Select the type of tour you would like to add.</Text>
-          <View style={{display: 'flex', flexDirection: 'row'}}>
-            {renderModalButtonCard('Customized Tour', setSelection, selection, 'customized')}
-            {renderModalButtonCard('Preset Tour', setSelection, selection, 'preset')}
-          </View>
-          {selection === 'preset' && <TourDropdown
-            selectedValue={template}
-            setSelectedValue={setTemplate}
-            />
-          }
-          <Pressable
-            style={[styles.button]}
-            onPress={() => setModalVisible(true)}
-          >
-            <SubmitButton title='Add Tour' onPress={() => {
-              setModalVisible(false)
-              validate(selection) && navigation.navigate('AddTour', template);
-            }} isDisabled={selection !== ''}/>
-          </Pressable>
-          <Pressable
-            style={[styles.button]}
-            onPress={() => {
-              setModalVisible(false)
-              setSelection('')
-            }}
-          >
-            <Text style={styles.textStyle}>Cancel</Text>
-          </Pressable>
+      <TouchableWithoutFeedback onPress={() => setModalVisible(false)}>
+        <View style={styles.centeredView} >
+          <TouchableWithoutFeedback>
+            <View style={styles.modalView} >
+              <Text style={[styles.titleText, { marginTop: 15, marginBottom: 15 }]}>New Tour</Text>
+              <Text style={[styles.textStyle, { marginBottom: 20, fontSize: 12, color: grayVeryDark }]}>Select the type of tour you would like to add.</Text>
+              <View style={{display: 'flex', flexDirection: 'row'}}>
+                {false && renderModalButtonCard('Customized Tour', setSelection, selection, 'customized')}
+                {renderModalButtonCard('Preset Tour', setSelection, selection, 'preset')}
+              </View>
+              {selection === 'preset' && /*<TourDropdown
+                selectedValue={template}
+                setSelectedValue={setTemplate}
+                />*/
+                <Dropdown selectedValue={template} setSelectedValue={setTemplate} options={options} visibility={dropdown} setVisibility={setDropdown} />
+              }
+
+              {!dropdown ? renderButtons() : <View style={{ height: 107 }}></View>}
+            </View>
+          </TouchableWithoutFeedback>
         </View>
-      </View>
+      </TouchableWithoutFeedback>
     </Modal>
+
       <ScrollView style={{paddingRight: 20, paddingLeft: 20, height: '100%'}}>
         <View style={{marginTop: 50}}>
           <Text style={{marginLeft: 20, fontSize: 24, fontWeight: '700', marginBottom: 35}}>
@@ -160,22 +205,28 @@ const ManageTours = ({navigation}) => {
           >
             {/* <Text >Hide Modal</Text> */}
           </Pressable>
-          {tours.map((tour) => {
-            return(
-              <TouchableOpacity key={tour.id} style={styles.tourCard} onPress={() => navigation.navigate('TourEdit', {tour})}>
-                <ImageBackground style={styles.tourImage} source={tour.src} imageStyle={{borderRadius: 10}}>
-                  <LinearGradient
-                    colors={['transparent', black]}
-                    style={styles.linearGradTour}
-                    />
-                </ImageBackground>
-                <View style={styles.tourTextSection}>
-                  <Text style={styles.tourTitle}>{tour.name}</Text>
-                  <Text style={styles.tourText}>{tour.duration} min | <Ionicons name={'people'} size={12}/> Max {tour.maxPeople} people | <Ionicons name={tour.transportation} size={12}/></Text>
-                </View>
-              </TouchableOpacity>
-            )
-          })}
+          <TourCardList
+            tours={tours}
+          >
+            {(tour) => {
+                return(
+                  <TouchableOpacity key={tour.id} style={styles.tourCard} onPress={() => navigation.navigate('TourEdit', {tour})}>
+                    <ImageBackground style={styles.tourImage} source={{uri: tour.src}} imageStyle={{borderRadius: 10}}>
+                      <LinearGradient
+                        colors={['transparent', black]}
+                        style={styles.linearGradTour}
+                        />
+                    </ImageBackground>
+                    <View style={styles.tourTextSection}>
+                      <Text style={styles.tourTitle}>{tour.name}</Text>
+                      <Text style={styles.tourText}>{tour.duration} min | <Ionicons name={'people'} size={12}/> Max {tour.maxPeople} people | <Ionicons name={tour.transportation} size={12}/></Text>
+                    </View>
+                  </TouchableOpacity>
+                )
+              }}
+
+          </TourCardList>
+          
         </View>
       </ScrollView>
     </SafeAreaView>

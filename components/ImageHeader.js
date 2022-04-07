@@ -9,7 +9,7 @@ import {
 import { primary, white, black, grayDark, grayMed } from 'config/colors';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-const ImageHeader = ({navigation, title}) => {
+const ImageHeader = ({navigation, title, image}) => {
     return (
         <View>
             <ImageBackground
@@ -18,7 +18,7 @@ const ImageHeader = ({navigation, title}) => {
                     height: 180,
                 }}
                 imageStyle={{borderBottomLeftRadius: 15, borderBottomRightRadius: 15}}
-                source={require('images/Westwood_village.jpg')}
+                source={{uri: image}}
             >
                 <LinearGradient
                     colors={[primary, 'transparent', black]}

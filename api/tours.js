@@ -78,6 +78,12 @@ export const viewAvailableTours = async () => {
   return await viewAllTours();
 }
 
+/**
+ * views an list of bookings in descending order
+ * @note Doesn't scale, need to limit results
+ * @param {*} visitorId 
+ * @returns 
+ */
 export const getVisitorBookings = async (visitorId) => {
   const queryTourSettingSnapshots = await db.collectionGroup("bookings").where("visitor", "==", user(visitorId)).orderBy("time","desc").get()
   return querySnapshotFormatter(queryTourSettingSnapshots)
@@ -128,6 +134,7 @@ export const viewMyTours = async (guideId) => {
   return querySnapshotFormatterWithParent(queryTourSettingSnapshots)
 }
 
+
 // get attractions of a tour
 export const getAttractions = async (tourId) => {
   const attractions = await tours.doc(tourId).collection("attractions").get()
@@ -154,6 +161,7 @@ export const addTour = async (
   timeAvailable,
   transportation
 ) => {
+  //TODO - remove duplicates from timeAvailable
   const tour = tours.doc(tourId).collection("tourSettings").doc()
   await tour.set({
     guide: user(guideId),
@@ -244,7 +252,12 @@ export const duplicateTour = async (
 }
 
 
-export const getGuideBookings = async (guideId) => {
+/**
+ * 
+ * @param {*} guideId 
+ * @returns ordered list of bookings for the guide id 
+ */
+export const getGuideBookings : Promise <{id : any,isCancelled : any,isCompleted : any,partySize : any,ref : any,time : any,visitor : any}> = async (guideId) => {
   const tourSettingsSnapshot = await db.collectionGroup("tourSettings").where("guide", "==", user(guideId)).get()
   console.log("Number of tourSettings with " + guideId + ": " + tourSettingsSnapshot.size)
   var guideBookings = []
@@ -255,8 +268,8 @@ export const getGuideBookings = async (guideId) => {
     guideBookings = guideBookings.concat(querySnapshotFormatter(c));
 
   }
-
-  return guideBookings
+  console.log(guideBookings)
+  return guideBookings.sort((a,b) => a.time > b.time)
 }
 
 export const addTimeRanges = async (guideId) => {

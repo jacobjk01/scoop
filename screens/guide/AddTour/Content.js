@@ -1,4 +1,4 @@
-import React, {Component, useState} from 'react';
+import React, {Component, useContext, useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -16,14 +16,21 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import LinearGradient from 'react-native-linear-gradient';
 import { primary, white, grayDark, black, red, grayShadow } from 'config/colors';
 import { styles } from './styles';
+import SubmitButton from 'components/SubmitButton';
+import { addTour } from 'api/tours';
+import { UserContext } from 'contexts';
+import Counter from './Counter';
+import DatePicker from 'components/DatePicker';
+import DatesDisplay from 'components/DatesDisplay';
 /**
  * 
- * @param {{name, setName, duration, setDuration, maxPeople, setMaxPeople, transportation, meetPoint, setIntroduction, introduction}} props 
+ * @param {{name, setName, duration, setDuration, maxPeople, setMaxPeople, transportation, meetPoint, setIntroduction, introduction, id, navigation,setDates,dates}} props 
  * @returns 
  */
-const Content = ({name, setName, duration, setDuration, maxPeople, setMaxPeople, transportation, meetPoint, setIntroduction, introduction}) => {
+const Content = ({name, setName, duration, setDuration, maxPeople, setMaxPeople, transportation, meetPoint, setIntroduction, introduction, id, navigation, setDates, dates}) => {
+  const {userAuth} = useContext(UserContext);
   return (
-    <View style={{marginBottom: 70, paddingTop: 25}}>
+    <View style={{marginBottom: 10, paddingTop: 25}}>
             <Text style={styles.sectionText}>Tour Name</Text>
             <TextInput
                 style={styles.tourNameBox}
@@ -92,41 +99,17 @@ const Content = ({name, setName, duration, setDuration, maxPeople, setMaxPeople,
                 value={introduction}
                 onChangeText={introduction => setIntroduction(introduction)}>
             </TextInput>
+            <DatesDisplay dates={dates}/>
+            <DatePicker title="Add dates" setDates={setDates} dates={dates}/>
+            <SubmitButton title={"Create Tour"} style={{margin: 10}} onPress={async () => {
+              if (duration === "") duration = 0
+              const meetingPtRef = "tours/4Wey5tUxBInxLq4tZRlS/availableMeetingPts/QqKsGXwTwacCCcgHOgqa"
+              const tour = await addTour(userAuth.uid,id,["alpha"],0,duration,introduction,true,maxPeople,meetingPtRef,dates,"walking")
+              console.log(tour)
+              navigation.pop();
+            }}/>
         </View>
   )
 }
 
 export default Content
-
-class Counter extends React.Component {
-  state = this.props.maxPeople ? {count: this.props.maxPeople} : {count: 0};
-
-  subtractCount = () => {
-    this.setState(
-      prevState => ({ ...prevState, count: this.state.count > 1 ? this.state.count - 1 : this.state.count })
-    )
-    this.props.onChange(maxPeople)
-  }
-  
-  addCount = () => {
-    this.setState(
-      prevState => ({ ...prevState, count: this.state.count < 10 ? this.state.count + 1 : this.state.count})
-    )
-    this.props.onChange(maxPeople)
-  }
-
-  render() {
-    const { count } = this.state;
-    return (
-      <View style={{flexDirection: 'row'}}>
-          <TouchableOpacity style={count > 1 ? styles.removeButton : styles.removeButtonGray} onPress={this.subtractCount}>
-              <Ionicons name={'remove'} size={16} style={count > 1 ? {color: white} : {color: grayDark}}/>
-          </TouchableOpacity>
-          <Text style={{paddingHorizontal: 8}}>{count}</Text>
-          <TouchableOpacity style={count < 10 ? styles.addButton : styles.addButtonGray} onPress={this.addCount}>
-              <Ionicons name={'add'} size={16} style={count < 10 ? {color: white} : {color: grayDark}}/>
-          </TouchableOpacity>
-      </View>
-    );
-  }
-}

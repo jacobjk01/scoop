@@ -131,6 +131,40 @@ export default  ({navigation}) => {
         }
     }
 
+    const renderButtons = () => {
+        return (
+            <View style={{flexDirection: 'row', justifyContent: 'space-between', width: '100%', }}>
+                <TouchableOpacity 
+                    style={{borderWidth: 1.25, borderRadius: 10, paddingHorizontal: 30, paddingVertical: 7, borderColor: primary}}
+                    onPress={() => {
+                        if (page === 1) {
+                            navigation.goBack()
+                        } else if (page > 1) {
+                            setPage(page - 1)
+                        }
+                            
+                        } 
+                    }
+                >
+                    <Text style={{color: primary, ...mediumBold, textAlign: 'center'}}>
+                        Back
+                    </Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                    style={{borderWidth: 1.25, borderRadius: 10, paddingHorizontal: 30, paddingVertical: 7,  borderColor: data[page - 1] != '-'?primary:grayMed, backgroundColor: data[page - 1] != '-'?primary:white,}}
+                    onPress={() => {
+                        if (data[page - 1] != '-')
+                            setPage(page + 1)
+                    }}
+                >
+                    <Text style={{...mediumBold, textAlign: 'center', color: data[page - 1] != '-'?white:grayMed,}}>
+                        Next
+                    </Text>
+                </TouchableOpacity>
+            </View>
+        );
+    }
+
     const mainSection = () => {
         let question
         let positionTop
@@ -195,31 +229,7 @@ export default  ({navigation}) => {
                     </Text>
                     <View style={{height: 10}}/>
                     {inputType()}
-                    <View style={{flexDirection: 'row', justifyContent: 'space-between', width: '100%'}}>
-                        <TouchableOpacity 
-                            style={{borderWidth: 1.25, borderRadius: 10, paddingHorizontal: 30, paddingVertical: 7, borderColor: primary}}
-                            onPress={() => {
-                                if (page > 1)
-                                    setPage(page - 1)
-                                }
-                            }
-                        >
-                            <Text style={{color: primary, ...mediumBold, textAlign: 'center'}}>
-                                Back
-                            </Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity
-                            style={{borderWidth: 1.25, borderRadius: 10, paddingHorizontal: 30, paddingVertical: 7,  borderColor: data[page - 1] != '-'?primary:grayMed, backgroundColor: data[page - 1] != '-'?primary:white,}}
-                            onPress={() => {
-                                if (data[page - 1] != '-')
-                                    setPage(page + 1)
-                            }}
-                        >
-                            <Text style={{...mediumBold, textAlign: 'center', color: data[page - 1] != '-'?white:grayMed,}}>
-                                Next
-                            </Text>
-                        </TouchableOpacity>
-                    </View>
+                    {dropdown ? <View style={{ height: 37 }}></View> : renderButtons()}
                     {page == 1 && false &&
                         <TouchableOpacity
                             disabled={page!=1}

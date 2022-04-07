@@ -119,9 +119,14 @@ const Checkout = ({navigation, route}) => {
       />
       {/* Confirmation_________________________________ */}
       <BottomButton title='Confirm' 
-        onPress={() => {
+        onPress={async () => {
           setModalVisible(true)
-          bookTour(tourSetting.ref, visitorCount, userAuth.uid, comment)
+          console.log(tourSetting.ref)
+          console.log(visitorCount)
+          console.log(userAuth.uid)
+          console.log(comment)
+          const res = await bookTour(tourSetting.ref, visitorCount, userAuth.uid, comment)
+          console.log(res)
         }}
       />
       {/*Modal____________________________________________________________________*/}
