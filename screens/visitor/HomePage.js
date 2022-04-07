@@ -15,6 +15,7 @@ import {titleText, graySmallText, mediumBold, largeBoldText, linearGrad} from '.
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {
   viewAvailableTours,
+  viewAllTours,
   checkIfTourEmpty,
 } from '../../api/tours';
 import { getGuides } from '../../api/users';
@@ -31,7 +32,8 @@ const HomePage = ({ navigation }) => {
 
   useEffect(() => {
     let isMounted = true
-    viewAvailableTours().then(tours => {
+    viewAllTours('', 5).then(tours => {
+      console.log(tours)
       //https://stackoverflow.com/questions/53949393/cant-perform-a-react-state-update-on-an-unmounted-component
       //You are not suppose to use async/await functions in useEffect
       //jon has no idea how these 3 isMounted are connected...

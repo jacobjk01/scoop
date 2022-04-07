@@ -79,10 +79,9 @@ export const viewAvailableTours = async () => {
 }
 
 export const getVisitorBookings = async (visitorId) => {
-  const queryTourSettingSnapshots = await db.collectionGroup("bookings").where("visitor", "==", user(visitorId)).get();
+  const queryTourSettingSnapshots = await db.collectionGroup("bookings").where("visitor", "==", user(visitorId)).orderBy("time","desc").get()
   return querySnapshotFormatter(queryTourSettingSnapshots)
 }
-
 //guide Functions
 /**
  * gets the first tours sorted by title, starting at variable 'parameter' and ending  
