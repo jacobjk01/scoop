@@ -158,16 +158,16 @@ const Account = ({ navigation }) => {
             renderDropdown()
           }
            */}
-           <Text style={{marginTop: 20}}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris ullamcorp vel purus eget ultricies.</Text>
-          <TouchableOpacity
-            style={{ alignSelf: 'flex-end', display: 'flex', flexDirection: 'row', marginVertical: 15, marginTop: 25 }}
+           <Text style={{marginTop: 20, marginBottom: 25}}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris ullamcorp vel purus eget ultricies.</Text>
+          {/* <TouchableOpacity
+            style={{ alignSelf: 'flex-end', display: 'flex', flexDirection: 'row', marginVertical: 15}}
             onPress={() => setDropdown(!dropdown)}
           >
             <Text style={{ fontSize: 16, color: grayMed, marginRight: 5 }}>
               {dropdown ? 'Collapse' : 'Expand'}
             </Text>
             <Ionicons name={dropdown ? 'chevron-up-outline' : 'chevron-down-outline'} size={20} color={grayMed} />
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
         <View style={styles.divider} />
         <View style={{ width: '90%', marginLeft: 'auto', marginRight: 'auto' }}>

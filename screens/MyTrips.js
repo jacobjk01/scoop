@@ -4,19 +4,49 @@ import colors, {black, grayDark, grayLight, grayMed, white, primary} from '../co
 import BackButton from 'components/BackButton';
 import { getVisitorBookings } from '../api/tours'
 import { UserContext } from '../contexts'
+import { getParentData } from '../api/utilities'
+import { getUserByRef } from '../api/users'
+import moment from 'moment'
 
 
 const MyTrips = ({navigation}) => {
     const [option, setOption] = useState('upcoming')
-    const [tours, setTours] = useState([])
-    console.log(tours)
+    const [info, setInfo] = useState([])
+
     const { user, setUser, userAuth } = useContext(UserContext);
-    console.log(userAuth.uid)
+
     useEffect(() => {
         let isMounted = true
         if (isMounted) {
             getVisitorBookings(userAuth.uid).then(bookings => {
-                setTours(bookings)
+                let tourSettingArray = []
+
+                bookings.forEach((book) => {
+                    tourSettingArray.push(getParentData(book.ref))
+                })
+                Promise.all(tourSettingArray).then((tourSettings) => {
+                    let guideArray = []
+                    let tourArray = []
+                    let info = []
+
+                    tourSettings.forEach((tourSetting) => {
+                        guideArray.push(getUserByRef(tourSetting.guide))
+                        tourArray.push(getParentData(tourSetting.ref))
+                    })
+                    Promise.all(guideArray).then((guides) => {
+                        Promise.all(tourArray).then((tours) => {
+                            bookings.forEach((booking, index) => {
+                                let temp = {}
+                                temp.time = booking.time
+                                temp.guide = guides[index]._data.name
+                                temp.tour = tours[index].title
+                                temp.picture = tours[index].picture
+                                info.push(temp)
+                            })
+                            setInfo(info)
+                        })
+                    })
+                })
             })
         }
         return () => isMounted = false
@@ -26,24 +56,30 @@ const MyTrips = ({navigation}) => {
         if (option === 'upcoming') {
             return(
                 <FlatList
-                    style={{marginHorizontal: 30, paddingTop: 15}}
-                    data={tours}
+                    style={{paddingTop: 15, marginBottom: 220}}
+                    data={info}
+                    keyExtractor={({item, index}) => index}
                     renderItem={({item, index}) => {
+                        const {tour, guide, picture, time} = item
+
                         return (
-                            <View style={{borderRadius: 15, elevation: 10, backgroundColor: white, marginVertical: 10}}>
+                            <View
+                                style={{borderRadius: 15, elevation: 10, backgroundColor: white, marginVertical: 10, width: '90%', marginLeft: 'auto', marginRight: 'auto'}}
+                                key={index}
+                            >
                                 <Image
-                                    source={require('../images/Westwood_village.jpg')}
+                                    source={{uri: picture}}
                                     style={{width: '100%', height: 155, borderTopLeftRadius: 15, borderTopRightRadius: 15}}
                                 />
                                 <View style={{paddingLeft: 20, paddingTop: 7, paddingBottom: 20}}>
                                     <Text style={{fontFamily: 'Helvetica-Bold', fontSize: 18}}>
-                                        Westwood Tour
+                                        {tour}
                                     </Text>
                                     <Text style={{fontSize: 16, paddingVertical: 4}}>
-                                        Tour Guide : Brittany
+                                        Tour Guide : {guide}
                                     </Text>
                                     <Text style={{fontSize: 16}}>
-                                        {'Date & Time : Jul 14 12:00 PM'}
+                                        Date & Time : {moment(time.toDate()).format('MMM DD LT')}
                                     </Text>
                                 </View>
                             </View>
