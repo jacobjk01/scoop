@@ -125,8 +125,7 @@ const Checkout = ({navigation, route}) => {
           console.log(visitorCount)
           console.log(userAuth.uid)
           console.log(comment)
-          const res = await bookTour(tourSetting.ref, visitorCount, userAuth.uid, comment)
-          console.log(res)
+          const res = await bookTour(tourSetting.ref, visitorCount, userAuth.uid, comment || "")
         }}
       />
       {/*Modal____________________________________________________________________*/}

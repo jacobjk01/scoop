@@ -18,7 +18,7 @@
     "@react-native-firebase/messaging": "^13.0.1",
     "@react-native-firebase/storage": "^13.0.1",
     "@react-native-google-signin/google-signin": "^6.0.1",
-    "@react-native-picker/picker": "^2.2.1",
+    "@react-native-picker/picker": "^2.4.0",
     "@react-navigation/bottom-tabs": "^5.11.11",
     "@react-navigation/core": "^6.1.1",
     "@react-navigation/native": "^5.9.4",

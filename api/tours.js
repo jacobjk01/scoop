@@ -344,3 +344,6 @@ const user = (id) => {
   return firestore().collection('users').doc(id)
 }
 
+export const meetingPtRef = (string) => {
+  return tours.doc(string)
+}

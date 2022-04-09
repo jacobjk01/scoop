@@ -17,18 +17,22 @@ import LinearGradient from 'react-native-linear-gradient';
 import { primary, white, grayDark, black, red, grayShadow } from 'config/colors';
 import { styles } from './styles';
 import SubmitButton from 'components/SubmitButton';
-import { addTour } from 'api/tours';
+import { addTour, getMeetingPts } from 'api/tours';
 import { UserContext } from 'contexts';
 import Counter from './Counter';
 import DatePicker from 'components/DatePicker';
 import DatesDisplay from 'components/DatesDisplay';
+import Loading from 'components/Loading';
+import MeetingPicker from './MeetingPicker';
 /**
  * 
- * @param {{name, setName, duration, setDuration, maxPeople, setMaxPeople, transportation, meetPoint, setIntroduction, introduction, id, navigation,setDates,dates}} props 
+ * @param {{name, setName, duration, setDuration, maxPeople, setMaxPeople, transportation, setIntroduction, introduction, id, navigation,setDates,dates, meetingPts, setMeetingPts}} props 
  * @returns 
  */
-const Content = ({name, setName, duration, setDuration, maxPeople, setMaxPeople, transportation, meetPoint, setIntroduction, introduction, id, navigation, setDates, dates}) => {
+const Content = ({name, setName, duration, setDuration, maxPeople, setMaxPeople, transportation, setIntroduction, introduction, id, navigation, setDates, dates,meetingPts, setMeetingPts}) => {
+  const [selectedMeetingPt, setSelectedMeetingPt] = useState(0)
   const {userAuth} = useContext(UserContext);
+  if (meetingPts[selectedMeetingPt] ==undefined) return <Loading />
   return (
     <View style={{marginBottom: 10, paddingTop: 25}}>
             <Text style={styles.sectionText}>Tour Name</Text>
@@ -67,23 +71,24 @@ const Content = ({name, setName, duration, setDuration, maxPeople, setMaxPeople,
             </View>
             <View style={styles.bodyText}>
                 <Text>
-                    {'Recommended Meetup Point :'} {meetPoint}
+                    {'Recommended Meetup Point :'} {meetingPts[selectedMeetingPt].title}
                 </Text>
                 <Text>Add Dropdown Picker Here</Text>
+                <MeetingPicker meetingPts={meetingPts} setValue={setSelectedMeetingPt} value={selectedMeetingPt}/>
                 <View pointerEvents='none' style={{height: 90, backgroundColor: 'grey', marginTop: 10}}>
                     <MapView
                         style={{flex: 1}}
                         provider={PROVIDER_GOOGLE}
                         initialRegion = {{
-                            latitude: 34.07106828093279, 
-                            longitude: -118.444993904947,
+                            latitude: meetingPts[selectedMeetingPt].location.latitude, 
+                            longitude: meetingPts[selectedMeetingPt].location.longitude,
                             latitudeDelta: 0.0015,
                             longitudeDelta: 0.0020,
                         }}>
                         <Marker
                             key={1}
-                            coordinate={{latitude: 34.07106828093279, longitude: -118.444993904947}}
-                            title={meetPoint}
+                            coordinate={meetingPts[selectedMeetingPt].location}
+                            title={meetingPts[selectedMeetingPt].title}
                             description='Recommended Meeting Point'
                         />
                     </MapView>
@@ -103,8 +108,7 @@ const Content = ({name, setName, duration, setDuration, maxPeople, setMaxPeople,
             <DatePicker title="Add dates" setDates={setDates} dates={dates}/>
             <SubmitButton title={"Create Tour"} style={{margin: 10}} onPress={async () => {
               if (duration === "") duration = 0
-              const meetingPtRef = "tours/4Wey5tUxBInxLq4tZRlS/availableMeetingPts/QqKsGXwTwacCCcgHOgqa"
-              const tour = await addTour(userAuth.uid,id,["alpha"],0,duration,introduction,true,maxPeople,meetingPtRef,dates,"walking")
+              const tour = await addTour(userAuth.uid,id,["alpha"],0,duration,introduction,true,maxPeople,meetingPts[selectedMeetingPt].ref,dates,"walking")
               console.log(tour)
               navigation.pop();
             }}/>
