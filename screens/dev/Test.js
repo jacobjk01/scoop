@@ -192,7 +192,7 @@ export default function Test() {
                     title="getVisitorBookings"
                     onPress={async () => {
                         try {
-                            const visitorBookings = await getVisitorBookings(visitorId)
+                            const visitorBookings = await getVisitorBookings(guideId)
                             console.log(visitorBookings)
 
                         } catch (err) {

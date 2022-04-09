@@ -31,7 +31,6 @@ const TourInfo = ({ navigation, route }) => {
     return <Error errorMsg="TourInfo.js, route.params.tour is not defined"/>
   }
   const { title, picture, id, description } = route.params.tour;
-  console.log(route.params.tour)
 
   const renderForeground = () => {
     return (
@@ -76,6 +75,7 @@ const TourInfo = ({ navigation, route }) => {
       </View>
     );
   };
+  console.log(tour)
   return (
     <View>
       <StatusBar barStyle="dark-content" />

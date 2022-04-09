@@ -45,6 +45,7 @@ const TourBooking1 = ({navigation, route}) => {
   const [isModalVisible, setModalVisible] = useState(false);
   //is user inputting a start custom time or an end custom time in the modal
   const [startOrEnd, setStartOrEnd] = useState(false);
+
   useEffect(() => {
     let isMounted = true
     const swap = (arr, i, j) => {
@@ -55,31 +56,29 @@ const TourBooking1 = ({navigation, route}) => {
     const quickSort = (arr) => {
       if (arr.length > 1) {
         let centerIndex = Math.floor(arr.length/2)
-        let cont = true
-        while (cont) {
-          let i = 0
-          let j = arr.length - 1
+        let i = 0
+        let j = arr.length - 1
+        while (i != centerIndex || j != centerIndex) {
+          i = 0
+          j = arr.length - 1
           while(i < centerIndex && moment(Object.keys(arr[i])[0]).isBefore(Object.keys(arr[centerIndex])[0])) {
             i++
           }
           while(j > centerIndex && moment(Object.keys(arr[j])[0]).isAfter(Object.keys(arr[centerIndex])[0])) {
             j--
           }
-  
-          if (i == centerIndex && j == centerIndex) {
-            let leftArr = []
-            let rightArr = []
-            cont = false
-            for (i = 0; i < centerIndex; i++) {
-              leftArr[i] = arr[i]
-            }
-            for (j = centerIndex; j < arr.length; j++) {
-              rightArr[j - centerIndex] = arr[j]
-            }
-            return quickSort(leftArr).concat(quickSort(rightArr))
-          }
-          else swap(arr, i, j)
+          swap(arr, i, j)
         }
+        let leftArr = []
+        let rightArr = []
+        cont = false
+        for (i = 0; i < centerIndex; i++) {
+          leftArr[i] = arr[i]
+        }
+        for (j = centerIndex; j < arr.length; j++) {
+          rightArr[j - centerIndex] = arr[j]
+        }
+        return quickSort(leftArr).concat(quickSort(rightArr))
       }
       else return arr
     }
@@ -100,7 +99,9 @@ const TourBooking1 = ({navigation, route}) => {
               temp.push(tempObject)
             }
           }
-          temp = quickSort(temp)
+          console.log(temp)
+          // temp = quickSort(temp)
+          // console.log(temp)
           setInfo(temp)
       });
     }

@@ -14,41 +14,84 @@ import { UserContext } from '../../contexts'
 import {titleText, graySmallText, mediumBold, largeBoldText, linearGrad} from '../../config/typography.js'
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {
-  viewAvailableTours,
+  viewAllTours,
   checkIfTourEmpty,
+  getVisitorBookings
 } from '../../api/tours';
-import { getGuides } from '../../api/users';
+import { getGuides, getUserByRef } from '../../api/users';
+import { getParentData } from '../../api/utilities'
 import { SCHOOL } from '../../config/initialState';
+import moment from 'moment'
 
 
 
 const HomePage = ({ navigation }) => {
-  const { user, setUser } = useContext(UserContext);
+  const { user, setUser, userAuth } = useContext(UserContext);
 
   const [tours, setTours] = useState();
   //guides is a query snapshot, use foreach and .data() for data.
   const [guides, setGuides] = useState();
-
+  const [upcoming, setUpcoming] = useState();
+  console.log(upcoming)
   useEffect(() => {
     let isMounted = true
-    viewAvailableTours().then(tours => {
-      //https://stackoverflow.com/questions/53949393/cant-perform-a-react-state-update-on-an-unmounted-component
-      //You are not suppose to use async/await functions in useEffect
-      //jon has no idea how these 3 isMounted are connected...
-      if (isMounted) {
-        checkTourPromises = []
+    // Gets list of tours
+    if (isMounted) {
+      viewAllTours('', 5).then(tours => {
+        //https://stackoverflow.com/questions/53949393/cant-perform-a-react-state-update-on-an-unmounted-component
+        //You are not suppose to use async/await functions in useEffect
+        //jon has no idea how these 3 isMounted are connected...
+        let checkTourPromises = []
         tours.forEach((element) => {checkTourPromises.push(checkIfTourEmpty(element.ref))})
         Promise.all(checkTourPromises).then(values => {
           tours = tours.filter((tour, index) => values[index].empty == false)
           setTours(tours);
         })
-      }
-    });
-    getGuides().then(guides => {
-      if (isMounted) {
+      });
+      // gets list of guides
+      getGuides().then(guides => {
         setGuides(guides);
-      }
-    });
+      });
+      // for upcoming tour
+      getVisitorBookings(userAuth.uid).then(bookings => {
+        let tourSettingArray = []
+
+        bookings.forEach((book) => {
+            tourSettingArray.push(getParentData(book.ref))
+        })
+        Promise.all(tourSettingArray).then((tourSettings) => {
+            let guideArray = []
+            let tourArray = []
+
+            tourSettings.forEach((tourSetting) => {
+                guideArray.push(getUserByRef(tourSetting.guide))
+                tourArray.push(getParentData(tourSetting.ref))
+            })
+            Promise.all(guideArray).then((guides) => {
+                Promise.all(tourArray).then((tours) => {
+                  let upcomingTime = null
+                  let bookingIndex = null
+                  if (bookings[0] != null) {
+                    bookings.forEach((booking, index) => {
+                          let time = booking.time.toDate()
+                          if (upcomingTime == null || (moment(new Date()).isAfter(time) && moment(upcoming).isBefore(time))) {
+                            upcomingTime = time
+                            bookingIndex = index
+                          }
+                    })
+                    let temp = {}
+                    temp.time = bookings[bookingIndex].time.toDate()
+                    temp.guide = guides[bookingIndex]._data.name
+                    temp.tour = tours[bookingIndex].title
+                    temp.tourPicture = tours[bookingIndex].picture
+                    temp.guidePicture = guides[bookingIndex]._data.profilePicture
+                    setUpcoming(temp)
+                  }
+                })
+            })
+        })
+    })
+    }
 
     return () => {
       isMounted = false
@@ -122,49 +165,51 @@ const HomePage = ({ navigation }) => {
             </TouchableOpacity>
           </View>
         </View> */}
-        <View style={{backgroundColor: white, marginHorizontal: '5%', width: '90%', paddingVertical: 15, paddingHorizontal: 20,
-        borderRadius: 15, elevation: 5, shadowColor: black, shadowOffset: {width: 1, height: 1}, shadowOpacity: 0.2, display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginVertical: 15}}
-        >
-          <View style={{display: 'flex', flexWrap:'wrap',flexDirection: 'column', justifyContent:'space-between',}}>
-            <View style={{margin: 5}}>
-              <Text style={{...graySmallText, color: grayDark}}>
-                Upcoming Tour</Text>
-              <Text style={{...mediumBold, color: black}}>
-                Westwood Tour</Text>
-            </View>
-            <View style={{margin: 5}}>
-              <Text style={{...graySmallText, color: grayDark}}>
-                Date</Text>
-              <Text style={{...mediumBold, color: black}}>
-                Jul 14</Text>
-            </View>
-          </View>
-          <View
-            style={{
-              display: 'flex',
-              flexWrap: 'wrap',
-              flexDirection: 'column',
-            }}>
-            <View style={{ margin: 5, display: 'flex', flexDirection: 'row', justifyContent: 'space-between', width: 150 }}>
-              <View>
+        {upcoming && 
+          <View style={{backgroundColor: white, marginHorizontal: '5%', width: '90%', paddingVertical: 15, paddingHorizontal: 20,
+          borderRadius: 15, elevation: 5, shadowColor: black, shadowOffset: {width: 1, height: 1}, shadowOpacity: 0.2, display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginVertical: 15}}
+          >
+            <View style={{display: 'flex', flexWrap:'wrap',flexDirection: 'column', justifyContent:'space-between',}}>
+              <View style={{margin: 5}}>
                 <Text style={{...graySmallText, color: grayDark}}>
-                  Tour Guide</Text>
+                  Upcoming Tour</Text>
                 <Text style={{...mediumBold, color: black}}>
-                  Brittany</Text>
+                  {upcoming.tour}</Text>
               </View>
-              <Image
-                style={{ height: 50, width: 50, borderRadius: 25}}
-                source={require('../../images/brittany.png')}
-              />
+              <View style={{margin: 5}}>
+                <Text style={{...graySmallText, color: grayDark}}>
+                  Date</Text>
+                <Text style={{...mediumBold, color: black}}>
+                  {moment(upcoming.time).format('MMM DD')}</Text>
+              </View>
             </View>
-            <View style={{margin: 5}}>
-              <Text style={{...graySmallText, color: grayDark}}>
-                Time</Text>
-              <Text style={{...mediumBold, color: black}}>
-                12:00 PM</Text>
+            <View
+              style={{
+                display: 'flex',
+                flexWrap: 'wrap',
+                flexDirection: 'column',
+              }}>
+              <View style={{ margin: 5, display: 'flex', flexDirection: 'row', justifyContent: 'space-between', width: 150 }}>
+                <View>
+                  <Text style={{...graySmallText, color: grayDark}}>
+                    Tour Guide</Text>
+                  <Text style={{...mediumBold, color: black}}>
+                    {upcoming.guide}</Text>
+                </View>
+                <Image
+                  style={{ height: 50, width: 50, borderRadius: 25}}
+                  source={{uri: upcoming.guidePicture}}
+                />
+              </View>
+              <View style={{margin: 5}}>
+                <Text style={{...graySmallText, color: grayDark}}>
+                  Time</Text>
+                <Text style={{...mediumBold, color: black}}>
+                  {moment(upcoming.time).format('LT')}</Text>
+              </View>
             </View>
           </View>
-        </View>
+        }
         {viewAll('Popular Tours')}
         <FlatList
           style={{ marginTop: 10 }}

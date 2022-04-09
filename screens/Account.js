@@ -16,7 +16,8 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import { black, white, primary, grayLight, grayDark, grayMed, grayVeryDark } from '../config/colors';
 
 const Account = ({ navigation }) => {
-  const { user, userAuth } = useContext(UserContext)
+  const { user, userAuth, mode, setMode } = useContext(UserContext)
+
   console.log(user)
   const [dropdown, setDropdown] = useState(false)
   const [modal, setModal] = useState(false)
@@ -41,6 +42,8 @@ const Account = ({ navigation }) => {
             case 'Become A Tour Guide':
               setModal(true)
               break
+            case 'Switch to Tour Guide':
+              setMode('guide')
             case 'My Trips':
               navigation.navigate(destination)
               break
@@ -155,16 +158,16 @@ const Account = ({ navigation }) => {
             renderDropdown()
           }
            */}
-           <Text style={{marginTop: 20}}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris ullamcorp vel purus eget ultricies.</Text>
-          <TouchableOpacity
-            style={{ alignSelf: 'flex-end', display: 'flex', flexDirection: 'row', marginVertical: 15, marginTop: 25 }}
+           <Text style={{marginTop: 20, marginBottom: 25}}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris ullamcorp vel purus eget ultricies.</Text>
+          {/* <TouchableOpacity
+            style={{ alignSelf: 'flex-end', display: 'flex', flexDirection: 'row', marginVertical: 15}}
             onPress={() => setDropdown(!dropdown)}
           >
             <Text style={{ fontSize: 16, color: grayMed, marginRight: 5 }}>
               {dropdown ? 'Collapse' : 'Expand'}
             </Text>
             <Ionicons name={dropdown ? 'chevron-up-outline' : 'chevron-down-outline'} size={20} color={grayMed} />
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
         <View style={styles.divider} />
         <View style={{ width: '90%', marginLeft: 'auto', marginRight: 'auto' }}>
@@ -174,7 +177,7 @@ const Account = ({ navigation }) => {
         <View style={styles.divider} />
         <View style={{ width: '90%', marginLeft: 'auto', marginRight: 'auto' }}>
           {renderOptions('exit-outline', 'Log Out')}
-          {renderOptions('people-outline', 'Become A Tour Guide')}
+          {renderOptions('people-outline', user.type=='visitor'?'Become A Tour Guide':'Switch to Tour Guide')}
         </View>
         <View style={[styles.divider, { marginBottom: 40 }]} />
       </ScrollView>
