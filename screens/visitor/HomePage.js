@@ -53,44 +53,46 @@ const HomePage = ({ navigation }) => {
         setGuides(guides);
       });
       // for upcoming tour
-      getVisitorBookings(userAuth.uid).then(bookings => {
-        let tourSettingArray = []
-
-        bookings.forEach((book) => {
-            tourSettingArray.push(getParentData(book.ref))
+      if (userAuth) {
+        getVisitorBookings(userAuth.uid).then(bookings => {
+          let tourSettingArray = []
+  
+          bookings.forEach((book) => {
+              tourSettingArray.push(getParentData(book.ref))
+          })
+          Promise.all(tourSettingArray).then((tourSettings) => {
+              let guideArray = []
+              let tourArray = []
+  
+              tourSettings.forEach((tourSetting) => {
+                  guideArray.push(getUserByRef(tourSetting.guide))
+                  tourArray.push(getParentData(tourSetting.ref))
+              })
+              Promise.all(guideArray).then((guides) => {
+                  Promise.all(tourArray).then((tours) => {
+                    let upcomingTime = null
+                    let bookingIndex = null
+                    if (bookings[0] != null) {
+                      bookings.forEach((booking, index) => {
+                            let time = booking.time.toDate()
+                            if (upcomingTime == null || (moment(new Date()).isAfter(time) && moment(upcoming).isBefore(time))) {
+                              upcomingTime = time
+                              bookingIndex = index
+                            }
+                      })
+                      let temp = {}
+                      temp.time = bookings[bookingIndex].time.toDate()
+                      temp.guide = guides[bookingIndex]._data.name
+                      temp.tour = tours[bookingIndex].title
+                      temp.tourPicture = tours[bookingIndex].picture
+                      temp.guidePicture = guides[bookingIndex]._data.profilePicture
+                      setUpcoming(temp)
+                    }
+                  })
+              })
+          })
         })
-        Promise.all(tourSettingArray).then((tourSettings) => {
-            let guideArray = []
-            let tourArray = []
-
-            tourSettings.forEach((tourSetting) => {
-                guideArray.push(getUserByRef(tourSetting.guide))
-                tourArray.push(getParentData(tourSetting.ref))
-            })
-            Promise.all(guideArray).then((guides) => {
-                Promise.all(tourArray).then((tours) => {
-                  let upcomingTime = null
-                  let bookingIndex = null
-                  if (bookings[0] != null) {
-                    bookings.forEach((booking, index) => {
-                          let time = booking.time.toDate()
-                          if (upcomingTime == null || (moment(new Date()).isAfter(time) && moment(upcoming).isBefore(time))) {
-                            upcomingTime = time
-                            bookingIndex = index
-                          }
-                    })
-                    let temp = {}
-                    temp.time = bookings[bookingIndex].time.toDate()
-                    temp.guide = guides[bookingIndex]._data.name
-                    temp.tour = tours[bookingIndex].title
-                    temp.tourPicture = tours[bookingIndex].picture
-                    temp.guidePicture = guides[bookingIndex]._data.profilePicture
-                    setUpcoming(temp)
-                  }
-                })
-            })
-        })
-    })
+      }
     }
 
     return () => {
