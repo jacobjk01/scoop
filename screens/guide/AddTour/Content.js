@@ -116,6 +116,7 @@ const Content = ({name, setName, duration, setDuration, maxPeople, setMaxPeople,
             <DatePicker title="Add dates" setDates={setDates} dates={dates}/>
             <SubmitButton title={"Create Tour"} style={{margin: 10}} onPress={async () => {
               if (duration === "") duration = 0
+              duration = parseInt(duration)
               const tour = await addTour(userAuth.uid,id,["alpha"],0,duration,introduction,true,maxPeople,meetingPts[selectedMeetingPt].ref,dates,"walking")
               console.log(tour)
               navigation.pop();
