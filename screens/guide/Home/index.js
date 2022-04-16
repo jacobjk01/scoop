@@ -42,12 +42,15 @@ const Home = ({navigation}) => {
         let meetPoint = meetingPts[i].title || "Loading..."
         return ({
         id: booking.id, //not sure if this needs to be tour or booking
+        settingId: tourSettings[i].id,
+        tourId: tours[i].id,
         tourMonth,
         tourDay,
         name,
         startTime,
         meetPoint
       })})
+
       for (let i = 0; i < bookings.length; i++) {
         let currentDate = bookings[i].time.seconds*1000
         //if date is between now and hour later, then there is an active tour

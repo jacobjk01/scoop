@@ -67,11 +67,7 @@ export const bookTour = async (tourSettingRef, partySize, visitorId, comment) =>
   })
 }
 
-//TODO? cancel a tour setting? cancel a tour? or cancel a booking?
-// for visitor and guide 
-export const cancelTour = async (tourSettingRef, userId) => {
-  throw new Error("Feature not implemented")
-}
+
 
 //TODO - need to show only available tours
 export const viewAvailableTours = async () => {
@@ -88,6 +84,29 @@ export const getVisitorBookings = async (visitorId) => {
   const queryTourSettingSnapshots = await db.collectionGroup("bookings").where("visitor", "==", user(visitorId)).orderBy("time","desc").get()
   return querySnapshotFormatter(queryTourSettingSnapshots)
 }
+
+/**
+ * views an list of bookings that are not completed in descending order
+ * @note Doesn't scale, need to limit results
+ * @param {*} visitorId 
+ * @returns 
+ */
+ export const getVisitorBookingsNotCompleted = async (visitorId) => {
+  const queryTourSettingSnapshots = await db.collectionGroup("bookings").where("visitor", "==", user(visitorId)).where("isCompleted","==", false).orderBy("time","desc").get()
+  return querySnapshotFormatter(queryTourSettingSnapshots)
+}
+
+/**
+ * views an list of bookings that are completed in descending order
+ * @note Doesn't scale, need to limit results
+ * @param {*} visitorId 
+ * @returns 
+ */
+ export const getVisitorBookingsCompleted = async (visitorId) => {
+  const queryTourSettingSnapshots = await db.collectionGroup("bookings").where("visitor", "==", user(visitorId)).where("isCompleted","==", true).orderBy("time","desc").get()
+  return querySnapshotFormatter(queryTourSettingSnapshots)
+}
+
 //guide Functions
 /**
  * gets the first tours sorted by title, starting at variable 'parameter' and ending  
@@ -296,8 +315,38 @@ export const switchTour = async (guideId, tourId, tourId2) => {
   });
 }
 
+/**
+ * sets the a booking to completed
+ * @param {*} tourId 
+ * @param {*} tourSettingId 
+ * @param {*} bookingId 
+ */
+export const completeTour = async (tourId, tourSettingId, bookingId) => {
+  try {
+    await tours.doc(tourId).collection('tourSettings').doc(tourSettingId).collection('bookings').doc(bookingId).set({
+      isCompleted: true
+    }, {merge: true})
+  } catch (e) {
+    console.error(e)
+  }
+}
 
-
+/**
+ * sets the a booking to canceled (and completed)
+ * @param {*} tourId 
+ * @param {*} tourSettingId 
+ * @param {*} bookingId 
+ */
+export const cancelTour = async (tourId, tourSettingId, bookingId) => {
+  try {
+    await tours.doc(tourId).collection('tourSettings').doc(tourSettingId).collection('bookings').doc(bookingId).set({
+      isCompleted: true,
+      isCancelled: true
+    }, {merge: true})
+  } catch (e) {
+    console.error(e)
+  }
+}
 
 
 
@@ -330,7 +379,8 @@ export const getBooking = async (guideId, tourId, userId) => {
  * @returns 
  */
 export const getAllTourSettings = async (guideId) => {
-  const tourSettingsSnapshot = await db.collectionGroup("tourSettings").where("guide", "==", user(guideId)).get()
+  const tourSettingsSnapshot = await db.collectionGroup("tourSettings")
+    .where("guide", "==", user(guideId)).get()
   return querySnapshotFormatter(tourSettingsSnapshot)
 }
 

@@ -4,9 +4,10 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import { primary, white, grayDark, black, grayVeryLight, grayVeryDark, grayShadow } from 'config/colors';
 import Header from '../../components/Header'
 import BottomButton from '../../components/BottomButton';
+import { completeTour } from 'api/tours';
 
 const ViewTour = ({ navigation, route }) => {
-    const tour = route.params.tour;
+    const tour = route.params.tour; // note: this structure is not the same structure as a tour in db
     const curTime = '12:00 PM';
     const activeTour = tour.startTime == curTime ? true : false;
     const itinerary = [
@@ -27,9 +28,13 @@ const ViewTour = ({ navigation, route }) => {
                 {renderVisitorInfo(tour)}
                 {activeTour ? renderItinerary(itinerary) : null}
             </ScrollView>
-            {activeTour ? renderCompleteButton() : null}
+            {activeTour ? <CompleteButton /> : null}
             
-            <BottomButton title='Complete This Tour' onPress={() => {}}/>
+            <BottomButton title='Complete This Tour' onPress={() => {
+              completeTour(tour.tourId, tour.settingId, tour.id).then(() => {
+                navigation.pop();
+              })
+            }}/>
         </SafeAreaView>
       </>
     )
@@ -123,7 +128,7 @@ const renderItinerary = (itinerary) => {
     );
 };
 
-const renderCompleteButton = () => {
+const CompleteButton = () => {
     return (
         <TouchableOpacity
           style={styles.continue}

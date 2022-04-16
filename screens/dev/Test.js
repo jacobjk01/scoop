@@ -25,7 +25,8 @@ import {
     addTour,
     editTour,
     duplicateTour,
-    getGuideBookings
+    getGuideBookings,
+    getVisitorBookingsNotCompleted
 } from '../../api/tours';
 
 export default function Test() {
@@ -39,6 +40,7 @@ export default function Test() {
     const [userIntro, setUserIntro] = useState('currently userIntro is not set');
     let visitorId = 'CBBI3gdPl2Q88GF1G6RGsO8pXpG3'; //Joshua
     let userId = visitorId
+    let jonId = 'bVkVyZQ5cXTrw83zpBfpNvpVThX2'
     let guideId2 = visitorId;
     let guideId = 'bVkVyZQ5cXTrw83zpBfpNvpVThX2'; //Josh
     let tour = tours[0]
@@ -96,6 +98,12 @@ export default function Test() {
             <ScrollView>
 
                 <Text>Tour Api</Text>
+                <Button onPress={async () => {
+                    getVisitorBookingsNotCompleted(jonId).then(console.log)
+                  }}
+                  title="random"
+
+                />
                 <Button
                     title="viewTourSettings"
                     onPress={async () => {
