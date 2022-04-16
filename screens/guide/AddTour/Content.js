@@ -73,26 +73,34 @@ const Content = ({name, setName, duration, setDuration, maxPeople, setMaxPeople,
                 <Text>
                     {'Recommended Meetup Point :'} {meetingPts[selectedMeetingPt].title}
                 </Text>
-                <Text>Add Dropdown Picker Here</Text>
+                {/* <Text>Add Dropdown Picker Here</Text> */}
                 <MeetingPicker meetingPts={meetingPts} setValue={setSelectedMeetingPt} value={selectedMeetingPt}/>
-                <View pointerEvents='none' style={{height: 90, backgroundColor: 'grey', marginTop: 10}}>
+                <View  style={{height: 90, backgroundColor: 'grey', marginTop: 10}}>
                     <MapView
                         style={{flex: 1}}
                         provider={PROVIDER_GOOGLE}
-                        initialRegion = {{
+                        region = {{
                             latitude: meetingPts[selectedMeetingPt].location.latitude, 
                             longitude: meetingPts[selectedMeetingPt].location.longitude,
                             latitudeDelta: 0.0015,
                             longitudeDelta: 0.0020,
                         }}>
-                        <Marker
-                            key={1}
-                            coordinate={meetingPts[selectedMeetingPt].location}
-                            title={meetingPts[selectedMeetingPt].title}
-                            description='Recommended Meeting Point'
-                        />
+                        {meetingPts.map((meetingPt, i) => {
+                          return (
+                            <Marker
+                              key={i}
+                              coordinate={{
+                                latitude: meetingPt.location.latitude, 
+                                longitude: meetingPt.location.longitude,
+                              }}
+                                title={meetingPt.title}
+                                description='This doesnt do anything'
+                            />
+                          )
+                        })}
+                        
                     </MapView>
-                    <Text style={{color: red, position: 'absolute', top: 10, left: 175, fontWeight: '500'}}>Bruin Bear</Text>
+                    {/* <Text style={{color: red, position: 'absolute', top: 10, left: 175, fontWeight: '500'}}>{meetingPts[selectedMeetingPt].title}</Text> */}
                 </View>
             </View>
             <View style={styles.divider} />
