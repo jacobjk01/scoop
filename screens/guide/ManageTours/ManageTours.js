@@ -123,10 +123,12 @@ const ManageTours = ({navigation}) => {
           onPress={() => setModalVisible(true)}
         >
           <SubmitButton title='Add Tour' onPress={() => {
+            let _template = template;
             if (!validate(selection, template)) return
             setModalVisible(false)
             setTemplate('')
-            navigation.navigate('AddTour', template);
+            console.log(_template)
+            navigation.navigate('AddTour', _template);
           }} isDisabled={template === ''}/>
         </Pressable>
         <Pressable
@@ -164,11 +166,11 @@ const ManageTours = ({navigation}) => {
                 {false && renderModalButtonCard('Customized Tour', setSelection, selection, 'customized')}
                 {renderModalButtonCard('Preset Tour', setSelection, selection, 'preset')}
               </View>
-              {selection === 'preset' && /*<TourDropdown
+              {selection === 'preset' && <TourDropdown
                 selectedValue={template}
                 setSelectedValue={setTemplate}
-                />*/
-                <Dropdown selectedValue={template} setSelectedValue={setTemplate} options={options} visibility={dropdown} setVisibility={setDropdown} />
+                />
+                /*<Dropdown selectedValue={template} setSelectedValue={setTemplate} options={options} visibility={dropdown} setVisibility={setDropdown} />*/
               }
 
               {!dropdown ? renderButtons() : <View style={{ height: 107 }}></View>}
