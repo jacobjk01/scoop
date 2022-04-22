@@ -3,7 +3,7 @@ import { View, SafeAreaView, Text, Button, TextInput, StyleSheet, Image} from 'r
 import { TouchableOpacity} from 'react-native-gesture-handler'
 import { UserContext } from '../../contexts'
 import {black, white, grayMed, grayDark, grayLight, primary} from '../../config/colors.js'
-import {mediumBold, backIcon, inputStyle, dropdownButton} from '../../config/typography.js'
+import {smallBold, backIcon, inputStyle, dropdownButton} from '../../config/typography.js'
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 export default  ({navigation}) => {
@@ -146,7 +146,7 @@ export default  ({navigation}) => {
                         } 
                     }
                 >
-                    <Text style={{color: primary, ...mediumBold, textAlign: 'center'}}>
+                    <Text style={{color: primary, ...smallBold, textAlign: 'center'}}>
                         Back
                     </Text>
                 </TouchableOpacity>
@@ -157,7 +157,7 @@ export default  ({navigation}) => {
                             setPage(page + 1)
                     }}
                 >
-                    <Text style={{...mediumBold, textAlign: 'center', color: data[page - 1] != '-'?white:grayMed,}}>
+                    <Text style={{...smallBold, textAlign: 'center', color: data[page - 1] != '-'?white:grayMed,}}>
                         Next
                     </Text>
                 </TouchableOpacity>
@@ -190,7 +190,7 @@ export default  ({navigation}) => {
         if (page == 5) {
             return (
                 <View style={{width: '80%', display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: 'auto', marginLeft: 'auto', marginRight: 'auto', marginBottom: 'auto'}}>
-                    <Text style={{...mediumBold, width: '70%', textAlign: 'center', paddingBottom: 10}}>
+                    <Text style={{...smallBold, width: '70%', textAlign: 'center', paddingBottom: 10}}>
                         You are all set!
                     </Text>
                     <Text style={{color: grayMed}}>
@@ -224,7 +224,7 @@ export default  ({navigation}) => {
         else {
             return (
                 <View style={{width: '80%', display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: 'auto', marginLeft: 'auto', marginRight: 'auto', marginBottom: 'auto'}}>
-                    <Text style={{...mediumBold, textAlign: 'center', width: '70%', top: positionTop, position: 'absolute'}}>
+                    <Text style={{...smallBold, textAlign: 'center', width: '70%', top: positionTop, position: 'absolute'}}>
                         {question}
                     </Text>
                     <View style={{height: 10}}/>

@@ -14,8 +14,8 @@ import {
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import LinearGradient from 'react-native-linear-gradient';
-import { primary, black, white, grayDark, blueDark, grayShadow, red } from 'config/colors';
-import {titleText, graySmallText, mediumBold, largeBoldText, linearGrad, mediumLight} from '../../config/typography.js'
+import { primary, black, white, grayDark, blueDark, grayShadow, red, grayVeryLight } from 'config/colors';
+import {titleText, graySmallText, smallBold, largeBoldText, linearGrad, mediumLight} from '../../config/typography.js'
 import Reviews from '../../components/Reviews';
 import BottomButton from '../../components/BottomButton';
 import BackButton from '../../components/BackButton';
@@ -48,7 +48,7 @@ const TourInfo = ({ navigation, route }) => {
         <View style={{width: '85%', marginLeft: 'auto', marginRight: 'auto', marginTop: 'auto', marginBottom: 40}}>
           <Text style={{...titleText, color: white, fontSize: 32}}>{title || "Placeholder title"}</Text>
           <Text
-            style={{...mediumLight, color: white, marginTop: 30}}>
+            style={{fontSize: 18, color: grayVeryLight, marginTop: 30}}>
             {description}
           </Text>
         </View>

@@ -11,7 +11,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import {black, grayDark, grayLight, grayMed, white, primary} from '../../config/colors';
 import {color} from 'react-native-reanimated';
 import { UserContext } from '../../contexts'
-import {titleText, graySmallText, mediumBold, largeBoldText, linearGrad} from '../../config/typography.js'
+import {titleText, graySmallText, smallBold, largeBoldText, linearGrad} from '../../config/typography.js'
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {
   viewAllTours,
@@ -22,6 +22,7 @@ import { getGuides, getUserByRef } from '../../api/users';
 import { getParentData } from '../../api/utilities'
 import { SCHOOL } from '../../config/initialState';
 import moment from 'moment'
+import ViewAll from '../../components/ViewAll';
 
 
 
@@ -105,14 +106,7 @@ const HomePage = ({ navigation }) => {
         <Text style={{...largeBoldText}}>
           {text}
         </Text>
-        <TouchableOpacity
-          onPress={() => navigation.navigate('TourList')}
-          style={{ marginLeft: 'auto' }}>
-          <View>
-            <Text style={{ color: '#3D68CC' }}>view all</Text>
-          </View>
-        </TouchableOpacity>
-        <Ionicons size={15} name={'chevron-forward-sharp'} color="#3D68CC" />
+        <ViewAll navigation={navigation}/>
       </View>
     );
   };
@@ -175,13 +169,13 @@ const HomePage = ({ navigation }) => {
               <View style={{margin: 5}}>
                 <Text style={{...graySmallText, color: grayDark}}>
                   Upcoming Tour</Text>
-                <Text style={{...mediumBold, color: black}}>
+                <Text style={{...smallBold, color: black}}>
                   {upcoming.tour}</Text>
               </View>
               <View style={{margin: 5}}>
                 <Text style={{...graySmallText, color: grayDark}}>
                   Date</Text>
-                <Text style={{...mediumBold, color: black}}>
+                <Text style={{...smallBold, color: black}}>
                   {moment(upcoming.time).format('MMM DD')}</Text>
               </View>
             </View>
@@ -195,7 +189,7 @@ const HomePage = ({ navigation }) => {
                 <View>
                   <Text style={{...graySmallText, color: grayDark}}>
                     Tour Guide</Text>
-                  <Text style={{...mediumBold, color: black}}>
+                  <Text style={{...smallBold, color: black}}>
                     {upcoming.guide}</Text>
                 </View>
                 <Image
@@ -206,7 +200,7 @@ const HomePage = ({ navigation }) => {
               <View style={{margin: 5}}>
                 <Text style={{...graySmallText, color: grayDark}}>
                   Time</Text>
-                <Text style={{...mediumBold, color: black}}>
+                <Text style={{...smallBold, color: black}}>
                   {moment(upcoming.time).format('LT')}</Text>
               </View>
             </View>
@@ -235,7 +229,7 @@ const HomePage = ({ navigation }) => {
                     colors={['transparent', 'rgba(0,0,0,0.6)']}
                     style={{...linearGrad, marginTop: 'auto', height: '70%', width: '100%'}}
                   >
-                  <Text style={{...mediumBold, fontWeight: '600', color: white, marginTop: 'auto', left: 20, bottom: 50, zIndex: 100}}>{item.title}</Text>
+                  <Text style={{...smallBold, fontWeight: '600', color: white, marginTop: 'auto', left: 20, bottom: 50, zIndex: 100}}>{item.title}</Text>
                 </LinearGradient>
               </ImageBackground>
             </TouchableOpacity>

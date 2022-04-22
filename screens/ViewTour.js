@@ -1,9 +1,9 @@
 import React from 'react'
 import { SafeAreaView, View, Text, StyleSheet, TouchableOpacity, Image, ScrollView } from 'react-native'
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { primary, white, grayDark, black, grayVeryLight, grayVeryDark, grayShadow } from 'config/colors';
-import Header from '../../components/Header'
-import BottomButton from '../../components/BottomButton';
+import { primary, white, grayDark, black, grayVeryLight, grayVeryDark, grayShadow } from '../config/colors';
+import Header from '../components/Header'
+import BottomButton from '../components/BottomButton';
 
 const ViewTour = ({ navigation, route }) => {
     const tour = route.params.tour;

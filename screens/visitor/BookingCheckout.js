@@ -12,7 +12,7 @@ import { bookTour } from '../../api/tours';
 import BottomButton from '../../components/BottomButton';
 import Header from '../../components/Header';
 import { UserContext } from '../../contexts';
-import { grayMedText, largeBoldText, linearGrad, mediumBold, titleText } from '../../config/typography.js';
+import { grayMedText, largeBoldText, linearGrad, smallBold, titleText } from '../../config/typography.js';
 import { getMeetingPt } from '../../api/tours';
 
 const Checkout = ({navigation, route}) => {
@@ -92,7 +92,7 @@ const Checkout = ({navigation, route}) => {
 
             {/*Bottom area*/}
             {/* <View style={{marginBottom: 80}}>
-              <Text style={{...mediumBold, color: black, marginTop: 40, marginLeft: 30, marginRight: 'auto'}}>
+              <Text style={{...smallBold, color: black, marginTop: 40, marginLeft: 30, marginRight: 'auto'}}>
                 Select Payment Method
               </Text>
               <TouchableOpacity 

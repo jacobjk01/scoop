@@ -4,9 +4,17 @@ import { StyleSheet } from "react-native";
 
 const style = StyleSheet.create({
 
-    mediumBold:{
+    smallBold:{
         fontFamily: 'Helvetica-Bold', 
         fontSize: 18,  
+    },
+    mediumBold: {
+        fontFamily: 'Helvetica-Bold',
+        fontSize: 20,
+    },
+    largeBoldText:{
+        fontSize: 23, 
+        fontWeight: '700'
     },
     backIcon: {
         backgroundColor: primary,
@@ -44,10 +52,6 @@ const style = StyleSheet.create({
         color: grayLight,
         fontSize: 15,
     },
-    largeBoldText:{
-        fontSize: 23, 
-        fontWeight: '700'
-    },
     linearGrad: {
         backgroundColor: 'transparent',
         borderRadius: 10,
@@ -65,17 +69,6 @@ const style = StyleSheet.create({
     mediumLight: {
         fontSize: 18,
         fontWeight: '200',
-    },
-    primaryButton: {
-        position: 'absolute',
-        backgroundColor: '#3154A5',
-        height: 50,
-        justifyContent: 'center',
-        borderRadius: 10,
-        shadowColor: '#adadad',
-        shadowOffset: {width: 2, height: 2},
-        shadowOpacity: 0.8,
-        shadowRadius: 3,
     },
     mediumOblique: {
         fontSize: 18,

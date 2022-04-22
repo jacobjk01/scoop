@@ -37,7 +37,7 @@ import Feedback from './screens/Feedback';
 import Account from './screens/Account';
 import Profile from './screens/Profile';
 import ProfileEdit from './screens/ProfileEdit';
-import MyTrips from './screens/MyTrips';
+import MyTrips from './screens/myTrips';
 import LogOut from './screens/LogOut';
 
 //guide imports
@@ -49,7 +49,7 @@ import Availability from './screens/guide/Availability';
 import AddTour from './screens/guide/AddTour';
 import EditTour from './screens/guide/EditTour';
 import HomeGuide from './screens/guide/Home';
-import ViewTour from './screens/guide/ViewTour';
+import ViewTour from './screens/ViewTour';
 
 //visitor imports
 import TourList from './screens/visitor/TourList';

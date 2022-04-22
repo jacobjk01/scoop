@@ -6,7 +6,7 @@ import {
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { renderStars } from '../../components/Stars';
-import {titleText, graySmallText, mediumBold, largeBoldText, linearGrad} from '../../config/typography.js'
+import {titleText, graySmallText, smallBold, largeBoldText, linearGrad} from '../../config/typography.js'
 import toursData from '../../data/toursData';
 import BackButton from '../../components/BackButton';
 import { viewAllTours } from 'api/tours';
@@ -69,7 +69,7 @@ const TourList = ({navigation, route}) => {
                     };
                     navigation.navigate('TourInfo', {itemInfo});
                   }}>
-                  <Text style={{...mediumBold}}>{tour.item.title}</Text>
+                  <Text style={{...smallBold}}>{tour.item.title}</Text>
                   {renderStars(4.5)}
                   {/* <Text style={{marginTop: 5}}>{tour.item.description}</Text> */}
                 </TouchableOpacity>

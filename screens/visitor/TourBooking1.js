@@ -20,7 +20,7 @@ import { Calendar } from 'react-native-calendars';
 import moment from 'moment';
 import DatePicker from 'react-native-date-picker';
 import toursData from '../../data/toursDatav2';
-import {titleText, backIcon, mediumBold, mediumOblique, primaryButton} from '../../config/typography.js';
+import {titleText, backIcon, smallBold, mediumOblique } from '../../config/typography.js';
 import { viewTourSettings} from '../../api/tours';
 import { getUsersByRef} from '../../api/users';
 import Header from '../../components/Header'
@@ -251,7 +251,7 @@ const TourBooking1 = ({navigation, route}) => {
             source={item.profilePicture == null?require('../../images/defaultpfp.png'):{uri: item.profilePicture}}>
           </Image>
           <View style={{marginLeft: 15, flex: 1}}>
-            <Text style={{...mediumBold, top: 3}}>{item.name}</Text>
+            <Text style={{...smallBold, top: 3}}>{item.name}</Text>
             <Text style={{...mediumOblique, bottom: 3}}>
               {item.major}, {item.year}
             </Text>
@@ -403,12 +403,12 @@ const TourBooking1 = ({navigation, route}) => {
   
         let i = binarySearch(info, day, 0) + 1
         while(typeof info[i] !== 'undefined' && moment(Object.keys(info[i])[0]).format("YYYY" + "-" + "MM" + "-" + "DD") == day){
-          setSelectedDay(day)
           if (checkIfInRange(Object.keys(info[i])[0], time1, time2)) temp[0] = false
           if (checkIfInRange(Object.keys(info[i])[0], time2, time3)) temp[1] = false
           if (checkIfInRange(Object.keys(info[i])[0], time3, time4)) temp[2] = false
           i++
         }
+        setSelectedDay(day)
         setDisabledTimes(temp)
         //if both day and time are selected, get guide info
         if (selectedTimes.some(value => value == true)) {
@@ -431,7 +431,7 @@ const TourBooking1 = ({navigation, route}) => {
             setOfficialTimes(times)
           }}>
           <Text
-            style={{...primaryButton, 
+            style={{
               fontSize: 14,
               color: white,
               paddingHorizontal: 14,
@@ -854,7 +854,7 @@ const TourBooking1 = ({navigation, route}) => {
                 elevation: 10,
               }}>
                 <View style={{marginTop: 25}}>
-                  <Text style={{...mediumBold, alignSelf: 'center', paddingBottom: 15}}>
+                  <Text style={{...smallBold, alignSelf: 'center', paddingBottom: 15}}>
                     Tour Guides Available
                   </Text>
                   <View style={styles.line}></View>
