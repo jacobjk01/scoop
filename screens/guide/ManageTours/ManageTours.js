@@ -217,7 +217,10 @@ const ManageTours = ({navigation}) => {
             {(tour) => {
                 return(
                   <TouchableOpacity key={tour.id} style={styles.tourCard} onPress={() => navigation.navigate('TourEdit', {tour})}>
-                    <Image source = {require('../../../images/remove.png')} style={{opacity: removeVisible, marginLeft: -5, marginTop: -10, marginBottom: -10, zIndex: 10, height: 20, width: 20}}/>
+                    <TouchableOpacity style={{zIndex: 10}}>
+                    <Image source = {require('../../../images/remove.png')} 
+                           style={{opacity: removeVisible, marginLeft: -5, marginTop: -10, marginBottom: -10, zIndex: 10, height: 20, width: 20}}/>
+                    </TouchableOpacity>
                     <ImageBackground style={styles.tourImage} source={{uri: tour.src}} imageStyle={{borderRadius: 10}}>
                       <LinearGradient
                         colors={['transparent', black]}
