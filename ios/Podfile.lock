@@ -829,7 +829,7 @@ PODS:
     - React-perflogger (= 0.64.2)
   - RNCMaskedView (0.1.11):
     - React
-  - RNCPicker (2.2.1):
+  - RNCPicker (2.4.0):
     - React-Core
   - RNFBApp (13.1.1):
     - Firebase/CoreOnly (= 8.10.0)
@@ -1119,7 +1119,7 @@ SPEC CHECKSUMS:
   CocoaAsyncSocket: 065fd1e645c7abab64f7a6a2007a48038fdc6a99
   DoubleConversion: cf9b38bf0b2d048436d9a82ad2abe1404f11e7de
   FBLazyVector: e686045572151edef46010a6f819ade377dfeb4b
-  FBReactNativeSpec: 6b477f6c7ab44fd1cc1f404e763741828f9cc964
+  FBReactNativeSpec: fc0b70d4ce290729063856a82f37cb0849f315da
   Firebase: 44213362f1dcc52555b935dc925ed35ac55f1b20
   FirebaseAuth: 59a2d2b933b5b79e18fb1e6ad230c6abdaa73d26
   FirebaseCore: 04186597c095da37d90ff9fd3e53bc61a1ff2440
@@ -1181,7 +1181,7 @@ SPEC CHECKSUMS:
   React-runtimeexecutor: a9904c6d0218fb9f8b19d6dd88607225927668f9
   ReactCommon: 149906e01aa51142707a10665185db879898e966
   RNCMaskedView: 0e1bc4bfa8365eba5fbbb71e07fbdc0555249489
-  RNCPicker: cb57c823d5ce8d2d0b5dfb45ad97b737260dc59e
+  RNCPicker: 6d5d64e7b90c240c779ee0938ec433c11e2dd758
   RNFBApp: 6e20f07b316346d96737191f377777f61f51a8d2
   RNFBAuth: e2ba12680f849537c643e049df5f0d0d4f1b0ee1
   RNFBDatabase: ac2ea4a368e9875ea2eb01dbefd4094840aeefdf
@@ -1199,4 +1199,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 86e726142ba55b6264ae840a7a55381749b38ff5
 
-COCOAPODS: 1.11.3
+COCOAPODS: 1.11.2

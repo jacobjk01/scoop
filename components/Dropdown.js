@@ -7,7 +7,15 @@ import {
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-
+const DropdownIcon = () => {
+  return (
+      <Ionicons
+          name={'caret-down-outline'}
+          size={24}
+          color={primary}
+      />
+  )
+}
 const Dropdown = ({ selectedValue, setSelectedValue, options, visibility, setVisibility }) => {
     const styles = {
         dropdownButton: {
@@ -44,15 +52,7 @@ const Dropdown = ({ selectedValue, setSelectedValue, options, visibility, setVis
         )
     }
 
-    const dropdownIcon = () => {
-        return (
-            <Ionicons
-                name={'caret-down-outline'}
-                size={24}
-                color={primary}
-            />
-        )
-    }
+    
 
     return (
         <View style={{marginBottom: 25}}>
@@ -62,7 +62,7 @@ const Dropdown = ({ selectedValue, setSelectedValue, options, visibility, setVis
                 onPress={() => setVisibility(!visibility)}
             >
                 <Text style={{ marginRight: 'auto', fontSize: 18, color: black }}>{selectedValue}</Text>
-                {dropdownIcon()}
+                <DropdownIcon />
             </TouchableOpacity>
             {visibility &&
                 <View style={{ borderTopRightRadius: 5, borderTopLeftRadius: 5, borderRadius: 5, borderWidth: 1, borderColor: grayDark, borderTopWidth: 0, position: 'absolute', width: '100%', backgroundColor: 'white', zIndex: 100, top: 83.8 }}>

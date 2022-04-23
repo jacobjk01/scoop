@@ -40,6 +40,7 @@ import { getMeetingPts } from 'api/tours';
  */
 const AddTour = (props) => {
   const {description, id,picture,ref,title} = props.route.params
+  console.log('asdfsdf' + props.route.params)
   const [name, setName] = useState(title ||'')
   const [duration, setDuration] = useState('')
   const [maxPeople, setMaxPeople] = useState(1)
@@ -49,7 +50,11 @@ const AddTour = (props) => {
   const [dates, setDates] = useState([])
   const [meetingPts, setMeetingPts] = useState([]);
   useEffect(() => {
-    getMeetingPts(id).then(setMeetingPts).catch(console.error)
+    getMeetingPts(id).then(res => {
+      setMeetingPts(res)
+      console.log(res)
+      console.log(id)
+    }).catch(console.error)
   },[id])
 
   return (
