@@ -17,7 +17,7 @@ import { getMeetingPt } from '../../api/tours';
 
 const Checkout = ({navigation, route}) => {
   const {tour, tourSetting, guide, visitorCount, comment} = route.params
-  console.log(tourSetting)
+  //console.log(tourSetting)
   const date = tourSetting.timeAvailable[route.params.timeIndex]
   const {
     userAuth, setUserAuth
@@ -121,10 +121,10 @@ const Checkout = ({navigation, route}) => {
       <BottomButton title='Confirm' 
         onPress={async () => {
           setModalVisible(true)
-          console.log(tourSetting.ref)
-          console.log(visitorCount)
-          console.log(userAuth.uid)
-          console.log(comment)
+          //console.log(tourSetting.ref)
+          //console.log(visitorCount)
+          //console.log(userAuth.uid)
+          //console.log(comment)
           const res = await bookTour(tourSetting.ref, visitorCount, userAuth.uid, comment || "")
         }}
       />

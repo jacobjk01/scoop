@@ -55,7 +55,7 @@ export const bookTour = async (tourSettingRef, partySize, visitorId, comment) =>
   }
   const visitor = user(visitorId);
   const booking = tourSettingRef.collection("bookings").doc();
-  //console.log(booking.id)
+  ////console.log(booking.id)
   booking.set({
     visitor,
     partySize,
@@ -278,7 +278,7 @@ export const duplicateTour = async (
  */
 export const getGuideBookings : Promise <{id : any,isCancelled : any,isCompleted : any,partySize : any,ref : any,time : any,visitor : any}> = async (guideId) => {
   const tourSettingsSnapshot = await db.collectionGroup("tourSettings").where("guide", "==", user(guideId)).get()
-  console.log("Number of tourSettings with " + guideId + ": " + tourSettingsSnapshot.size)
+  ////console.log("Number of tourSettings with " + guideId + ": " + tourSettingsSnapshot.size)
   var guideBookings = []
   for (let i = 0; i < tourSettingsSnapshot.docs.length; i++) {
     let queryDocumentSnapshot = tourSettingsSnapshot.docs[i];
@@ -287,7 +287,7 @@ export const getGuideBookings : Promise <{id : any,isCancelled : any,isCompleted
     guideBookings = guideBookings.concat(querySnapshotFormatter(c));
 
   }
-  console.log(guideBookings)
+  ////console.log(guideBookings)
   return guideBookings.sort((a,b) => a.time > b.time)
 }
 
@@ -349,6 +349,39 @@ export const cancelTour = async (tourId, tourSettingId, bookingId) => {
 }
 
 
+//event listeners
+/**
+ * gets the first tours sorted by title, starting at variable 'parameter' and ending  
+ * @param {docId} start defaults to '', expects the documentReference id
+ * @param {number} limit defaults to 99
+ * @returns The listener can be cancelled by calling the function that is returned when onSnapshot is called.
+ */
+export const viewAllToursListener = (start = '', limit=99) => {
+  // if (start !== '') {
+  //   start = await tours.doc(start).get()
+  // }
+
+  const onNext = (next) => {
+
+  }
+
+  const onCompletion = () => {
+
+  }
+
+  const onError = () => {
+
+  }
+
+  return tours.orderBy('title').startAt(start).limit(limit).onSnapshot((nextQuerySnapshot) => {
+    console.warn('listener ======================================')
+    if (nextQuerySnapshot.empty) {
+      console.warn("No tours found!")
+    }
+    ////console.log(nextQuerySnapshot.docs.map(item => item.id))
+  })
+}
+
 
 
 
@@ -382,6 +415,18 @@ export const getAllTourSettings = async (guideId) => {
   const tourSettingsSnapshot = await db.collectionGroup("tourSettings")
     .where("guide", "==", user(guideId)).get()
   return querySnapshotFormatter(tourSettingsSnapshot)
+}
+
+/**
+ * gets all tourSettings that guide has created event listener
+ * @param {*} guideId 
+ * @returns 
+ */
+ export const getAllTourSettingsListener = (guideId) => {
+  return db.collectionGroup("tourSettings")
+    .where("guide", "==", user(guideId)).onSnapshot(tourSettingsSnapshot => {
+      return querySnapshotFormatter(tourSettingsSnapshot)
+    })
 }
 
 

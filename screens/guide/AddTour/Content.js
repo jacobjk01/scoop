@@ -118,7 +118,7 @@ const Content = ({name, setName, duration, setDuration, maxPeople, setMaxPeople,
               if (duration === "") duration = 0
               duration = parseInt(duration)
               const tour = await addTour(userAuth.uid,id,["alpha"],0,duration,introduction,true,maxPeople,meetingPts[selectedMeetingPt].ref,dates,"walking")
-              console.log(tour)
+              //console.log(tour)
               navigation.pop();
             }}/>
         </View>

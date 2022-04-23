@@ -23,7 +23,7 @@ import colors from 'config/colors';
 import toursData from 'data/toursData';
 import {color} from 'react-native-reanimated';
 import { getUser } from 'api/users';
-import { getAllTourSettings } from 'api/tours';
+import { getAllTourSettings, viewAllToursListener } from 'api/tours';
 import { onAuthStateChanged } from 'api/auth';
 import { white, black, grayVeryDark, grayMed, tappableBlue } from 'config/colors';
 import BottomButton from 'components/BottomButton';
@@ -72,8 +72,11 @@ const ManageTours = ({navigation}) => {
       })
       setOptions(titles);
     }
-    getTours()
+    //console.log('===begin')
+    const cancel = viewAllToursListener()
+    
     return () => {
+      cancel()
     }
   }, [])
 
@@ -127,7 +130,7 @@ const ManageTours = ({navigation}) => {
             if (!validate(selection, template)) return
             setModalVisible(false)
             setTemplate('')
-            console.log(_template)
+            //console.log(_template)
             navigation.navigate('AddTour', _template);
           }} isDisabled={template === ''}/>
         </Pressable>
@@ -170,6 +173,7 @@ const ManageTours = ({navigation}) => {
                 selectedValue={template}
                 setSelectedValue={setTemplate}
                 />
+                
                 /*<Dropdown selectedValue={template} setSelectedValue={setTemplate} options={options} visibility={dropdown} setVisibility={setDropdown} />*/
               }
 

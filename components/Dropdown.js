@@ -53,7 +53,6 @@ const Dropdown = ({ selectedValue, setSelectedValue, options, visibility, setVis
     }
 
     
-
     return (
         <View style={{marginBottom: 25}}>
             <TouchableOpacity 

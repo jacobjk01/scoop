@@ -32,7 +32,7 @@ const HomePage = ({ navigation }) => {
   //guides is a query snapshot, use foreach and .data() for data.
   const [guides, setGuides] = useState();
   const [upcoming, setUpcoming] = useState();
-  console.log(upcoming)
+  //console.log(upcoming)
   useEffect(() => {
     let isMounted = true
     // Gets list of tours

@@ -5,7 +5,7 @@ const Reviews = db().collection('reviews');
 
 export const addReview = async (guideId, visitorId, tourId, rating, description) => {
     if (!(guideId && visitorId && tourId && rating)) {
-        console.log('required parameter not here')
+        //console.log('required parameter not here')
         return;
     } else {
         await Reviews.doc().set({

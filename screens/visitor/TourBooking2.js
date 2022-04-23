@@ -73,7 +73,7 @@ const TourBooking2 = ({navigation, route}) => {
               }
             }
           }
-          console.log(marks)
+          //console.log(marks)
           //get rid of duplicate days, causes bugs for select Time when there are duplicate marks
           let filteredMarks = marks.filter((mark, index) => {
             return marks.indexOf(mark) === index
@@ -110,9 +110,9 @@ const TourBooking2 = ({navigation, route}) => {
       setDayTourSettings(dayTourSettings)
 
     }
-    console.log(times, times[0] == null)
+    //console.log(times, times[0] == null)
     if (times[0] == null){
-      console.log('wtf 2')
+      //console.log('wtf 2')
       setSelectedTime(-1)
     }
   }, [selectedDay, visitorCount])

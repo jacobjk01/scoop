@@ -51,7 +51,7 @@ const MyTrips = ({navigation}) => {
         }
         return () => isMounted = false
     }, [])
-    // console.log(tours)
+    // //console.log(tours)
     const renderTrips = () => {
         if (option === 'upcoming') {
             return(

@@ -29,7 +29,7 @@ const Home = ({navigation}) => {
       try {
         tourSettings = await Promise.all(bookings.map(booking => getParentData(booking.ref)))
         meetingPts = await Promise.all(tourSettings.map(tourSetting => getMeetingPt(tourSetting.meetingPt)))
-        console.log(meetingPts)
+        //console.log(meetingPts)
         tours = await Promise.all(tourSettings.map(tourSetting => getParentData(tourSetting.ref)))
       } catch (e) {
         console.error(e)
@@ -54,9 +54,9 @@ const Home = ({navigation}) => {
       for (let i = 0; i < bookings.length; i++) {
         let currentDate = bookings[i].time.seconds*1000
         //if date is between now and hour later, then there is an active tour
-        console.log("current date" + i + ": " + currentDate)
-        console.log("now     date_" + ": " + Date.now() )
-        console.log(currentDate+60*60*1000)
+        ////console.log("current date" + i + ": " + currentDate)
+        ////console.log("now     date_" + ": " + Date.now() )
+       // //console.log(currentDate+60*60*1000)
         if (Date.now() < currentDate) {
           setBookings(_bookings.slice(i))
           break;
@@ -65,7 +65,7 @@ const Home = ({navigation}) => {
           setBookings(_bookings.slice(i+1))
           break;
         } else if (currentDate > Date.now()) {
-          console.log("now")
+          //console.log("now")
           setBookings(_bookings.slice(i))
           break;
         }
@@ -87,14 +87,14 @@ const Home = ({navigation}) => {
           <View style={{flexWrap: 'wrap', alignContent: 'center'}}>
             {bookings.map((tour) => {
               if (!(tour.id && tour.tourMonth && tour.tourDay && tour.name && tour.startTime && tour.meetPoint)) {
-                console.log ({
+                /*console.log ({
                   id: tour.id,
                   month: tour.tourMonth,
                   day: tour.tourDay,
                   name: tour.name,
                   startTime: tour.startTime,
                   meetPoint: tour.meetPoint
-                })
+                })*/
                 throw new Error('Missing a parameter')
               }
               return(

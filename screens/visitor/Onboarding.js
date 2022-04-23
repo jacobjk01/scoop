@@ -236,7 +236,7 @@ export default  ({navigation}) => {
                             style={{width: 300, height: 50, elevation: 15, position: 'relative', top: 0, zIndex: 100, backgroundColor: white}}
                             onPress={() => {
                                 setVisitorBone(true)
-                                console.log(hasNotFinishedBareOnboarding)
+                                //console.log(hasNotFinishedBareOnboarding)
                             }}
                         >
                             <Text style={{marginLeft: 'auto', marginRight: 'auto', marginBottom: 'auto', marginTop:'auto'}}>

@@ -98,7 +98,7 @@ const App: () => Node = () => {
 
   //displays bottom tab and some navigation
   const TabAllModes = () => {
-    console.log(mode)
+    //console.log(mode)
     if (mode === 'new') {
       return (<></>)
     }

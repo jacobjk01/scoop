@@ -18,7 +18,7 @@ import { black, white, primary, grayLight, grayDark, grayMed, grayVeryDark } fro
 const Account = ({ navigation }) => {
   const { user, userAuth, mode, setMode } = useContext(UserContext)
 
-  console.log(user)
+  //console.log(user)
   const [dropdown, setDropdown] = useState(false)
   const [modal, setModal] = useState(false)
   const [interests, setInterests] = useState(['Publication', 'Biology Research', 'Dance', 'Photography', 'Art'])

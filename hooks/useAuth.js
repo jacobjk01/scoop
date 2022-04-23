@@ -22,7 +22,7 @@ export const useAuth = () => {
     mode !== 'dev';
 
   useEffect(() => {
-    console.log(mode);
+    //console.log(mode);
     if (hasNotFinishedBareOnboarding) {
       return;
     }

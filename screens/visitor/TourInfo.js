@@ -75,7 +75,7 @@ const TourInfo = ({ navigation, route }) => {
       </View>
     );
   };
-  console.log(tour)
+  //console.log(tour)
   return (
     <View>
       <StatusBar barStyle="dark-content" />
