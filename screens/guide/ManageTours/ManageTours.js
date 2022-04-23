@@ -52,6 +52,8 @@ const validate = (selection, template) => {
 const ManageTours = ({navigation}) => {
   const [tours, setTours] = useState([] || toursData.tours);
   const [modalVisible, setModalVisible] = useState(false)
+  const [removeVisible, setRemoveVisible] = useState(0)
+  const [selectText, setSelectText] = useState('Select')
   const [selection, setSelection] = useState('preset')
   const {
     userAuth,
@@ -185,8 +187,10 @@ const ManageTours = ({navigation}) => {
           <Text style={{marginLeft: 20, fontSize: 24, fontWeight: '700', marginBottom: 35}}>
             Manage Tours
           </Text>
-          <TouchableOpacity style={styles.selectButton}>
-          <Text style={{color: tappableBlue}}>Select</Text>
+          <TouchableOpacity style={styles.selectButton} onPress={()=> {
+            selectText == 'Select' ? setSelectText('Cancel') : setSelectText('Select'),
+            removeVisible == 0 ? setRemoveVisible(100) : setRemoveVisible(0)}}>
+          <Text style={{color: tappableBlue}}>{selectText}</Text>
           </TouchableOpacity>
         </View>
         <View style={{flexDirection: 'row', flexWrap: 'wrap'}}>
@@ -213,17 +217,21 @@ const ManageTours = ({navigation}) => {
             {(tour) => {
                 return(
                   <TouchableOpacity key={tour.id} style={styles.tourCard} onPress={() => navigation.navigate('TourEdit', {tour})}>
+                    <TouchableOpacity style={{zIndex: 10}}>
+                    <Image source = {require('../../../images/remove.png')} 
+                           style={{opacity: removeVisible, marginLeft: -5, marginTop: -10, marginBottom: -10, zIndex: 10, height: 20, width: 20}}/>
+                    </TouchableOpacity>
                     <ImageBackground style={styles.tourImage} source={{uri: tour.src}} imageStyle={{borderRadius: 10}}>
                       <LinearGradient
                         colors={['transparent', black]}
                         style={styles.linearGradTour}
                         />
                     </ImageBackground>
-                    <View style={styles.tourTextSection}>
+                      <View style={styles.tourTextSection}>
                       <Text style={styles.tourTitle}>{tour.name}</Text>
                       <Text style={styles.tourText}>{tour.duration} min | <Ionicons name={'people'} size={12}/> Max {tour.maxPeople} people | <Ionicons name={tour.transportation} size={12}/></Text>
                     </View>
-                  </TouchableOpacity>
+                  </TouchableOpacity>                
                 )
               }}
 
