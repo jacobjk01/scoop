@@ -374,7 +374,6 @@ export const viewAllToursListener = (start = '', limit=99) => {
   }
 
   return tours.orderBy('title').startAt(start).limit(limit).onSnapshot((nextQuerySnapshot) => {
-    console.warn('listener ======================================')
     if (nextQuerySnapshot.empty) {
       console.warn("No tours found!")
     }
@@ -420,12 +419,16 @@ export const getAllTourSettings = async (guideId) => {
 /**
  * gets all tourSettings that guide has created event listener
  * @param {*} guideId 
- * @returns 
+ * @param {(toursettings) => void} cb function with newSettings as parameter
+ * @returns function to cancel the listener
  */
- export const getAllTourSettingsListener = (guideId) => {
+ export const getAllTourSettingsListener = (guideId, cb) => {
+  getAllTourSettings(guideId).then(console.log)
   return db.collectionGroup("tourSettings")
     .where("guide", "==", user(guideId)).onSnapshot(tourSettingsSnapshot => {
-      return querySnapshotFormatter(tourSettingsSnapshot)
+      console.log('asdf')
+      console.log(tourSettingsSnapshot)
+      cb(querySnapshotFormatter(tourSettingsSnapshot))
     })
 }
 
