@@ -198,10 +198,8 @@ const HomePage = ({ navigation }) => {
                 />
               </View>
               <View style={{margin: 5}}>
-                <Text style={{...graySmallText, color: grayDark}}>
-                  Time</Text>
-                <Text style={{...smallBold, color: black}}>
-                  {moment(upcoming.time).format('LT')}</Text>
+                <Text style={{...graySmallText, color: grayDark}}>Time</Text>
+                <Text style={{...smallBold, color: black}}>{moment(upcoming.time).format('LT')}</Text>
               </View>
             </View>
           </View>

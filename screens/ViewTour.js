@@ -6,6 +6,8 @@ import Header from '../components/Header'
 import BottomButton from '../components/BottomButton';
 
 const ViewTour = ({ navigation, route }) => {
+    console.log(route.params.tour, 'view otur')
+    const flow = route.params.flow
     const tour = route.params.tour;
     const curTime = '12:00 PM';
     const activeTour = tour.startTime == curTime ? true : false;
@@ -19,7 +21,6 @@ const ViewTour = ({ navigation, route }) => {
     ]
     return (
       <>
-      <SafeAreaView style={{backgroundColor: primary, flex: 0}}/>
         <SafeAreaView style={{flex:1}}>
             <ScrollView style={{height: '100%', paddingTop: 0}}>
             <Header title='Westwood Tour' navigation={navigation}/>
@@ -34,7 +35,6 @@ const ViewTour = ({ navigation, route }) => {
       </>
     )
 }
-
 
 const renderTourInfo = (tour) => {
     return (
@@ -58,26 +58,25 @@ const renderVisitorInfo = (tour, img) => {
             <View style={{padding: 30}}>
                 <Text style={styles.sectionTitleText}>Visitor Info</Text>
                 <View style={{flexDirection: 'row', flexWrap: 'wrap', paddingLeft: 5}}>
-                    <Image style={styles.profilePicture} source={require('images/trevor.png')}></Image>
-                    <View style={{flex: 1, width: 225}}>
-                        <Text style={styles.nameText}>Trevor</Text>
-                        <Text style={styles.subtext}>Transfer Student</Text>
-                        <Text style={styles.subtext}>Year: Junior</Text>
-                        <Text style={styles.subtext}>Major: Aerospace Engineering</Text>
-                    </View>
-                    <View style={styles.divider}/>
-                    <Image style={styles.profilePicture} source={require('images/natalie.png')}></Image>
-                    <View style={{flex: 1, width: 225}}>
-                        <Text style={styles.nameText}>Natalie</Text>
-                        <Text style={styles.subtext}>Transfer Student</Text>
-                        <Text style={styles.subtext}>Year: Junior</Text>
-                        <Text style={styles.subtext}>Major: Chemical Engineering</Text>
-                    </View>
+                    {renderPerson()}
                 </View>
             </View>
         </View>
     );
 };
+const renderPerson = () => {
+    return(
+        <>
+            <Image style={styles.profilePicture} source={require('images/trevor.png')}></Image>
+            <View style={{flex: 1, width: 225}}>
+                <Text style={styles.nameText}>Trevor</Text>
+                <Text style={styles.subtext}>Transfer Student</Text>
+                <Text style={styles.subtext}>Year: Junior</Text>
+                <Text style={styles.subtext}>Major: Aerospace Engineering</Text>
+            </View>
+        </>
+    )
+}
 
 const renderTextQuadrant = (name, info) => {
     return (
@@ -186,6 +185,7 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         marginTop: 20,
         marginBottom: 5,
+        elevation: 15,
     },
     suggestedItineraryCard: {
         width: '95%',
@@ -199,6 +199,7 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         marginVertical: 10,
         marginBottom: 190,
+        elevation: 15,
     },
     sectionTitleText: {
         fontWeight: '700',

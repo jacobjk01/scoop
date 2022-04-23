@@ -95,7 +95,7 @@ const Home = ({navigation}) => {
                 throw new Error('Missing a parameter')
               }
               return(
-                <TouchableOpacity key={tour.id} style={styles.tourCard} onPress={() => navigation.navigate('ViewTour', {tour})}>
+                <TouchableOpacity key={tour.id} style={styles.tourCard} onPress={() => navigation.navigate('ViewTour', {tour, flow: 'guide'})}>
                   {/* <Image style={styles.tourImage} source={tour.src}></Image> */}
                   <View style={styles.tourTextSection}>
                       <View style={styles.tourDateSection}>

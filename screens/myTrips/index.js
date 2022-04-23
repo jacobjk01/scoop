@@ -3,7 +3,7 @@ import {View, Text, Image, TouchableOpacity, SafeAreaView, ScrollView, FlatList}
 import colors, {black, grayDark, grayLight, grayMed, white, primary} from '../../config/colors';
 import {titleText, graySmallText, smallBold, largeBoldText, linearGrad} from '../../config/typography.js'
 import BackButton from 'components/BackButton';
-import { getVisitorBookings } from '../../api/tours'
+import { getVisitorBookings, getMeetingPt } from '../../api/tours'
 import { UserContext } from '../../contexts'
 import { getParentData } from '../../api/utilities'
 import { getUserByRef } from '../../api/users'
@@ -31,6 +31,7 @@ const MyTrips = ({navigation}) => {
                 Promise.all(tourSettingArray).then((tourSettings) => {
                     let guideArray = []
                     let tourArray = []
+                    let meetingPtArray = []
                     let upcoming = []
                     let past = []
                     let cancelled = []
@@ -38,31 +39,36 @@ const MyTrips = ({navigation}) => {
                     tourSettings.forEach((tourSetting) => {
                         guideArray.push(getUserByRef(tourSetting.guide))
                         tourArray.push(getParentData(tourSetting.ref))
+                        meetingPtArray.push(getMeetingPt(tourSetting.meetingPt))
                     })
                     Promise.all(guideArray).then((guides) => {
                         Promise.all(tourArray).then((tours) => {
-                            bookings.forEach((booking, index) => {
-                                let temp = {}
-                                temp.time = booking.time.toDate()
-                                temp.guide = guides[index]._data.name
-                                temp.tour = tours[index].title
-                                temp.picture = tours[index].picture
-                                console.log(booking.isCancelled)
-                                if (booking.isCancelled){
-                                    cancelled.push(temp)
-                                }
-                                else {
-                                    if (moment(temp.time).isAfter(new Date())){
-                                        upcoming.push(temp)
+                            Promise.all(meetingPtArray).then((meetingPts) => {
+                                bookings.forEach((booking, index) => {
+                                    let temp = {}
+                                    temp.time = booking.time.toDate()
+                                    temp.guide = guides[index]._data
+                                    temp.tour = tours[index]
+                                    temp.picture = tours[index].picture
+                                    temp.visitors = booking.partySize
+                                    temp.meetPt = meetingPts[index].title
+    
+                                    if (booking.isCancelled){
+                                        cancelled.push(temp)
                                     }
-                                    else{
-                                        past.push(temp)
+                                    else {
+                                        if (moment(temp.time).isAfter(new Date())){
+                                            upcoming.push(temp)
+                                        }
+                                        else{
+                                            past.push(temp)
+                                        }
                                     }
-                                }
+                                })
+                                setUpcoming(upcoming)
+                                setPast(past)
+                                setCancelled(cancelled)
                             })
-                            setUpcoming(upcoming)
-                            setPast(past)
-                            setCancelled(cancelled)
                         })
                     })
                 })
@@ -101,21 +107,28 @@ const MyTrips = ({navigation}) => {
                 data={option == 'upcoming'? upcoming : option == 'past' ? past : cancelled}
                 keyExtractor={({item, index}) => index}
                 renderItem={({item, index}) => {
-                    const {tour, guide, picture, time} = item
-
+                    let tour = {}
+                    tour.tourMonth = moment(item.time).format('MMM')
+                    tour.tourDay = moment(item.time).format('DD')
+                    tour.name = item.tour.title
+                    tour.meetPoint = item.meetPt
+                    tour.startTime = moment(item.time).format('LT')
+                    
+                    let flow = 'visitor'
                     return (
                         <TouchableOpacity
                             style={{borderRadius: 15, elevation: 10, backgroundColor: white, marginVertical: 10, marginHorizontal: 20}}
                             key={index}
+                            onPress={() => navigation.navigate('ViewTour', {tour, flow})}
                         >
                             <Image
-                                source={{uri: picture}}
+                                source={{uri: item.tour.picture}}
                                 style={{height: 155, borderTopLeftRadius: 15, borderTopRightRadius: 15}}
                             />
                             <View style={{...styles.textWrapper}}>
-                                <Text style={{fontFamily: 'Helvetica-Bold', fontSize: 18}}>{tour}</Text>
-                                <Text style={{fontSize: 16, paddingVertical: 4}}>Tour Guide : {guide}</Text>
-                                <Text style={{fontSize: 16}}>Date & Time : {moment(time).format('MMM DD LT')}</Text>
+                                <Text style={{fontFamily: 'Helvetica-Bold', fontSize: 18}}>{item.tour.title}</Text>
+                                <Text style={{fontSize: 16, paddingVertical: 4}}>Tour Guide : {item.guide.name}</Text>
+                                <Text style={{fontSize: 16}}>Date & Time : {moment(item.time).format('MMM DD LT')}</Text>
                             </View>
                         </TouchableOpacity>
                     )
