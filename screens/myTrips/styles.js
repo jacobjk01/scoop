@@ -1,4 +1,4 @@
-import { black, grayDark, grayShadow, primary, white } from 'config/colors';
+import { black, gray, primary, white } from 'config/colors';
 import {
   StyleSheet
 } from 'react-native';

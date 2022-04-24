@@ -13,7 +13,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import { UserContext } from 'contexts'
 import { useIsFocused } from '@react-navigation/core';
 import { getPicture } from 'api/users';
-import { primary, black, grayDark, white, grayLight } from 'config/colors';
+import { primary, black, gray, white, lightGray } from 'config/colors';
 
 const ProfileOptions = ({ navigation }) => {
   const { user, userAuth } = useContext(UserContext);
@@ -122,7 +122,7 @@ const renderTabCard = (navigation, iconName, title) => {
         <Ionicons
           name='chevron-forward-outline'
           size={20}
-          color={grayDark}
+          color={gray}
           style={{
             position: 'absolute',
             right: 0,
@@ -137,14 +137,14 @@ const styles = StyleSheet.create({
   divider: {
     position: 'relative',
     width: '100%',
-    borderBottomColor: grayLight,
+    borderBottomColor: lightGray,
     borderBottomWidth: 1,
   },
   guideImage: {
     width: 100,
     height: 100,
     borderRadius: 100,
-    backgroundColor: grayDark,
+    backgroundColor: gray,
     position: 'absolute',
     bottom: 70,
   },

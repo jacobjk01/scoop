@@ -1,7 +1,8 @@
 import React from 'react'
 import { SafeAreaView, View, Text, StyleSheet, TouchableOpacity, Image, ScrollView } from 'react-native'
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { primary, white, grayDark, black, grayVeryLight, grayVeryDark, grayShadow } from '../config/colors';
+import { primary, white, gray, black, darkGray } from '../config/colors';
+import {bold24, bold18, bold20} from '../../config/typography.js'
 import Header from '../components/Header'
 import BottomButton from '../components/BottomButton';
 
@@ -23,7 +24,7 @@ const ViewTour = ({ navigation, route }) => {
       <>
         <SafeAreaView style={{flex:1}}>
             <ScrollView style={{height: '100%', paddingTop: 0}}>
-            <Header title='Westwood Tour' navigation={navigation}/>
+            <Header title='Westwood Tour' navigation={navigation} backgroundColor={white} color={primary}/>
                 {activeTour ? null : renderTourInfo(tour)}
                 {renderVisitorInfo(tour)}
                 {activeTour ? renderItinerary(itinerary) : null}
@@ -105,7 +106,7 @@ const renderItinerary = (itinerary) => {
                             <View style={styles.verticalLine}/> : null
                         }
                         <View style={styles.textSection}>
-                            <Text style={styles.titleText}>
+                            <Text style={styles.bold24}>
                                 {item.name}
                             </Text>
                             <Text style={styles.descriptionText}>
@@ -147,19 +148,6 @@ const styles = StyleSheet.create({
         color: white,
         top: 50,
         fontWeight: '700',
-    },
-    backIcon: {
-        backgroundColor: white,
-        borderRadius: 10,
-        borderColor: grayVeryLight,
-        borderWidth: 1,
-        position: 'absolute',
-        left: 20,
-        top: 40,
-        width: 40,
-        height: 40,
-        alignItems: 'center',
-        justifyContent: 'center',
     },
     tourInfoCard: {
         width: '95%',
@@ -219,7 +207,7 @@ const styles = StyleSheet.create({
     sectionInfoSubtitleText: {
         fontWeight: '400',
         fontSize: 14,
-        color: grayDark,
+        color: gray,
         paddingVertical: 5,
     },
     sectionInfoText: {
@@ -241,7 +229,7 @@ const styles = StyleSheet.create({
     divider: {
         marginTop: 20,
         marginBottom: 20,
-        borderBottomColor: grayDark,
+        borderBottomColor: gray,
         borderBottomWidth: 1,
         width: '100%',
     },
@@ -269,7 +257,7 @@ const styles = StyleSheet.create({
     descriptionText: {
         fontWeight: '400',
         fontSize: 14,
-        color: grayVeryDark,
+        color: darkGray,
         marginTop: 10,
     },
     verticalLine: {
@@ -289,7 +277,7 @@ const styles = StyleSheet.create({
         height: 50,
         justifyContent: 'center',
         borderRadius: 10,
-        shadowColor: grayShadow,
+        shadowColor: black,
         shadowOffset: {width: 2, height: 2},
         shadowOpacity: 0.8,
         shadowRadius: 3,

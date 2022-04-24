@@ -14,7 +14,7 @@ import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
 import { Marker } from 'react-native-maps';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import LinearGradient from 'react-native-linear-gradient';
-import { primary, white, grayDark, black, red, grayShadow } from 'config/colors';
+import { primary, white, gray, black, red } from 'config/colors';
 import { styles } from './styles';
 import Foreground from './Foreground';
 import Header from './Header';

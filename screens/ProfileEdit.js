@@ -16,7 +16,7 @@ import { useNavigation } from '@react-navigation/native';
 import { UserContext } from '../contexts';
 import { getPicture, changeName, changePicture, changeMajor, changeYear, changeIntro, changeLanguages, changeHometown } from '../api/users';
 import {request, check, PERMISSIONS, RESULTS} from 'react-native-permissions';
-import { primary, grayDark, white, black, grayShadow, grayVeryDark } from '../config/colors';
+import { primary, gray, white, black, darkGray } from '../config/colors';
 import BackButton from 'components/BackButton';
 
 const AccountEdit = ({navigation}) => {
@@ -112,35 +112,35 @@ const AccountEdit = ({navigation}) => {
   const renderGuideBio = (user) => {
     return (
       <View style={{ paddingTop: 10, paddingBottom: 80 }}>
-        <Text style={styles.titleText}>
+        <Text style={styles.bold24}>
           {'First Name'}
         </Text>
         <TextInput style={styles.input} placeholder='Edit your name' maxLength={50}
           onChangeText={name => setName(name)}>
           {user.name}
         </TextInput>
-        <Text style={styles.titleText}>
+        <Text style={styles.bold24}>
           {'Year'}
         </Text>
         <TextInput style={styles.input} placeholder='Select Year' maxLength={200}
           onChangeText={year => setYear(year)}>
           {user.year}
         </TextInput>
-        <Text style={styles.titleText}>
+        <Text style={styles.bold24}>
           {'Major'}
         </Text>
         <TextInput style={styles.input} placeholder='Edit your major' maxLength={50}
           onChangeText={major => setMajor(major)}>
           {user.major}
         </TextInput>
-        <Text style={styles.titleText}>
+        <Text style={styles.bold24}>
           {'Intro'}
         </Text>
         <TextInput style={styles.inputIntro} placeholder='Tell us about yourself!' multiline={true} maxLength={200}
           onChangeText={intro => setIntro(intro)}>
           {user.intro}
         </TextInput>
-        <Text style={styles.titleText}>
+        <Text style={styles.bold24}>
           {'Hometown'}
         </Text>
         <TextInput style={styles.input} placeholder='Edit your hometown' maxLength={50}
@@ -169,7 +169,7 @@ const AccountEdit = ({navigation}) => {
       <TouchableOpacity
         onPress={() => handlePhotoPicker('BACKGROUND')}
         style={{position: 'absolute', right: 25, top: 120}}>
-        <Ionicons name={'camera'} size={25} color={grayDark}/>
+        <Ionicons name={'camera'} size={25} color={gray}/>
       </TouchableOpacity>
       {renderGuideImage(profilePicture)}
       <View
@@ -224,7 +224,7 @@ const styles = StyleSheet.create({
     position: 'relative',
     marginTop: 20,
     marginBottom: 0,
-    borderBottomColor: grayDark,
+    borderBottomColor: gray,
     borderBottomWidth: 1,
     width: '92%',
   },
@@ -233,7 +233,7 @@ const styles = StyleSheet.create({
     height: 45,
     width: '92%',
     borderWidth: 1,
-    borderColor: grayDark,
+    borderColor: gray,
     borderRadius: 7,
     paddingLeft: 15,
     marginTop: 10,
@@ -244,7 +244,7 @@ const styles = StyleSheet.create({
     minHeight: 0,
     width: '92%',
     borderWidth: 1,
-    borderColor: grayDark,
+    borderColor: gray,
     borderRadius: 7,
     paddingHorizontal: 15,
     marginTop: 10,
@@ -255,7 +255,7 @@ const styles = StyleSheet.create({
     width: 100,
     height: 100,
     borderRadius: 100,
-    backgroundColor: grayDark,
+    backgroundColor: gray,
     marginLeft: 'auto',
     marginRight: 'auto',
     marginTop: '25%',
@@ -274,7 +274,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Helvetica',
     marginTop: 10,
   },
-  titleText: {
+  bold24: {
     fontSize: 18,
     fontWeight: '400',
     paddingLeft: 10,
@@ -284,23 +284,23 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     marginTop: 30,
   },
-  subtitleText: {
+  subbold24: {
     fontSize: 14,
     fontWeight: '400',
     marginTop: 5,
     fontStyle: 'italic',
-    color: grayDark,
+    color: gray,
   },
   bodyText: {
     fontSize: 16,
     fontWeight: '400',
     left: 52,
-    color: grayVeryDark,
+    color: darkGray,
     top: -5,
     paddingBottom: 40,
   },
   addIcon: {
-    color: grayVeryDark,
+    color: darkGray,
     fontSize: 25,
     position: 'relative',
     left: 25,
@@ -312,7 +312,7 @@ const styles = StyleSheet.create({
     height: 50,
     justifyContent: 'center',
     borderRadius: 10,
-    shadowColor: grayShadow,
+    shadowColor: black,
     shadowOffset: {width: 2, height: 2},
     shadowOpacity: 0.8,
     shadowRadius: 3,

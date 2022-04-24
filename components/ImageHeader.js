@@ -6,7 +6,7 @@ import {
     Text,
     ImageBackground,
 } from 'react-native';
-import { primary, white, black, grayDark, grayMed } from 'config/colors';
+import { primary, white, black, gray } from 'config/colors';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const ImageHeader = ({navigation, title, image}) => {

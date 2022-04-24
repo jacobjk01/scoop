@@ -11,7 +11,7 @@ import {
   FlatList,
   TextInput,
 } from 'react-native';
-import { black, white, primary, grayLight, grayDark } from '../../config/colors';
+import { black, white, primary, lightGray, gray } from '../../config/colors';
 
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
 import { Marker } from 'react-native-maps';
@@ -21,6 +21,7 @@ import moment from 'moment';
 import { viewTourSettings} from '../../api/tours';
 import Header from '../../components/Header'
 import BottomButton from '../../components/BottomButton';
+import BackButton from 'components/BackButton';
 /*
 Parameters:
 tour: {"description": "Get to know the neighborhood: where to grocery shop, where the best hangout places are, and where to grab a bite with your fellow hungry bruins.", "id": "4Wey5tUxBInxLq4tZRlS", "picture": "https://pbs.twimg.com/media/EFG56vjU4AAJ_xL?format=jpg&name=4096x4096", "title": "Westwood Tour"}
@@ -230,9 +231,9 @@ const TourBooking2 = ({navigation, route}) => {
       return(
         <Text 
           style={{
-            color: grayLight,
+            color: lightGray,
             borderWidth: 2,
-            borderColor: grayLight,
+            borderColor: lightGray,
             paddingHorizontal: 17,
             paddingVertical: 10,
             fontSize: 18,
@@ -248,9 +249,9 @@ const TourBooking2 = ({navigation, route}) => {
       return(
         <Text 
           style={{
-            color: grayLight,
+            color: lightGray,
             borderWidth: 2,
-            borderColor: grayLight,
+            borderColor: lightGray,
             paddingHorizontal: 17,
             paddingVertical: 10,
             fontSize: 18,
@@ -386,9 +387,9 @@ const TourBooking2 = ({navigation, route}) => {
               paddingHorizontal: 10,
               alignSelf: 'center',
               marginTop: 10,
-              borderColor: grayDark,
+              borderColor: gray,
               borderRadius: 10,
-              color: grayDark,
+              color: gray,
               fontSize: 16,
             }}>
             Please Select a Time
@@ -414,11 +415,7 @@ const TourBooking2 = ({navigation, route}) => {
           showsUserLocation
           initialRegion={region}
           onRegionChangeComplete={onRegionChange}></MapView>
-        <TouchableOpacity
-          style={[styles.backIcon, {backgroundColor: primary}]}
-          onPress={() => closeModal()}>
-          <Ionicons name="chevron-back-outline" size={20} color={white} />
-        </TouchableOpacity>
+        <BackButton navigation={navigation}/>
         <View
           pointerEvents="none"
           style={{
@@ -527,7 +524,7 @@ const TourBooking2 = ({navigation, route}) => {
                           style={{
                             borderWidth: 1,
                             borderRadius: 20,
-                            borderColor: grayLight,
+                            borderColor: lightGray,
                           }}>
                           <Ionicons
                             name="chevron-back-outline"
@@ -543,7 +540,7 @@ const TourBooking2 = ({navigation, route}) => {
                           style={{
                             borderWidth: 1,
                             borderRadius: 20,
-                            borderColor: grayLight,
+                            borderColor: lightGray,
                           }}>
                           <Ionicons
                             name="chevron-forward-outline"
@@ -843,19 +840,6 @@ const styles = StyleSheet.create({
     shadowOffset: {width: 2, height: 2},
     shadowOpacity: 0.8,
     shadowRadius: 3,
-  },
-  backIcon: {
-    backgroundColor: white,
-    borderRadius: 10,
-    borderColor: 'white',
-    borderWidth: 1,
-    position: 'absolute',
-    left: 20,
-    top: 20,
-    width: 45,
-    height: 45,
-    alignItems: 'center',
-    justifyContent: 'center',
   },
   line: {
     width: '95%',

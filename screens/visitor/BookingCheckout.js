@@ -1,4 +1,4 @@
-import { black, grayDark, grayMed, primary, white } from 'config/colors';
+import { black, gray, primary, white } from 'config/colors';
 import moment from 'moment';
 import React, { useContext, useState, useEffect } from 'react';
 import {
@@ -12,7 +12,7 @@ import { bookTour } from '../../api/tours';
 import BottomButton from '../../components/BottomButton';
 import Header from '../../components/Header';
 import { UserContext } from '../../contexts';
-import { grayMedText, largeBoldText, linearGrad, smallBold, titleText } from '../../config/typography.js';
+import { bold20, bold18, bold24 } from '../../config/typography.js';
 import { getMeetingPt } from '../../api/tours';
 
 const Checkout = ({navigation, route}) => {
@@ -58,7 +58,7 @@ const Checkout = ({navigation, route}) => {
                 />
                 <View style={{marginTop: 'auto', marginBottom: 'auto'}}>
                   <Text style={{fontFamily: 'Helvetica-Bold', color: black, fontSize: 18,}}>{tour.title}</Text>
-                  <Text style={{fontSize: 15, color: grayMed}}>with {guide.name}</Text>
+                  <Text style={{fontSize: 15, color: gray}}>with {guide.name}</Text>
                 </View>
               </View>
               <View style={{display: 'flex', flexDirection: 'row', marginTop: 30, marginLeft: '10%'}}>
@@ -92,14 +92,14 @@ const Checkout = ({navigation, route}) => {
 
             {/*Bottom area*/}
             {/* <View style={{marginBottom: 80}}>
-              <Text style={{...smallBold, color: black, marginTop: 40, marginLeft: 30, marginRight: 'auto'}}>
+              <Text style={{...bold18, color: black, marginTop: 40, marginLeft: 30, marginRight: 'auto'}}>
                 Select Payment Method
               </Text>
               <TouchableOpacity 
                 style={{display: 'flex', flexDirection: 'row', marginLeft: 40, marginTop: 17, marginBottom: 5}}
                 onPress={() => setPayOption(false)}
               >
-                <View style={{width: 22, height: 22, borderRadius: 25, borderWidth: 1, borderColor: grayDark}}>
+                <View style={{width: 22, height: 22, borderRadius: 25, borderWidth: 1, borderColor: gray}}>
                   {showDot(false)}
                 </View>
                 <Text style={{fontSize: 15, color: black, marginLeft: 10}}>Venmo</Text>
@@ -108,7 +108,7 @@ const Checkout = ({navigation, route}) => {
                 style={{display: 'flex', flexDirection: 'row', marginLeft: 40, marginTop: 15, marginBottom: 43}}
                 onPress={() => setPayOption(true)}
               >
-                <View style={{width: 22, height: 22, borderRadius: 25, borderWidth: 1, borderColor: grayDark}}>
+                <View style={{width: 22, height: 22, borderRadius: 25, borderWidth: 1, borderColor: gray}}>
                   {showDot(true)}
                 </View>
                 <Text style={{fontSize: 15, color: black, marginLeft: 10}}>Cash</Text>
@@ -145,7 +145,7 @@ const Checkout = ({navigation, route}) => {
             <Text style={{color: primary, fontSize: 16, fontFamily: 'Helvetica-Bold', marginLeft: 'auto', marginRight: 'auto', marginBottom: 5}}>
               Confirmed!
             </Text>
-            <View style={[styles.divider, {borderBottomWidth: 1.5, borderColor: grayMed}]}></View>
+            <View style={[styles.divider, {borderBottomWidth: 1.5, borderColor: gray}]}></View>
             <Text style={{fontSize: 15, width: 250, marginLeft: 'auto', marginRight: 'auto', textAlign: 'center', marginTop: 20, marginBottom: 10}}>
               <Text style={{}}>
                 Your tour on 
@@ -177,38 +177,18 @@ const styles = StyleSheet.create({
   },
   infoTitle: {
     fontSize: 16,
-    color: grayMed,
+    color: gray,
     paddingVertical: 4
   },
   info: {
     fontSize: 18,
     fontFamily: 'Helvetica-Bold'
   },
-  backIcon: {
-    backgroundColor: white,
-    borderRadius: 10,
-    borderColor: 'white',
-    borderWidth: 1,
-    position: 'absolute',
-    left: 20,
-    top: 22,
-    width: 40,
-    height: 40,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  titleText: {
-    marginLeft: 'auto',
-    marginRight: 'auto',
-    fontSize: 27,
-    color: white,
-    fontFamily: 'Helvetica-Bold'
-  },
   divider: {
     width: '80%',
     marginLeft: 'auto',
     marginRight: 'auto',
-    borderBottomColor: grayMed,
+    borderBottomColor: gray,
     borderBottomWidth: 1,
   },
   image: {
@@ -273,7 +253,7 @@ const styles = StyleSheet.create({
     marginBottom: 'auto',
     marginTop: 'auto',
     borderWidth: 1,
-    borderColor: grayMed,
+    borderColor: gray,
 
   },
   confirmText: {
@@ -285,7 +265,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Helvetica-Bold'
   },
   disabledConfirmText: {
-    color: grayMed,
+    color: gray,
     marginLeft: 'auto',
     marginRight: 'auto',
     marginTop: 'auto',

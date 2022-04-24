@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from 'react';
 import {View, Text, Image, TouchableOpacity, SafeAreaView, ScrollView, FlatList} from 'react-native'
-import colors, {black, grayDark, grayLight, grayMed, white, primary} from '../../config/colors';
-import {titleText, graySmallText, smallBold, largeBoldText, linearGrad} from '../../config/typography.js'
+import {black, gray, white, primary} from '../../config/colors';
+import {bold24, bold18, bold20} from '../../config/typography.js'
 import BackButton from 'components/BackButton';
 import { getVisitorBookings, getMeetingPt } from '../../api/tours'
 import { UserContext } from '../../contexts'
@@ -9,7 +9,6 @@ import { getParentData } from '../../api/utilities'
 import { getUserByRef } from '../../api/users'
 import moment from 'moment'
 import { styles } from './styles';
-
 
 const MyTrips = ({navigation}) => {
     const [option, setOption] = useState('upcoming')
@@ -83,7 +82,7 @@ const MyTrips = ({navigation}) => {
                 style={{backgroundColor: option === type?"#98AAD2":white, paddingHorizontal: 18, borderRadius: 30, paddingVertical: 10, marginHorizontal: 5}}
                 onPress={() => setOption(type)}
             >
-                <Text style={{fontSize: 16, color: option === type?primary:grayMed}}>
+                <Text style={{fontSize: 16, color: option === type?primary:gray}}>
                     {type.charAt(0).toUpperCase() + type.slice(1)}
                 </Text>
             </TouchableOpacity>
@@ -93,7 +92,7 @@ const MyTrips = ({navigation}) => {
         <SafeAreaView style={{backgroundColor: white, height: '100%', width: '100%'}}>
             <BackButton navigation={navigation}/>
             <View style={{paddingHorizontal: 20, marginTop: 100}}>
-                <Text style={{...titleText}}>
+                <Text style={{...bold24}}>
                     My Trips
                 </Text>
                 <View style={{display: 'flex', flexDirection: 'row', marginTop: 15}}>

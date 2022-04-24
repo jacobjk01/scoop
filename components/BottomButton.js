@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, TouchableOpacity, Text } from 'react-native';
-import { primary, white, black, grayDark, grayMed, grayShadow, grayLight } from 'config/colors';
+import { primary, white, black, lightGray } from 'config/colors';
 
 const BottomButton = (params) => {
     let disabled
@@ -35,17 +35,17 @@ const BottomButton = (params) => {
                     height: 50,
                     justifyContent: 'center',
                     borderRadius: 10,
-                    shadowColor: grayShadow,
+                    shadowColor: black,
                     shadowOffset: { width: 2, height: 2 },
-                    shadowOpacity: 0.8,
+                    shadowOpacity: 0.5,
                     shadowRadius: 3,
                     elevation: 10,
                     borderWidth: 1,
-                    borderColor:disabled?grayLight:primary
+                    borderColor:disabled?lightGray:primary
                 }}
                 onPress={params.onPress}
             >
-                <Text style={{ alignSelf: 'center', color: disabled?grayLight:white, fontFamily: 'Helvetica-Bold', fontSize: 18 }}>
+                <Text style={{ alignSelf: 'center', color: disabled?lightGray:white, fontFamily: 'Helvetica-Bold', fontSize: 18 }}>
                     {params.title}
                 </Text>
             </TouchableOpacity>

@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {Text, View, StyleSheet, TextInput, TouchableOpacity} from 'react-native'
 import InvertibleScrollView from 'react-native-invertible-scroll-view';
-import { primary, white, black, grayMed, grayLightBlue } from 'config/colors';
+import { primary, white, black, gray } from 'config/colors';
 import Ionicons from 'react-native-vector-icons/Ionicons'
 
 function Conversation(props) {
@@ -105,7 +105,7 @@ const styles = StyleSheet.create({
     enemy: {
         backgroundColor: white,
         alignSelf: 'flex-start',
-        shadowColor: grayMed,
+        shadowColor: gray,
         shadowOpacity: 0.2,
         shadowOffset: {
             width: 0,
@@ -134,7 +134,7 @@ const styles = StyleSheet.create({
         marginRight: 10,
         borderRadius: 25,
         borderColor: white,
-        backgroundColor: grayLightBlue
+        backgroundColor: primary
     },
     send: {
     }

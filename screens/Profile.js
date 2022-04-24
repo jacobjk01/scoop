@@ -19,8 +19,8 @@ import {withSafeAreaInsets} from 'react-native-safe-area-context';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import LinearGradient from 'react-native-linear-gradient';
 import Reviews from '../components/Reviews';
-import { primary, grayDark, white, black, tappableBlue, grayLight, grayMed } from '../config/colors';
-import {titleText, graySmallText, smallBold, mediumBold, largeBoldText, linearGrad, mediumLight} from '../config/typography.js'
+import { primary, gray, white, black, lightGray } from '../config/colors';
+import {bold24, bold18, bold20} from '../config/typography.js'
 import reviewData from '../data/reviews';
 import { getUser, getUserById } from '../api/users';
 import { viewMyTours, getTour } from '../api/tours';
@@ -115,7 +115,7 @@ const Profile = ({ navigation, route }) => {
             colors={['transparent', black]}
             style={styles.linearGradTour}
           />
-          <Text style={{...smallBold, color: white}}>{tour.title}</Text>
+          <Text style={{...bold18, color: white}}>{tour.title}</Text>
         </ImageBackground>
       </TouchableOpacity>
     );
@@ -144,7 +144,7 @@ const Profile = ({ navigation, route }) => {
             style={{position: 'absolute', right: 10, top: 130}}
             onPress={() => {navigation.navigate('ProfileEdit')}}
           >
-            <Text style={{ color: grayDark}}>Edit <Ionicons name={'pencil'} size={16} /></Text>
+            <Text style={{ color: gray}}>Edit <Ionicons name={'pencil'} size={16} /></Text>
           </TouchableOpacity>
         }
         <Text style={{ fontSize: 22, fontWeight: '700', marginTop: 5 }}>{guide.name}</Text>
@@ -214,7 +214,7 @@ const Profile = ({ navigation, route }) => {
             <>
               <View style={styles.divider} />
               <View style={{display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginTop: 20}}>
-                <Text style={{...mediumBold, marginLeft: 5}}>Tours</Text>
+                <Text style={{...bold18, marginLeft: 5}}>Tours</Text>
                 <ViewAll navigaton={navigation}/>
               </View>
               <FlatList
@@ -227,7 +227,7 @@ const Profile = ({ navigation, route }) => {
                 <Text
                   style={{
                     fontSize: 18,
-                    color: grayLight,
+                    color: lightGray,
                   }}
                 >
                   No Available Tours
@@ -238,7 +238,7 @@ const Profile = ({ navigation, route }) => {
           <View style={styles.divider} />
           <View>
             <Text
-              style={{...mediumBold, marginTop: 20, marginLeft: 5}}>
+              style={{...bold18, marginTop: 20, marginLeft: 5}}>
               {"Hi, I'm " + guide.name + '!'}
             </Text>
 
@@ -272,7 +272,7 @@ const Profile = ({ navigation, route }) => {
           </View>
           <View style={styles.divider} />
           <Text
-            style={{...mediumBold, marginVertical: 20, marginLeft: 5}}>
+            style={{...bold18, marginVertical: 20, marginLeft: 5}}>
             {'Reviews:'}
           </Text>
         </View>
@@ -300,7 +300,7 @@ const styles = StyleSheet.create({
   divider: {
     marginLeft: 'auto',
     marginRight: 'auto',
-    borderBottomColor: grayDark,
+    borderBottomColor: gray,
     borderBottomWidth: 1,
     width: '90%'
   },
@@ -332,19 +332,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     display: 'flex',
     justifyContent: 'flex-end'
-  },
-  backIcon: {
-    backgroundColor: '#3154A5',
-    borderRadius: 10,
-    borderColor: 'white',
-    borderWidth: 1,
-    position: 'absolute',
-    left: 20,
-    top: 40,
-    width: 40,
-    height: 40,
-    alignItems: 'center',
-    justifyContent: 'center',
   },
   tourText: {
     width: 200,

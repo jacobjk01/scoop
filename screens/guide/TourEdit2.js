@@ -1,7 +1,8 @@
 import React from 'react'
 import { SafeAreaView, Text, StyleSheet, View, TouchableOpacity, ScrollView } from 'react-native'
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { primary, white, grayVeryLight, grayVeryDark } from 'config/colors'
+import { primary, white, darkGray } from 'config/colors'
+import BackButton from 'components/BackButton';
 
 
 const TourEdit2 = ({ navigation }) => {
@@ -27,11 +28,7 @@ const renderHeader = (navigation, title) => {
     return (
         <View style={styles.header}>
             <Text style={styles.headerText}>{title}</Text>
-            <TouchableOpacity
-                style={styles.backIcon}
-                onPress={() => navigation.goBack()}>
-                <Ionicons name='chevron-back-outline' size={20} color={primary} />
-            </TouchableOpacity>
+            <BackButton navigaton={navigation}/>
         </View>
     );
 };
@@ -47,7 +44,7 @@ const renderItinerary = (itinerary) => {
                             <View style={styles.verticalLine}/> : null
                         }
                         <View style={styles.textSection}>
-                            <Text style={styles.titleText}>
+                            <Text style={styles.bold24}>
                                 {item.name}
                             </Text>
                             <Text style={styles.descriptionText}>
@@ -77,19 +74,6 @@ const styles = StyleSheet.create({
         top: 50,
         fontWeight: '700',
     },
-    backIcon: {
-        backgroundColor: white,
-        borderRadius: 10,
-        borderColor: grayVeryLight,
-        borderWidth: 1,
-        position: 'absolute',
-        left: 20,
-        top: 40,
-        width: 40,
-        height: 40,
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
     content: {
         marginHorizontal: 30,
         marginVertical: 70,
@@ -106,14 +90,10 @@ const styles = StyleSheet.create({
     textSection: {
         marginLeft: 35,
     },
-    titleText: {
-        fontWeight: '700',
-        fontSize: 16,
-    },
     descriptionText: {
         fontWeight: '400',
         fontSize: 14,
-        color: grayVeryDark,
+        color: darkGray,
         marginTop: 10,
     },
     verticalLine: {

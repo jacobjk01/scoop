@@ -3,13 +3,13 @@ import { TouchableOpacity } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { primary, white } from 'config/colors';
 //Note: THIS BACKBUTTON IS ONLY FOR THE BLUE BACKBUTTONS THAT ARE NOT PART OF THE COMPONENT: <Header/>
-function BackButton({navigation}) {
+function BackButton({navigation, backgroundColor, color}) {
     return (
         <TouchableOpacity
             style={{
-                backgroundColor: primary,
+                backgroundColor: backgroundColor? backgroundColor: primary,
                 borderRadius: 10,
-                borderColor: 'white',
+                borderColor: color?color: white,
                 borderWidth: 1,
                 position: 'absolute',
                 left: 20,
@@ -22,7 +22,7 @@ function BackButton({navigation}) {
                 elevation: 100,
             }}
             onPress={() => navigation.goBack()}>
-            <Ionicons name="chevron-back-outline" size={22} color={'white'} />
+            <Ionicons name="chevron-back-outline" size={22} color={color? color:white} />
         </TouchableOpacity>
     );
 }

@@ -1,6 +1,6 @@
 import React from 'react';
 import {View, ScrollView, SafeAreaView, Text, StyleSheet} from 'react-native';
-import { primary, white, grayDark, black } from 'config/colors';
+import { primary, white, gray, black } from 'config/colors';
 import BackButton from 'components/BackButton';
 import GuidesMsgSection from 'components/GuidesMsgSection';
 import tourGuides from 'data/tourGuides';
@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
   },
   bottomLine: {
     paddingBottom: 20,
-    borderBottomColor: grayDark,
+    borderBottomColor: gray,
     borderBottomWidth: 1,
   }
 })
