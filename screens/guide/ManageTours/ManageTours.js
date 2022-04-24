@@ -82,7 +82,7 @@ const ManageTours = ({navigation}) => {
     }
   }, [])
 
-  useEffect(async () => {
+  useEffect(() => {
     const cancel = getAllTourSettingsListener(userAuth.uid, async tourSettings => {
       console.log(tourSettings.map(item => item.id))
       const _tours = [] 

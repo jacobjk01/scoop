@@ -32,9 +32,12 @@ const AccountEdit = ({navigation}) => {
   const [backgroundPicture, setBackgroundPicture] = useState(null);
   const isFocused = useIsFocused();
 
-  useEffect(async () => {
+  useEffect(() => {
     // setProfilePicture(await getPicture(userAuth.uid, 'profilePicture'));
-    setBackgroundPicture(await getPicture(userAuth.uid, 'backgroundPicture'));
+    const asyncBackgroundPicture = async  () => {
+      setBackgroundPicture(await getPicture(userAuth.uid, 'backgroundPicture'));
+    }
+    asyncBackgroundPicture()
   }, [isFocused])
 
   saveFields = () => {

@@ -80,13 +80,13 @@ const HomePage = ({ navigation }) => {
                               bookingIndex = index
                             }
                       })
-                      let temp = {}
-                      temp.time = bookings[bookingIndex].time.toDate()
-                      temp.guide = guides[bookingIndex]._data.name
-                      temp.tour = tours[bookingIndex].title
-                      temp.tourPicture = tours[bookingIndex].picture
-                      temp.guidePicture = guides[bookingIndex]._data.profilePicture
-                      setUpcoming(temp)
+                      setUpcoming({
+                        time: bookings[bookingIndex].time.toDate(),
+                        guide: guides[bookingIndex]._data.name,
+                        tour: tours[bookingIndex].title,
+                        tourPicture: tours[bookingIndex].picture,
+                        guidePicture: guides[bookingIndex]._data.profilePicture
+                      })
                     }
                   })
               })

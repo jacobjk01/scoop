@@ -49,14 +49,17 @@ export const useAuth = () => {
     };
   }, [hasNotFinishedBareOnboarding]);
 
-  useEffect(async () => {
-    if (hasNotFinishedBareOnboarding) {
-      return;
+  useEffect(() => {
+    const asyncGetUser = async () => {
+      if (hasNotFinishedBareOnboarding) {
+        return;
+      }
+      if (userAuth) {
+        const currentUser = await getUser(userAuth);
+        setUser({ ...currentUser.data() });
+      }
     }
-    if (userAuth) {
-      const currentUser = await getUser(userAuth);
-      setUser({ ...currentUser.data() });
-    }
+    asyncGetUser()
   }, [userAuth]);
 
   return {
