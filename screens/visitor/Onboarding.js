@@ -90,7 +90,7 @@ export default  ({navigation}) => {
                     borderBottomRightRadius: dropdown == true? 0: 5,borderBottomLeftRadius: dropdown == true? 0: 5, }}
                     onPress={() => setDropdown(!dropdown)}
                 >
-                    <Text style={{marginRight: 'auto', fontSize: 18, color: data[index]!='-'?black:gray}}>{data[index]}</Text>
+                    <Text style={{marginRight: 'auto', ...reg16, color: data[index]!='-'?black:gray}}>{data[index]}</Text>
                     {dropdownIcon()}
                 </TouchableOpacity>
                 {dropdown && 
