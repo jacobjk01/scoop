@@ -37,7 +37,7 @@ import Feedback from './screens/Feedback';
 import Account from './screens/Account';
 import Profile from './screens/Profile';
 import ProfileEdit from './screens/ProfileEdit';
-import MyTrips from './screens/myTrips';
+import MyTrips from './screens/MyTrips';
 import LogOut from './screens/LogOut';
 
 //guide imports
