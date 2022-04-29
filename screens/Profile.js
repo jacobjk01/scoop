@@ -19,7 +19,7 @@ import {withSafeAreaInsets} from 'react-native-safe-area-context';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import LinearGradient from 'react-native-linear-gradient';
 import Reviews from '../components/Reviews';
-import { primary, gray, white, black, lightGray } from '../config/colors';
+import { primary, gray, white, black, lightGray, tappableBlue } from '../config/colors';
 import {bold24, bold18, bold20} from '../config/typography.js'
 import reviewData from '../data/reviews';
 import { getUser, getUserById } from '../api/users';
@@ -244,7 +244,7 @@ const Profile = ({ navigation, route }) => {
 
             <Text
               style={{
-                color: '#9B9BA7',
+                color: gray,
                 fontSize: 14,
                 fontStyle: 'italic',
                 marginVertical: 5,
@@ -255,7 +255,7 @@ const Profile = ({ navigation, route }) => {
               style={{backgroundColor: 'white', width: '100%'}}>
               {/* {!seeMore && (
                 <LinearGradient
-                  colors={['#ffffff00', 'white']}
+                  colors={['#ffffff00', white]}
                   style={styles.linearGradText}
                 />
               )} */}
@@ -383,7 +383,7 @@ const styles = StyleSheet.create({
   },
   seeMoreButton: {
     marginTop: 10,
-    color: '#007BBA',
+    color: tappableBlue,
     alignSelf: 'center',
     textDecorationLine: 'underline',
   },

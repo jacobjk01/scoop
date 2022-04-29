@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-
+import {black, gray, white, primary} from '../config/colors';
 import {
   View,
   StyleSheet,
@@ -21,7 +21,7 @@ const Reviews = props => {
           style={{
             marginTop: 5,
             fontSize: 14,
-            color: '#9B9BA7',
+            color: gray,
             fontStyle: 'italic',
           }}>
           {item.item.tourName} - {item.item.year}

@@ -13,7 +13,7 @@ import { UserContext } from '../contexts';
 import SigninButton from '../components/SigninButton';
 import SignoutButton from '../components/SignoutButton';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { black, white, primary, gray, darkGray } from '../config/colors';
+import { black, white, primary, gray, darkGray, backgroundGray } from '../config/colors';
 
 const Account = ({ navigation }) => {
   const { user, userAuth, mode, setMode } = useContext(UserContext)
@@ -199,7 +199,7 @@ const Account = ({ navigation }) => {
                 </Text>
               </TouchableOpacity>
               <TouchableOpacity
-                style={{ borderRadius: 10, backgroundColor: '#F2F2F2', paddingVertical: 15, width: '90%' }}
+                style={{ borderRadius: 10, backgroundColor: backgroundGray, paddingVertical: 15, width: '90%' }}
                 onPress={() => setModal(false)}
               >
                 <Text style={{ fontFamily: 'Helvetica-Bold', fontSize: 18, color: black, alignSelf: 'center' }}>
@@ -221,7 +221,7 @@ const styles = StyleSheet.create({
   },
   dropdownTitle: {
     fontSize: 15,
-    color: '#456ECD',
+    color: gray,
     fontFamily: 'Helvetica-Bold'
   },
   dropdownInfo: {

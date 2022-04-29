@@ -14,7 +14,7 @@ import {
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import LinearGradient from 'react-native-linear-gradient';
-import { primary, white, lightGray, black, grayVeryLight, gray } from 'config/colors';
+import { primary, white, lightGray, black, grayVeryLight, gray, backgroundGray } from 'config/colors';
 import GuideProfile from '../Profile';
 import { Calendar } from 'react-native-calendars';
 import moment from 'moment';
@@ -523,7 +523,7 @@ const TourBooking1 = ({navigation, route}) => {
   };
 
   return (
-    <SafeAreaView style={{backgroundColor: '#E5E5E5'}}>
+    <SafeAreaView style={{backgroundColor: backgroundGray}}>
       <FlatList
         style={{height: '100%'}}
         ListHeaderComponent={
@@ -679,7 +679,7 @@ const TourBooking1 = ({navigation, route}) => {
                       }}>
                       <View
                         style={{
-                          backgroundColor: '#F2f2f2',
+                          backgroundColor: backgroundGray,
                           display: 'flex',
                           flexDirection: 'row',
                           marginLeft: 'auto',
@@ -921,7 +921,7 @@ const styles = StyleSheet.create({
   calenderLine: {
     width: '90%',
     height: 0.75,
-    backgroundColor: '#D9D9D9',
+    backgroundColor: lightGray,
     position: 'absolute',
     top: 95,
     alignSelf: 'center',

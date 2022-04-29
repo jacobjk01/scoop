@@ -11,7 +11,7 @@ import {
   FlatList,
   TextInput,
 } from 'react-native';
-import { black, white, primary, lightGray, gray } from '../../config/colors';
+import { black, white, primary, lightGray, gray, backgroundGray } from '../../config/colors';
 
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
 import { Marker } from 'react-native-maps';
@@ -281,7 +281,7 @@ const TourBooking2 = ({navigation, route}) => {
                   styles.innerCircle,
                   {
                     backgroundColor:
-                      selectedMeet == 0 ? '#3154A5' : 'white',
+                      selectedMeet == 0 ? primary : white,
                   },
                 ]}></View>
             </TouchableOpacity>
@@ -292,7 +292,7 @@ const TourBooking2 = ({navigation, route}) => {
           </View>
           <View
             pointerEvents="none"
-            style={{height: 90, backgroundColor: 'grey', marginTop: 10}}>
+            style={{height: 90, backgroundColor: backgroundGray, marginTop: 10}}>
             <MapView
               style={{flex: 1}}
               provider={PROVIDER_GOOGLE}
@@ -314,7 +314,7 @@ const TourBooking2 = ({navigation, route}) => {
             </MapView>
             <Text
               style={{
-                color: '#EA4336',
+                color: primary,
                 position: 'absolute',
                 top: 10,
                 left: 175,
@@ -332,14 +332,14 @@ const TourBooking2 = ({navigation, route}) => {
                   styles.innerCircle,
                   {
                     backgroundColor:
-                      selectedMeet == 1 ? '#3154A5' : 'white',
+                      selectedMeet == 1 ? primary : white,
                   },
                 ]}></View>
             </TouchableOpacity>
             <Text style={{marginLeft: 10, marginTop: 2}}>Select:</Text>
           </View>
           <TouchableOpacity
-            style={{height: 90, backgroundColor: 'grey', marginTop: 10}}
+            style={{height: 90, backgroundColor: backgroundGray, marginTop: 10}}
             onPress={() => openModal()}>
             <MapView
               pointerEvents="none"
@@ -364,7 +364,7 @@ const TourBooking2 = ({navigation, route}) => {
             <View style={[styles.shader, {height: 90, opacity: 0.5}]}></View>
             <Text
               style={{
-                color: 'white',
+                color: white,
                 fontWeight: '700',
                 fontSize: 18,
                 position: 'absolute',
@@ -399,7 +399,7 @@ const TourBooking2 = ({navigation, route}) => {
     }
   };
   return (
-    <SafeAreaView style={{backgroundColor: '#E5E5E5'}}>
+    <SafeAreaView style={{backgroundColor: backgroundGray}}>
       <Modal
         animationType="slide"
         visible={modalVisible}
@@ -415,7 +415,6 @@ const TourBooking2 = ({navigation, route}) => {
           showsUserLocation
           initialRegion={region}
           onRegionChangeComplete={onRegionChange}></MapView>
-        <BackButton navigation={navigation}/>
         <View
           pointerEvents="none"
           style={{
@@ -465,7 +464,7 @@ const TourBooking2 = ({navigation, route}) => {
             />
 
             {/*Header_________________________________________________________________ */}
-            <Header title='Booking' navigation={navigation}/>
+            <Header title='Booking' navigation={navigation} backgroundColor={white} color={primary}/>
             <View>
               <View style={{height: 100, flex: 1, position: 'relative'}}>
                 <ImageBackground
@@ -642,7 +641,7 @@ const TourBooking2 = ({navigation, route}) => {
                   disabled={visitorCount == 1 ? true : false}>
                   <Ionicons
                     name="remove-outline"
-                    color={visitorCount == 1 ? '#9B9BA7' : 'white'}
+                    color={visitorCount == 1 ? gray : white}
                     style={{
                       alignSelf: 'center',
                       marginTop: 'auto',
@@ -688,7 +687,7 @@ const TourBooking2 = ({navigation, route}) => {
                 <TextInput
                   style={{
                     flex: 1,
-                    borderColor: '#9B9BA7',
+                    borderColor: gray,
                     borderRadius: 10,
                     borderWidth: 1,
                     marginTop: 20,
@@ -764,7 +763,7 @@ const styles = StyleSheet.create({
     height: 20,
     top: 20,
     right: 80,
-    backgroundColor: '#3154A5',
+    backgroundColor: primary,
     color: white,
     borderWidth: 1,
     borderRadius: 4,
@@ -775,8 +774,8 @@ const styles = StyleSheet.create({
     height: 20,
     top: 20,
     right: 80,
-    backgroundColor: 'white',
-    borderColor: '#9B9BA7',
+    backgroundColor: white,
+    borderColor: gray,
     borderWidth: 1,
     borderRadius: 4,
   },
@@ -791,7 +790,7 @@ const styles = StyleSheet.create({
     height: 20,
     right: 30,
     top: 20,
-    backgroundColor: '#3154A5',
+    backgroundColor: primary,
     borderRadius: 4,
   },
   backCard: {
@@ -802,7 +801,7 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     marginRight: 10,
     //ios only
-    shadowColor: '#000000',
+    shadowColor: black,
     shadowOffset: {width: 1, height: 1},
     shadowOpacity: 0.2,
     shadowRadius: 5,
@@ -820,7 +819,7 @@ const styles = StyleSheet.create({
     width: 20,
     height: 20,
     borderWidth: 1,
-    borderColor: '#9B9BA7',
+    borderColor: gray,
     borderRadius: 50,
     justifyContent: 'center',
     alignContent: 'center',
@@ -832,19 +831,19 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   continue: {
-    backgroundColor: '#3154A5',
+    backgroundColor: primary,
     height: 50,
     justifyContent: 'center',
     borderRadius: 10,
-    shadowColor: '#adadad',
+    shadowColor: black,
     shadowOffset: {width: 2, height: 2},
-    shadowOpacity: 0.8,
+    shadowOpacity: 0.2,
     shadowRadius: 3,
   },
   line: {
     width: '95%',
     height: 1,
-    backgroundColor: '#D9D9D9',
+    backgroundColor: lightGray,
     position: 'absolute',
     top: 125,
     alignSelf: 'center',
@@ -853,7 +852,7 @@ const styles = StyleSheet.create({
   calenderLine: {
     width: '90%',
     height: 0.75,
-    backgroundColor: '#D9D9D9',
+    backgroundColor: lightGray,
     position: 'absolute',
     top: 130,
     alignSelf: 'center',
