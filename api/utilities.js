@@ -8,7 +8,7 @@ export async function update(collection, id, key, value) {
             [key]: value
         })
     } catch(err) {
-        console.log(err)
+        //console.log(err)
         return false
     }
     return true

@@ -11,7 +11,7 @@ import uuid from 'react-native-uuid';
 
 export default ({ navigation }) => {
   const { mode, setMode } = useContext(UserContext);
-  // const timerLog = () => console.log('timer starts')
+  // const timerLog = () => //console.log('timer starts')
   // const [timer, setTimer] = useState(null)
   const [topic, setTopic] = useState(null);
   const [description, setDescription] = useState("");

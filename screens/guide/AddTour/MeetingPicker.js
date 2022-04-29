@@ -17,12 +17,12 @@ const MeetingPicker = (props) => {
   function close() {
     pickerRef.current.blur();
   }
-  console.log(meetingPts)
+  //console.log(meetingPts)
   return <Picker
   selectedValue={meetingPts[value].title}
   onValueChange={(itemValue, itemIndex) => {
 
-    console.log(itemIndex)
+    //console.log(itemIndex)
     setValue(itemIndex)
   }}>
     {meetingPts.map((meetingPt, i) => {

@@ -55,7 +55,7 @@ export const bookTour = async (tourSettingRef, partySize, visitorId, comment) =>
   }
   const visitor = user(visitorId);
   const booking = tourSettingRef.collection("bookings").doc();
-  //console.log(booking.id)
+  ////console.log(booking.id)
   booking.set({
     visitor,
     partySize,
@@ -67,11 +67,7 @@ export const bookTour = async (tourSettingRef, partySize, visitorId, comment) =>
   })
 }
 
-//TODO? cancel a tour setting? cancel a tour? or cancel a booking?
-// for visitor and guide 
-export const cancelTour = async (tourSettingRef, userId) => {
-  throw new Error("Feature not implemented")
-}
+
 
 //TODO - need to show only available tours
 export const viewAvailableTours = async () => {
@@ -88,6 +84,29 @@ export const getVisitorBookings = async (visitorId) => {
   const queryTourSettingSnapshots = await db.collectionGroup("bookings").where("visitor", "==", user(visitorId)).orderBy("time","desc").get()
   return querySnapshotFormatter(queryTourSettingSnapshots)
 }
+
+/**
+ * views an list of bookings that are not completed in descending order
+ * @note Doesn't scale, need to limit results
+ * @param {*} visitorId 
+ * @returns 
+ */
+ export const getVisitorBookingsNotCompleted = async (visitorId) => {
+  const queryTourSettingSnapshots = await db.collectionGroup("bookings").where("visitor", "==", user(visitorId)).where("isCompleted","==", false).orderBy("time","desc").get()
+  return querySnapshotFormatter(queryTourSettingSnapshots)
+}
+
+/**
+ * views an list of bookings that are completed in descending order
+ * @note Doesn't scale, need to limit results
+ * @param {*} visitorId 
+ * @returns 
+ */
+ export const getVisitorBookingsCompleted = async (visitorId) => {
+  const queryTourSettingSnapshots = await db.collectionGroup("bookings").where("visitor", "==", user(visitorId)).where("isCompleted","==", true).orderBy("time","desc").get()
+  return querySnapshotFormatter(queryTourSettingSnapshots)
+}
+
 //guide Functions
 /**
  * gets the first tours sorted by title, starting at variable 'parameter' and ending  
@@ -259,7 +278,7 @@ export const duplicateTour = async (
  */
 export const getGuideBookings : Promise <{id : any,isCancelled : any,isCompleted : any,partySize : any,ref : any,time : any,visitor : any}> = async (guideId) => {
   const tourSettingsSnapshot = await db.collectionGroup("tourSettings").where("guide", "==", user(guideId)).get()
-  console.log("Number of tourSettings with " + guideId + ": " + tourSettingsSnapshot.size)
+  ////console.log("Number of tourSettings with " + guideId + ": " + tourSettingsSnapshot.size)
   var guideBookings = []
   for (let i = 0; i < tourSettingsSnapshot.docs.length; i++) {
     let queryDocumentSnapshot = tourSettingsSnapshot.docs[i];
@@ -268,7 +287,7 @@ export const getGuideBookings : Promise <{id : any,isCancelled : any,isCompleted
     guideBookings = guideBookings.concat(querySnapshotFormatter(c));
 
   }
-  console.log(guideBookings)
+  ////console.log(guideBookings)
   return guideBookings.sort((a,b) => a.time > b.time)
 }
 
@@ -296,9 +315,71 @@ export const switchTour = async (guideId, tourId, tourId2) => {
   });
 }
 
+/**
+ * sets the a booking to completed
+ * @param {*} tourId 
+ * @param {*} tourSettingId 
+ * @param {*} bookingId 
+ */
+export const completeTour = async (tourId, tourSettingId, bookingId) => {
+  try {
+    await tours.doc(tourId).collection('tourSettings').doc(tourSettingId).collection('bookings').doc(bookingId).set({
+      isCompleted: true
+    }, {merge: true})
+  } catch (e) {
+    console.error(e)
+  }
+}
+
+/**
+ * sets the a booking to canceled (and completed)
+ * @param {*} tourId 
+ * @param {*} tourSettingId 
+ * @param {*} bookingId 
+ */
+export const cancelTour = async (tourId, tourSettingId, bookingId) => {
+  try {
+    await tours.doc(tourId).collection('tourSettings').doc(tourSettingId).collection('bookings').doc(bookingId).set({
+      isCompleted: true,
+      isCancelled: true
+    }, {merge: true})
+  } catch (e) {
+    console.error(e)
+  }
+}
 
 
+//event listeners
+/**
+ * gets the first tours sorted by title, starting at variable 'parameter' and ending  
+ * @param {docId} start defaults to '', expects the documentReference id
+ * @param {number} limit defaults to 99
+ * @returns The listener can be cancelled by calling the function that is returned when onSnapshot is called.
+ */
+export const viewAllToursListener = (start = '', limit=99) => {
+  // if (start !== '') {
+  //   start = await tours.doc(start).get()
+  // }
 
+  const onNext = (next) => {
+
+  }
+
+  const onCompletion = () => {
+
+  }
+
+  const onError = () => {
+
+  }
+
+  return tours.orderBy('title').startAt(start).limit(limit).onSnapshot((nextQuerySnapshot) => {
+    if (nextQuerySnapshot.empty) {
+      console.warn("No tours found!")
+    }
+    ////console.log(nextQuerySnapshot.docs.map(item => item.id))
+  })
+}
 
 
 
@@ -330,8 +411,25 @@ export const getBooking = async (guideId, tourId, userId) => {
  * @returns 
  */
 export const getAllTourSettings = async (guideId) => {
-  const tourSettingsSnapshot = await db.collectionGroup("tourSettings").where("guide", "==", user(guideId)).get()
+  const tourSettingsSnapshot = await db.collectionGroup("tourSettings")
+    .where("guide", "==", user(guideId)).get()
   return querySnapshotFormatter(tourSettingsSnapshot)
+}
+
+/**
+ * gets all tourSettings that guide has created event listener
+ * @param {*} guideId 
+ * @param {(toursettings) => void} cb function with newSettings as parameter
+ * @returns function to cancel the listener
+ */
+ export const getAllTourSettingsListener = (guideId, cb) => {
+  getAllTourSettings(guideId).then(console.log)
+  return db.collectionGroup("tourSettings")
+    .where("guide", "==", user(guideId)).onSnapshot(tourSettingsSnapshot => {
+      console.log('asdf')
+      console.log(tourSettingsSnapshot)
+      cb(querySnapshotFormatter(tourSettingsSnapshot))
+    })
 }
 
 

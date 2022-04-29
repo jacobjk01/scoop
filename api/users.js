@@ -27,7 +27,7 @@ export const getUser = async userAuth => {
     }
     return user;
   } catch (e) {
-    console.log(e);
+    //console.log(e);
   }
 };
 
@@ -44,7 +44,7 @@ export const getUserData = async userAuth => {
     }
     return null;
   } catch (e) {
-    console.log(e);
+    //console.log(e);
   }
 };
 
@@ -64,7 +64,7 @@ export const getPicture = async (uid, type) => {
       .ref('/' + uid + '/' + type)
       .getDownloadURL();
   } catch (e) {
-    console.log(e);
+    //console.log(e);
   }
 };
 
@@ -79,7 +79,7 @@ export const createPrivateData = async uid => {
       payment: 100,
     });
   } catch (e) {
-    console.log(e);
+    //console.log(e);
   }
 };
 
@@ -93,7 +93,7 @@ export const changeName = async (uid, name) => {
   try {
     return await update(Users, uid, 'name', name);
   } catch (e) {
-    console.log(e);
+    //console.log(e);
   }
 };
 
@@ -110,7 +110,7 @@ export const changePicture = async (uid, picture, type) => {
       .ref(uid + '/' + type)
       .putFile(picture);
   } catch (e) {
-    console.log(e);
+    //console.log(e);
   }
 };
 
@@ -124,7 +124,7 @@ export const changeMajor = async (uid, major) => {
   try {
     return await update(Users, uid, 'major', major);
   } catch (e) {
-    console.log(e);
+    //console.log(e);
   }
 };
 
@@ -138,7 +138,7 @@ export const changeYear = async (uid, year) => {
   try {
     return await update(Users, uid, 'year', year);
   } catch (e) {
-    console.log(e);
+    //console.log(e);
   }
 };
 
@@ -152,7 +152,7 @@ export const changeIntro = async (uid, intro) => {
   try {
     return await update(Users, uid, 'intro', intro);
   } catch (e) {
-    console.log(e);
+    //console.log(e);
   }
 };
 
@@ -168,7 +168,7 @@ export const changeLanguages = async (uid, languages) => {
   try {
     return await update(Users, uid, 'languages', languages);
   } catch (e) {
-    console.log(e);
+    //console.log(e);
   }
 };
 
@@ -182,7 +182,7 @@ export const changeHometown = async (uid, hometown) => {
   try {
     return await update(Users, uid, 'hometown', hometown);
   } catch (e) {
-    console.log(e);
+    //console.log(e);
   }
 };
 
@@ -198,7 +198,7 @@ export const changeTours = async (uid, tours) => {
   try {
     return await update(Users, uid, 'tours', tours);
   } catch (e) {
-    console.log(e);
+    //console.log(e);
   }
 };
 
@@ -217,7 +217,7 @@ export const searchGuides = searchQuery => {
       /*      */
     })
     .then(() => {
-      console.log('Searched!');
+      //console.log('Searched!');
     })
     .catch(err => {
       console.error(err);

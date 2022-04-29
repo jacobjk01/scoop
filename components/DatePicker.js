@@ -16,7 +16,7 @@ export default ({setDates, dates, title}) => {
         onConfirm={(date) => {
           setOpen(false)
           setDate(date)
-          console.log(date)
+          //console.log(date)
           setDates([...dates, date])
         }}
         onCancel={() => {

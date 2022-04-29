@@ -39,6 +39,6 @@ describe('app', () => {
 describe('api/tours', () => {
   it('view tour settings', async () => {
     const f = await viewTourSettings()
-    console.log(f);
+    //console.log(f);
   });
 })

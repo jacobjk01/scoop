@@ -33,7 +33,7 @@ const HomePage = ({ navigation }) => {
   //guides is a query snapshot, use foreach and .data() for data.
   const [guides, setGuides] = useState();
   const [upcoming, setUpcoming] = useState();
-  console.log(upcoming)
+  //console.log(upcoming)
   useEffect(() => {
     let isMounted = true
     // Gets list of tours
@@ -81,13 +81,13 @@ const HomePage = ({ navigation }) => {
                               bookingIndex = index
                             }
                       })
-                      let temp = {}
-                      temp.time = bookings[bookingIndex].time.toDate()
-                      temp.guide = guides[bookingIndex]._data.name
-                      temp.tour = tours[bookingIndex].title
-                      temp.tourPicture = tours[bookingIndex].picture
-                      temp.guidePicture = guides[bookingIndex]._data.profilePicture
-                      setUpcoming(temp)
+                      setUpcoming({
+                        time: bookings[bookingIndex].time.toDate(),
+                        guide: guides[bookingIndex]._data.name,
+                        tour: tours[bookingIndex].title,
+                        tourPicture: tours[bookingIndex].picture,
+                        guidePicture: guides[bookingIndex]._data.profilePicture
+                      })
                     }
                   })
               })

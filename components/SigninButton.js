@@ -11,7 +11,7 @@ export default function SigninButton(){
     color={GoogleSigninButton.Color.Dark}
     onPress={async () => {
         await signIn().catch(err => {
-            console.log(err)
+            //console.log(err)
         })
     }}
     disabled={userAuth ? true : false}

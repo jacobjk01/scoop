@@ -29,9 +29,13 @@ const ViewTour = ({ navigation, route }) => {
                 {renderVisitorInfo(tour)}
                 {activeTour ? renderItinerary(itinerary) : null}
             </ScrollView>
-            {activeTour ? renderCompleteButton() : null}
+            {activeTour ? <CompleteButton /> : null}
             
-            <BottomButton title='Complete This Tour' onPress={() => {}}/>
+            <BottomButton title='Complete This Tour' onPress={() => {
+              completeTour(tour.tourId, tour.settingId, tour.id).then(() => {
+                navigation.pop();
+              })
+            }}/>
         </SafeAreaView>
       </>
     )
@@ -123,7 +127,7 @@ const renderItinerary = (itinerary) => {
     );
 };
 
-const renderCompleteButton = () => {
+const CompleteButton = () => {
     return (
         <TouchableOpacity
           style={styles.continue}

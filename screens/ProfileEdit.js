@@ -32,9 +32,12 @@ const AccountEdit = ({navigation}) => {
   const [backgroundPicture, setBackgroundPicture] = useState(null);
   const isFocused = useIsFocused();
 
-  useEffect(async () => {
+  useEffect(() => {
     // setProfilePicture(await getPicture(userAuth.uid, 'profilePicture'));
-    setBackgroundPicture(await getPicture(userAuth.uid, 'backgroundPicture'));
+    const asyncBackgroundPicture = async  () => {
+      setBackgroundPicture(await getPicture(userAuth.uid, 'backgroundPicture'));
+    }
+    asyncBackgroundPicture()
   }, [isFocused])
 
   saveFields = () => {
@@ -56,19 +59,19 @@ const AccountEdit = ({navigation}) => {
       .then((result) => {
         switch (result) {
           case RESULTS.UNAVAILABLE:
-            console.log('Photo Library: This feature is not available (on this device / in this context)');
+            //console.log('Photo Library: This feature is not available (on this device / in this context)');
             break;
           case RESULTS.DENIED:
-            console.log('Photo Library: The permission has not been requested / is denied but requestable');
+            //console.log('Photo Library: The permission has not been requested / is denied but requestable');
             break;
           case RESULTS.LIMITED:
-            console.log('Photo Library: The permission is limited: some actions are possible');
+            //console.log('Photo Library: The permission is limited: some actions are possible');
             break;
           case RESULTS.GRANTED:
-            console.log('Photo Library: The permission is granted');
+            //console.log('Photo Library: The permission is granted');
             break;
           case RESULTS.BLOCKED:
-            console.log('Photo Library: The permission is denied and not requestable anymore');
+            //console.log('Photo Library: The permission is denied and not requestable anymore');
             break;
         }
       })
@@ -85,11 +88,11 @@ const AccountEdit = ({navigation}) => {
     const ImagePicker = require('react-native-image-picker');
     ImagePicker.launchImageLibrary(options, (response) => {
       if (response.didCancel) {
-        console.log('User cancelled image picker');
+        //console.log('User cancelled image picker');
       } else if (response.errorCode) {
-        console.log('ImagePicker Error: ', response.errorCode);
+        //console.log('ImagePicker Error: ', response.errorCode);
       } else if (response.customButton) {
-        console.log('User tapped custom button: ', response.customButton);
+        //console.log('User tapped custom button: ', response.customButton);
         alert(response.customButton);
       } else {
         const data = response.assets[0];
@@ -201,7 +204,7 @@ const renderGuideImage = (profilePicture) => {
     >
       <TouchableOpacity
         onPress={() => {handlePhotoPicker('PROFILE')
-        console.log('press')
+        //console.log('press')
       }}
         style={{alignSelf: 'center', justifyContent: 'center', zIndex: 1, height: '100%', width: '100%', zIndex: 100}}
       >

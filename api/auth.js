@@ -126,7 +126,7 @@ const signInReturnData = {
 Don't use this function, rely on the onAuthChange function
 */
 // export const getCurrentUser = async () => {
-//     console.log('getCurrentUser being called')
+//     //console.log('getCurrentUser being called')
 //     const userInfo = await GoogleSignin.signInSilently();
 //     if (userInfo) {
 //         return userInfo
