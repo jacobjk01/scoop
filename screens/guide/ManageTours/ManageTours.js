@@ -23,7 +23,7 @@ import colors from 'config/colors';
 import toursData from 'data/toursData';
 import {color} from 'react-native-reanimated';
 import { getUser } from 'api/users';
-import { getAllTourSettings } from 'api/tours';
+import { getAllTourSettings, getAllTourSettingsListener, viewAllToursListener } from 'api/tours';
 import { onAuthStateChanged } from 'api/auth';
 import { white, black, darkGray, gray, tappableBlue } from 'config/colors';
 import {bold24, bold18, bold20} from '../../config/typography.js'
@@ -75,27 +75,33 @@ const ManageTours = ({navigation}) => {
       })
       setOptions(titles);
     }
-    getTours()
+    //console.log('===begin')
+    const cancel = viewAllToursListener()
+    
     return () => {
+      cancel()
     }
   }, [])
 
-  useEffect(async () => {
-    const tourSettings = await getAllTourSettings(userAuth.uid)
-    const _tours = [] 
-    //should be more optimal that running through a for loop
-    const parents = await Promise.all(tourSettings.map(tourSetting => getParentData(tourSetting.ref))) 
-    for (let i = 0; i < tourSettings.length; i++) {
-      _tours.push({
-        src: parents[i].picture,
-        id: tourSettings[i].id,
-        name: parents[i].title || "Missing Name",
-        duration: tourSettings[i].duration || 0,
-        transportation: tourSettings[i].transportation,
-        maxPeople: tourSettings[i].maxPeople,
-      })
-    }
-    setTours(_tours)
+  useEffect(() => {
+    const cancel = getAllTourSettingsListener(userAuth.uid, async tourSettings => {
+      console.log(tourSettings.map(item => item.id))
+      const _tours = [] 
+      //should be more optimal that running through a for loop
+      const parents = await Promise.all(tourSettings.map(tourSetting => getParentData(tourSetting.ref))) 
+      for (let i = 0; i < tourSettings.length; i++) {
+        _tours.push({
+          src: parents[i].picture,
+          id: tourSettings[i].id,
+          name: parents[i].title || "Missing Name",
+          duration: tourSettings[i].duration || 0,
+          transportation: tourSettings[i].transportation,
+          maxPeople: tourSettings[i].maxPeople,
+        })
+      }
+      setTours(_tours)
+    })    
+    return cancel
   }, [userAuth])
 
   const renderModalButtonCard = ( buttonTitle, setState, state, desiredState) => {
@@ -130,7 +136,7 @@ const ManageTours = ({navigation}) => {
             if (!validate(selection, template)) return
             setModalVisible(false)
             setTemplate('')
-            console.log(_template)
+            //console.log(_template)
             navigation.navigate('AddTour', _template);
           }} isDisabled={template === ''}/>
         </Pressable>
@@ -173,6 +179,7 @@ const ManageTours = ({navigation}) => {
                 selectedValue={template}
                 setSelectedValue={setTemplate}
                 />
+                
                 /*<Dropdown selectedValue={template} setSelectedValue={setTemplate} options={options} visibility={dropdown} setVisibility={setDropdown} />*/
               }
 

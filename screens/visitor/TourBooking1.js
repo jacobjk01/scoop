@@ -99,9 +99,9 @@ const TourBooking1 = ({navigation, route}) => {
               temp.push(tempObject)
             }
           }
-          console.log(temp)
+          //console.log(temp)
           // temp = quickSort(temp)
-          // console.log(temp)
+          // //console.log(temp)
           setInfo(temp)
       });
     }
@@ -252,7 +252,7 @@ const TourBooking1 = ({navigation, route}) => {
       type: item.type
     }
     const handleOnPress = () => {
-      console.log(guide)
+      //console.log(guide)
       navigation.navigate('Profile', {tour, guide, selectedDay, pageType: 'tourFlow'})
     };
     return (

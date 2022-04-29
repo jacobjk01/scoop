@@ -21,7 +21,7 @@ const TourDropdown = ({selectedValue, setSelectedValue}) => {
     <SelectDropdown
       data={options}
       onSelect={(selectedItem, index) => {
-        console.log(selectedItem, index)
+        //console.log(selectedItem, index)
       }}
       buttonTextAfterSelection={(selectedItem, index) => {
         // text represented after item is selected

@@ -26,7 +26,8 @@ const TourEdit = ({navigation, route}) => {
     let temp = slots
     temp[0][0] = true
     setSlots(temp)
-    return () => {console.log(slots)}
+    return () => {//console.log(slots)
+    }
   }, [])
 
   const whatDay = (i) => {

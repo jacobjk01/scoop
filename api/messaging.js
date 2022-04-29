@@ -113,7 +113,7 @@ export const sendMessage = async (text, conversationId, senderId) => {
     }
     const Msg = msg(conversationId);
     const asdf = await Msg.add(verifiedMessage);
-    console.log(asdf);
+    //console.log(asdf);
 }
 
 /**

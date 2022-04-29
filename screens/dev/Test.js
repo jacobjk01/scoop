@@ -25,7 +25,8 @@ import {
     addTour,
     editTour,
     duplicateTour,
-    getGuideBookings
+    getGuideBookings,
+    getVisitorBookingsNotCompleted
 } from '../../api/tours';
 
 export default function Test() {
@@ -39,6 +40,7 @@ export default function Test() {
     const [userIntro, setUserIntro] = useState('currently userIntro is not set');
     let visitorId = 'CBBI3gdPl2Q88GF1G6RGsO8pXpG3'; //Joshua
     let userId = visitorId
+    let jonId = 'bVkVyZQ5cXTrw83zpBfpNvpVThX2'
     let guideId2 = visitorId;
     let guideId = 'bVkVyZQ5cXTrw83zpBfpNvpVThX2'; //Josh
     let tour = tours[0]
@@ -81,7 +83,7 @@ export default function Test() {
         })
         var unsubscribe2 = onConversationChange('VzHN35zMK9qXAk1vT82j', snapshot => {
             snapshot.docChanges().forEach(change => {
-                // console.log(change)
+                // //console.log(change)
             })
         })
 
@@ -96,6 +98,13 @@ export default function Test() {
             <ScrollView>
 
                 <Text>Tour Api</Text>
+                <Button onPress={async () => {
+                    getVisitorBookingsNotCompleted(jonId).then(//console.log
+                    )
+                  }}
+                  title="random"
+
+                />
                 <Button
                     title="viewTourSettings"
                     onPress={async () => {
@@ -103,7 +112,7 @@ export default function Test() {
                         try {
                             const tours = await viewAvailableTours();
                             const tourSettings = await viewTourSettings(tours[0].id);
-                            console.log(tourSettings)
+                            //console.log(tourSettings)
                         } catch (err) {
                             console.error(err)
                         }
@@ -117,7 +126,8 @@ export default function Test() {
                             const tours = await viewAvailableTours();
                             const processedTourSettings = await viewTourSettings(tours[0].id);
                             const guides = await convertToGuides(processedTourSettings)
-                            guides.forEach(console.log)
+                            guides.forEach(//console.log
+                            )
                         } catch (err) {
                             console.error(err)
                         }
@@ -130,7 +140,7 @@ export default function Test() {
                             const tours = await viewAvailableTours();
                             const processedTourSettings = await viewTourSettings(tours[0].id);
                             const meetingPt = await getMeetingPt(processedTourSettings[0].meetingPt)
-                            console.log(meetingPt)
+                            //console.log(meetingPt)
                         } catch (err) {
                             console.error(err)
                         }
@@ -143,7 +153,7 @@ export default function Test() {
                         try {
                             const tours = await viewAvailableTours();
                             const tourSettings = await viewTourSettings(tours[0].id);
-                            console.log(convertToTourSummary(tourSettings))
+                            //console.log(convertToTourSummary(tourSettings))
                         } catch (err) {
                             console.error(err)
                         }
@@ -156,7 +166,7 @@ export default function Test() {
                             const tours = await viewAvailableTours();
                             const tourSettings = await viewTourSettings(tours[0].id);
                             let partySize = 1;
-                            console.log(tourSettings[0])
+                            //console.log(tourSettings[0])
                             bookTour(tourSettings[0].ref, partySize, visitorId);
                         } catch (err) {
                             console.error(err)
@@ -180,7 +190,7 @@ export default function Test() {
                     onPress={async () => {
                         try {
                             const available = await viewAvailableTours();
-                            console.log(available)
+                            //console.log(available)
 
                         } catch (err) {
                             console.error(err)
@@ -193,7 +203,7 @@ export default function Test() {
                     onPress={async () => {
                         try {
                             const visitorBookings = await getVisitorBookings(guideId)
-                            console.log(visitorBookings)
+                            //console.log(visitorBookings)
 
                         } catch (err) {
                             console.error(err)
@@ -206,7 +216,7 @@ export default function Test() {
                     onPress={async () => {
                         try {
                             const allTours = await viewAllTours()
-                            console.log(allTours)
+                            //console.log(allTours)
 
                         } catch (err) {
                             console.error(err)
@@ -219,7 +229,7 @@ export default function Test() {
                     onPress={async () => {
                         try {
                             const myTours = await viewMyTours(guideId)
-                            console.log(myTours)
+                            //console.log(myTours)
 
                         } catch (err) {
                             console.error(err)
@@ -232,7 +242,7 @@ export default function Test() {
                     onPress={async () => {
                         try {
                             const attractions = await getAttractions(tourId)
-                            console.log(attractions)
+                            //console.log(attractions)
 
                         } catch (err) {
                             console.error(err)
@@ -245,7 +255,7 @@ export default function Test() {
                     onPress={async () => {
                         try {
                             const meetingPts = await getMeetingPts(tourId)
-                            console.log(meetingPts)
+                            //console.log(meetingPts)
 
                         } catch (err ) {
                             console.error(err)
@@ -271,7 +281,7 @@ export default function Test() {
                                 timeAvailable,
                                 transportation
                             )
-                            console.log(tour)
+                            //console.log(tour)
                         } catch (err) {
                             console.error(err)
                         }
@@ -299,7 +309,7 @@ export default function Test() {
                                 timeAvailable,
                                 transportation
                             )
-                            console.log(tour)
+                            //console.log(tour)
                         } catch (err) {
                             console.error(err)
                         }
@@ -316,7 +326,7 @@ export default function Test() {
                             const tour = await archiveTour(
                                 tourSettingRef
                             )
-                            console.log(tour)
+                            //console.log(tour)
                         } catch (err) {
                             console.error(err)
                         }
@@ -340,7 +350,7 @@ export default function Test() {
                                 timeAvailable,
                                 transportation
                             )
-                            console.log(tour)
+                            //console.log(tour)
                         } catch (err) {
                             console.error(err)
                         }
@@ -354,7 +364,7 @@ export default function Test() {
                             const guideBookings = await getGuideBookings(
                                 guideId
                             )
-                            console.log(guideBookings)
+                            //console.log(guideBookings)
                         } catch (err) {
                             console.error(err)
                         }
@@ -375,7 +385,7 @@ export default function Test() {
                     color={GoogleSigninButton.Color.Dark}
                     onPress={async () => {
                         await signIn().catch(err => {
-                            console.log(err)
+                            //console.log(err)
                         })
                     }}
                     disabled={userAuth ? true : false}
@@ -394,9 +404,9 @@ export default function Test() {
                             if (await changeName(userAuth.uid, "Josh")) {
                                 const user = await getUser(userAuth);
                                 setUserName(user.data().name)
-                                console.log("Name successfully changed")
+                                //console.log("Name successfully changed")
                             } else {
-                                console.log("There was an error in changing the name")
+                                //console.log("There was an error in changing the name")
                             }
                     }}
                     />
@@ -404,9 +414,9 @@ export default function Test() {
                         title="Create Private Data"
                         onPress={async () => {
                             if (await createPrivateData(userAuth.uid)) {
-                                console.log("Private data subcollection creation success")
+                                //console.log("Private data subcollection creation success")
                             } else {
-                                console.log("There was an error creating private data")
+                                //console.log("There was an error creating private data")
                             }
                     }}
                     />
@@ -432,7 +442,7 @@ export default function Test() {
                         } else {
                             try {
                                 const user = await getUser(userAuth);
-                                console.log(user)
+                                //console.log(user)
                                 if (user.data()) {
                                     setUserType(user.data().type);
                                 } else {

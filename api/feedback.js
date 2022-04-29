@@ -10,7 +10,7 @@ const Feedback = db().collection("feedback");
 export const sendFeedback = async(id, topic, message)=>{
     
     if(!(topic && message)){
-        console.log("missing parameter")
+        //console.log("missing parameter")
         return;
     }
     else{
@@ -41,12 +41,12 @@ export const editFeedback = async(id) => {
 }
 
 export const sortFeedback =async()=>{
-    console.log('feedback');
+    //console.log('feedback');
     Feedback.orderBy('timestamp').get().then(doc=>{
-        // console.log(doc.docs.length)
+        // //console.log(doc.docs.length)
         for(let i = 0; i < doc.docs.length; i++){
-            console.log(i);
-            console.log(doc.docs[i].data());
+            //console.log(i);
+            //console.log(doc.docs[i].data());
         }
     
     });
