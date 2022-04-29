@@ -35,14 +35,6 @@ export default ({ navigation }) => {
       textAlign: "center",
       padding: 22,
     },
-    dropdownButton: {
-      width: "100%",
-      height: 40,
-      borderRadius: 10,
-      //  backgroundColor: "#FFF", 
-      borderWidth: 1,
-      borderColor: "#D9D9D9",
-    },
     defaultText: {
       textAlign: 'left',
       fontSize: 14,

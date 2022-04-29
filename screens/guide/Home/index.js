@@ -1,6 +1,6 @@
 import { getGuideBookings, getMeetingPt } from 'api/tours';
 import { getParentData } from 'api/utilities';
-import { black, grayDark, grayVeryLight, primary, white } from 'config/colors';
+import { black, gray, lightGray, primary, white } from 'config/colors';
 import { UserContext } from 'contexts';
 import toursData from 'data/toursData';
 import moment from 'moment';
@@ -98,7 +98,7 @@ const Home = ({navigation}) => {
                 throw new Error('Missing a parameter')
               }
               return(
-                <TouchableOpacity key={tour.id} style={styles.tourCard} onPress={() => navigation.navigate('ViewTour', {tour})}>
+                <TouchableOpacity key={tour.id} style={styles.tourCard} onPress={() => navigation.navigate('ViewTour', {tour, flow: 'guide'})}>
                   {/* <Image style={styles.tourImage} source={tour.src}></Image> */}
                   <View style={styles.tourTextSection}>
                       <View style={styles.tourDateSection}>
@@ -111,7 +111,7 @@ const Home = ({navigation}) => {
                           <Text style={{marginTop: 5}}>{tour.meetPoint}</Text>
                       </View>
                       <View style={styles.forwardIcon}>
-                          <Ionicons name='chevron-forward-outline' size={20} color={grayDark} />
+                          <Ionicons name='chevron-forward-outline' size={20} color={gray} />
                       </View>
                   </View>
                   <View style={styles.divider}></View>
@@ -194,7 +194,7 @@ const styles = StyleSheet.create({
     right: 30,
   },
   divider: {
-    borderBottomColor: grayVeryLight,
+    borderBottomColor: lightGray,
     borderBottomWidth: 1,
     width: '100%',
     },
@@ -207,7 +207,7 @@ const styles = StyleSheet.create({
   sectionInfoSubtitleText: {
     fontWeight: '400',
     fontSize: 14,
-    color: grayDark,
+    color: gray,
     paddingVertical: 5,
   },
   sectionInfoText: {

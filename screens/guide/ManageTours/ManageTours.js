@@ -25,7 +25,8 @@ import {color} from 'react-native-reanimated';
 import { getUser } from 'api/users';
 import { getAllTourSettings, getAllTourSettingsListener, viewAllToursListener } from 'api/tours';
 import { onAuthStateChanged } from 'api/auth';
-import { white, black, grayVeryDark, grayMed, tappableBlue } from 'config/colors';
+import { white, black, darkGray, gray, tappableBlue } from 'config/colors';
+import {bold24, bold18, bold20} from '../../config/typography.js'
 import BottomButton from 'components/BottomButton';
 import { UserContext } from 'contexts';
 import SubmitButton from 'components/SubmitButton';
@@ -104,7 +105,7 @@ const ManageTours = ({navigation}) => {
   }, [userAuth])
 
   const renderModalButtonCard = ( buttonTitle, setState, state, desiredState) => {
-    const borderColor = state === desiredState ? { borderColor: tappableBlue, color: tappableBlue } : {color: grayVeryDark}
+    const borderColor = state === desiredState ? { borderColor: tappableBlue, color: tappableBlue } : {color: darkGray}
     return (
       <TouchableOpacity style={[styles.modalSelectCard, borderColor]}
         onPress={() => (setState(desiredState))}
@@ -168,8 +169,8 @@ const ManageTours = ({navigation}) => {
         <View style={styles.centeredView} >
           <TouchableWithoutFeedback>
             <View style={styles.modalView} >
-              <Text style={[styles.titleText, { marginTop: 15, marginBottom: 15 }]}>New Tour</Text>
-              <Text style={[styles.textStyle, { marginBottom: 20, fontSize: 12, color: grayVeryDark }]}>Select the type of tour you would like to add.</Text>
+              <Text style={[styles.bold24, { marginTop: 15, marginBottom: 15 }]}>New Tour</Text>
+              <Text style={[styles.textStyle, { marginBottom: 20, fontSize: 12, color: darkGray }]}>Select the type of tour you would like to add.</Text>
               <View style={{display: 'flex', flexDirection: 'row'}}>
                 {false && renderModalButtonCard('Customized Tour', setSelection, selection, 'customized')}
                 {renderModalButtonCard('Preset Tour', setSelection, selection, 'preset')}
@@ -207,8 +208,8 @@ const ManageTours = ({navigation}) => {
             // () => setModalVisible(true);
           >
             
-            <Ionicons name={'add'} size={24} style={{color: grayVeryDark, position: 'absolute', left: 8}}/>
-            <Text style={{fontSize: 16, fontWeight: '400', color: grayVeryDark, textAlign: 'center', left: 8, top: 1}}>
+            <Ionicons name={'add'} size={24} style={{color: darkGray, position: 'absolute', left: 8}}/>
+            <Text style={{fontSize: 16, fontWeight: '400', color: darkGray, textAlign: 'center', left: 8, top: 1}}>
               Add a new tour
             </Text>
           </TouchableOpacity>
@@ -303,11 +304,6 @@ const styles = StyleSheet.create({
   baseText: {
     fontFamily: 'Helvetica',
   },
-  titleText: {
-    fontSize: 24,
-    fontWeight: '700',
-    marginTop: 60,
-  },
   selectButton: {
     position: 'absolute',
     top: 7,
@@ -364,7 +360,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderStyle: 'dashed',
     // stroke-dasharray: '8, 3',
-    borderColor: grayVeryDark,
+    borderColor: darkGray,
     width: '45%',
     height: 160,
     margin: 8,
@@ -388,7 +384,7 @@ const styles = StyleSheet.create({
   modalSelectCard: {
     borderWidth: 1,
     // stroke-dasharray: '8, 3',
-    borderColor: grayMed,
+    borderColor: gray,
     width: '45%',
     height: 100,
     margin: 8,

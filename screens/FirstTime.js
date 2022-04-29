@@ -4,8 +4,8 @@ import { TouchableOpacity } from 'react-native-gesture-handler'
 import { UserContext } from 'contexts'
 import SigninButton from 'components/SigninButton';
 import SignoutButton from 'components/SignoutButton';
-import {titleText, graySmallText, mediumBold, largeBoldText, linearGrad} from '../config/typography.js'
-import {black, grayDark, grayLight, grayMed, white, primary} from '../config/colors';
+import {bold24, bold18, bold20} from '../config/typography.js'
+import {black, gray, white, primary} from '../config/colors';
 
 export default  ({navigation}) => {
     const {mode, setMode} = useContext(UserContext);
@@ -34,7 +34,7 @@ export default  ({navigation}) => {
     return (
         <SafeAreaView style={{height: '100%', width: '100%', backgroundColor: white}}>
             <View style={{width: '60%', marginLeft: 'auto', marginRight: 'auto', marginTop: 'auto', marginBottom: 'auto'}}>
-                <Text style={{...mediumBold, marginLeft: 'auto', marginRight: 'auto', marginBottom: 50, color: black}}>
+                <Text style={{...bold18, marginLeft: 'auto', marginRight: 'auto', marginBottom: 50, color: black}}>
                     Welcome to Otour. 
                 </Text>
                 <TouchableOpacity
@@ -44,7 +44,7 @@ export default  ({navigation}) => {
                         navigation.navigate('OnboardingVisitor')
                     }}
                 >
-                    <Text style={{...mediumBold, color: white, marginLeft: 'auto', marginRight: 'auto', marginTop: 'auto', marginBottom: 'auto', fontSize: 15}}>
+                    <Text style={{...bold18, color: white, marginLeft: 'auto', marginRight: 'auto', marginTop: 'auto', marginBottom: 'auto', fontSize: 15}}>
                         Visitor
                     </Text>
                 </TouchableOpacity>
@@ -55,7 +55,7 @@ export default  ({navigation}) => {
                         navigation.navigate('OnboardingGuide')
                     }} title='guide'
                 >
-                    <Text style={{...mediumBold,color: white, marginLeft: 'auto', marginRight: 'auto', marginTop: 'auto', marginBottom: 'auto', fontSize: 15}}>
+                    <Text style={{...bold18,color: white, marginLeft: 'auto', marginRight: 'auto', marginTop: 'auto', marginBottom: 'auto', fontSize: 15}}>
                         Guide
                     </Text>
                 </TouchableOpacity>

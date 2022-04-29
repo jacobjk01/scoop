@@ -24,7 +24,7 @@ import {color} from 'react-native-reanimated';
 import { getUser } from 'api/users';
 import { getAllTourSettings } from 'api/tours';
 import { onAuthStateChanged } from 'api/auth';
-import { white, black, grayVeryDark, grayMed, tappableBlue } from 'config/colors';
+import { white, black, grayVeryDark, gray, tappableBlue } from 'config/colors';
 import BottomButton from 'components/BottomButton';
 import { UserContext } from 'contexts';
 import SubmitButton from 'components/SubmitButton';

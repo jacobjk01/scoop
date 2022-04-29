@@ -1,5 +1,5 @@
 import React from 'react';
-import { grayDark, black, primary } from 'config/colors.js';
+import { gray, black, primary } from 'config/colors.js';
 import {
     View,
     TouchableOpacity,
@@ -22,7 +22,7 @@ const Dropdown = ({ selectedValue, setSelectedValue, options, visibility, setVis
             borderWidth: 0.75,
             borderLeftWidth: 1.25,
             borderRightWidth: 1.25,
-            borderColor: grayDark,
+            borderColor: gray,
             width: '100%',
             borderTopRightRadius: 5,
             borderTopLeftRadius: 5,
@@ -37,7 +37,7 @@ const Dropdown = ({ selectedValue, setSelectedValue, options, visibility, setVis
     for (let i = 0; i < options.length; i++) {
         rows.push(
             <TouchableOpacity
-                style={{ paddingVertical: 8, paddingLeft: 15, borderColor: grayDark, borderBottomWidth: i != options.length - 1?0.5:0}}
+                style={{ paddingVertical: 8, paddingLeft: 15, borderColor: gray, borderBottomWidth: i != options.length - 1?0.5:0}}
                 key={i}
                 onPress={() => {
                     setSelectedValue(options[i])
@@ -64,7 +64,7 @@ const Dropdown = ({ selectedValue, setSelectedValue, options, visibility, setVis
                 <DropdownIcon />
             </TouchableOpacity>
             {visibility &&
-                <View style={{ borderTopRightRadius: 5, borderTopLeftRadius: 5, borderRadius: 5, borderWidth: 1, borderColor: grayDark, borderTopWidth: 0, position: 'absolute', width: '100%', backgroundColor: 'white', zIndex: 100, top: 83.8 }}>
+                <View style={{ borderTopRightRadius: 5, borderTopLeftRadius: 5, borderRadius: 5, borderWidth: 1, borderColor: gray, borderTopWidth: 0, position: 'absolute', width: '100%', backgroundColor: 'white', zIndex: 100, top: 83.8 }}>
                     {rows}
                 </View>
             }

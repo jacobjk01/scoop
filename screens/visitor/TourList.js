@@ -6,7 +6,7 @@ import {
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { renderStars } from '../../components/Stars';
-import {titleText, graySmallText, mediumBold, largeBoldText, linearGrad} from '../../config/typography.js'
+import {bold24, bold18, bold20} from '../../config/typography.js'
 import toursData from '../../data/toursData';
 import BackButton from '../../components/BackButton';
 import { viewAllTours } from 'api/tours';
@@ -28,7 +28,7 @@ const TourList = ({navigation, route}) => {
       <ScrollView style={{height: '100%', width: '100%', backgroundColor:'white'}}>
         <BackButton navigation={navigation}/>
         <View style={{marginLeft: 20}}>
-          <Text style={{...styles.titleText, marginTop: 100}}>Tours</Text>
+          <Text style={{...styles.bold24, marginTop: 100}}>Tours</Text>
           <FlatList
             style={{marginBottom: 10}}
             horizontal={false}
@@ -69,7 +69,7 @@ const TourList = ({navigation, route}) => {
                     };
                     navigation.navigate('TourInfo', {itemInfo});
                   }}>
-                  <Text style={{...mediumBold}}>{tour.item.title}</Text>
+                  <Text style={{...bold18}}>{tour.item.title}</Text>
                   {renderStars(4.5)}
                   {/* <Text style={{marginTop: 5}}>{tour.item.description}</Text> */}
                 </TouchableOpacity>
@@ -114,37 +114,6 @@ const styles = StyleSheet.create({
     marginRight: 15,
     width: 200,
     height: 300,
-  },
-  linearGradTour: {
-    position: 'absolute',
-    top: 150,
-    bottom: 0,
-    left: 0,
-    right: 0,
-    backgroundColor: 'transparent',
-    borderRadius: 10,
-  },
-  linearGradGuide: {
-    position: 'absolute',
-    top: 60,
-    bottom: 0,
-    left: 0,
-    right: 0,
-    backgroundColor: 'transparent',
-    borderRadius: 10,
-  },
-  backIcon: {
-    backgroundColor: '#3154A5',
-    borderRadius: 10,
-    borderColor: 'white',
-    borderWidth: 1,
-    position: 'absolute',
-    left: 20,
-    top: 40,
-    width: 40,
-    height: 40,
-    alignItems: 'center',
-    justifyContent: 'center',
   },
 });
 

@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import LinearGradient from 'react-native-linear-gradient';
-import { primary, white, grayDark, black, grayShadow } from 'config/colors';
+import { primary, white, gray, black } from 'config/colors';
 import ImageHeader from '../../components/ImageHeader';
 import BottomButton from '../../components/BottomButton'
 import DatesDisplay from 'components/DatesDisplay';
@@ -95,7 +95,7 @@ const TourEdit = ({navigation, route}) => {
             onPress={() => navigation.navigate('TourEdit3', tour)}
             style={{position: 'absolute', right: 30, top: 30}}>
             <View>
-              <Text style={{color: grayDark}}>Edit <Ionicons name={'pencil'} size={16}/></Text>
+              <Text style={{color: gray}}>Edit <Ionicons name={'pencil'} size={16}/></Text>
             </View>
         </TouchableOpacity>
         <Text style={[styles.sectionText, {marginTop: 40}]}>Basic Info</Text>
@@ -126,7 +126,7 @@ const TourEdit = ({navigation, route}) => {
                 navigation.navigate('Availability', tour)}}
               style={{}}>
               <View>
-                <Text style={{color: grayDark}}>Edit <Ionicons name={'pencil'} size={16}/></Text>
+                <Text style={{color: gray}}>Edit <Ionicons name={'pencil'} size={16}/></Text>
               </View>
           </TouchableOpacity>
         </View>}
@@ -154,16 +154,10 @@ const styles = StyleSheet.create({
       position: 'relative',
       marginTop: 5,
       marginBottom: 20,
-      borderBottomColor: grayDark,
+      borderBottomColor: gray,
       borderBottomWidth: 1,
       alignSelf: 'center',
       width: '80%',
-  },
-  titleText: {
-    fontSize: 32,
-    fontWeight: '600',
-    color: white,
-    top: 80,
   },
   sectionText: {
     fontSize: 18,
@@ -191,28 +185,6 @@ const styles = StyleSheet.create({
     bottom: 110,
     paddingLeft: 40,
   },
-  linearGradTour: {
-    position: 'absolute',
-    top: 150,
-    bottom: 0,
-    left: 0,
-    right: 0,
-    backgroundColor: 'transparent',
-    borderRadius: 15,
-  },
-  backIcon: {
-    backgroundColor: primary,
-    borderRadius: 10,
-    borderColor: white,
-    borderWidth: 1,
-    position: 'absolute',
-    left: 20,
-    top: 40,
-    width: 40,
-    height: 40,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
   continue: {
     position: 'absolute',
     bottom: 50,
@@ -222,9 +194,9 @@ const styles = StyleSheet.create({
     height: 50,
     justifyContent: 'center',
     borderRadius: 10,
-    shadowColor: grayShadow,
+    shadowColor: black,
     shadowOffset: {width: 2, height: 2},
-    shadowOpacity: 0.8,
+    shadowOpacity: 0.5,
     shadowRadius: 3,
   },
 });

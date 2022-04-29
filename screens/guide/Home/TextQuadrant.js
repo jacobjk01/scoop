@@ -1,5 +1,5 @@
 import { StyleSheet, View, Text } from "react-native";
-import {grayDark} from '../../../config/colors'
+import {gray} from '../../../config/colors'
 import React from "react";
 /**
  * 
@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
   sectionInfoSubtitleText: {
     fontWeight: '400',
     fontSize: 14,
-    color: grayDark,
+    color: gray,
     paddingVertical: 5,
   },
 });

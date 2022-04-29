@@ -28,15 +28,6 @@ const styles = StyleSheet.create({
         paddingTop: 10,
         paddingBottom: 10,
     },
-    linearGradGuide: {
-        position: 'absolute',
-        top: 60,
-        bottom: 0,
-        left: 0,
-        right: 0,
-        backgroundColor: 'transparent',
-        borderRadius: 10
-    },
     guideTitle: {
         fontWeight: 'bold',
         fontSize: 18

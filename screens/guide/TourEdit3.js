@@ -14,7 +14,7 @@ import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
 import { Marker } from 'react-native-maps';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import LinearGradient from 'react-native-linear-gradient';
-import { primary, white, grayDark, black, red, grayShadow } from 'config/colors';
+import { primary, white, gray, black, red } from 'config/colors';
 import ImageHeader from '../../components/ImageHeader';
 import BottomButton from '../../components/BottomButton';
 
@@ -28,11 +28,11 @@ const TourEdit3 = ({navigation, route}) => {
     return (
       <View style={{flexDirection: 'row'}}>
           <TouchableOpacity style={count > 1 ? styles.removeButton : styles.removeButtonGray} onPress={() => {if (count > 1) setCount(count - 1)}}>
-              <Ionicons name={'remove'} size={16} style={count > 1 ? {color: white} : {color: grayDark}}/>
+              <Ionicons name={'remove'} size={16} style={count > 1 ? {color: white} : {color: gray}}/>
           </TouchableOpacity>
           <Text style={{paddingHorizontal: 8}}>{count}</Text>
           <TouchableOpacity style={count < 10 ? styles.addButton : styles.addButtonGray} onPress={() => {if (count < tour.maxPeople) setCount(count + 1)}}>
-              <Ionicons name={'add'} size={16} style={count < 10 ? {color: white} : {color: grayDark}}/>
+              <Ionicons name={'add'} size={16} style={count < 10 ? {color: white} : {color: gray}}/>
           </TouchableOpacity>
       </View>
     );
@@ -44,7 +44,7 @@ const TourEdit3 = ({navigation, route}) => {
             onPress={() => navigation.navigate()}
             style={{position: 'absolute', right: 30, top: 30}}>
             <View>
-              <Text style={{color: grayDark}}>Edit <Ionicons name={'pencil'} size={16}/></Text>
+              <Text style={{color: gray}}>Edit <Ionicons name={'pencil'} size={16}/></Text>
             </View>
         </TouchableOpacity> */}
         <Text style={[styles.sectionText, {marginTop: 40}]}>Basic Info</Text>
@@ -122,17 +122,11 @@ const styles = StyleSheet.create({
         position: 'relative',
         marginTop: 5,
         marginBottom: 20,
-        borderBottomColor: grayDark,
+        borderBottomColor: gray,
         borderBottomWidth: 1,
         alignSelf: 'center',
         width: '80%',
     },
-  titleText: {
-    fontSize: 32,
-    fontWeight: '600',
-    color: white,
-    top: 80,
-  },
   sectionText: {
     fontSize: 18,
     fontWeight: '600',
@@ -159,28 +153,6 @@ const styles = StyleSheet.create({
     bottom: 110,
     paddingLeft: 40,
   },
-  linearGradTour: {
-    position: 'absolute',
-    top: 150,
-    bottom: 0,
-    left: 0,
-    right: 0,
-    backgroundColor: 'transparent',
-    borderRadius: 15,
-  },
-  backIcon: {
-    backgroundColor: primary,
-    borderRadius: 10,
-    borderColor: white,
-    borderWidth: 1,
-    position: 'absolute',
-    left: 20,
-    top: 40,
-    width: 40,
-    height: 40,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
   continue: {
     position: 'absolute',
     bottom: -80,
@@ -190,13 +162,13 @@ const styles = StyleSheet.create({
     height: 50,
     justifyContent: 'center',
     borderRadius: 10,
-    shadowColor: grayShadow,
+    shadowColor: black,
     shadowOffset: {width: 2, height: 2},
     shadowOpacity: 0.8,
     shadowRadius: 3,
   },
   input: {
-      borderColor: grayDark,
+      borderColor: gray,
       borderWidth: 1,
       borderRadius: 5,
       width: 35,
@@ -214,7 +186,7 @@ const styles = StyleSheet.create({
     backgroundColor: primary,
   },
   removeButtonGray: {
-    borderColor: grayDark,
+    borderColor: gray,
     borderWidth: 1,
     paddingHorizontal: 2,
     borderRadius: 5,
@@ -229,7 +201,7 @@ const styles = StyleSheet.create({
     backgroundColor: primary,
   },
   addButtonGray: {
-    borderColor: grayDark,
+    borderColor: gray,
     borderWidth: 1,
     paddingHorizontal: 2,
     borderRadius: 5,
@@ -242,7 +214,7 @@ const styles = StyleSheet.create({
     height: 140,
     width: '75%',
     borderWidth: 1,
-    borderColor: grayDark,
+    borderColor: gray,
     borderRadius: 7,
     paddingLeft: 10,
     marginTop: 10,

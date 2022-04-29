@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {View, Text, StyleSheet, TouchableOpacity, SafeAreaView, ScrollView} from 'react-native'
-import colors, {black, grayDark, grayLight, grayMed, white, primary} from '../config/colors';
+import {black, gray, white, primary} from '../config/colors';
 import BackButton from 'components/BackButton';
 import SigninButton from 'components/SigninButton';
 import SignoutButton from 'components/SignoutButton';

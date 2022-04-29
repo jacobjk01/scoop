@@ -14,8 +14,8 @@ import {
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import LinearGradient from 'react-native-linear-gradient';
-import { primary, black, white, grayDark, blueDark, grayShadow, red } from 'config/colors';
-import {titleText, graySmallText, mediumBold, largeBoldText, linearGrad, mediumLight} from '../../config/typography.js'
+import { primary, black, white, gray, red, lightGray } from 'config/colors';
+import {bold24, bold18, bold20} from '../../config/typography.js'
 import Reviews from '../../components/Reviews';
 import BottomButton from '../../components/BottomButton';
 import BackButton from '../../components/BackButton';
@@ -42,13 +42,13 @@ const TourInfo = ({ navigation, route }) => {
         <View style={{height: '100%', width: '100%'}}>
           <LinearGradient
             colors={['transparent', 'black']}
-            style={{...linearGrad, height: '100%', width: '100%'}}
+            style={{backgroundColor: 'transparent',borderRadius: 10, height: '100%', width: '100%'}}
           />
         </View>
         <View style={{width: '85%', marginLeft: 'auto', marginRight: 'auto', marginTop: 'auto', marginBottom: 40}}>
-          <Text style={{...titleText, color: white, fontSize: 32}}>{title || "Placeholder title"}</Text>
+          <Text style={{...bold24, color: white}}>{title || "Placeholder title"}</Text>
           <Text
-            style={{...mediumLight, color: white, marginTop: 30}}>
+            style={{fontSize: 18, color: lightGray, marginTop: 30}}>
             {description}
           </Text>
         </View>
@@ -69,7 +69,7 @@ const TourInfo = ({ navigation, route }) => {
                         ></ImageBackground> 
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.whiteButton} title='Message'>
-                        <Text style={{color: blueDark}}>Message</Text>
+                        <Text style={{color: primary}}>Message</Text>
                     </TouchableOpacity>
                 </Animated.View> */}
       </View>
@@ -110,11 +110,6 @@ const styles = StyleSheet.create({
   smallHeaderView: {
     width: '100%',
     height: 200,
-  },
-  titleText: {
-    fontSize: 32,
-    fontWeight: '600',
-    color: white,
   },
   detailText: {
     fontSize: 14,
@@ -183,7 +178,7 @@ const styles = StyleSheet.create({
   whiteButton: {
     backgroundColor: 'white',
     borderRadius: 10,
-    color: blueDark,
+    color: primary,
     alignItems: 'center',
     justifyContent: 'center',
     height: 30,

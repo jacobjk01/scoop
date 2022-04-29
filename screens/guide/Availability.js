@@ -12,7 +12,8 @@ import {
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import LinearGradient from 'react-native-linear-gradient';
-import { primary, white, grayDark, black, grayShadow } from 'config/colors';
+import { primary, white, gray, black } from 'config/colors';
+import BackButton from 'components/BackButton';
 
 //note: grid is kind of laggy when upsized, will work on fixing
 const Availability = ({navigation, route}) => {
@@ -72,7 +73,7 @@ const Availability = ({navigation, route}) => {
             style={styles.linearGradTour}
             />
           <View style={styles.imageOverlay}>
-            <Text style={styles.titleText}>
+            <Text style={styles.bold24}>
               {tour.name}
             </Text>
           </View>
@@ -96,7 +97,7 @@ const Availability = ({navigation, route}) => {
                 width: `${(1/Ncolumns) * 100}%`,
                 backgroundColor: markedBlocks[j][i]?primary:white,
                 borderWidth: 0.5,
-                borderColor: grayDark
+                borderColor: gray
               }}
               onPress={() => {
                 let temp = [...markedBlocks]
@@ -192,11 +193,7 @@ const Availability = ({navigation, route}) => {
 
         </View>
 
-        <TouchableOpacity
-          style={styles.backIcon}
-          onPress={() => navigation.goBack()}>
-          <Ionicons name='chevron-back-outline' size={20} color={white} />
-        </TouchableOpacity>
+        <BackButton navigation={navigation}/>
       </ScrollView>
     </View>
   )
@@ -207,12 +204,12 @@ const styles = StyleSheet.create({
         position: 'relative',
         marginTop: 5,
         marginBottom: 20,
-        borderBottomColor: grayDark,
+        borderBottomColor: gray,
         borderBottomWidth: 1,
         alignSelf: 'center',
         width: '80%',
     },
-  titleText: {
+  bold24: {
     fontSize: 32,
     fontWeight: '600',
     color: white,
@@ -253,19 +250,6 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
     borderRadius: 15,
   },
-  backIcon: {
-    backgroundColor: primary,
-    borderRadius: 10,
-    borderColor: white,
-    borderWidth: 1,
-    position: 'absolute',
-    left: 20,
-    top: 40,
-    width: 40,
-    height: 40,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
   continue: {
     position: 'absolute',
     bottom: 50,
@@ -275,7 +259,7 @@ const styles = StyleSheet.create({
     height: 50,
     justifyContent: 'center',
     borderRadius: 10,
-    shadowColor: grayShadow,
+    shadowColor: black,
     shadowOffset: {width: 2, height: 2},
     shadowOpacity: 0.8,
     shadowRadius: 3,
