@@ -1,4 +1,4 @@
-import { black, grayDark, grayVeryLight, primary, white } from "config/colors";
+import { black, gray, lightGray, primary, white } from "config/colors";
 import React from "react";
 import {
   TouchableOpacity,
@@ -99,7 +99,7 @@ const styles = StyleSheet.create({
     right: 30,
   },
   divider: {
-    borderBottomColor: grayVeryLight,
+    borderBottomColor: lightGray,
     borderBottomWidth: 1,
     width: '100%',
     },
@@ -112,7 +112,7 @@ const styles = StyleSheet.create({
   sectionInfoSubtitleText: {
     fontWeight: '400',
     fontSize: 14,
-    color: grayDark,
+    color: gray,
     paddingVertical: 5,
   },
   sectionInfoText: {

@@ -13,7 +13,7 @@ import { UserContext } from '../contexts';
 import SigninButton from '../components/SigninButton';
 import SignoutButton from '../components/SignoutButton';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { black, white, primary, grayLight, grayDark, grayMed, grayVeryDark } from '../config/colors';
+import { black, white, primary, gray, darkGray, backgroundGray } from '../config/colors';
 
 const Account = ({ navigation }) => {
   const { user, userAuth, mode, setMode } = useContext(UserContext)
@@ -61,7 +61,7 @@ const Account = ({ navigation }) => {
         <Text style={{ fontSize: 15, marginLeft: 10, color: black }}>
           {text}
         </Text>
-        <Ionicons name='chevron-forward-outline' size={22} color={grayDark} style={{ marginLeft: 'auto' }} />
+        <Ionicons name='chevron-forward-outline' size={22} color={gray} style={{ marginLeft: 'auto' }} />
       </TouchableOpacity>
     )
   }
@@ -163,10 +163,10 @@ const Account = ({ navigation }) => {
             style={{ alignSelf: 'flex-end', display: 'flex', flexDirection: 'row', marginVertical: 15}}
             onPress={() => setDropdown(!dropdown)}
           >
-            <Text style={{ fontSize: 16, color: grayMed, marginRight: 5 }}>
+            <Text style={{ fontSize: 16, color: gray, marginRight: 5 }}>
               {dropdown ? 'Collapse' : 'Expand'}
             </Text>
-            <Ionicons name={dropdown ? 'chevron-up-outline' : 'chevron-down-outline'} size={20} color={grayMed} />
+            <Ionicons name={dropdown ? 'chevron-up-outline' : 'chevron-down-outline'} size={20} color={gray} />
           </TouchableOpacity> */}
         </View>
         <View style={styles.divider} />
@@ -199,7 +199,7 @@ const Account = ({ navigation }) => {
                 </Text>
               </TouchableOpacity>
               <TouchableOpacity
-                style={{ borderRadius: 10, backgroundColor: '#F2F2F2', paddingVertical: 15, width: '90%' }}
+                style={{ borderRadius: 10, backgroundColor: backgroundGray, paddingVertical: 15, width: '90%' }}
                 onPress={() => setModal(false)}
               >
                 <Text style={{ fontFamily: 'Helvetica-Bold', fontSize: 18, color: black, alignSelf: 'center' }}>
@@ -217,16 +217,16 @@ const styles = StyleSheet.create({
   divider: {
     width: '100%',
     height: 0.75,
-    backgroundColor: grayMed,
+    backgroundColor: gray,
   },
   dropdownTitle: {
     fontSize: 15,
-    color: '#456ECD',
+    color: gray,
     fontFamily: 'Helvetica-Bold'
   },
   dropdownInfo: {
     fontSize: 15,
-    color: grayVeryDark,
+    color: darkGray,
 
   }
 })

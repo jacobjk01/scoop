@@ -8,10 +8,10 @@ import {
   StyleSheet, Text, TouchableOpacity, View
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import {black, grayDark, grayLight, grayMed, white, primary} from '../../config/colors';
+import {black, gray, white, primary} from '../../config/colors';
 import {color} from 'react-native-reanimated';
 import { UserContext } from '../../contexts'
-import {titleText, graySmallText, mediumBold, largeBoldText, linearGrad} from '../../config/typography.js'
+import {bold16, bold18, bold20, bold24, reg14, oblique16} from '../../config/typography.js'
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {
   viewAllTours,
@@ -22,6 +22,7 @@ import { getGuides, getUserByRef } from '../../api/users';
 import { getParentData } from '../../api/utilities'
 import { SCHOOL } from '../../config/initialState';
 import moment from 'moment'
+import ViewAll from '../../components/ViewAll';
 
 
 
@@ -102,17 +103,10 @@ const HomePage = ({ navigation }) => {
   const viewAll = (text) => {
     return (
       <View style={{paddingHorizontal: 30, marginTop: 15, marginBottom: 10, display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
-        <Text style={{...largeBoldText}}>
+        <Text style={{...bold20}}>
           {text}
         </Text>
-        <TouchableOpacity
-          onPress={() => navigation.navigate('TourList')}
-          style={{ marginLeft: 'auto' }}>
-          <View>
-            <Text style={{ color: '#3D68CC' }}>view all</Text>
-          </View>
-        </TouchableOpacity>
-        <Ionicons size={15} name={'chevron-forward-sharp'} color="#3D68CC" />
+        <ViewAll navigation={navigation}/>
       </View>
     );
   };
@@ -120,7 +114,7 @@ const HomePage = ({ navigation }) => {
   return (
     <SafeAreaView>
       {tours && guides && <ScrollView style={{ height: '100%', backgroundColor: white }}>
-        <Text style={{...titleText, paddingLeft: 30, marginTop: 50,}}>Explore around {SCHOOL}!</Text>
+        <Text style={{...bold24, paddingLeft: 30, marginTop: 50,}}>Explore around {SCHOOL}!</Text>
         {/* THIS IS IMPORTANT */}
         {/* THIS IS IMPORTANT */}
         {/* THIS IS IMPORTANT */}
@@ -128,7 +122,7 @@ const HomePage = ({ navigation }) => {
         {/* <Ionicons
           name={'search-sharp'}
           size={32}
-          color={grayMed}
+          color={gray}
           fontFamily="Raleway-Bold"
           style={{
             left: 35,
@@ -173,15 +167,15 @@ const HomePage = ({ navigation }) => {
           >
             <View style={{display: 'flex', flexWrap:'wrap',flexDirection: 'column', justifyContent:'space-between',}}>
               <View style={{margin: 5}}>
-                <Text style={{...graySmallText, color: grayDark}}>
+                <Text style={{...reg14, color: gray}}>
                   Upcoming Tour</Text>
-                <Text style={{...mediumBold, color: black}}>
+                <Text style={{...bold16, color: black}}>
                   {upcoming.tour}</Text>
               </View>
               <View style={{margin: 5}}>
-                <Text style={{...graySmallText, color: grayDark}}>
+                <Text style={{...reg14, color: gray}}>
                   Date</Text>
-                <Text style={{...mediumBold, color: black}}>
+                <Text style={{...bold16, color: black}}>
                   {moment(upcoming.time).format('MMM DD')}</Text>
               </View>
             </View>
@@ -193,9 +187,9 @@ const HomePage = ({ navigation }) => {
               }}>
               <View style={{ margin: 5, display: 'flex', flexDirection: 'row', justifyContent: 'space-between', width: 150 }}>
                 <View>
-                  <Text style={{...graySmallText, color: grayDark}}>
+                  <Text style={{...reg14, color: gray}}>
                     Tour Guide</Text>
-                  <Text style={{...mediumBold, color: black}}>
+                  <Text style={{...bold16, color: black}}>
                     {upcoming.guide}</Text>
                 </View>
                 <Image
@@ -204,10 +198,8 @@ const HomePage = ({ navigation }) => {
                 />
               </View>
               <View style={{margin: 5}}>
-                <Text style={{...graySmallText, color: grayDark}}>
-                  Time</Text>
-                <Text style={{...mediumBold, color: black}}>
-                  {moment(upcoming.time).format('LT')}</Text>
+                <Text style={{...reg14, color: gray}}>Time</Text>
+                <Text style={{...bold16, color: black}}>{moment(upcoming.time).format('LT')}</Text>
               </View>
             </View>
           </View>
@@ -233,9 +225,10 @@ const HomePage = ({ navigation }) => {
                 >
                   <LinearGradient
                     colors={['transparent', 'rgba(0,0,0,0.6)']}
-                    style={{...linearGrad, marginTop: 'auto', height: '70%', width: '100%'}}
+                    style={{        backgroundColor: 'transparent',
+                    borderRadius: 10, marginTop: 'auto', height: '70%', width: '100%'}}
                   >
-                  <Text style={{...mediumBold, fontWeight: '600', color: white, marginTop: 'auto', left: 20, bottom: 50, zIndex: 100}}>{item.title}</Text>
+                  <Text style={{...bold16, fontWeight: '600', color: white, marginTop: 'auto', left: 20, bottom: 50, zIndex: 100}}>{item.title}</Text>
                 </LinearGradient>
               </ImageBackground>
             </TouchableOpacity>
@@ -257,14 +250,14 @@ const HomePage = ({ navigation }) => {
                 source={item.profilePicture == undefined?require('../../images/defaultpfp.png'):{ uri: item.profilePicture }}>
                 <LinearGradient
                   colors={['transparent', 'rgba(0,0,0,0.4)']}
-                  style={{...linearGrad, marginTop: 'auto', height: '100%', width: '100%'}}
+                  style={{backgroundColor: 'transparent', borderRadius: 10, marginTop: 'auto', height: '100%', width: '100%'}}
                 >
                   <View style={{display: 'flex', flexDirection: 'row', marginTop: 'auto', margin: 10, flexWrap: 'wrap'}}>
-                    <Text style={{color: white, fontFamily: 'Helvetica-Bold'}}>
+                    <Text style={{...oblique16, color: white}}>
                       {item.name}{item.year == undefined?'':', '}
                     </Text>
                     <Text
-                      style={{ color: white, fontFamily: 'Helvetica-Oblique' }}>
+                      style={{...oblique16, color: white}}>
                       {item.year}
                     </Text>
                   </View>
@@ -279,26 +272,6 @@ const HomePage = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
-  // tourNotifText: {
-  //   color: white,
-  //   fontFamily: 'Helvetica-Bold',
-  //   fontSize: 18
-  // },
-  // tourNotifSubText: {
-  //   color: grayLight,
-  //   fontSize: 15
-  // },
-  baseText: {
-    fontFamily: 'Helvetica',
-  },
-  // titleText: {
-  //   paddingLeft: 30,
-  //   marginTop: 50,
-  //   fontSize: 27,
-  //   fontWeight: '600',
-    
-  //   fontFamily: 'Helvetica-Bold'
-  // },
   input: {
     lineHeight: 50,
     marginTop: 30,
@@ -308,41 +281,6 @@ const styles = StyleSheet.create({
     width: '100%',
     borderRadius: 7,
     paddingLeft: 20,
-  },
-  searchicon: {
-    position: 'absolute',
-    right: 10,
-    top: 11,
-  },
-  recommendationbuttonleft: {
-    flex: 1,
-    backgroundColor: primary,
-    borderRadius: 7,
-    height: 100,
-    marginRight: 15,
-  },
-  recommendationbuttonright: {
-    flex: 1,
-    backgroundColor: primary,
-    borderRadius: 7,
-    height: 100,
-  },
-  recommendationTitle: {
-    marginTop: 15,
-    marginLeft: 15,
-    color: white,
-    fontWeight: '600',
-    fontSize: 16,
-    height: 60,
-    width: '90%',
-    marginBottom: 15,
-    // borderWidth: 1,
-    // borderColor: '#656565',
-    borderRadius: 10,
-    paddingLeft: 60,
-    fontSize: 22,
-
-    elevation: 20,
   },
   listTourImage: {
     marginRight: 20,
@@ -354,30 +292,6 @@ const styles = StyleSheet.create({
     width: 125,
     height: 125,
   },
-  // tourText: {
-  //   fontWeight: '600',
-  //   fontSize: 18,
-  //   color: white,
-  //   marginTop: 'auto',
-  //   left: 20,
-  //   bottom: 50,
-  //   fontFamily: 'Helvetica-Bold',
-  //   zIndex: 100
-  // },
-  // linearGradTour: {
-  //   backgroundColor: 'transparent',
-  //   borderRadius: 10,
-  //   marginTop: 'auto',
-  //   height: '70%',
-  //   width: '100%',
-  // },
-  // linearGradGuide: {
-  //   marginTop: 'auto',
-  //   height: '70%',
-  //   width: '100%',
-  //   backgroundColor: 'transparent',
-  //   borderRadius: 10,
-  // },
 });
 
 export default HomePage;

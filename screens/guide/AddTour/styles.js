@@ -1,4 +1,4 @@
-import { black, grayDark, grayShadow, primary, white } from 'config/colors';
+import { black, gray, primary, white } from 'config/colors';
 import {
   StyleSheet
 } from 'react-native';
@@ -8,16 +8,10 @@ export const styles = StyleSheet.create({
       position: 'relative',
       marginTop: 5,
       marginBottom: 20,
-      borderBottomColor: grayDark,
+      borderBottomColor: gray,
       borderBottomWidth: 1,
       alignSelf: 'center',
       width: '80%',
-  },
-  titleText: {
-    fontSize: 32,
-    fontWeight: '600',
-    color: white,
-    top: 80,
   },
   sectionText: {
     fontSize: 18,
@@ -39,19 +33,6 @@ export const styles = StyleSheet.create({
     height: 160,
     zIndex: -10,
   },
-  backIcon: {
-    backgroundColor: primary,
-    borderRadius: 10,
-    borderColor: white,
-    borderWidth: 1,
-    position: 'absolute',
-    left: 20,
-    top: 40,
-    width: 40,
-    height: 40,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
   continue: {
     position: 'absolute',
     bottom: -80,
@@ -61,13 +42,13 @@ export const styles = StyleSheet.create({
     height: 50,
     justifyContent: 'center',
     borderRadius: 10,
-    shadowColor: grayShadow,
+    shadowColor: black,
     shadowOffset: {width: 2, height: 2},
-    shadowOpacity: 0.8,
+    shadowOpacity: 0.5,
     shadowRadius: 3,
   },
   input: {
-      borderColor: grayDark,
+      borderColor: gray,
       borderWidth: 1,
       borderRadius: 5,
       width: 35,
@@ -85,7 +66,7 @@ export const styles = StyleSheet.create({
     backgroundColor: primary,
   },
   removeButtonGray: {
-    borderColor: grayDark,
+    borderColor: gray,
     borderWidth: 1,
     paddingHorizontal: 2,
     borderRadius: 5,
@@ -100,7 +81,7 @@ export const styles = StyleSheet.create({
     backgroundColor: primary,
   },
   addButtonGray: {
-    borderColor: grayDark,
+    borderColor: gray,
     borderWidth: 1,
     paddingHorizontal: 2,
     borderRadius: 5,
@@ -113,7 +94,7 @@ export const styles = StyleSheet.create({
     height: 140,
     width: '75%',
     borderWidth: 1,
-    borderColor: grayDark,
+    borderColor: gray,
     borderRadius: 7,
     paddingLeft: 10,
     marginTop: 10,
@@ -126,7 +107,7 @@ export const styles = StyleSheet.create({
     height: 35,
     width: '80%',
     borderWidth: 1,
-    borderColor: grayDark,
+    borderColor: gray,
     borderRadius: 7,
     paddingLeft: 10,
     marginTop: 10,

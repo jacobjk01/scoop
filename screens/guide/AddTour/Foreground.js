@@ -1,4 +1,4 @@
-import { black, grayDark } from 'config/colors';
+import { black, gray } from 'config/colors';
 import tempBackgroundImage from 'images/Westwood_village.jpg';
 import React from 'react';
 import {
@@ -26,7 +26,7 @@ const Foreground =  ({backgroundImage}) => {
         </ImageBackground>
         <TouchableOpacity
             style={{position: 'absolute', right: 25, top: 120}}>
-            <Ionicons name={'camera'} size={25} color={grayDark}/>
+            <Ionicons name={'camera'} size={25} color={gray}/>
         </TouchableOpacity>
     </View>
   );

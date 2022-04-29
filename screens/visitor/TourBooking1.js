@@ -14,13 +14,13 @@ import {
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import LinearGradient from 'react-native-linear-gradient';
-import { primary, white, grayLight, black, blueMed, grayVeryLight, grayMed, grayDark } from 'config/colors';
+import { primary, white, lightGray, black, grayVeryLight, gray, backgroundGray } from 'config/colors';
 import GuideProfile from '../Profile';
 import { Calendar } from 'react-native-calendars';
 import moment from 'moment';
 import DatePicker from 'react-native-date-picker';
 import toursData from '../../data/toursDatav2';
-import {titleText, backIcon, mediumBold, mediumOblique, primaryButton} from '../../config/typography.js';
+import {reg12, reg14, bold14, bold18, oblique16 } from '../../config/typography.js';
 import { viewTourSettings} from '../../api/tours';
 import { getUsersByRef} from '../../api/users';
 import Header from '../../components/Header'
@@ -225,7 +225,19 @@ const TourBooking1 = ({navigation, route}) => {
     } else {
       return (
         <View style={{alignItems: 'center'}}>
-          <Text style={styles.greyText}>{text}</Text>
+          <Text 
+            style={{
+              ...reg14,
+              color: lightGray,
+              borderWidth: 2,
+              borderColor: lightGray,
+              marginTop: 20,
+              paddingHorizontal: 17,
+              paddingVertical: 10,
+              borderRadius: 15,
+            }}
+          >
+            {text}</Text>
         </View>
       );
     }
@@ -251,8 +263,8 @@ const TourBooking1 = ({navigation, route}) => {
             source={item.profilePicture == null?require('../../images/defaultpfp.png'):{uri: item.profilePicture}}>
           </Image>
           <View style={{marginLeft: 15, flex: 1}}>
-            <Text style={{...mediumBold, top: 3}}>{item.name}</Text>
-            <Text style={{...mediumOblique, bottom: 3}}>
+            <Text style={{...bold18, top: 3}}>{item.name}</Text>
+            <Text style={{...oblique16, bottom: 3}}>
               {item.major}, {item.year}
             </Text>
           </View>
@@ -403,12 +415,12 @@ const TourBooking1 = ({navigation, route}) => {
   
         let i = binarySearch(info, day, 0) + 1
         while(typeof info[i] !== 'undefined' && moment(Object.keys(info[i])[0]).format("YYYY" + "-" + "MM" + "-" + "DD") == day){
-          setSelectedDay(day)
           if (checkIfInRange(Object.keys(info[i])[0], time1, time2)) temp[0] = false
           if (checkIfInRange(Object.keys(info[i])[0], time2, time3)) temp[1] = false
           if (checkIfInRange(Object.keys(info[i])[0], time3, time4)) temp[2] = false
           i++
         }
+        setSelectedDay(day)
         setDisabledTimes(temp)
         //if both day and time are selected, get guide info
         if (selectedTimes.some(value => value == true)) {
@@ -431,7 +443,7 @@ const TourBooking1 = ({navigation, route}) => {
             setOfficialTimes(times)
           }}>
           <Text
-            style={{...primaryButton, 
+            style={{
               fontSize: 14,
               color: white,
               paddingHorizontal: 14,
@@ -448,9 +460,9 @@ const TourBooking1 = ({navigation, route}) => {
           <Text
             style={{
               fontSize: 14,
-              color: grayDark,
+              color: gray,
               borderWidth: 1,
-              borderColor: grayDark,
+              borderColor: gray,
               borderRadius: 8,
               paddingHorizontal: 14,
               paddingVertical: 5,
@@ -511,13 +523,13 @@ const TourBooking1 = ({navigation, route}) => {
   };
 
   return (
-    <SafeAreaView style={{backgroundColor: '#E5E5E5'}}>
+    <SafeAreaView style={{backgroundColor: backgroundGray}}>
       <FlatList
         style={{height: '100%'}}
         ListHeaderComponent={
           <View>
             {/*Header______________________________________________________________________________ */}
-            <Header title='Select Date' navigation={navigation}/>
+            <Header title='Select Date' navigation={navigation} color={primary} backgroundColor={white}/>
             <View style={{paddingLeft: 12, paddingRight: 12}}>
               {/*Calender__________________________________________________________________________ */}
               <View style={[styles.backCard, {paddingBottom: 15}]}>
@@ -547,7 +559,7 @@ const TourBooking1 = ({navigation, route}) => {
                           style={{
                             borderWidth: 1,
                             borderRadius: 20,
-                            borderColor: grayLight,
+                            borderColor: lightGray,
                           }}>
                           <Ionicons
                             name="chevron-back-outline"
@@ -563,7 +575,7 @@ const TourBooking1 = ({navigation, route}) => {
                           style={{
                             borderWidth: 1,
                             borderRadius: 20,
-                            borderColor: grayLight,
+                            borderColor: lightGray,
                           }}>
                           <Ionicons
                             name="chevron-forward-outline"
@@ -667,7 +679,7 @@ const TourBooking1 = ({navigation, route}) => {
                       }}>
                       <View
                         style={{
-                          backgroundColor: '#F2f2f2',
+                          backgroundColor: backgroundGray,
                           display: 'flex',
                           flexDirection: 'row',
                           marginLeft: 'auto',
@@ -783,8 +795,8 @@ const TourBooking1 = ({navigation, route}) => {
                   let backColor, textColor, subTextColor;
                   if (disabledTimes[index]) {
                     backColor = white
-                    textColor = grayLight
-                    subTextColor = grayLight
+                    textColor = lightGray
+                    subTextColor = lightGray
                   } else if (selectedTimes[index] == true) {
                     backColor = primary;
                     textColor = white;
@@ -792,7 +804,7 @@ const TourBooking1 = ({navigation, route}) => {
                   } else{
                     backColor = white;
                     textColor = black;
-                    subTextColor = grayDark;
+                    subTextColor = gray;
                   }
                   return (
                     <TouchableOpacity
@@ -801,8 +813,6 @@ const TourBooking1 = ({navigation, route}) => {
                       style={{
                         backgroundColor: backColor,
                         padding: 12,
-                        // marginRight: 9,
-                        // marginLeft: 9,
                         marginBottom: 4,
                         marginTop: 5,
                         marginHorizontal:'2.5%',
@@ -816,9 +826,8 @@ const TourBooking1 = ({navigation, route}) => {
                       }}>
                       <Text
                         style={{
+                          ...bold14,
                           color: textColor,
-                          fontSize: 14,
-                          fontFamily: 'Helvetica',
                           marginLeft: 'auto',
                           marginRight: 'auto',
                           fontWeight: '700',
@@ -828,9 +837,9 @@ const TourBooking1 = ({navigation, route}) => {
                       </Text>
                       <Text
                         style={{
+                          ...reg12,
                           color: subTextColor,
                           alignSelf: 'center',
-                          fontSize: 10,
                           fontWeight: '400',
                         }}>
                         {displayTimeRanges(index)}
@@ -854,7 +863,7 @@ const TourBooking1 = ({navigation, route}) => {
                 elevation: 10,
               }}>
                 <View style={{marginTop: 25}}>
-                  <Text style={{...mediumBold, alignSelf: 'center', paddingBottom: 15}}>
+                  <Text style={{...bold18, alignSelf: 'center', paddingBottom: 15}}>
                     Tour Guides Available
                   </Text>
                   <View style={styles.line}></View>
@@ -872,16 +881,6 @@ const TourBooking1 = ({navigation, route}) => {
 };
 
 const styles = StyleSheet.create({
-  greyText: {
-    color: grayLight,
-    borderWidth: 2,
-    borderColor: grayLight,
-    marginTop: 20,
-    paddingHorizontal: 17,
-    paddingVertical: 10,
-    fontSize: 18,
-    borderRadius: 15,
-  },
   timeView: {
     flexDirection: 'row',
     flexWrap: 'wrap',
@@ -891,7 +890,7 @@ const styles = StyleSheet.create({
     marginBottom: 15,
   },
   line: {
-    borderBottomColor: grayLight,
+    borderBottomColor: lightGray,
     borderBottomWidth: 1,
     width: '90%',
     marginLeft: 'auto',
@@ -910,21 +909,6 @@ const styles = StyleSheet.create({
     //android only
     elevation: 10,
   },
-  baseText: {
-    fontFamily: 'Helvetica',
-  },
-  titleText: {
-    marginLeft: 'auto',
-    marginRight: 'auto',
-    fontSize: 27,
-    color: white,
-    fontFamily: 'Helvetica-Bold',
-  },
-  sectionText: {
-    fontSize: 18,
-    fontWeight: '700',
-    alignSelf: 'center',
-  },
   listGuideImage: {
     marginLeft: 15,
     marginTop: 10,
@@ -937,44 +921,12 @@ const styles = StyleSheet.create({
   calenderLine: {
     width: '90%',
     height: 0.75,
-    backgroundColor: '#D9D9D9',
+    backgroundColor: lightGray,
     position: 'absolute',
     top: 95,
     alignSelf: 'center',
     zIndex: 10,
   },
-  guideName: {
-    fontSize: 18,
-    fontFamily: 'Helvetica-Bold',
-    color: black,
-  },
-  guideTitle: {
-    fontSize: 18,
-    fontFamily: 'Helvetica-Oblique',
-    color: black,
-  },
-  backIcon: {
-    backgroundColor: white,
-    borderRadius: 10,
-    borderColor: white,
-    borderWidth: 1,
-    position: 'absolute',
-    left: 20,
-    top: 22,
-    width: 45,
-    height: 45,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  // calenderLine: {
-  //   width: '90%',
-  //   height: 0.75,
-  //   backgroundColor: grayMed,
-  //   position: 'absolute',
-  //   top: 95,
-  //   alignSelf: 'center',
-  //   zIndex: 10,
-  // },
 });
 
 export default TourBooking1;

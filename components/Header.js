@@ -1,53 +1,32 @@
 import React from 'react';
 import { View, TouchableOpacity, Text } from 'react-native';
-import { primary, white, black, grayDark, grayMed } from 'config/colors';
+import { primary, white, black, gray } from 'config/colors';
+import {bold24, bold18, bold20} from '../config/typography.js'
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import BackButton from './BackButton.js';
 
-const Header = (params) => {
+const Header = ({title, navigation, backgroundColor, color}) => {
     //INCLUDES THE BACK BUTTON
     return (
         <View
             style={{
                 backgroundColor: primary,
-                height: 90,
+                height: 120,
                 width: '100%',
                 zIndex: 100
             }}
         >
             <Text 
-                style={{
+                style={{...bold24,
                     marginLeft: 'auto',
                     marginRight: 'auto',
-                    fontSize: 27,
                     color: white,
-                    fontFamily: 'Helvetica-Bold',
-                    marginTop: 23,
+                    marginTop: 40,
                 }}
             >
-                {params.title}
+                {title}
             </Text>
-            <TouchableOpacity
-                style={{
-                    backgroundColor: white,
-                    borderRadius: 10,
-                    borderColor: white,
-                    borderWidth: 1,
-                    position: 'absolute',
-                    left: 20,
-                    top: 22,
-                    width: 45,
-                    height: 45,
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                }}
-                onPress={() => params.navigation.goBack()}
-            >
-                <Ionicons
-                    name="chevron-back-outline"
-                    size={20}
-                    color={primary}
-                />
-            </TouchableOpacity>
+            <BackButton navigation={navigation} color={color} backgroundColor={backgroundColor}/>
         </View>
     )
 }

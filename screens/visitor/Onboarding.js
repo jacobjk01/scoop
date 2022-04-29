@@ -2,8 +2,8 @@ import React, { useContext, useEffect, useState} from 'react'
 import { View, SafeAreaView, Text, Button, TextInput, StyleSheet, Image} from 'react-native'
 import { TouchableOpacity} from 'react-native-gesture-handler'
 import { UserContext } from '../../contexts'
-import {black, white, grayMed, grayDark, grayLight, primary} from '../../config/colors.js'
-import {mediumBold, backIcon, inputStyle, dropdownButton} from '../../config/typography.js'
+import {black, white, gray, grayLight, primary} from '../../config/colors.js'
+import {reg16, bold18} from '../../config/typography.js'
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 export default  ({navigation}) => {
@@ -60,7 +60,7 @@ export default  ({navigation}) => {
         for(let i = 0; i < options.length; i++) {
             rows.push(
                 <TouchableOpacity
-                    style={{ paddingVertical: 8, paddingLeft: 15, borderColor: grayDark, borderBottomWidth: i != options.length - 1?0.5:0}}
+                    style={{ paddingVertical: 8, paddingLeft: 15, borderColor: gray, borderBottomWidth: i != options.length - 1?0.5:0}}
                     key={i}
                     onPress={() => {
                         let temp = [...data]
@@ -69,7 +69,7 @@ export default  ({navigation}) => {
                         setDropdown(false)
                     }}    
                 >
-                    <Text style={{fontSize: 18}}>
+                    <Text style={{...reg16}}>
                         {options[i]}
                     </Text>
 
@@ -80,15 +80,21 @@ export default  ({navigation}) => {
         return (
             <View style={{marginBottom: 25}}>
                 <TouchableOpacity 
-                    style={[{...dropdownButton, display: 'flex',flexDirection: 'row',paddingVertical: 8, paddingHorizontal: 15,marginTop: 40}, 
-                    {borderBottomRightRadius: dropdown == true? 0: 5,borderBottomLeftRadius: dropdown == true? 0: 5, }]}
+                    style={{        borderWidth: 0.75,
+                        borderLeftWidth: 1.25,
+                        borderRightWidth: 1.25,
+                        borderColor: gray,
+                        width: '100%',
+                        borderTopRightRadius: 5,
+                        borderTopLeftRadius: 5, display: 'flex',flexDirection: 'row',paddingVertical: 8, paddingHorizontal: 15,marginTop: 40, 
+                    borderBottomRightRadius: dropdown == true? 0: 5,borderBottomLeftRadius: dropdown == true? 0: 5, }}
                     onPress={() => setDropdown(!dropdown)}
                 >
-                    <Text style={{marginRight: 'auto', fontSize: 18, color: data[index]!='-'?black:grayDark}}>{data[index]}</Text>
+                    <Text style={{marginRight: 'auto', ...reg16, color: data[index]!='-'?black:gray}}>{data[index]}</Text>
                     {dropdownIcon()}
                 </TouchableOpacity>
                 {dropdown && 
-                    <View style={{borderTopRightRadius: dropdown == true? 0: 5, borderTopLeftRadius: dropdown == true? 0: 5, borderRadius: 5, borderWidth: 1, borderColor: grayDark, borderTopWidth: 0, position: 'absolute', width: '100%', backgroundColor: 'white', zIndex: 100, top: 83.8}}>
+                    <View style={{borderTopRightRadius: dropdown == true? 0: 5, borderTopLeftRadius: dropdown == true? 0: 5, borderRadius: 5, borderWidth: 1, borderColor: gray, borderTopWidth: 0, position: 'absolute', width: '100%', backgroundColor: 'white', zIndex: 100, top: 83.8}}>
                         {rows}
                     </View>
                 }
@@ -104,7 +110,13 @@ export default  ({navigation}) => {
             case 1:
                 return(
                     <TextInput
-                        style={{...inputStyle, paddingHorizontal: 20, paddingVertical: 7, marginTop: 40, marginBottom: 25}}
+                        style={{
+                            borderWidth: 0.75,
+                            borderRadius: 5,
+                            borderColor: gray,
+                            width: '100%',
+                            fontSize: 18,paddingHorizontal: 20, paddingVertical: 7, marginTop: 40, marginBottom: 25
+                        }}
                         placeholder={'First Name'}
                         onChangeText={(text) => {
                             let temp = [...data]
@@ -120,7 +132,12 @@ export default  ({navigation}) => {
             case 4:
                 return(
                     <TextInput
-                        style={{...inputStyle, paddingHorizontal: 20, paddingVertical: 7, marginTop: 40,marginBottom: 25}}
+                        style={{
+                            borderWidth: 0.75,
+                            borderRadius: 5,
+                            borderColor: gray,
+                            width: '100%',
+                            fontSize: 18, paddingHorizontal: 20, paddingVertical: 7, marginTop: 40,marginBottom: 25}}
                         onChangeText={(text) => {
                             let temp = [...data]
                             temp[3] = text
@@ -146,18 +163,18 @@ export default  ({navigation}) => {
                         } 
                     }
                 >
-                    <Text style={{color: primary, ...mediumBold, textAlign: 'center'}}>
+                    <Text style={{color: primary, ...bold18, textAlign: 'center'}}>
                         Back
                     </Text>
                 </TouchableOpacity>
                 <TouchableOpacity
-                    style={{borderWidth: 1.25, borderRadius: 10, paddingHorizontal: 30, paddingVertical: 7,  borderColor: data[page - 1] != '-'?primary:grayMed, backgroundColor: data[page - 1] != '-'?primary:white,}}
+                    style={{borderWidth: 1.25, borderRadius: 10, paddingHorizontal: 30, paddingVertical: 7,  borderColor: data[page - 1] != '-'?primary:gray, backgroundColor: data[page - 1] != '-'?primary:white,}}
                     onPress={() => {
                         if (data[page - 1] != '-')
                             setPage(page + 1)
                     }}
                 >
-                    <Text style={{...mediumBold, textAlign: 'center', color: data[page - 1] != '-'?white:grayMed,}}>
+                    <Text style={{...bold18, textAlign: 'center', color: data[page - 1] != '-'?white:gray,}}>
                         Next
                     </Text>
                 </TouchableOpacity>
@@ -190,10 +207,10 @@ export default  ({navigation}) => {
         if (page == 5) {
             return (
                 <View style={{width: '80%', display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: 'auto', marginLeft: 'auto', marginRight: 'auto', marginBottom: 'auto'}}>
-                    <Text style={{...mediumBold, width: '70%', textAlign: 'center', paddingBottom: 10}}>
+                    <Text style={{...bold18, width: '70%', textAlign: 'center', paddingBottom: 10}}>
                         You are all set!
                     </Text>
-                    <Text style={{color: grayMed}}>
+                    <Text style={{color: gray}}>
                         You can add more info in your profile page
                     </Text>
                     <Image
@@ -224,7 +241,7 @@ export default  ({navigation}) => {
         else {
             return (
                 <View style={{width: '80%', display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: 'auto', marginLeft: 'auto', marginRight: 'auto', marginBottom: 'auto'}}>
-                    <Text style={{...mediumBold, textAlign: 'center', width: '70%', top: positionTop, position: 'absolute'}}>
+                    <Text style={{...bold18, textAlign: 'center', width: '70%', top: positionTop, position: 'absolute'}}>
                         {question}
                     </Text>
                     <View style={{height: 10}}/>
@@ -251,27 +268,21 @@ export default  ({navigation}) => {
     
     return (
         <SafeAreaView style={{height: '100%', backgroundColor: white, flex: 1}}>
-            {/* <TouchableOpacity
-                style={{left: 20, top: 22, ...backIcon}}
-                onPress={() => navigation.goBack()}
-            >
-                <Ionicons name="chevron-back-outline" size={22} color={white} />
-            </TouchableOpacity> */}
             {marks()}
             {mainSection()}
             <TouchableOpacity
                 disabled={page < 3 || page > 4}
-                style={{color: grayMed, alignSelf:'center', paddingBottom: 30, display: 'flex', flexDirection: 'row', alignItems: 'center', }}
+                style={{color: gray, alignSelf:'center', paddingBottom: 30, display: 'flex', flexDirection: 'row', alignItems: 'center', }}
                 onPress={() => setPage(page + 1)}
             >
                 {page >= 3 && page <= 4 &&
                     <>
-                        <Text style={{color: grayDark, fontSize: 13}}>
+                        <Text style={{color: gray, ...reg16}}>
                             Skip
                         </Text>
                         <Ionicons 
                             name="chevron-forward-outline"
-                            color={grayDark}
+                            color={gray}
                             size={15}
                             style={{top: 1.5}}
                         />
@@ -283,20 +294,6 @@ export default  ({navigation}) => {
 }
 
 const styles = StyleSheet.create({
-    dropdownButton: {
-        borderWidth: 0.75,
-        borderLeftWidth: 1.25,
-        borderRightWidth: 1.25,
-        borderColor: grayDark,
-        width: '100%',
-        borderTopRightRadius: 5,
-        borderTopLeftRadius: 5,
-        display: 'flex',
-        flexDirection: 'row',
-        paddingVertical: 8,
-        paddingHorizontal: 15,
-        marginTop: 40,
-    },
     itemStyle: {
         backgroundColor: black
     },
@@ -316,17 +313,4 @@ const styles = StyleSheet.create({
         borderRadius: 20,
         marginHorizontal: 8,
     },
-    backIcon: {
-        backgroundColor: primary,
-        borderRadius: 10,
-        borderColor: white,
-        borderWidth: 1,
-        left: 20,
-        top: 22,
-        width: 45,
-        height: 45,
-        alignItems: 'center',
-        justifyContent: 'center',
-
-      },
 })

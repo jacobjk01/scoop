@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-
+import {black, gray, white, primary} from '../config/colors';
 import {
   View,
   StyleSheet,
@@ -21,12 +21,12 @@ const Reviews = props => {
           style={{
             marginTop: 5,
             fontSize: 14,
-            color: '#9B9BA7',
+            color: gray,
             fontStyle: 'italic',
           }}>
           {item.item.tourName} - {item.item.year}
         </Text>
-        <Text style={{ marginTop: 5 }}>{item.item.comment}</Text>
+        <Text style={{ fontSize: 16, marginTop: 5 }}>{item.item.comment}</Text>
       </View>
     );
   };
@@ -51,13 +51,13 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     marginLeft: 20,
     marginRight: 20,
-    marginTop: 20,
+    marginTop: 10,
     borderRadius: 10,
     shadowColor: '#000000',
     shadowOffset: { width: 1, height: 1 },
     shadowOpacity: 0.2,
     shadowRadius: 5,
-    elevation: 5,
+    elevation: 10,
   },
 });
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import {Text, View, StyleSheet, TouchableOpacity} from 'react-native'
-import { grayMed } from 'config/colors';
+import { gray } from 'config/colors';
 import PictureIcon from './PictureIcon';
 function GuidesLastMsg(props) {
     const {tourGuides, navigation} = props;
@@ -24,12 +24,12 @@ function LastMsg(props) {
             </View>
             <View style={[styles.middle]}>
                 <NameTourText guide = {guide}/>
-                <Text style={{color: grayMed}} numberOfLines={1}>
+                <Text style={{color: gray}} numberOfLines={1}>
                         {guide.lastMessage}
                 </Text>
             </View>
             <View style={styles.right}>
-                <Text style={{color: grayMed}} >
+                <Text style={{color: gray}} >
                     {guide.date}
                 </Text>
             </View>
