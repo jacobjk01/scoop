@@ -12,7 +12,7 @@ import { bookTour } from '../../api/tours';
 import BottomButton from '../../components/BottomButton';
 import Header from '../../components/Header';
 import { UserContext } from '../../contexts';
-import { bold20, bold18, bold24 } from '../../config/typography.js';
+import { reg14, bold14, bold16, bold18, bold20, bold24 } from '../../config/typography.js';
 import { getMeetingPt } from '../../api/tours';
 
 const Checkout = ({navigation, route}) => {
@@ -45,11 +45,11 @@ const Checkout = ({navigation, route}) => {
     }
   }
   return (
-    <SafeAreaView style={{backgroundColor: white, fontFamily: 'Helvetica',}}>
+    <SafeAreaView style={{backgroundColor: white}}>
       <FlatList style={{height: '100%'}}
         ListHeaderComponent={
           <View>
-            <Header title='Checkout' navigation={navigation}/>
+            <Header title='Checkout' navigation={navigation} backgroundColor={white} color={primary}/>
             <View>
               <View style={{display: 'flex', flexDirection: 'row', marginLeft: '10%', marginTop: '10%'}}>
                 <Image
@@ -57,8 +57,8 @@ const Checkout = ({navigation, route}) => {
                   source={{uri: tour.picture}}
                 />
                 <View style={{marginTop: 'auto', marginBottom: 'auto'}}>
-                  <Text style={{fontFamily: 'Helvetica-Bold', color: black, fontSize: 18,}}>{tour.title}</Text>
-                  <Text style={{fontSize: 15, color: gray}}>with {guide.name}</Text>
+                  <Text style={{...bold16}}>{tour.title}</Text>
+                  <Text style={{...reg14, color: gray}}>with {guide.name}</Text>
                 </View>
               </View>
               <View style={{display: 'flex', flexDirection: 'row', marginTop: 30, marginLeft: '10%'}}>
@@ -142,15 +142,15 @@ const Checkout = ({navigation, route}) => {
               style={{marginLeft: 'auto', marginRight:'auto', marginTop: 13}}
             >
             </Ionicons>
-            <Text style={{color: primary, fontSize: 16, fontFamily: 'Helvetica-Bold', marginLeft: 'auto', marginRight: 'auto', marginBottom: 5}}>
+            <Text style={{color: primary, ...bold16, marginLeft: 'auto', marginRight: 'auto', marginBottom: 5}}>
               Confirmed!
             </Text>
             <View style={[styles.divider, {borderBottomWidth: 1.5, borderColor: gray}]}></View>
-            <Text style={{fontSize: 15, width: 250, marginLeft: 'auto', marginRight: 'auto', textAlign: 'center', marginTop: 20, marginBottom: 10}}>
+            <Text style={{...reg14, width: 250, marginLeft: 'auto', marginRight: 'auto', textAlign: 'center', marginTop: 20, marginBottom: 10}}>
               <Text style={{}}>
                 Your tour on 
               </Text>
-              <Text style={{fontFamily: 'Helvetica-Bold'}}> July 14, 10:00 AM </Text>
+              <Text style={{...bold14}}> July 14, 10:00 AM </Text>
               <Text>
                 has been confirmed!
               </Text>
@@ -160,7 +160,7 @@ const Checkout = ({navigation, route}) => {
               onPress={() => navigation.popToTop()}
               style={{backgroundColor: primary, paddingVertical: 10, paddingHorizontal: 20, borderRadius: 13, marginLeft: 'auto', marginRight: 'auto', marginBottom: 20}}
             >
-              <Text style={{fontSize: 15, color: white, marginLeft: 'auto', marginRight: 'auto', fontFamily: 'Helvetica-Bold'}}>
+              <Text style={{...bold14, color: white, marginLeft: 'auto', marginRight: 'auto'}}>
                 OK
               </Text>
             </TouchableOpacity>
@@ -172,17 +172,13 @@ const Checkout = ({navigation, route}) => {
 };
 
 const styles = StyleSheet.create({
-  infoBox: {
-
-  },
   infoTitle: {
-    fontSize: 16,
+    ...reg14,
     color: gray,
     paddingVertical: 4
   },
   info: {
-    fontSize: 18,
-    fontFamily: 'Helvetica-Bold'
+    ...bold14,
   },
   divider: {
     width: '80%',
@@ -191,87 +187,6 @@ const styles = StyleSheet.create({
     borderBottomColor: gray,
     borderBottomWidth: 1,
   },
-  image: {
-    position: 'absolute',
-    resizeMode: 'contain',
-    top: 20,
-    left: 0,
-    height: 120,
-    width: 200,
-  },
-  topContainer: {
-    width: '92%',
-    marginTop: 90,
-    marginLeft: 'auto',
-    marginRight: 'auto',
-    borderRadius: 20,
-    backgroundColor: white,
-
-    //android only
-    elevation: 10
-  },
-  bottomContainer: {
-
-    width: '92%',
-    marginLeft: 'auto',
-    marginRight: 'auto',
-    marginTop: 10,
-    marginBottom: 115,
-    borderRadius: 20,
-    backgroundColor: white,
-    //android only
-    elevation: 10,
-  },
-  confirmContainer: {
-    position: 'absolute',
-    bottom: 0,
-    width: '100%',
-    height: 105,
-    backgroundColor: white,
-    
-  },
-  confirmButton: {
-    height: '60%',
-    width: '90%',
-    backgroundColor: primary,
-    borderRadius: 17,
-    marginLeft: 'auto',
-    marginRight: 'auto',
-    marginBottom: 'auto',
-    marginTop: 'auto',
-
-    // Android only
-    elevation: 10,
-  },
-  disabledConfirmButton: {
-    height: '60%',
-    width: '90%',
-    backgroundColor: white,
-    borderRadius: 17,
-    marginLeft: 'auto',
-    marginRight: 'auto',
-    marginBottom: 'auto',
-    marginTop: 'auto',
-    borderWidth: 1,
-    borderColor: gray,
-
-  },
-  confirmText: {
-    color: white,
-    marginLeft: 'auto',
-    marginRight: 'auto',
-    marginTop: 'auto',
-    marginBottom: 'auto', fontSize: 19,
-    fontFamily: 'Helvetica-Bold'
-  },
-  disabledConfirmText: {
-    color: gray,
-    marginLeft: 'auto',
-    marginRight: 'auto',
-    marginTop: 'auto',
-    marginBottom: 'auto', fontSize: 19,
-    fontFamily: 'Helvetica-Bold'
-  }
 });
 
 export default Checkout;

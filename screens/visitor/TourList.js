@@ -83,33 +83,6 @@ const TourList = ({navigation, route}) => {
 };
 
 const styles = StyleSheet.create({
-  baseText: {
-    fontFamily: 'Helvetica',
-  },
-  titleText: {
-    fontSize: 24,
-    fontWeight: '700',
-  },
-  sectionText: {
-    fontSize: 20,
-    fontWeight: '600',
-    marginBottom: 5,
-  },
-  input: {
-    alignSelf: 'center',
-    backgroundColor: 'white',
-    height: 50,
-    width: '100%',
-    // borderWidth: 1,
-    // borderColor: '#656565',
-    borderRadius: 7,
-    paddingLeft: 20,
-  },
-  searchicon: {
-    position: 'absolute',
-    right: 10,
-    top: 11,
-  },
   listTourImage: {
     marginRight: 15,
     width: 200,

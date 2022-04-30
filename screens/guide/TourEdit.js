@@ -13,6 +13,7 @@ import {
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import LinearGradient from 'react-native-linear-gradient';
 import { primary, white, gray, black } from 'config/colors';
+import {reg12, reg14, reg16, bold16, bold18, bold20, bold24, oblique16} from '../../config/typography.js'
 import ImageHeader from '../../components/ImageHeader';
 import BottomButton from '../../components/BottomButton'
 import DatesDisplay from 'components/DatesDisplay';
@@ -160,17 +161,14 @@ const styles = StyleSheet.create({
       width: '80%',
   },
   sectionText: {
-    fontSize: 18,
-    fontWeight: '600',
+    ...bold16,
     marginTop: 20,
     paddingLeft: 40,
   },
   bodyText: {
-    fontSize: 14,
-    fontWeight: '200',
+    ...reg12,
     color: black,
     marginBottom: 15,
-    fontFamily: 'Helvetica',
     paddingLeft: 45,
     paddingRight: 45,
   },
@@ -179,25 +177,6 @@ const styles = StyleSheet.create({
     height: 200,
     zIndex: -10,
     paddingTop: 100,
-  },
-  imageOverlay: {
-    position: 'absolute',
-    bottom: 110,
-    paddingLeft: 40,
-  },
-  continue: {
-    position: 'absolute',
-    bottom: 50,
-    left: 20,
-    right: 20,
-    backgroundColor: primary,
-    height: 50,
-    justifyContent: 'center',
-    borderRadius: 10,
-    shadowColor: black,
-    shadowOffset: {width: 2, height: 2},
-    shadowOpacity: 0.5,
-    shadowRadius: 3,
   },
 });
 

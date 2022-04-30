@@ -294,9 +294,6 @@ export default  ({navigation}) => {
 }
 
 const styles = StyleSheet.create({
-    itemStyle: {
-        backgroundColor: black
-    },
     oval: {
         backgroundColor: primary,
 
