@@ -14,7 +14,8 @@ import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
 import { Marker } from 'react-native-maps';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import LinearGradient from 'react-native-linear-gradient';
-import { primary, white, gray, black, red } from 'config/colors';
+import {reg12, reg14, reg16, bold16, bold18, bold20, bold24, oblique16} from '../../config/typography.js'
+import { primary, white, gray, black, red } from '../../config/colors';
 import ImageHeader from '../../components/ImageHeader';
 import BottomButton from '../../components/BottomButton';
 

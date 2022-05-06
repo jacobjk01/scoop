@@ -16,7 +16,7 @@ import { useNavigation } from '@react-navigation/native';
 import { UserContext } from '../contexts';
 import { getPicture, changeName, changePicture, changeMajor, changeYear, changeIntro, changeLanguages, changeHometown } from '../api/users';
 import {request, check, PERMISSIONS, RESULTS} from 'react-native-permissions';
-import {reg12, reg14, reg16, bold16, bold18, bold20, bold24, oblique16} from '../../config/typography.js'
+import {reg12, reg14, reg16, bold16, bold18, bold20, bold24, oblique16} from '../config/typography.js'
 import { primary, gray, white, black, darkGray } from '../config/colors';
 import BackButton from 'components/BackButton';
 
