@@ -9,8 +9,8 @@ import {
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import {black, gray, white, primary} from '../../config/colors';
-import { UserContext } from '../../contexts'
 import {reg12, reg14, reg16, bold16, bold18, bold20, bold24, oblique16} from '../../config/typography.js'
+import { UserContext } from '../../contexts'
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {
   viewAllTours,

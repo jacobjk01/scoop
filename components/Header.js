@@ -11,7 +11,7 @@ const Header = ({title, navigation, backgroundColor, color}) => {
         <View
             style={{
                 backgroundColor: primary,
-                height: 80,
+                height: 95,
                 width: '100%',
                 zIndex: 100
             }}

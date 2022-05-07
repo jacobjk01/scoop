@@ -1,17 +1,22 @@
 import React from 'react'
 import { SafeAreaView, View, Text, StyleSheet, TouchableOpacity, Image, ScrollView } from 'react-native'
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { primary, white, gray, black, darkGray } from '../config/colors';
-import {bold24, bold18, bold20} from '../../config/typography.js'
+import {black, gray, lightGray, darkGray, white, primary} from '../config/colors';
+import {reg10, reg12, reg14, reg16, reg18, bold16, bold18, bold20, bold24, oblique16} from '../config/typography.js'
 import Header from '../components/Header'
 import BottomButton from '../components/BottomButton';
+import moment from 'moment';
 
 const ViewTour = ({ navigation, route }) => {
-    console.log(route.params.tour, 'view otur')
+    const {meetPoint, tourName, date, visitors} = route.params.tour
+    const {major, name, profilePicture, type, year} = route.params.guide
+    if (flow == 'visitor'){
+    }
+    console.log(route.params.tour, 'view tour')
     const flow = route.params.flow
-    const tour = route.params.tour;
+    console.log(flow, route.params.guide)
     const curTime = '12:00 PM';
-    const activeTour = tour.startTime == curTime ? true : false;
+    const activeTour = route.params.tour.startTime == curTime ? true : false;
     const itinerary = [
         {'name': 'Diddy Riese', 'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'},
         {'name': 'Regency Theater', 'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'},
@@ -22,62 +27,64 @@ const ViewTour = ({ navigation, route }) => {
     ]
     return (
       <>
-        <SafeAreaView style={{flex:1}}>
-            <ScrollView style={{height: '100%', paddingTop: 0}}>
+        <SafeAreaView style={{flex:1, backgroundColor: white}}>
+            <ScrollView style={{height: '100%'}}>
             <Header title='Westwood Tour' navigation={navigation} backgroundColor={white} color={primary}/>
-                {activeTour ? null : renderTourInfo(tour)}
-                {renderVisitorInfo(tour)}
+                {activeTour ? null : renderTourInfo(date, visitors, meetPoint)}
+                <View style={styles.divider}/>
+                {renderInfo(major, name, profilePicture, year, flow)}
                 {activeTour ? renderItinerary(itinerary) : null}
             </ScrollView>
-            {activeTour ? <CompleteButton /> : null}
-            
-            <BottomButton title='Complete This Tour' onPress={() => {
-              completeTour(tour.tourId, tour.settingId, tour.id).then(() => {
-                navigation.pop();
-              })
-            }}/>
+            {flow == 'visitor'?
+                <>
+                    <ContactButtton/>
+                    <CancelButtton/>
+                </>:
+                (activeTour ? <CompleteButton /> : null)
+            }
+        
         </SafeAreaView>
       </>
     )
 }
 
-const renderTourInfo = (tour) => {
+const renderTourInfo = (date, visitors, meetPoint) => {
     return (
         <View style={styles.tourInfoCard}>
             <View style={{padding: 30}}>
                 <Text style={styles.sectionTitleText}>Tour Info</Text>
                 <View style={{flexDirection: 'row', flexWrap: 'wrap', paddingLeft: 5}}>
-                    {renderTextQuadrant('Date', capitalizeFirstLetter(tour.tourMonth) + ' ' + tour.tourDay)}
-                    {renderTextQuadrant('Time', tour.startTime)}
-                    {renderTextQuadrant('Visitors', tour.visitors)}
-                    {renderTextQuadrant('Meetup Point', tour.meetPoint)}
+                    {renderTextQuadrant('Date', capitalizeFirstLetter(moment(date).format('MMM')) + ' ' + moment(date).format('DD'))}
+                    {renderTextQuadrant('Time', moment(date).format('LT'))}
+                    {renderTextQuadrant('Visitors', visitors)}
+                    {renderTextQuadrant('Meetup Point', meetPoint)}
                 </View>
             </View>
         </View>
     );
 };
 
-const renderVisitorInfo = (tour, img) => {
+const renderInfo = (major, name, profilePicture, year, flow) => {
     return (
         <View style={styles.visitorInfoCard}>
             <View style={{padding: 30}}>
-                <Text style={styles.sectionTitleText}>Visitor Info</Text>
+                <Text style={styles.sectionTitleText}>{flow == 'visitor'?'Guide Info':'Visitor Info'}</Text>
                 <View style={{flexDirection: 'row', flexWrap: 'wrap', paddingLeft: 5}}>
-                    {renderPerson()}
+                    {renderPerson(major, name, profilePicture, year)}
                 </View>
             </View>
         </View>
     );
 };
-const renderPerson = () => {
+const renderPerson = (major, name, profilePicture, year) => {
     return(
         <>
-            <Image style={styles.profilePicture} source={require('images/trevor.png')}></Image>
+            <Image style={styles.profilePicture} source={{uri: profilePicture}}></Image>
             <View style={{flex: 1, width: 225}}>
-                <Text style={styles.nameText}>Trevor</Text>
+                <Text style={styles.nameText}>{name}</Text>
                 <Text style={styles.subtext}>Transfer Student</Text>
-                <Text style={styles.subtext}>Year: Junior</Text>
-                <Text style={styles.subtext}>Major: Aerospace Engineering</Text>
+                <Text style={styles.subtext}>Year: {year}</Text>
+                <Text style={styles.subtext}>Major: {major}</Text>
             </View>
         </>
     )
@@ -129,15 +136,70 @@ const renderItinerary = (itinerary) => {
 
 const CompleteButton = () => {
     return (
-        <TouchableOpacity
-          style={styles.continue}
-          onPress={() => this.navigation.navigate('TourEdit2')}>
-          <Text style={{alignSelf: 'center', color: white, fontWeight: '700'}}>
-            {'Complete This Tour'}
-          </Text>
-        </TouchableOpacity>
+        <BottomButton title='Complete This Tour' onPress={() => {
+            completeTour(tourId, settingId, id).then(() => {
+              navigation.pop();
+            })
+        }}/>
     );
 };
+const ContactButtton = () => {
+    return (
+        <TouchableOpacity
+            style={{
+                backgroundColor: primary,
+                width: '90%',
+                height: 60,
+                marginLeft: 'auto',
+                marginRight: 'auto',
+                borderRadius: 10,
+                marginBottom: 15,
+                elevation: 5,
+            }}
+        >
+            <Text 
+                style={{
+                    color: white,
+                    ...bold18,
+                    marginLeft: 'auto',
+                    marginRight: 'auto',
+                    marginTop: 'auto',
+                    marginBottom: 'auto',
+                }}>Contact Guide
+            </Text>
+        </TouchableOpacity>
+    )
+}
+const CancelButtton = () => {
+    return (
+        <TouchableOpacity
+            style={{
+                backgroundColor: white,
+                width: '90%',
+                height: 60,
+                borderRadius: 10,
+                borderWidth: 1,
+                borderColor: lightGray,
+                marginLeft: 'auto',
+                marginRight: 'auto',
+                marginBottom: 15,
+                elevation: 5,
+            }}
+        >
+            <Text 
+                style={{
+                    color: '#DD3E4E', 
+                    ...reg18,
+                    marginLeft: 'auto',
+                    marginRight: 'auto',
+                    marginTop: 'auto',
+                    marginBottom: 'auto',
+                }}
+            >
+                Cancel Booking</Text>
+        </TouchableOpacity>
+    )
+}
 
 const styles = StyleSheet.create({
     header: {
@@ -155,68 +217,39 @@ const styles = StyleSheet.create({
     },
     tourInfoCard: {
         width: '95%',
-        borderRadius: 20,
-        backgroundColor: white,
-        shadowColor: black,
-        shadowOffset: {width: 1, height: 1},
-        shadowOpacity: 0.3,
-        shadowRadius: 5,
         marginHorizontal: 20,
         alignSelf: 'center',
-        marginVertical: 10,
     },
     visitorInfoCard: {
         width: '95%',
-        borderRadius: 20,
-        backgroundColor: white,
-        shadowColor: black,
-        shadowOffset: {width: 1, height: 1},
-        shadowOpacity: 0.3,
-        shadowRadius: 5,
         marginHorizontal: 20,
         alignSelf: 'center',
-        marginTop: 20,
-        marginBottom: 5,
-        elevation: 15,
     },
     suggestedItineraryCard: {
         width: '95%',
-        borderRadius: 20,
-        backgroundColor: white,
-        shadowColor: black,
-        shadowOffset: {width: 1, height: 1},
-        shadowOpacity: 0.3,
-        shadowRadius: 5,
         marginHorizontal: 20,
         alignSelf: 'center',
-        marginVertical: 10,
         marginBottom: 190,
-        elevation: 15,
     },
     sectionTitleText: {
-        fontWeight: '700',
-        fontSize: 18,
+        ...bold18,
         paddingBottom: 15,
     },
     nameText: {
-        fontWeight: '700',
-        fontSize: 18,
+        ...bold16,
         paddingBottom: 5,
     },
     subtext: {
-        fontWeight: '300',
-        fontSize: 12,
+        ...reg10,
         paddingBottom: 5,
     },
     sectionInfoSubtitleText: {
-        fontWeight: '400',
-        fontSize: 14,
+        ...reg14,
         color: gray,
         paddingVertical: 5,
     },
     sectionInfoText: {
-        fontWeight: '700',
-        fontSize: 16,
+        ...bold16,
         paddingBottom: 15,
     },
     textQuadrant: {
@@ -224,18 +257,17 @@ const styles = StyleSheet.create({
         width: '50%',
     },
     profilePicture: {
-        width: 60,
-        height: 60,
+        width: 80,
+        height: 80,
         borderRadius: 60,
         marginRight: 20,
         marginTop: 10,
     },
     divider: {
-        marginTop: 20,
-        marginBottom: 20,
-        borderBottomColor: gray,
-        borderBottomWidth: 1,
-        width: '100%',
+        backgroundColor: lightGray,
+        height: 2,
+        alignSelf: 'center',
+        width: '85%',
     },
     content: {
         marginLeft: 50,
@@ -259,8 +291,7 @@ const styles = StyleSheet.create({
         fontSize: 16,
     },
     descriptionText: {
-        fontWeight: '400',
-        fontSize: 14,
+        ...reg14,
         color: darkGray,
         marginTop: 10,
     },

@@ -9,6 +9,7 @@ import { getParentData } from '../../api/utilities'
 import { getUserByRef } from '../../api/users'
 import moment from 'moment'
 import { styles } from './styles';
+import { tours } from 'data/toursData';
 
 const MyTrips = ({navigation}) => {
     const [option, setOption] = useState('upcoming')
@@ -95,30 +96,30 @@ const MyTrips = ({navigation}) => {
                 <Text style={{...bold24}}>
                     My Trips
                 </Text>
-                <View style={{display: 'flex', flexDirection: 'row', marginTop: 15}}>
+                <View style={{display: 'flex', flexDirection: 'row', marginVertical: 20}}>
                     {renderButtons('upcoming')}
                     {renderButtons('past')}
                     {renderButtons('cancelled')}
                 </View>
             </View>
             <FlatList
-                style={{paddingTop: 15, marginBottom: 220}}
                 data={option == 'upcoming'? upcoming : option == 'past' ? past : cancelled}
                 keyExtractor={({item, index}) => index}
                 renderItem={({item, index}) => {
-                    let tour = {}
-                    tour.tourMonth = moment(item.time).format('MMM')
-                    tour.tourDay = moment(item.time).format('DD')
-                    tour.name = item.tour.title
-                    tour.meetPoint = item.meetPt
-                    tour.startTime = moment(item.time).format('LT')
-                    
-                    let flow = 'visitor'
+                    const tour = {
+                        date: item.time,
+                        name: item.tour.title,
+                        meetPoint: item.meetPt,
+                        visitors: item.visitors,
+                    }
+                    const guide = item.guide
+                    const flow = 'visitor'
                     return (
                         <TouchableOpacity
-                            style={{borderRadius: 15, elevation: 10, backgroundColor: white, marginVertical: 10, marginHorizontal: 20}}
+                            style={{borderRadius: 15, elevation: 10, backgroundColor: white, marginBottom: 30, marginHorizontal: 20}}
                             key={index}
-                            onPress={() => navigation.navigate('ViewTour', {tour, flow})}
+                            onPress={() => navigation.navigate('ViewTour', {tour, flow, guide})}
+                            key={index}
                         >
                             <Image
                                 source={{uri: item.tour.picture}}
