@@ -32,7 +32,7 @@ const HomePage = ({ navigation }) => {
   //guides is a query snapshot, use foreach and .data() for data.
   const [guides, setGuides] = useState();
   const [upcoming, setUpcoming] = useState();
-  //console.log(upcoming)
+  console.log(upcoming)
   useEffect(() => {
     let isMounted = true
     // Gets list of tours
@@ -161,8 +161,9 @@ const HomePage = ({ navigation }) => {
           </View>
         </View> */}
         {upcoming && 
-          <View style={{backgroundColor: white, marginHorizontal: '5%', width: '90%', paddingVertical: 15, paddingHorizontal: 20,
+          <TouchableOpacity style={{backgroundColor: white, marginHorizontal: '5%', width: '90%', paddingVertical: 15, paddingHorizontal: 20,
           borderRadius: 15, elevation: 5, shadowColor: black, shadowOffset: {width: 1, height: 1}, shadowOpacity: 0.2, display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginVertical: 15}}
+          onPress={()=>{navigation.navigate("MyTrips")}}
           >
             <View style={{display: 'flex', flexWrap:'wrap',flexDirection: 'column', justifyContent:'space-between',}}>
               <View style={{margin: 5}}>
@@ -184,7 +185,7 @@ const HomePage = ({ navigation }) => {
                 flexWrap: 'wrap',
                 flexDirection: 'column',
               }}>
-              <View style={{ margin: 5, display: 'flex', flexDirection: 'row', justifyContent: 'space-between', width: 150 }}>
+              <View style={{ margin: 5, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', width: 150 }}>
                 <View>
                   <Text style={{...reg14, color: gray}}>
                     Tour Guide</Text>
@@ -201,7 +202,7 @@ const HomePage = ({ navigation }) => {
                 <Text style={{...bold16, color: black}}>{moment(upcoming.time).format('LT')}</Text>
               </View>
             </View>
-          </View>
+          </TouchableOpacity>
         }
         {viewAll('Popular Tours')}
         <FlatList
