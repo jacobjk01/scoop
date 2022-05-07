@@ -711,16 +711,6 @@ const TourBooking2 = ({navigation, route}) => {
 }
 
 const styles = StyleSheet.create({
-  baseText: {
-    fontFamily: 'Helvetica',
-  },
-  titleText: {
-    marginLeft: 'auto',
-    marginRight: 'auto',
-    fontSize: 27,
-    color: white,
-    fontFamily: 'Helvetica-Bold',
-  },
   sectionText: {
     fontSize: 19,
     fontWeight: '700',

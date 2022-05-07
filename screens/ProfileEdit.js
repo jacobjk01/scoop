@@ -16,6 +16,7 @@ import { useNavigation } from '@react-navigation/native';
 import { UserContext } from '../contexts';
 import { getPicture, changeName, changePicture, changeMajor, changeYear, changeIntro, changeLanguages, changeHometown } from '../api/users';
 import {request, check, PERMISSIONS, RESULTS} from 'react-native-permissions';
+import {reg12, reg14, reg16, bold16, bold18, bold20, bold24, oblique16} from '../config/typography.js'
 import { primary, gray, white, black, darkGray } from '../config/colors';
 import BackButton from 'components/BackButton';
 
@@ -115,35 +116,35 @@ const AccountEdit = ({navigation}) => {
   const renderGuideBio = (user) => {
     return (
       <View style={{ paddingTop: 10, paddingBottom: 80 }}>
-        <Text style={styles.bold24}>
+        <Text style={reg16}>
           {'First Name'}
         </Text>
         <TextInput style={styles.input} placeholder='Edit your name' maxLength={50}
           onChangeText={name => setName(name)}>
           {user.name}
         </TextInput>
-        <Text style={styles.bold24}>
+        <Text style={reg16}>
           {'Year'}
         </Text>
         <TextInput style={styles.input} placeholder='Select Year' maxLength={200}
           onChangeText={year => setYear(year)}>
           {user.year}
         </TextInput>
-        <Text style={styles.bold24}>
+        <Text style={reg16}>
           {'Major'}
         </Text>
         <TextInput style={styles.input} placeholder='Edit your major' maxLength={50}
           onChangeText={major => setMajor(major)}>
           {user.major}
         </TextInput>
-        <Text style={styles.bold24}>
+        <Text style={reg16}>
           {'Intro'}
         </Text>
         <TextInput style={styles.inputIntro} placeholder='Tell us about yourself!' multiline={true} maxLength={200}
           onChangeText={intro => setIntro(intro)}>
           {user.intro}
         </TextInput>
-        <Text style={styles.bold24}>
+        <Text style={reg16}>
           {'Hometown'}
         </Text>
         <TextInput style={styles.input} placeholder='Edit your hometown' maxLength={50}
@@ -273,30 +274,13 @@ const styles = StyleSheet.create({
     bottom: 70,
     opacity: 0.2,
   },
-  baseText: {
-    fontFamily: 'Helvetica',
-    marginTop: 10,
-  },
-  bold24: {
-    fontSize: 18,
-    fontWeight: '400',
-    paddingLeft: 10,
-  },
   sectionText: {
     fontSize: 24,
     fontWeight: '700',
     marginTop: 30,
   },
-  subbold24: {
-    fontSize: 14,
-    fontWeight: '400',
-    marginTop: 5,
-    fontStyle: 'italic',
-    color: gray,
-  },
   bodyText: {
-    fontSize: 16,
-    fontWeight: '400',
+    ...reg14,
     left: 52,
     color: darkGray,
     top: -5,

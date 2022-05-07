@@ -11,7 +11,7 @@ const Header = ({title, navigation, backgroundColor, color}) => {
         <View
             style={{
                 backgroundColor: primary,
-                height: 120,
+                height: 80,
                 width: '100%',
                 zIndex: 100
             }}
@@ -21,7 +21,7 @@ const Header = ({title, navigation, backgroundColor, color}) => {
                     marginLeft: 'auto',
                     marginRight: 'auto',
                     color: white,
-                    marginTop: 40,
+                    marginTop: 25,
                 }}
             >
                 {title}

@@ -285,18 +285,6 @@ const Profile = ({ navigation, route }) => {
 };
 
 const styles = StyleSheet.create({
-  imageHeader: {
-    width: '100%',
-    height: 400,
-    borderTopLeftRadius: 0,
-    borderTopRightRadius: 0,
-    borderRadius: 10,
-    zIndex: -10,
-  },
-  backgroundImage: {
-    flex: 1,
-    resizeMode: 'cover',
-  },
   divider: {
     marginLeft: 'auto',
     marginRight: 'auto',
@@ -333,34 +321,9 @@ const styles = StyleSheet.create({
     display: 'flex',
     justifyContent: 'flex-end'
   },
-  tourText: {
-    width: 200,
-    fontWeight: '600',
-    fontSize: 18,
-    color: white,
-    position: 'absolute',
-    bottom: 50,
-    left: 20,
-  },
-  guideText: {
-    width: 120,
-    position: 'absolute',
-    bottom: 10,
-    left: 10,
-    color: white,
-  },
   linearGradTour: {
     position: 'absolute',
     top: 150,
-    bottom: 0,
-    left: 0,
-    right: 0,
-    backgroundColor: 'transparent',
-    borderRadius: 10,
-  },
-  linearGradGuide: {
-    position: 'absolute',
-    top: 0,
     bottom: 0,
     left: 0,
     right: 0,
@@ -376,10 +339,6 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
     opacity: 1,
     zIndex: 10,
-  },
-  regularText: {},
-  limitedText: {
-    maxHeight: 80,
   },
   seeMoreButton: {
     marginTop: 10,

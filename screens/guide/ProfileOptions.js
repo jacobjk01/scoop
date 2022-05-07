@@ -14,6 +14,7 @@ import { UserContext } from 'contexts'
 import { useIsFocused } from '@react-navigation/core';
 import { getPicture } from 'api/users';
 import { primary, black, gray, white, lightGray } from 'config/colors';
+import {reg12, reg14, reg16, bold16, bold18, bold20, bold24, oblique16} from '../../config/typography.js'
 
 const ProfileOptions = ({ navigation }) => {
   const { user, userAuth } = useContext(UserContext);
@@ -149,15 +150,14 @@ const styles = StyleSheet.create({
     bottom: 70,
   },
   baseText: {
-    fontFamily: 'Helvetica',
+    ...reg14,
     marginTop: 5,
     marginBottom: 10,
     color: primary,
-    fontSize: 16,
+
   },
   sectionText: {
-    fontSize: 24,
-    fontWeight: '700',
+    ...bold24,
     marginTop: 30,
   },
   roundButton: {

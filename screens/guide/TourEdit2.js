@@ -1,6 +1,7 @@
 import React from 'react'
 import { SafeAreaView, Text, StyleSheet, View, TouchableOpacity, ScrollView } from 'react-native'
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import {reg12, reg14, reg16, bold16, bold18, bold20, bold24, oblique16} from '../../config/typography.js'
 import { primary, white, darkGray } from 'config/colors'
 import BackButton from 'components/BackButton';
 
@@ -91,8 +92,7 @@ const styles = StyleSheet.create({
         marginLeft: 35,
     },
     descriptionText: {
-        fontWeight: '400',
-        fontSize: 14,
+        ...reg12,
         color: darkGray,
         marginTop: 10,
     },

@@ -124,12 +124,14 @@ const App: () => Node = () => {
                 iconName = focused ? 'help-circle' : 'help-circle-outline';
             }
             // You can return any component that you like here!
-            return <Ionicons name={iconName} size={size} color={color} />;
+            return <Ionicons name={iconName} size={30} color={color} />;
           },
         })}
         tabBarOptions={{
           activeTintColor: primary,
           inactiveTintColor: primary,
+          showLabel: false,
+          style: {height: 70},
         }}
         initialRouteName={
           mode === 'visitor' ? 'Home' : mode === 'guide' ? 'Home' : 'Home'

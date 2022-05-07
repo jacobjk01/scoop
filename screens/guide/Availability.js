@@ -200,35 +200,11 @@ const Availability = ({navigation, route}) => {
 }
 
 const styles = StyleSheet.create({
-    divider: {
-        position: 'relative',
-        marginTop: 5,
-        marginBottom: 20,
-        borderBottomColor: gray,
-        borderBottomWidth: 1,
-        alignSelf: 'center',
-        width: '80%',
-    },
   bold24: {
     fontSize: 32,
     fontWeight: '600',
     color: white,
     top: 80,
-  },
-  sectionText: {
-    fontSize: 18,
-    fontWeight: '600',
-    marginTop: 20,
-    paddingLeft: 40,
-  },
-  bodyText: {
-    fontSize: 14,
-    fontWeight: '200',
-    color: black,
-    marginBottom: 15,
-    fontFamily: 'Helvetica',
-    paddingLeft: 45,
-    paddingRight: 45,
   },
   imageHeader: {
     width: '100%',
@@ -249,20 +225,6 @@ const styles = StyleSheet.create({
     right: 0,
     backgroundColor: 'transparent',
     borderRadius: 15,
-  },
-  continue: {
-    position: 'absolute',
-    bottom: 50,
-    left: 20,
-    right: 20,
-    backgroundColor: primary,
-    height: 50,
-    justifyContent: 'center',
-    borderRadius: 10,
-    shadowColor: black,
-    shadowOffset: {width: 2, height: 2},
-    shadowOpacity: 0.8,
-    shadowRadius: 3,
   },
 });
 

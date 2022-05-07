@@ -13,7 +13,7 @@ function BackButton({navigation, backgroundColor, color}) {
                 borderWidth: 1,
                 position: 'absolute',
                 left: 20,
-                top: 40,
+                top: 25,
                 width: 45,
                 height: 45,
                 alignItems: 'center',

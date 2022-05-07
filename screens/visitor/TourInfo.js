@@ -99,30 +99,6 @@ const TourInfo = ({ navigation, route }) => {
 };
 
 const styles = StyleSheet.create({
-  baseText: {
-    fontFamily: 'Helvetica',
-  },
-  headerView: {
-    width: '100%',
-    borderTopLeftRadius: 0,
-    borderTopRightRadius: 0,
-  },
-  smallHeaderView: {
-    width: '100%',
-    height: 200,
-  },
-  detailText: {
-    fontSize: 14,
-    fontWeight: '200',
-    color: white,
-  },
-  subText: {
-    fontSize: 20,
-    fontWeight: '400',
-    color: white,
-    marginTop: 20,
-    // marginBottom: 20,
-  },
   summaryText: {
     fontSize: 14,
     fontWeight: '200',
@@ -133,12 +109,6 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 600,
   },
-  imageOverlay: {
-    position: 'absolute',
-    bottom: 20,
-    paddingLeft: 24,
-    paddingRight: 40,
-  },
   backCard: {
     flex: 1,
     backgroundColor: 'white',
@@ -146,30 +116,6 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     marginLeft: 20,
     marginRight: 40,
-    shadowColor: black,
-    shadowOffset: { width: 1, height: 1 },
-    shadowOpacity: 0.2,
-    shadowRadius: 5,
-  },
-  linearGradTour: {
-    position: 'absolute',
-    top: 150,
-    bottom: 0,
-    left: 0,
-    right: 0,
-    backgroundColor: 'transparent',
-    borderRadius: 10,
-  },
-  reviewCard: {
-    width: Dimensions.get('window').width - 40,
-    backgroundColor: white,
-    alignSelf: 'center',
-    padding: 20,
-    marginBottom: 20,
-    marginLeft: 20,
-    marginRight: 20,
-    marginTop: 20,
-    borderRadius: 10,
     shadowColor: black,
     shadowOffset: { width: 1, height: 1 },
     shadowOpacity: 0.2,

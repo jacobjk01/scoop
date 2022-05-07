@@ -3,7 +3,7 @@ import { View, SafeAreaView, Text, Button, TextInput, StyleSheet, Image} from 'r
 import { TouchableOpacity} from 'react-native-gesture-handler'
 import { UserContext } from '../../contexts'
 import {black, white, gray, grayLight, primary} from '../../config/colors.js'
-import {reg16, bold18} from '../../config/typography.js'
+import {reg14, reg16, bold16, bold18} from '../../config/typography.js'
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 export default  ({navigation}) => {
@@ -20,8 +20,7 @@ export default  ({navigation}) => {
         if (mode != 'visitor') {
             setMode('visitor');
         }
-        return () => {
-        }
+        return () => {}
     }, [])
     const [page, setPage] = useState(1)
     const [data, setData] = useState(['-','-','-','-']);
@@ -152,7 +151,7 @@ export default  ({navigation}) => {
         return (
             <View style={{flexDirection: 'row', justifyContent: 'space-between', width: '100%', }}>
                 <TouchableOpacity 
-                    style={{borderWidth: 1.25, borderRadius: 10, paddingHorizontal: 30, paddingVertical: 7, borderColor: primary}}
+                    style={{borderWidth: 1.25, borderRadius: 10, paddingHorizontal: 35, paddingVertical: 7, borderColor: primary}}
                     onPress={() => {
                         if (page === 1) {
                             navigation.goBack()
@@ -163,18 +162,18 @@ export default  ({navigation}) => {
                         } 
                     }
                 >
-                    <Text style={{color: primary, ...bold18, textAlign: 'center'}}>
+                    <Text style={{color: primary, ...bold16, textAlign: 'center'}}>
                         Back
                     </Text>
                 </TouchableOpacity>
                 <TouchableOpacity
-                    style={{borderWidth: 1.25, borderRadius: 10, paddingHorizontal: 30, paddingVertical: 7,  borderColor: data[page - 1] != '-'?primary:gray, backgroundColor: data[page - 1] != '-'?primary:white,}}
+                    style={{borderWidth: 1.25, borderRadius: 10, paddingHorizontal: 35, paddingVertical: 7,  borderColor: data[page - 1] != '-'?primary:gray, backgroundColor: data[page - 1] != '-'?primary:white,}}
                     onPress={() => {
                         if (data[page - 1] != '-')
                             setPage(page + 1)
                     }}
                 >
-                    <Text style={{...bold18, textAlign: 'center', color: data[page - 1] != '-'?white:gray,}}>
+                    <Text style={{...bold16, textAlign: 'center', color: data[page - 1] != '-'?white:gray,}}>
                         Next
                     </Text>
                 </TouchableOpacity>
@@ -210,7 +209,7 @@ export default  ({navigation}) => {
                     <Text style={{...bold18, width: '70%', textAlign: 'center', paddingBottom: 10}}>
                         You are all set!
                     </Text>
-                    <Text style={{color: gray}}>
+                    <Text style={{color: gray, ...reg14}}>
                         You can add more info in your profile page
                     </Text>
                     <Image
@@ -222,9 +221,9 @@ export default  ({navigation}) => {
                             setVisitorBone(true);
                             setPage(0)
                         }}
-                        style={{backgroundColor: primary, paddingLeft: 20, paddingRight: 10, paddingVertical: 10, borderRadius: 30, display:'flex', flexDirection: 'row'}}
+                        style={{backgroundColor: primary, paddingLeft: 30, paddingRight: 20, paddingVertical: 13, borderRadius: 40, display:'flex', flexDirection: 'row'}}
                     >
-                        <Text style={{fontFamily: 'Helvetica-Bold', fontSize: 16, color: white, textAlign: 'center'}}>
+                        <Text style={{...bold16, color: white, textAlign: 'center'}}>
                             Start Exploring
                         </Text>
                         <Ionicons
@@ -294,9 +293,6 @@ export default  ({navigation}) => {
 }
 
 const styles = StyleSheet.create({
-    itemStyle: {
-        backgroundColor: black
-    },
     oval: {
         backgroundColor: primary,
 
