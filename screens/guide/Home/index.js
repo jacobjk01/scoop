@@ -19,7 +19,13 @@ const Home = ({navigation}) => {
   const [activeBooking, setActiveBooking] = useState(null)
   const [bookings, setBookings] = useState([])
   const {userAuth, setUserAuth, user, setUser} = useContext(UserContext);
-  
+  const guide = {
+    major: null,
+    name: null,
+    profilePicture: null,
+    type: null,
+    year: null
+  }
   useEffect(() => {
     if (!userAuth) return;
     getGuideBookings(userAuth.uid).then(async bookings => {
@@ -35,19 +41,15 @@ const Home = ({navigation}) => {
         console.error(e)
       }
       let _bookings = bookings.map((booking, i) => {
-        let tourMonth = moment(booking.time.toDate()).format('MMM') || "Loading..."
-        let tourDay = moment(booking.time.toDate()).format('DD') || "Loading..."
-        let startTime = moment(booking.time.toDate()).format('LT') || "Loading..."
+        let date = booking.time.toDate() || "Loading..."
         let name = tours[i] && tours[i].title || "Loading..."
         let meetPoint = meetingPts[i].title || "Loading..."
         return ({
         id: booking.id, //not sure if this needs to be tour or booking
         settingId: tourSettings[i].id,
         tourId: tours[i].id,
-        tourMonth,
-        tourDay,
+        date,
         name,
-        startTime,
         meetPoint
       })})
 
@@ -86,28 +88,26 @@ const Home = ({navigation}) => {
           </View>
           <View style={{flexWrap: 'wrap', alignContent: 'center'}}>
             {bookings.map((tour) => {
-              if (!(tour.id && tour.tourMonth && tour.tourDay && tour.name && tour.startTime && tour.meetPoint)) {
+              if (!(tour.id && tour.name && tour.date && tour.meetPoint)) {
                 /*console.log ({
                   id: tour.id,
-                  month: tour.tourMonth,
-                  day: tour.tourDay,
+                  date: tour.date
                   name: tour.name,
-                  startTime: tour.startTime,
                   meetPoint: tour.meetPoint
                 })*/
                 throw new Error('Missing a parameter')
               }
               return(
-                <TouchableOpacity key={tour.id} style={styles.tourCard} onPress={() => navigation.navigate('ViewTour', {tour, flow: 'guide'})}>
+                <TouchableOpacity key={tour.id} style={styles.tourCard} onPress={() => navigation.navigate('ViewTour', {tour,guide, flow: 'guide'})}>
                   {/* <Image style={styles.tourImage} source={tour.src}></Image> */}
                   <View style={styles.tourTextSection}>
                       <View style={styles.tourDateSection}>
-                          <Text style={styles.tourDateText}>{tour.tourMonth}</Text>
-                          <Text style={styles.tourDateText}>{tour.tourDay}</Text>
+                          <Text style={styles.tourDateText}>{moment(tour.date).format('MMM')}</Text>
+                          <Text style={styles.tourDateText}>{moment(tour.date).format('DD')}</Text>
                       </View>
                       <View style={styles.tourInfoSection}>
                           <Text style={styles.tourNameText}>{tour.name}</Text>
-                          <Text style={{marginTop: 5}}>{tour.startTime}</Text>
+                          <Text style={{marginTop: 5}}>{moment(tour.date).format('LT')}</Text>
                           <Text style={{marginTop: 5}}>{tour.meetPoint}</Text>
                       </View>
                       <View style={styles.forwardIcon}>

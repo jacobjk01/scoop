@@ -1,9 +1,11 @@
 import { StyleSheet } from "react-native";
 
 const style = StyleSheet.create({
+    reg12: { fontSize: 12 },
     reg12: { fontSize: 14 },
     reg14: { fontSize: 16 },
     reg16: { fontSize: 18 },
+    reg18: { fontSize: 20 },
     bold14: { fontSize: 16, fontFamily: 'Helvetica-Bold' },
     bold16: { fontSize: 18, fontFamily: 'Helvetica-Bold' },
     bold18: { fontSize: 20, fontFamily: 'Helvetica-Bold' },
