@@ -246,7 +246,15 @@ export const editTour = async (
     transportation,
   );
 }
-export const archiveTour = async (tourSettingRef) => {
+
+export const archiveTour = async (tourId, tourSettingId) => {
+  tours.doc(tourId).collection('tourSettings').doc(tourSettingId).update({
+    isArchived: true,
+    isPublished: true,
+    flags: ["published", "archived"]
+  })
+}
+ const _archiveTour = async (tourSettingRef) => {
   tourSettingRef.update({
     isArchived: true,
     isPublished: true,
@@ -423,12 +431,17 @@ export const getAllTourSettings = async (guideId) => {
  * @returns function to cancel the listener
  */
  export const getAllTourSettingsListener = (guideId, cb) => {
-  getAllTourSettings(guideId).then(console.log)
+  // getAllTourSettings(guideId).then(console.log)
   return db.collectionGroup("tourSettings")
-    .where("guide", "==", user(guideId)).onSnapshot(tourSettingsSnapshot => {
-      console.log('asdf')
-      console.log(tourSettingsSnapshot)
-      cb(querySnapshotFormatter(tourSettingsSnapshot))
+    .where("guide", "==", user(guideId)).where('isArchived', '==', false).onSnapshot(tourSettingsSnapshot => {
+      // console.log('asdf')
+      // console.log(tourSettingsSnapshot)
+      // console.log('=======================================================')
+      if (tourSettingsSnapshot === null || tourSettingsSnapshot.docs === null) {
+        return;
+      } else {
+        cb(querySnapshotFormatter(tourSettingsSnapshot))
+      }
     })
 }
 
