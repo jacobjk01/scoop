@@ -5,6 +5,7 @@ import { UserContext } from '../../contexts'
 import {black, white, gray, grayLight, primary} from '../../config/colors.js'
 import {reg14, reg16, bold16, bold18} from '../../config/typography.js'
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { capitalizeFirstLetter } from 'utils'
 
 export default  ({navigation}) => {
     const {
@@ -119,9 +120,10 @@ export default  ({navigation}) => {
                         placeholder={'First Name'}
                         onChangeText={(text) => {
                             let temp = [...data]
-                            temp[0] = text
+                            temp[0] = capitalizeFirstLetter(text)
                             setData(temp)
                         }}
+                        maxLength={30}
                     />
                 )
             case 2:
@@ -139,9 +141,10 @@ export default  ({navigation}) => {
                             fontSize: 18, paddingHorizontal: 20, paddingVertical: 7, marginTop: 40,marginBottom: 25}}
                         onChangeText={(text) => {
                             let temp = [...data]
-                            temp[3] = text
+                            temp[3] = capitalizeFirstLetter(text)
                             setData(temp)
                         }}
+                        maxLength={30}
                     />
                 )
         }

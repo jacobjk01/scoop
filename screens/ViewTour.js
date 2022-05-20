@@ -6,6 +6,7 @@ import {reg10, reg12, reg14, reg16, reg18, bold16, bold18, bold20, bold24, obliq
 import Header from '../components/Header'
 import BottomButton from '../components/BottomButton';
 import moment from 'moment';
+import { capitalizeFirstLetter } from 'utils';
 
 const ViewTour = ({ navigation, route }) => {
     const {meetPoint, tourName, date, visitors} = route.params.tour
@@ -98,11 +99,6 @@ const renderTextQuadrant = (name, info) => {
         </View>
     );
 };
-
-function capitalizeFirstLetter(string) {
-    string = string.toLowerCase();
-    return string.charAt(0).toUpperCase() + string.slice(1);
-}
 
 const renderItinerary = (itinerary) => {
     return (
