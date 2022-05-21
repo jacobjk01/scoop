@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import { SafeAreaView, View, Text, StyleSheet, TouchableOpacity, Image, ScrollView } from 'react-native'
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {black, gray, lightGray, darkGray, white, primary} from '../config/colors';
@@ -7,15 +7,25 @@ import Header from '../components/Header'
 import BottomButton from '../components/BottomButton';
 import moment from 'moment';
 import { capitalizeFirstLetter } from 'utils';
+import { getUserByRef } from 'api/users';
 
 const ViewTour = ({ navigation, route }) => {
-    const {meetPoint, tourName, date, visitors} = route.params.tour
-    const {major, name, profilePicture, type, year} = route.params.guide
-    if (flow == 'visitor'){
-    }
-    console.log(route.params.tour, 'view tour')
+    const [people, setPeople] = useState(flow == 'guide'?null:route.params.people)
     const flow = route.params.flow
-    console.log(flow, route.params.guide)
+    //route.params.people = [{major: vetinernerian, profilePicture:asdrgds, name: Angelica, year: Sophmore }, ...]
+
+    useEffect(() => {
+        if(flow == 'guide'){
+            async function getUser(){
+                let user = await getUserByRef(route.params.tour.visitorId)
+                setPeople([user._data])
+                return user
+            }
+            getUser()
+        }
+    },[])
+
+    const {meetPoint, tourName, date, visitors} = route.params.tour
     const curTime = '12:00 PM';
     const activeTour = route.params.tour.startTime == curTime ? true : false;
     const itinerary = [
@@ -26,6 +36,7 @@ const ViewTour = ({ navigation, route }) => {
         {'name': 'Target', 'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'},
         {'name': 'Elyse Bakery', 'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'},
     ]
+
     return (
       <>
         <SafeAreaView style={{flex:1, backgroundColor: white}}>
@@ -33,8 +44,8 @@ const ViewTour = ({ navigation, route }) => {
             <Header title='Westwood Tour' navigation={navigation} backgroundColor={white} color={primary}/>
                 {activeTour ? null : renderTourInfo(date, visitors, meetPoint)}
                 <View style={styles.divider}/>
-                {renderInfo(major, name, profilePicture, year, flow)}
-                {activeTour ? renderItinerary(itinerary) : null}
+                {renderInfo(people?people:[{major: null, profilePicture: null, year: null,name: null}], flow)}
+                {flow == 'guide' ? renderItinerary(itinerary) : null}
             </ScrollView>
             {flow == 'visitor'?
                 <>
@@ -65,13 +76,21 @@ const renderTourInfo = (date, visitors, meetPoint) => {
     );
 };
 
-const renderInfo = (major, name, profilePicture, year, flow) => {
+const renderInfo = (people, flow) => {
+
     return (
         <View style={styles.visitorInfoCard}>
             <View style={{padding: 30}}>
                 <Text style={styles.sectionTitleText}>{flow == 'visitor'?'Guide Info':'Visitor Info'}</Text>
-                <View style={{flexDirection: 'row', flexWrap: 'wrap', paddingLeft: 5}}>
-                    {renderPerson(major, name, profilePicture, year)}
+                <View style={{flexDirection: 'column', flexWrap: 'wrap', paddingLeft: 5}}>
+                    {people.map((person) => {
+                        return  (
+                            <>
+                                {renderPerson(person.major, person.name, person.profilePicture, person.year)}
+                                {/* <View style={styles.divider}/> */}
+                            </>
+                        )
+                    })}
                 </View>
             </View>
         </View>
@@ -79,15 +98,15 @@ const renderInfo = (major, name, profilePicture, year, flow) => {
 };
 const renderPerson = (major, name, profilePicture, year) => {
     return(
-        <>
-            <Image style={styles.profilePicture} source={{uri: profilePicture}}></Image>
+        <View style={{flexDirection: 'row', flexWrap: 'wrap', paddingLeft: 5, paddingBottom: 30}}>
+            <Image style={styles.profilePicture} source={profilePicture?{uri: profilePicture}:require('../images/defaultpfp.png')}></Image>
             <View style={{flex: 1, width: 225}}>
                 <Text style={styles.nameText}>{name}</Text>
                 <Text style={styles.subtext}>Transfer Student</Text>
                 <Text style={styles.subtext}>Year: {year}</Text>
                 <Text style={styles.subtext}>Major: {major}</Text>
             </View>
-        </>
+        </View>
     )
 }
 

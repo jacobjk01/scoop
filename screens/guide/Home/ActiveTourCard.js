@@ -8,21 +8,22 @@ import {
 } from "react-native";
 import { capitalizeFirstLetter } from "utils";
 import TextQuadrant from "./TextQuadrant";
+import moment from 'moment'
 
 /**
  * 
  * @param {{currentTour, navigation}} props 
  * @returns 
  */
-const ActiveTourCard = ({currentTour, navigation, asdfsdf}) => {
+const ActiveTourCard = ({currentTour, navigation}) => {
   return (
-    <TouchableOpacity style={styles.currentTourCard} onPress={() => navigation.navigate('ViewTour', {tour: currentTour})}>
+    <TouchableOpacity style={styles.currentTourCard} onPress={() => navigation.navigate('ViewTour', {tour: currentTour, flow: 'guide'})}>
             <View style={{padding: 30}}>
               <Text style={[styles.sectionInfoSubtitleText, {paddingBottom: 0}]}>Current Tour</Text>
                 <Text style={styles.sectionTitleText}>{currentTour.name}</Text>
                 <View style={{flexDirection: 'row', flexWrap: 'wrap', paddingLeft: 0}}>
-                    <TextQuadrant name='Date' info={capitalizeFirstLetter(currentTour.tourMonth) + ' ' + currentTour.tourDay}/>
-                    <TextQuadrant name='Time' info={currentTour.startTime}/>
+                    <TextQuadrant name='Date' info={capitalizeFirstLetter(moment(currentTour.date).format('MMM DD'))}/>
+                    <TextQuadrant name='Time' info={moment(currentTour.date).format('LT')}/>
                     <TextQuadrant name='Visitors' info={currentTour.visitors}/>
                     <TextQuadrant name='Meetup Point' info={currentTour.meetPoint}/>
                 </View>
