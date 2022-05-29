@@ -445,10 +445,12 @@ const TourBooking1 = ({navigation, route}) => {
           <Text
             style={{
               fontSize: 14,
+              backgroundColor: primary,
               color: white,
               paddingHorizontal: 14,
               paddingVertical: 6,
               marginVertical: 3,
+              borderRadius: 8,
             }}>
             Confirm
           </Text>

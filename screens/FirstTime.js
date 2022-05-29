@@ -35,7 +35,7 @@ export default  ({navigation}) => {
         <SafeAreaView style={{height: '100%', width: '100%', backgroundColor: white}}>
             <View style={{width: '60%', marginLeft: 'auto', marginRight: 'auto', marginTop: 'auto', marginBottom: 'auto'}}>
                 <Text style={{...bold18, marginLeft: 'auto', marginRight: 'auto', marginBottom: 50, color: black}}>
-                    Welcome to Otour. 
+                    Welcome to Scoop! 
                 </Text>
                 <TouchableOpacity
                     style={{...styles.button, marginBottom: 20}}

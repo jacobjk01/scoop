@@ -112,13 +112,13 @@ const MyTrips = ({navigation}) => {
                         meetPoint: item.meetPt,
                         visitors: item.visitors,
                     }
-                    const guide = item.guide
+                    const people = [item.guide]
                     const flow = 'visitor'
                     return (
                         <TouchableOpacity
                             style={{borderRadius: 15, elevation: 10, backgroundColor: white, marginBottom: 30, marginHorizontal: 20}}
                             key={index}
-                            onPress={() => navigation.navigate('ViewTour', {tour, flow, guide})}
+                            onPress={() => navigation.navigate('ViewTour', {tour, flow, people})}
                             key={index}
                         >
                             <Image
