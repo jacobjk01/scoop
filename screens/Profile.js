@@ -20,7 +20,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import LinearGradient from 'react-native-linear-gradient';
 import Reviews from '../components/Reviews';
 import { primary, gray, white, black, lightGray, tappableBlue } from '../config/colors';
-import {bold24, bold18, bold20} from '../config/typography.js'
+import {reg14, bold24, bold18, bold20} from '../config/typography.js'
 import reviewData from '../data/reviews';
 import { getUser, getUserById } from '../api/users';
 import { viewMyTours, getTour } from '../api/tours';
@@ -223,22 +223,12 @@ const Profile = ({ navigation, route }) => {
                 renderItem={item => navigateCheckout(item)}
                 style={{marginTop: 20, marginBottom: 30}}
               />
-              {tours[0] == null &&
-                <Text
-                  style={{
-                    fontSize: 18,
-                    color: lightGray,
-                  }}
-                >
-                  No Available Tours
-                </Text>
-              }
             </>
           }
-          <View style={styles.divider} />
+          <View style={{...styles.divider, display: guide.hometown || guide.intro? 'flex':'none'}} />
           <View>
             <Text
-              style={{...bold18, marginTop: 20, marginLeft: 5}}>
+              style={{...bold18, marginTop: 20, marginLeft: 5, display: guide.hometown || guide.intro? 'flex':'none',}}>
               {"Hi, I'm " + guide.name + '!'}
             </Text>
 
@@ -248,8 +238,9 @@ const Profile = ({ navigation, route }) => {
                 fontSize: 14,
                 fontStyle: 'italic',
                 marginVertical: 5,
+                display: guide.hometown? 'flex':'none',
               }}>
-              {guide.hometown? `Hometown: ${guide.hometown}`: 'No Hometown'}
+              {guide.hometown? `Hometown: ${guide.hometown}`: ''}
             </Text>
             <View
               style={{backgroundColor: 'white', width: '100%'}}>
@@ -260,8 +251,8 @@ const Profile = ({ navigation, route }) => {
                 />
               )} */}
               {/* <View style={styles.opacityBlock} /> */}
-              <Text style={{ fontSize: 16, marginBottom: 20}}>
-                {guide.intro?guide.intro: 'No Intro'}
+              <Text style={{ ...reg14, marginBottom: 20, display: guide.intro? 'flex':'none',}}>
+                {guide.intro?guide.intro: ''}
               </Text>
               {/* <Text
                 onPress={() => setSeeMore(!seeMore)}
@@ -270,7 +261,7 @@ const Profile = ({ navigation, route }) => {
               </Text> */}
             </View>
           </View>
-          <View style={styles.divider} />
+          <View style={{...styles.divider}} />
           <Text
             style={{...bold18, marginVertical: 20, marginLeft: 5}}>
             {'Reviews:'}

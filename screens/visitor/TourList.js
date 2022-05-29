@@ -28,7 +28,7 @@ const TourList = ({navigation, route}) => {
       <ScrollView style={{height: '100%', width: '100%', backgroundColor:'white'}}>
         <BackButton navigation={navigation}/>
         <View style={{marginLeft: 20}}>
-          <Text style={{...styles.bold24, marginTop: 100}}>Tours</Text>
+          <Text style={{...bold24, marginTop: 100}}>Tours</Text>
           <FlatList
             style={{marginBottom: 10}}
             horizontal={false}
@@ -54,8 +54,8 @@ const TourList = ({navigation, route}) => {
                   source={{uri: tour.item.picture}}
                   style={{
                     marginRight: 10,
-                    width: 100,
-                    height: 100,
+                    width: 110,
+                    height: 110,
                     borderRadius: 10
                   }}
                 />

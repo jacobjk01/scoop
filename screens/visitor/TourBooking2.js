@@ -37,7 +37,7 @@ const TourBooking2 = ({navigation, route}) => {
   //all of the toursettings that are led by a specific guide, a specific tour, and on a specific day
   const [dayTourSettings, setDayTourSettings] = useState()
   const [visitorCount, setVisitorCount] = useState(1)
-  const [selectedDay, setSelectedDay] = useState(route.params.selectedDay)
+  const [selectedDay, setSelectedDay] = useState(route.params.selectedDay?route.params.selectedDay:'')
   const [times, setTimes] = useState([])
   const [comment, setComment] = useState()
   //this is the INDEX of the selected Time, not the time itself
@@ -91,6 +91,7 @@ const TourBooking2 = ({navigation, route}) => {
   useEffect(() => {
     let times = []
     let dayTourSettings = []
+
     if(selectedDay == ''){
       setTimes([])
     }
@@ -98,8 +99,8 @@ const TourBooking2 = ({navigation, route}) => {
       for (let i = 0; i < tourSettings.length; i++) {
         for (let j = 0; j < tourSettings[i].timeAvailable.length; j++) {
           //only show times that correlate to toursetting that can hold the # of visitors the user wants, and if the day/time is the same
-          if (moment(tourSettings[i].timeAvailable[j]).format("YYYY" + "-" + "MM" + "-" + "DD") == selectedDay && tourSettings[i].maxPeople >= visitorCount) {
-            times.push(tourSettings[i].timeAvailable[j])
+          if (moment(tourSettings[i].timeAvailable[j].toDate()).format("YYYY" + "-" + "MM" + "-" + "DD") == selectedDay && tourSettings[i].maxPeople >= visitorCount) {
+            times.push(tourSettings[i].timeAvailable[j].toDate())
             dayTourSettings.push(tourSettings[i])
           }
         }
@@ -107,6 +108,7 @@ const TourBooking2 = ({navigation, route}) => {
       if(times[selectedTime] == null){
         setSelectedTime(-1)
       }
+      console.log(times)
       setTimes(times)
       setDayTourSettings(dayTourSettings)
 

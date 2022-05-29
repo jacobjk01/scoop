@@ -48,9 +48,11 @@ const Home = ({navigation}) => {
         id: booking.id, //not sure if this needs to be tour or booking
         settingId: tourSettings[i].id,
         tourId: tours[i].id,
+        visitorId: booking.visitor,
         date,
         name,
-        meetPoint
+        meetPoint,
+        visitors: booking.partySize,
       })})
 
       for (let i = 0; i < bookings.length; i++) {
@@ -76,7 +78,7 @@ const Home = ({navigation}) => {
   }, [])
 
   return (
-    <SafeAreaView >
+    <SafeAreaView style={{backgroundColor: white}}>
       <ScrollView style={{height: '100%'}}>
         {activeBooking && <ActiveTourCard currentTour={activeBooking} navigation={navigation} />}
         <>

@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import {black, gray, white, primary} from '../../config/colors';
-import {reg12, reg14, reg16, bold16, bold18, bold20, bold24, oblique16} from '../../config/typography.js'
+import {reg12, reg14, reg16, bold12, bold16, bold18, bold20, bold24, oblique12, oblique16} from '../../config/typography.js'
 import { UserContext } from '../../contexts'
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {
@@ -166,7 +166,7 @@ const HomePage = ({ navigation }) => {
           onPress={()=>{navigation.navigate("MyTrips")}}
           >
             <View style={{display: 'flex', flexWrap:'wrap',flexDirection: 'column', justifyContent:'space-between',}}>
-              <View style={{margin: 5}}>
+              <View style={{margin: 5, width: 160}}>
                 <Text style={{...reg14, color: gray}}>
                   Upcoming Tour</Text>
                 <Text style={{...bold16, color: black}}>
@@ -185,8 +185,8 @@ const HomePage = ({ navigation }) => {
                 flexWrap: 'wrap',
                 flexDirection: 'column',
               }}>
-              <View style={{ margin: 5, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', width: 150 }}>
-                <View>
+              <View style={{ margin: 5, display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
+                <View style={{width: 100}}>
                   <Text style={{...reg14, color: gray}}>
                     Tour Guide</Text>
                   <Text style={{...bold16, color: black}}>
@@ -228,7 +228,10 @@ const HomePage = ({ navigation }) => {
                     style={{        backgroundColor: 'transparent',
                     borderRadius: 10, marginTop: 'auto', height: '70%', width: '100%'}}
                   >
-                  <Text style={{...bold16, fontWeight: '600', color: white, marginTop: 'auto', left: 20, bottom: 50, zIndex: 100}}>{item.title}</Text>
+                  <Text 
+                    style={{...bold16, color: white, marginTop: 'auto', zIndex: 100, width: '80%', marginLeft: 'auto', marginRight: 'auto', marginBottom: 30}}>
+                      {item.title}
+                  </Text>
                 </LinearGradient>
               </ImageBackground>
             </TouchableOpacity>
@@ -249,15 +252,18 @@ const HomePage = ({ navigation }) => {
                 imageStyle={{ borderRadius: 10 }}
                 source={item.profilePicture == undefined?require('../../images/defaultpfp.png'):{ uri: item.profilePicture }}>
                 <LinearGradient
-                  colors={['transparent', 'rgba(0,0,0,0.4)']}
+                  colors={['transparent', 'rgba(0,0,0,0.6)']}
                   style={{backgroundColor: 'transparent', borderRadius: 10, marginTop: 'auto', height: '100%', width: '100%'}}
                 >
                   <View style={{display: 'flex', flexDirection: 'row', marginTop: 'auto', margin: 10, flexWrap: 'wrap'}}>
-                    <Text style={{...oblique16, color: white}}>
-                      {item.name}{item.year == undefined?'':', '}
+                    <Text style={{...bold12, color: white}}>
+                      {item.name}
+                    </Text>
+                    <Text style={{...oblique12, color: white}}>
+                      {item.year == undefined?'':', '}
                     </Text>
                     <Text
-                      style={{...oblique16, color: white}}>
+                      style={{...oblique12, color: white}}>
                       {item.year}
                     </Text>
                   </View>
