@@ -70,23 +70,18 @@ const HomePage = ({ navigation }) => {
               })
               Promise.all(guideArray).then((guides) => {
                   Promise.all(tourArray).then((tours) => {
-                    let upcomingTime = null
-                    let bookingIndex = null
-                    if (bookings[0] != null) {
-                      bookings.forEach((booking, index) => {
-                            let time = booking.time.toDate()
-                            if (upcomingTime == null || (moment(new Date()).isAfter(time) && moment(upcoming).isBefore(time))) {
-                              upcomingTime = time
-                              bookingIndex = index
-                            }
-                      })
-                      setUpcoming({
-                        time: bookings[bookingIndex].time.toDate(),
-                        guide: guides[bookingIndex]._data.name,
-                        tour: tours[bookingIndex].title,
-                        tourPicture: tours[bookingIndex].picture,
-                        guidePicture: guides[bookingIndex]._data.profilePicture
-                      })
+                    for (let i = 0; i < bookings.length; i++) {
+                      let time = booking.time.toDate()
+                      if ((moment(new Date()).isAfter(time) && moment(upcoming).isBefore(time))) {
+                        upcomingTime = time
+                        setUpcoming({
+                          time: bookings[i].time.toDate(),
+                          guide: guides[i]._data.name,
+                          tour: tours[i].title,
+                          tourPicture: tours[i].picture,
+                          guidePicture: guides[i]._data.profilePicture
+                        })
+                      }
                     }
                   })
               })
