@@ -6,7 +6,7 @@ import {black, white, gray, grayLight, primary} from '../../config/colors.js'
 import {reg14, reg16, bold16, bold18} from '../../config/typography.js'
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { capitalizeFirstLetter } from 'utils';
-import { Picker } from '@react-native-picker/picker';
+import { Picker } from '@react-native-picker/picker'; /* DOCUMENTATION: https://github.com/react-native-picker/picker */
 
 const SCHOOLOPTIONS = ['UCLA', 'UC Berkeley',]
 const TYPEOPTIONS = ['High School Student', 'Freshman', 'Sophmore', 'Junior', 'Senior', 'Parents']
