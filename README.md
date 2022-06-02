@@ -50,5 +50,4 @@ In order for easy integration with react-native, we are using [rnfirebase librar
 
 # Demo
 
-https://user-images.githubusercontent.com/87722413/171692095-345cbada-7700-4dea-8267-0b7e5e76cd89.mp4
 
