@@ -6,8 +6,10 @@ import {
     Text,
     ImageBackground,
 } from 'react-native';
-import { primary, white, black, gray } from 'config/colors';
+import { primary, white, black, gray, darkGray } from 'config/colors';
+import { bold24 } from 'config/typography'
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import BackButton from './BackButton';
 
 const ImageHeader = ({navigation, title, image}) => {
     return (
@@ -17,56 +19,26 @@ const ImageHeader = ({navigation, title, image}) => {
                     width: '100%',
                     height: 180,
                 }}
-                imageStyle={{borderBottomLeftRadius: 15, borderBottomRightRadius: 15}}
+                imageStyle={{borderBottomLeftRadius: 15, borderBottomRightRadius: 15, backgroundSize: 'contain'}}
                 source={{uri: image}}
+                resizeMode={'cover'}
             >
                 <LinearGradient
-                    colors={[primary, 'transparent', black]}
+                    colors={['rgba(49,84,165, 0.8)', 'transparent', 'rgba(0,0,0,0.8)']}
                     style={{
                         backgroundColor: 'transparent',
                         height: '100%',
                         width: '100%',
                         borderBottomLeftRadius: 15,
-                        borderBottomRightRadius: 15
+                        borderBottomRightRadius: 15,
+                        position: 'absolute',
                     }}
                 />
-                <View style={{
-                        position: 'absolute',
-                        bottom: 110,
-                        paddingLeft: 40,
-                }}>
-                    <Text style={{
-                            fontWeight: '700',
-                            fontSize: 32,
-                            fontFamily: 'Helvetica',
-                            color: white,
-                            top: 80,
-                    }}>
+                <Text style={{...bold24, color: white, marginTop: 100, marginLeft: 40}}>
                     {title}
-                    </Text>
-                </View>
+                </Text>
             </ImageBackground>
-            <TouchableOpacity
-                style={{
-                    backgroundColor: primary,
-                    borderRadius: 10,
-                    borderColor: white,
-                    borderWidth: 1,
-                    position: 'absolute',
-                    left: 20,
-                    top: 40,
-                    width: 40,
-                    height: 40,
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    zIndex: 100,
-                }}
-                onPress={() => {
-                    navigation.goBack()
-                }}
-            >
-                <Ionicons name='chevron-back-outline' size={20} color={white} />
-            </TouchableOpacity>
+            <BackButton navigation={navigation} backgroundColor={primary} color={white}/>
         </View>
     )
 }

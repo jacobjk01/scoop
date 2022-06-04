@@ -100,7 +100,7 @@ const TourEdit = ({navigation, route}) => {
             </View>
         </TouchableOpacity>
         <Text style={[styles.sectionText, {marginTop: 40}]}>Basic Info</Text>
-        <Text style={[styles.bodyText, {marginTop: 20}]}>
+        <Text style={[styles.bodyText, {marginTop: 15}]}>
             {'Duration :'} {tour.duration} {'min'}
         </Text>
         <Text style={[styles.bodyText]}>
@@ -118,7 +118,7 @@ const TourEdit = ({navigation, route}) => {
             {tour.introduction}
         </Text>
         <View style={styles.divider} />
-        <DatesDisplay dates={tour.timeAvailable}/>
+        {/* <DatesDisplay dates={tour.timeAvailable}/> */}
         {/* Don't delete line below, use after mvp */}
         {false && <View style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between', paddingRight: 30}}>
           <Text style={[styles.sectionText, {marginTop: 0}]}>My Availability</Text>
@@ -166,10 +166,10 @@ const styles = StyleSheet.create({
     paddingLeft: 40,
   },
   bodyText: {
-    ...reg12,
+    ...reg14,
     color: black,
-    marginBottom: 15,
-    paddingLeft: 45,
+    marginBottom: 10,
+    paddingLeft: 55,
     paddingRight: 45,
   },
   imageHeader: {

@@ -25,8 +25,8 @@ import {color} from 'react-native-reanimated';
 import { getUser } from 'api/users';
 import { archiveTour, getAllTourSettings, getAllTourSettingsListener, viewAllToursListener } from 'api/tours';
 import { onAuthStateChanged } from 'api/auth';
-import { white, black, darkGray, gray, tappableBlue } from 'config/colors';
-import {bold24, bold18, bold20} from '../../config/typography.js'
+import { white, black, darkGray, gray, tappableBlue, lightGray } from 'config/colors';
+import {reg12, reg14, bold12, bold14, bold24, bold18, bold20} from '../../../config/typography.js'
 import BottomButton from 'components/BottomButton';
 import { UserContext } from 'contexts';
 import SubmitButton from 'components/SubmitButton';
@@ -93,7 +93,7 @@ const ManageTours = ({navigation}) => {
       <TouchableOpacity style={[styles.modalSelectCard, borderColor]}
         onPress={() => (setState(desiredState))}
       >
-        <Text style={[{fontSize: 11, fontWeight: '400', textAlign: 'center', top: 1}, borderColor]}>
+        <Text style={[{...bold12, textAlign: 'center'}, borderColor]}>
           {buttonTitle}
         </Text>
       </TouchableOpacity>
@@ -123,15 +123,17 @@ const ManageTours = ({navigation}) => {
         <View style={styles.centeredView} >
           <TouchableWithoutFeedback>
             <View style={styles.modalView} >
-              <Text style={[styles.bold24, { marginTop: 15, marginBottom: 15 }]}>New Tour</Text>
-              <Text style={[styles.textStyle, { marginBottom: 20, fontSize: 12, color: darkGray }]}>Select the type of tour you would like to add.</Text>
+              <Text style={{...bold24, marginTop: 15, marginBottom: 15 }}>New Tour</Text>
+              <Text style={{...reg12, marginBottom: 20, color: gray }}>Select the type of tour you would like to add.</Text>
               <View style={{display: 'flex', flexDirection: 'row'}}>
-                {false && <ModalButtonCard 
-                  buttonTitle='Customized Tour' 
-                  setState={setSelection} 
-                  state={selection} 
-                  desiredState={'customized'}
-                />}
+                {false &&
+                  <ModalButtonCard 
+                    buttonTitle='Customized Tour' 
+                    setState={setSelection} 
+                    state={selection} 
+                    desiredState={'customized'}
+                  />
+                }
                 <ModalButtonCard
                   buttonTitle='Preset Tour'
                   setState={setSelection}
@@ -143,34 +145,37 @@ const ManageTours = ({navigation}) => {
                 selectedValue={template}
                 setSelectedValue={setTemplate}
                 />
-                
                 /*<Dropdown selectedValue={template} setSelectedValue={setTemplate} options={options} visibility={dropdown} setVisibility={setDropdown} />*/
               }
 
-              {!dropdown ?       <>
-        <Pressable
-          style={[styles.button]}
-          onPress={() => setModalVisible(true)}
-        >
-          <SubmitButton title='Add Tour' onPress={() => {
-            let _template = template;
-            if (!validate(selection, template)) return
-            setModalVisible(false)
-            setTemplate('')
-            //console.log(_template)
-            navigation.navigate('AddTour', _template);
-          }} isDisabled={template === ''}/>
-        </Pressable>
-        <Pressable
-          style={[styles.button]}
-          onPress={() => {
-            setModalVisible(false)
-            setTemplate('')
-          }}
-        >
-          <Text style={styles.textStyle}>Cancel</Text>
-        </Pressable>
-      </> : <View style={{ height: 107 }}></View>}
+              {!dropdown ? 
+                <>
+                  <Pressable
+                    style={{width: '100%'}}
+                    onPress={() => setModalVisible(true)}
+                  >
+                    <SubmitButton title='Add Tour' onPress={() => {
+                        let _template = template;
+                        if (!validate(selection, template)) return
+                        setModalVisible(false)
+                        setTemplate('')
+                        //console.log(_template)
+                        navigation.navigate('AddTour', _template);
+                      }} isDisabled={template === ''}
+                    />
+                  </Pressable>
+                  <Pressable
+                    style={{ width: '100%'}}
+                    onPress={() => {
+                      setModalVisible(false)
+                      setTemplate('')
+                    }}
+                  >
+                    <Text style={{...reg12, marginLeft: 'auto', marginRight: 'auto', marginVertical: 20}}>Cancel</Text>
+                  </Pressable>
+                </> : 
+                <View style={{ height: 107 }}></View>
+              }
             </View>
           </TouchableWithoutFeedback>
         </View>
@@ -179,7 +184,7 @@ const ManageTours = ({navigation}) => {
 
       <ScrollView style={{paddingRight: 20, paddingLeft: 20, height: '100%'}}>
         <View style={{marginTop: 50}}>
-          <Text style={{marginLeft: 20, fontSize: 24, fontWeight: '700', marginBottom: 35}}>
+          <Text style={{marginLeft: 20, ...bold24, marginBottom: 35}}>
             Manage Tours
           </Text>
           <TouchableOpacity style={styles.selectButton} onPress={()=> {
@@ -195,9 +200,9 @@ const ManageTours = ({navigation}) => {
             // () => setModalVisible(true);
           >
             
-            <Ionicons name={'add'} size={24} style={{color: darkGray, position: 'absolute', left: 8}}/>
-            <Text style={{fontSize: 16, fontWeight: '400', color: darkGray, textAlign: 'center', left: 8, top: 1}}>
-              Add a new tour
+            <Ionicons name={'add'} size={24} style={{color: darkGray}}/>
+            <Text style={{...reg14, color: darkGray, textAlign: 'center'}}>
+              Add Tour
             </Text>
           </TouchableOpacity>
           <Pressable
@@ -210,7 +215,7 @@ const ManageTours = ({navigation}) => {
             tours={tours}
           >
             {(tour,i) => {
-                return(
+                return (
                   <TouchableOpacity key={i} style={styles.tourCard} onPress={async () => {
                     if (tapMode === 'Select') {
                       navigation.navigate('TourEdit', {tour})
@@ -230,11 +235,10 @@ const ManageTours = ({navigation}) => {
                         colors={['transparent', black]}
                         style={styles.linearGradTour}
                         />
+                      <Text style={{...bold14, color: white, width: '80%', marginLeft: 'auto', marginRight: 'auto', marginTop: 'auto', marginBottom: 20}}>
+                        {tour.name}
+                      </Text>
                     </ImageBackground>
-                      <View style={styles.tourTextSection}>
-                      <Text style={styles.tourTitle}>{tour.name}</Text>
-                      <Text style={styles.tourText}>{tour.duration} min | <Ionicons name={'people'} size={12}/> Max {tour.maxPeople} people | <Ionicons name={tour.transportation} size={12}/></Text>
-                    </View>
                   </TouchableOpacity>                
                 )
               }}
@@ -287,11 +291,6 @@ const styles = StyleSheet.create({
   buttonOpen: {
     backgroundColor: "#F194FF",
   },
-  textStyle: {
-    color: "black",
-    // fontWeight: "bold",
-    textAlign: "center"
-  },
   modalText: {
     marginBottom: 15,
     textAlign: "center",
@@ -321,15 +320,6 @@ const styles = StyleSheet.create({
     width: 120,
     height: 120,
   },
-  tourTitle: {
-    // width: 200,
-    fontWeight: '600',
-    // fontSize: 18,
-    color: white,
-    position: 'absolute',
-    bottom: 45,
-    // left: 20,
-  },
   tourText: {
     position: 'absolute',
     color: white,
@@ -358,17 +348,18 @@ const styles = StyleSheet.create({
     // stroke-dasharray: '8, 3',
     borderColor: darkGray,
     width: '45%',
-    height: 160,
+    height: 170,
     margin: 8,
     borderRadius: 10,
+    display: 'flex',
     justifyContent: 'center',
     // textAlign: 'center',
     alignItems: 'center',
-    
+    flexDirection: 'row',
   },
   tourCard: {
     width: '45%',
-    height: 160,
+    height: 170,
     margin: 8,
     borderRadius: 10,
     backgroundColor: white,
