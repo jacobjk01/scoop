@@ -22,6 +22,7 @@ import BottomButton from '../../components/BottomButton';
 const TourEdit3 = ({navigation, route}) => {
 
   const tour = route.params
+  console.log(tour)
   const [count, setCount] = useState(1)
 
 
@@ -40,66 +41,68 @@ const TourEdit3 = ({navigation, route}) => {
   }
   const renderContent = () => {
     return (
-      <View style={{marginBottom: 50}}>
-        {/* <TouchableOpacity
-            onPress={() => navigation.navigate()}
-            style={{position: 'absolute', right: 30, top: 30}}>
-            <View>
-              <Text style={{color: gray}}>Edit <Ionicons name={'pencil'} size={16}/></Text>
-            </View>
-        </TouchableOpacity> */}
-        <Text style={[styles.sectionText, {marginTop: 40}]}>Basic Info</Text>
-        <View style={[styles.bodyText, {flexDirection: 'row', marginTop: 20}]}>
-            <Text>
-                {'Duration :'}
-            </Text>
-            <TextInput style={styles.input}>
-                {tour.duration}
-            </TextInput>
-            <Text>
-                {'min'}
-            </Text>
-        </View>
-        <View style={[styles.bodyText, {flexDirection: 'row'}]}>
-            <Text>
-                {'Max Group :'}
-            </Text>
-            {Counter()}
-        </View>
-        <View style={styles.bodyText}>
-            <Text >
-                {'Transportation :'} {tour.transportation}
-            </Text>
-            <Text>Add Dropdown Picker Here</Text>
-        </View>
-        <View style={styles.bodyText}>
-            <Text>
-                {'Recommended Meetup Point :'} {tour.meetPoint}
-            </Text>
-            <Text>Add Dropdown Picker Here</Text>
-            <View pointerEvents='none' style={{height: 90, backgroundColor: 'grey', marginTop: 10}}>
-                <MapView
-                    style={{flex: 1}}
-                    provider={PROVIDER_GOOGLE}
-                    initialRegion = {{
-                        latitude: 34.07106828093279, 
-                        longitude: -118.444993904947,
-                        latitudeDelta: 0.0015,
-                        longitudeDelta: 0.0020,
-                    }}>
-                    <Marker
-                        key={1}
-                        coordinate={{latitude: 34.07106828093279, longitude: -118.444993904947}}
-                        title='Bruin Statue'
-                        description='Recommended Meeting Point'
-                    />
-                </MapView>
-                <Text style={{color: red, position: 'absolute', top: 10, left: 175, fontWeight: '500'}}>Bruin Bear</Text>
-            </View>
+      <View style={{marginBottom: 50, paddingHorizontal: 40}}>
+        <Text style={{...bold16, marginVertical: 20}}>Tour Name</Text>
+        <TextInput style={{...styles.input, width: '100%', height: 40, marginBottom: 20}} placeholder='Add Tour Name'>
+        </TextInput>
+        <Text style={{...bold16}}>Basic Info</Text>
+        <View style={{paddingHorizontal: 10}}>
+          <View style={{flexDirection: 'row', alignItems: 'center', marginTop: 20}}>
+              <Text style={{...reg14}}>
+                  {'Duration :'}
+              </Text>
+              <TextInput style={{...styles.input, width: 50, height: 30}} textAlign='center'>
+                  {tour.duration}
+              </TextInput>
+              <Text style={{...reg14}}>
+                  {'min'}
+              </Text>
+          </View>
+          <View style={[{flexDirection: 'row', alignItems: 'center', marginTop: 20}]}>
+              <Text style={{...reg14}}>
+                  {'Max Group :'}
+              </Text>
+              {Counter()}
+          </View>
+          <View style={{marginTop: 20}}>
+              <Text style={{...reg14}}>
+                  {'Transportation :'} {tour.transportation}
+              </Text>
+              <Text style={{...reg14}}>Add Dropdown Picker Here</Text>
+          </View>
+          <View style={{marginTop: 20}}>
+              <Text style={{...reg14}}>
+                  {'Recommended Meetup Point :'} {tour.meetPoint}
+              </Text>
+              <Text style={{...reg14}}>Add Dropdown Picker Here</Text>
+              <View pointerEvents='none' style={{height: 90, backgroundColor: 'grey', marginTop: 10}}>
+                  <MapView
+                      style={{flex: 1}}
+                      provider={PROVIDER_GOOGLE}
+                      initialRegion = {{
+                          latitude: 34.07106828093279, 
+                          longitude: -118.444993904947,
+                          latitudeDelta: 0.0015,
+                          longitudeDelta: 0.0020,
+                      }}>
+                      <Marker
+                          key={1}
+                          coordinate={{latitude: 34.07106828093279, longitude: -118.444993904947}}
+                          title='Bruin Statue'
+                          description='Recommended Meeting Point'
+                      />
+                  </MapView>
+                  {/* <Text style={{color: red, position: 'absolute', top: 10, left: 175, fontWeight: '500'}}>Bruin Bear</Text> */}
+              </View>
+          </View>
+
         </View>
         <View style={styles.divider} />
-        <Text style={[styles.sectionText, {marginTop: 0}]}>Introduction</Text>
-        <TextInput style={styles.inputIntro} multiline={true}>
+        <Text style={{...bold16, marginTop: 0}}>Introduction</Text>
+        <TextInput
+          style={{...styles.input, height: 150, width: '100%', marginBottom: 100, paddingVertical: 15}}
+          multiline={true} placeholder="Write an into about the tour!" textAlignVertical='top'
+        >
             {tour.introduction}
         </TextInput>
       </View>
@@ -109,10 +112,10 @@ const TourEdit3 = ({navigation, route}) => {
     <View style={{backgroundColor: white, height: '100%'}}>
       <StatusBar barStyle='dark-content' />
       <ScrollView>
-        <ImageHeader title={route.params.name} navigation={navigation}/>
+        <ImageHeader title={route.params.name} navigation={navigation} image={route.params.src}/>
         {renderContent()}
       </ScrollView>
-      <BottomButton onPress={() => navigation.navigate('TourGuideList')} title="View Suggested Itinerary"/>
+      <BottomButton onPress={() => {}} title="Add Tour"/>
     </View>
   );
 }
@@ -121,7 +124,7 @@ const TourEdit3 = ({navigation, route}) => {
 const styles = StyleSheet.create({
     divider: {
         position: 'relative',
-        marginTop: 5,
+        marginTop: 20,
         marginBottom: 20,
         borderBottomColor: gray,
         borderBottomWidth: 1,
@@ -150,10 +153,10 @@ const styles = StyleSheet.create({
       borderColor: gray,
       borderWidth: 1,
       borderRadius: 5,
-      width: 35,
-      textAlign: 'center',
-      paddingHorizontal: 5,
+      paddingHorizontal: 10,
       marginHorizontal: 5,
+      paddingVertical: 0,
+      // lineHeight: 5,
   },
   removeButton: {
     borderColor: primary,
@@ -184,19 +187,6 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     paddingHorizontal: 2,
     borderRadius: 5,
-  },
-  inputIntro: {
-    alignSelf: 'center',
-    height: 140,
-    width: '75%',
-    borderWidth: 1,
-    borderColor: gray,
-    borderRadius: 7,
-    paddingLeft: 10,
-    marginTop: 10,
-    marginBottom: 30,
-    paddingBottom: 50,
-    paddingTop: 10,
   },
 });
 
