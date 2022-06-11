@@ -1,12 +1,12 @@
 import React from "react";
 import { TouchableOpacity, Text } from "react-native";
-import { gray, primary } from "config/colors";
+import { gray, primary, lightGray } from "config/colors";
 const SubmitButton = ({ onPress, title, isDisabled, style }) => {
   const fontColor = {
     backgroundColor: primary
   }
   if (isDisabled) {
-    fontColor.backgroundColor = gray
+    fontColor.backgroundColor = lightGray
   }
   return (
     <TouchableOpacity style={[{
@@ -21,7 +21,8 @@ const SubmitButton = ({ onPress, title, isDisabled, style }) => {
         fontSize: 14,
         fontFamily: 'Helvetica-Bold',
         textAlign: "center",
-        padding: 17,
+        marginTop: 'auto',
+        marginBottom: 'auto',
       }}>{title}</Text>
     </TouchableOpacity>
   )
