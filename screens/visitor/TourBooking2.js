@@ -460,7 +460,7 @@ const TourBooking2 = ({navigation, route}) => {
                       }
                     }
                   }
-                  navigation.navigate('BookingCheckout', {tourSetting:tourSettings[selectedTime], tour, guide, visitorCount, timeIndex, comment});
+                  navigation.navigate('BookingCheckout', {tourSetting:tourSettings[selectedTime], tour, guide, visitorCount, timeIndex, comment, time: times[selectedTime]});
                 }
               }}
             />

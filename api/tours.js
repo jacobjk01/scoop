@@ -49,7 +49,7 @@ export const convertToTourSummary = (processedTourSettings) => {
  * @param {*} visitorId 
  * @param {*} comment additional request information
  */
-export const bookTour = async (tourSettingRef, partySize, visitorId, comment) => {
+export const bookTour = async (tourSettingRef, partySize, visitorId, comment, time) => {
   if (!visitorId) {
     throw new Error("visitor is not defined")
   }
@@ -61,7 +61,7 @@ export const bookTour = async (tourSettingRef, partySize, visitorId, comment) =>
     partySize,
     isCancelled: false,
     //TODO: do time
-    time: new Date(),
+    time: time,
     isCompleted: false,
     comment
   })

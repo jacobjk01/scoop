@@ -16,9 +16,9 @@ import { reg14, bold14, bold16, bold18, bold20, bold24 } from '../../config/typo
 import { getMeetingPt } from '../../api/tours';
 
 const Checkout = ({navigation, route}) => {
-  const {tour, tourSetting, guide, visitorCount, comment} = route.params
-  //console.log(tourSetting)
-  const date = tourSetting.timeAvailable[route.params.timeIndex]
+  const {tour, tourSetting, guide, visitorCount, comment, time} = route.params
+  console.log('ff')
+  const date = time
   const {
     userAuth, setUserAuth
   } = useContext(UserContext)
@@ -125,7 +125,7 @@ const Checkout = ({navigation, route}) => {
           //console.log(visitorCount)
           //console.log(userAuth.uid)
           //console.log(comment)
-          const res = await bookTour(tourSetting.ref, visitorCount, userAuth.uid, comment || "")
+          const res = await bookTour(tourSetting.ref, visitorCount, userAuth.uid, comment || "", date)
         }}
       />
       {/*Modal____________________________________________________________________*/}
