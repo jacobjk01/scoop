@@ -32,11 +32,6 @@ export default ({navigation}) => {
 
     const [page, setPage] = useState(1);
     const [data, setData] = useState(['-','-','-','-']);
-<<<<<<< HEAD
-    const [dropdown, setDropdown] = useState(false)
-    onAuthStateChanged((user) => {console.log(user)})
-    console.log(visitorBone)
-=======
 
     /* Picker */
     const [dropdown, setDropdown] = useState(false);
@@ -51,7 +46,6 @@ export default ({navigation}) => {
         pickerRef.current.blur();
     }
 
->>>>>>> staging
     const marks = () => {
         return (
             <View style={{display: 'flex', flexDirection: 'row', alignSelf: 'center', top: 60, position: 'absolute'}}>
