@@ -22,6 +22,7 @@ import { getParentData } from '../../api/utilities'
 import { SCHOOL } from '../../config/initialState';
 import moment from 'moment'
 import ViewAll from '../../components/ViewAll';
+import Loading from 'components/Loading';
 
 
 
@@ -32,7 +33,7 @@ const HomePage = ({ navigation }) => {
   //guides is a query snapshot, use foreach and .data() for data.
   const [guides, setGuides] = useState();
   const [upcoming, setUpcoming] = useState();
-  console.log(upcoming)
+  
   useEffect(() => {
     let isMounted = true
     // Gets list of tours
@@ -94,6 +95,7 @@ const HomePage = ({ navigation }) => {
       isMounted = false
     }
   }, [])
+
   const viewAll = (text) => {
     return (
       <View style={{paddingHorizontal: 30, marginTop: 15, marginBottom: 10, display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
@@ -104,10 +106,13 @@ const HomePage = ({ navigation }) => {
       </View>
     );
   };
+  if (!(tours && guides)) {
+    return <Loading />
+  }
 
   return (
     <SafeAreaView>
-      {tours && guides && <ScrollView style={{ height: '100%', backgroundColor: white }}>
+      <ScrollView style={{ height: '100%', backgroundColor: white }}>
         <Text style={{...bold24, paddingLeft: 30, marginTop: 50,}}>Explore around {SCHOOL}!</Text>
         {/* THIS IS IMPORTANT */}
         {/* THIS IS IMPORTANT */}
@@ -267,7 +272,7 @@ const HomePage = ({ navigation }) => {
             </TouchableOpacity>
           )}
         />
-      </ScrollView>}
+      </ScrollView>
     </SafeAreaView>
   );
 };

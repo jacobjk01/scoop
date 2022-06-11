@@ -1,5 +1,6 @@
 import { getGuideBookings, getMeetingPt } from 'api/tours';
 import { getParentData } from 'api/utilities';
+import Loading from 'components/Loading';
 import { black, gray, lightGray, primary, white } from 'config/colors';
 import { UserContext } from 'contexts';
 import toursData from 'data/toursData';
@@ -19,6 +20,7 @@ const Home = ({navigation}) => {
   const [activeBooking, setActiveBooking] = useState(null)
   const [bookings, setBookings] = useState([])
   const {userAuth, setUserAuth, user, setUser} = useContext(UserContext);
+  const [loading, setLoading] = useState(true);
   const guide = {
     major: null,
     name: null,
@@ -74,9 +76,10 @@ const Home = ({navigation}) => {
           break;
         }
       }
+      setLoading(false)
     })
   }, [])
-
+  if (loading) return <Loading />
   return (
     <SafeAreaView style={{backgroundColor: white}}>
       <ScrollView style={{height: '100%'}}>
