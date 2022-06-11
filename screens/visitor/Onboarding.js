@@ -1,13 +1,18 @@
-import React, { useContext, useEffect, useState} from 'react'
+import React, { useContext, useEffect, useState, useRef } from 'react'
 import { View, SafeAreaView, Text, Button, TextInput, StyleSheet, Image} from 'react-native'
 import { TouchableOpacity} from 'react-native-gesture-handler'
 import { UserContext } from '../../contexts'
 import {black, white, gray, grayLight, primary} from '../../config/colors.js'
 import {reg14, reg16, bold16, bold18} from '../../config/typography.js'
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { capitalizeFirstLetter } from 'utils'
+import { capitalizeFirstLetter } from 'utils';
+import { Picker } from '@react-native-picker/picker'; /* DOCUMENTATION: https://github.com/react-native-picker/picker */
 
-export default  ({navigation}) => {
+const SCHOOLOPTIONS = ['UCLA', 'UC Berkeley',]
+const TYPEOPTIONS = ['High School Student', 'Freshman', 'Sophmore', 'Junior', 'Senior', 'Parents']
+
+
+export default ({navigation}) => {
     const {
         userAuth, setUserAuth,
         user, setUser,
@@ -23,9 +28,22 @@ export default  ({navigation}) => {
         }
         return () => {}
     }, [])
-    const [page, setPage] = useState(1)
+
+    const [page, setPage] = useState(1);
     const [data, setData] = useState(['-','-','-','-']);
-    const [dropdown, setDropdown] = useState(false)
+
+    /* Picker */
+    const [dropdown, setDropdown] = useState(false);
+    const [selectedDropdownItem, setSelectedDropdownItem] = useState('-')
+    const pickerRef = useRef();
+
+    function open() {
+        pickerRef.current.focus();
+    }
+
+    function close() {
+        pickerRef.current.blur();
+    }
 
     const marks = () => {
         return (
@@ -39,9 +57,10 @@ export default  ({navigation}) => {
         )
     }
     const dropdownIcon = () => {
+        let name = dropdown ? 'caret-up-outline' : 'caret-down-outline'
         return (
             <Ionicons
-                name={'caret-down-outline'}
+                name={name}
                 size={24}
                 color={primary}
             />
@@ -57,30 +76,11 @@ export default  ({navigation}) => {
         else if (dropdownType == 'type') {
             index = 2
         }
-        for(let i = 0; i < options.length; i++) {
-            rows.push(
-                <TouchableOpacity
-                    style={{ paddingVertical: 8, paddingLeft: 15, borderColor: gray, borderBottomWidth: i != options.length - 1?0.5:0}}
-                    key={i}
-                    onPress={() => {
-                        let temp = [...data]
-                        temp[index] = options[i] 
-                        setData(temp)
-                        setDropdown(false)
-                    }}    
-                >
-                    <Text style={{...reg16}}>
-                        {options[i]}
-                    </Text>
-
-                </TouchableOpacity>
-            )
-        }
-
         return (
             <View style={{marginBottom: 25}}>
                 <TouchableOpacity 
-                    style={{        borderWidth: 0.75,
+                    style={{
+                        borderWidth: 0.75,
                         borderLeftWidth: 1.25,
                         borderRightWidth: 1.25,
                         borderColor: gray,
@@ -88,7 +88,7 @@ export default  ({navigation}) => {
                         borderTopRightRadius: 5,
                         borderTopLeftRadius: 5, display: 'flex',flexDirection: 'row',paddingVertical: 8, paddingHorizontal: 15,marginTop: 40, 
                     borderBottomRightRadius: dropdown == true? 0: 5,borderBottomLeftRadius: dropdown == true? 0: 5, }}
-                    onPress={() => setDropdown(!dropdown)}
+                    onPress={() => {setDropdown(!dropdown); close()}}
                 >
                     <Text style={{marginRight: 'auto', ...reg16, color: data[index]!='-'?black:gray}}>{data[index]}</Text>
                     {dropdownIcon()}
@@ -102,10 +102,28 @@ export default  ({navigation}) => {
         )
     }
 
-    const inputType = () => {
-        let schoolOptions = ['UCLA', 'UC Berkeley',]
-        let typeOptions = ['High School Student', 'Freshman', 'Sophmore', 'Junior', 'Senior', 'Parents']
+    const renderIOSDropdown = () => {
+        const rows = page == 2 ? SCHOOLOPTIONS : page == 3 ? TYPEOPTIONS : [];
+        return (
+            <Picker
+                ref={pickerRef}
+                style={{ position: 'static', display: (dropdown ? 'flex' : 'none') }}
+                selectedValue={selectedDropdownItem}
+                onValueChange={(itemValue, itemIndex) => {
+                    setSelectedDropdownItem(itemValue)
+                    let curData = data;
+                    curData[page - 1] = itemValue;
+                    setData(curData);   
+                }
+                }>
+                {rows.map((item, index) =>
+                    <Picker.Item key={index} label={item} value={item} />
+                )}
+            </Picker>
+        )
+    }
 
+    const inputType = () => {
         switch (page) {
             case 1:
                 return(
@@ -127,9 +145,9 @@ export default  ({navigation}) => {
                     />
                 )
             case 2:
-                return(renderDropdown(schoolOptions, 'school'))
+                return(renderDropdown(SCHOOLOPTIONS, 'school'))
             case 3:
-                return(renderDropdown(typeOptions, 'type'))
+                return(renderDropdown(TYPEOPTIONS, 'type'))
             case 4:
                 return(
                     <TextInput
@@ -159,7 +177,7 @@ export default  ({navigation}) => {
                         if (page === 1) {
                             navigation.goBack()
                         } else if (page > 1) {
-                            setPage(page - 1)
+                            setPage(page - 1);
                         }
                             
                         } 
@@ -172,8 +190,9 @@ export default  ({navigation}) => {
                 <TouchableOpacity
                     style={{borderWidth: 1.25, borderRadius: 10, paddingHorizontal: 35, paddingVertical: 7,  borderColor: data[page - 1] != '-'?primary:gray, backgroundColor: data[page - 1] != '-'?primary:white,}}
                     onPress={() => {
-                        if (data[page - 1] != '-')
-                            setPage(page + 1)
+                        if (data[page - 1] != '-') {
+                            setPage(page + 1);
+                        }
                     }}
                 >
                     <Text style={{...bold16, textAlign: 'center', color: data[page - 1] != '-'?white:gray,}}>
@@ -242,8 +261,9 @@ export default  ({navigation}) => {
         }
         else {
             return (
-                <View style={{width: '80%', display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: 'auto', marginLeft: 'auto', marginRight: 'auto', marginBottom: 'auto'}}>
-                    <Text style={{...bold18, textAlign: 'center', width: '70%', top: positionTop, position: 'absolute'}}>
+                // <View style={{width: '80%', display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: 'auto', marginLeft: 'auto', marginRight: 'auto', marginBottom: 'auto'}}>
+                <View style={{width: '80%', marginTop: 'auto', marginLeft: 'auto', marginRight: 'auto', marginBottom: 'auto'}}>
+                    <Text style={{...bold18, textAlign: 'center', width: '70%', top: positionTop, position: 'absolute', alignSelf: 'center' }}>
                         {question}
                     </Text>
                     <View style={{height: 10}}/>
@@ -272,6 +292,7 @@ export default  ({navigation}) => {
         <SafeAreaView style={{height: '100%', backgroundColor: white, flex: 1}}>
             {marks()}
             {mainSection()}
+            {renderIOSDropdown()}
             <TouchableOpacity
                 disabled={page < 3 || page > 4}
                 style={{color: gray, alignSelf:'center', paddingBottom: 30, display: 'flex', flexDirection: 'row', alignItems: 'center', }}
