@@ -6,6 +6,7 @@ import {black, white, gray, grayLight, primary} from '../../config/colors.js'
 import {reg14, reg16, bold16, bold18} from '../../config/typography.js'
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { capitalizeFirstLetter } from 'utils'
+import { onAuthStateChanged } from '../../api/auth.js'
 
 export default  ({navigation}) => {
     const {
@@ -26,7 +27,8 @@ export default  ({navigation}) => {
     const [page, setPage] = useState(1)
     const [data, setData] = useState(['-','-','-','-']);
     const [dropdown, setDropdown] = useState(false)
-
+    onAuthStateChanged((user) => {console.log(user)})
+    console.log(visitorBone)
     const marks = () => {
         return (
             <View style={{display: 'flex', flexDirection: 'row', alignSelf: 'center', top: 60, position: 'absolute'}}>

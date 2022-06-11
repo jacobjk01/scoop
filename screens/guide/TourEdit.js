@@ -21,6 +21,7 @@ import DatesDisplay from 'components/DatesDisplay';
 //note: grid is kind of laggy when upsized, will work on fixing
 const TourEdit = ({navigation, route}) => {
   const tour = route.params.tour;
+  console.log(tour)
   const [slots, setSlots] = useState(new Array(7).fill().map(_ => new Array(24).fill(true)))
 
   useEffect(() => {
