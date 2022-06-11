@@ -11,6 +11,7 @@ import {
   ScrollView,
   StyleSheet, Text, TouchableOpacity, View
 } from 'react-native';
+import {bold24} from '../../../config/typography'
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import ActiveTourCard from './ActiveTourCard';
 
@@ -83,7 +84,7 @@ const Home = ({navigation}) => {
         {activeBooking && <ActiveTourCard currentTour={activeBooking} navigation={navigation} />}
         <>
           <View style={activeBooking ? {marginTop: 20} : {marginTop: 50}}>
-            <Text style={[{marginLeft: 30, fontSize: 24, fontWeight: '700'}]}>
+            <Text style={[{marginLeft: 30, ...bold24}]}>
               Upcoming Tours
             </Text>
             <View style={[styles.divider, {paddingTop: 20}]} />

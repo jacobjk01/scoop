@@ -29,7 +29,7 @@ const renderHeader = (navigation, title) => {
     return (
         <View style={styles.header}>
             <Text style={styles.headerText}>{title}</Text>
-            <BackButton navigaton={navigation}/>
+            <BackButton navigation={navigation}/>
         </View>
     );
 };
