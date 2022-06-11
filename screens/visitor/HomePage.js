@@ -22,6 +22,7 @@ import { getParentData } from '../../api/utilities'
 import { SCHOOL } from '../../config/initialState';
 import moment from 'moment'
 import ViewAll from '../../components/ViewAll';
+import Loading from 'components/Loading';
 
 
 
@@ -32,7 +33,7 @@ const HomePage = ({ navigation }) => {
   //guides is a query snapshot, use foreach and .data() for data.
   const [guides, setGuides] = useState();
   const [upcoming, setUpcoming] = useState();
-  console.log(upcoming)
+  
   useEffect(() => {
     let isMounted = true
     // Gets list of tours
@@ -70,23 +71,18 @@ const HomePage = ({ navigation }) => {
               })
               Promise.all(guideArray).then((guides) => {
                   Promise.all(tourArray).then((tours) => {
-                    let upcomingTime = null
-                    let bookingIndex = null
-                    if (bookings[0] != null) {
-                      bookings.forEach((booking, index) => {
-                            let time = booking.time.toDate()
-                            if (upcomingTime == null || (moment(new Date()).isAfter(time) && moment(upcoming).isBefore(time))) {
-                              upcomingTime = time
-                              bookingIndex = index
-                            }
-                      })
-                      setUpcoming({
-                        time: bookings[bookingIndex].time.toDate(),
-                        guide: guides[bookingIndex]._data.name,
-                        tour: tours[bookingIndex].title,
-                        tourPicture: tours[bookingIndex].picture,
-                        guidePicture: guides[bookingIndex]._data.profilePicture
-                      })
+                    for (let i = 0; i < bookings.length; i++) {
+                      let time = booking.time.toDate()
+                      if ((moment(new Date()).isAfter(time) && moment(upcoming).isBefore(time))) {
+                        upcomingTime = time
+                        setUpcoming({
+                          time: bookings[i].time.toDate(),
+                          guide: guides[i]._data.name,
+                          tour: tours[i].title,
+                          tourPicture: tours[i].picture,
+                          guidePicture: guides[i]._data.profilePicture
+                        })
+                      }
                     }
                   })
               })
@@ -99,6 +95,7 @@ const HomePage = ({ navigation }) => {
       isMounted = false
     }
   }, [])
+
   const viewAll = (text) => {
     return (
       <View style={{paddingHorizontal: 30, marginTop: 15, marginBottom: 10, display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
@@ -109,10 +106,13 @@ const HomePage = ({ navigation }) => {
       </View>
     );
   };
+  if (!(tours && guides)) {
+    return <Loading />
+  }
 
   return (
     <SafeAreaView>
-      {tours && guides && <ScrollView style={{ height: '100%', backgroundColor: white }}>
+      <ScrollView style={{ height: '100%', backgroundColor: white }}>
         <Text style={{...bold24, paddingLeft: 30, marginTop: 50,}}>Explore around {SCHOOL}!</Text>
         {/* THIS IS IMPORTANT */}
         {/* THIS IS IMPORTANT */}
@@ -272,7 +272,7 @@ const HomePage = ({ navigation }) => {
             </TouchableOpacity>
           )}
         />
-      </ScrollView>}
+      </ScrollView>
     </SafeAreaView>
   );
 };

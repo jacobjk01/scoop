@@ -1,12 +1,15 @@
 import React, { useState } from 'react'
-import { Button, Text } from 'react-native'
-import DatePicker from 'react-native-date-picker'
+import { Button, Text, ActivityIndicator, SafeAreaView, ScrollView } from 'react-native'
 
 export default () => {
 
   return (
     <>
-      <Text>Loading</Text>
+    <SafeAreaView style={{height: '100%'}}>
+      <ScrollView style={{height: '100%'}}>
+        <ActivityIndicator size='large' />
+      </ScrollView>
+    </SafeAreaView>
     </>
   )
 }
