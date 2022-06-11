@@ -18,12 +18,14 @@ import {reg12, reg14, reg16, bold16, bold18, bold20, bold24, oblique16} from '..
 import { primary, white, gray, black, red } from '../../config/colors';
 import ImageHeader from '../../components/ImageHeader';
 import BottomButton from '../../components/BottomButton';
+import { editTour } from 'api/tours.js';
 
 const TourEdit3 = ({navigation, route}) => {
 
   const tour = route.params
   console.log(tour)
-  const [count, setCount] = useState(1)
+  const [count, setCount] = useState(tour.maxPeople)
+
 
 
   const Counter = () => {
@@ -42,10 +44,10 @@ const TourEdit3 = ({navigation, route}) => {
   const renderContent = () => {
     return (
       <View style={{marginBottom: 50, paddingHorizontal: 40}}>
-        <Text style={{...bold16, marginVertical: 20}}>Tour Name</Text>
+        {/* <Text style={{...bold16, marginVertical: 20}}>Tour Name</Text>
         <TextInput style={{...styles.input, width: '100%', height: 40, marginBottom: 20}} placeholder='Add Tour Name'>
-        </TextInput>
-        <Text style={{...bold16}}>Basic Info</Text>
+        </TextInput> */}
+        <Text style={{...bold16, marginTop: 20}}>Basic Info</Text>
         <View style={{paddingHorizontal: 10}}>
           <View style={{flexDirection: 'row', alignItems: 'center', marginTop: 20}}>
               <Text style={{...reg14}}>
@@ -115,7 +117,23 @@ const TourEdit3 = ({navigation, route}) => {
         <ImageHeader title={route.params.name} navigation={navigation} image={route.params.src}/>
         {renderContent()}
       </ScrollView>
-      <BottomButton onPress={() => {}} title="Add Tour"/>
+      <BottomButton onPress={() => {
+        async function edit () {
+          return await editTour(
+            tour.ref,
+            tour.guideId,
+            tour.categories,
+            tour.cost,
+            tour.duration,
+            tour.introduction,
+            tour.isPublished,
+            tour.maxPeople,
+            tour.meetingPt,
+            tour.timeAvailable,
+            tour.transportation,
+          )
+        }
+      }} title="Confirm"/>
     </View>
   );
 }

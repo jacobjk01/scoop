@@ -52,6 +52,7 @@ const validate = (selection, template) => {
 
 const ManageTours = ({navigation}) => {
   const [tours, setTours] = useState([] || toursData.tours);
+  console.log(tours)
   const [modalVisible, setModalVisible] = useState(false)
   const [removeVisible, setRemoveVisible] = useState(0)
   const [tapMode, setTapMode] = useState('Select') // will be Select or not Select, if not Select, in delete mode
@@ -79,7 +80,10 @@ const ManageTours = ({navigation}) => {
           duration: tourSettings[i].duration || 0,
           transportation: tourSettings[i].transportation,
           maxPeople: tourSettings[i].maxPeople,
-          parentId: parents[i].id
+          parentId: parents[i].id,
+          introduction: tourSettings[i].introduction,
+          maxPeople: tourSettings[i].maxPeople,
+          ref: tourSettings[i].ref
         })
       }
       setTours(_tours)
