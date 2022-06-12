@@ -93,7 +93,7 @@ const Home = ({navigation}) => {
             <View style={[styles.divider, {paddingTop: 20}]} />
           </View>
           <View style={{flexWrap: 'wrap', alignContent: 'center'}}>
-            {bookings.map((tour) => {
+            {bookings.length > 0 ? bookings.map((tour) => {
               if (!(tour.id && tour.name && tour.date && tour.meetPoint)) {
                 /*console.log ({
                   id: tour.id,
@@ -123,7 +123,10 @@ const Home = ({navigation}) => {
                   <View style={styles.divider}></View>
                 </TouchableOpacity>
               )
-            })}
+            }) : <View>
+                <Text style={{marginLeft: 30, marginTop: 30}}>You dont have any active tours!</Text>
+                
+              </View>}
           </View>
         </>
       </ScrollView>

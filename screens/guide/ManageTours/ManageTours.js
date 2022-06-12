@@ -67,6 +67,33 @@ const ManageTours = ({navigation}) => {
   const [dropdown, setDropdown] = useState(false);
 
   useEffect(() => {
+    const fetchData = async () => {
+      console.log(userAuth.uid)
+      const tourSettings = await getAllTourSettings(userAuth.uid)
+      const _tours = [] 
+      //should be more optimal that running through a for loop
+      const parents = await Promise.all(tourSettings.map(tourSetting => getParentData(tourSetting.ref))) 
+      for (let i = 0; i < tourSettings.length; i++) {
+        _tours.push({
+          src: parents[i].picture,
+          id: tourSettings[i].id,
+          name: tourSettings[i].title || parents[i].title || "Missing Name",
+          duration: tourSettings[i].duration || 0,
+          transportation: tourSettings[i].transportation,
+          maxPeople: tourSettings[i].maxPeople,
+          parentId: parents[i].id,
+          introduction: tourSettings[i].introduction,
+          maxPeople: tourSettings[i].maxPeople,
+          ref: tourSettings[i].ref
+        })
+      }
+      setTours(_tours)
+    }
+    const willFocusSubscription = navigation.addListener('focus', () => {
+      fetchData();
+    });
+
+  return willFocusSubscription;
     const cancel = getAllTourSettingsListener(userAuth.uid, async tourSettings => {
       //console.log(tourSettings.map(item => item.id))
       const _tours = [] 
@@ -76,7 +103,7 @@ const ManageTours = ({navigation}) => {
         _tours.push({
           src: parents[i].picture,
           id: tourSettings[i].id,
-          name: parents[i].title || "Missing Name",
+          name: tourSettings[i].title || parents[i].title || "Missing Name",
           duration: tourSettings[i].duration || 0,
           transportation: tourSettings[i].transportation,
           maxPeople: tourSettings[i].maxPeople,

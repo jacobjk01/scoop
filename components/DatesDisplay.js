@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
-import { Button, Text } from 'react-native'
+import { Button, Text, View } from 'react-native'
+import moment from 'moment'
 /**
  * 
  * @param {{dates, title}} props 
@@ -11,13 +12,13 @@ const DatesDisplay = (props) => {
   }
   return (
     <>
-      <Text>{props.title}</Text>
+      <Text style={{marginLeft: 30}}>{props.title}</Text>
       {/* TODO: be able to remove dates */}
-      {props.dates.map(date => {
+      {props.dates.map((date, i) => {
               return (
-                <>
-                  <Text>{date.toString()}</Text>
-                </>
+                <View key={i} style={{marginLeft: 60}}>
+                  <Text >{moment(date).format("MMM DD LT")}</Text>
+                </ View>
               )
             })}
     </>

@@ -13,9 +13,9 @@ import { renderStars } from './Stars';
 
 const Reviews = props => {
   const { reviews } = props;
-  const renderCards = item => {
+  const renderCards = (item) => {
     return (
-      <View style={styles.reviewCard}>
+      <View key={item.index} style={styles.reviewCard}>
         {renderStars(item.item.stars)}
         <Text
           style={{

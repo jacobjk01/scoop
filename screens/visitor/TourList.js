@@ -36,6 +36,7 @@ const TourList = ({navigation, route}) => {
             renderItem={(tour) => {
               return (
               <View
+              key={tour.id}
                 style={{marginTop: 20}}
               >
                 {/* <FlatList

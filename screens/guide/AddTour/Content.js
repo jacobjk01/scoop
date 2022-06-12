@@ -66,7 +66,6 @@ const Content = ({name, setName, duration, setDuration, maxPeople, setMaxPeople,
                 <Text >
                     {'Transportation :'} {transportation}
                 </Text>
-                <Text>Add Dropdown Picker Here</Text>
             </View>
             <View style={styles.bodyText}>
                 <Text>
@@ -111,12 +110,13 @@ const Content = ({name, setName, duration, setDuration, maxPeople, setMaxPeople,
                 value={introduction}
                 onChangeText={introduction => setIntroduction(introduction)}>
             </TextInput>
+            <Text style={styles.sectionText}>Dates Available</Text>
             <DatesDisplay dates={dates}/>
             <DatePicker title="Add dates" setDates={setDates} dates={dates}/>
-            <SubmitButton title={"Create Tour"} style={{margin: 10}} onPress={async () => {
+            <SubmitButton isDisabled={dates.length == 0} title={"Create Tour"} style={{margin: 10}} onPress={async () => {
               if (duration === "") duration = 0
               duration = parseInt(duration)
-              const tour = await addTour(userAuth.uid,id,["alpha"],0,duration,introduction,true,maxPeople,meetingPts[selectedMeetingPt].ref,dates,"walking")
+              //const tour = await addTour(userAuth.uid,id,["alpha"],0,duration,introduction,true,maxPeople,meetingPts[selectedMeetingPt].ref,dates,"walking",name, introduction)
               //console.log(tour)
               navigation.pop();
             }}/>

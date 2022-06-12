@@ -33,7 +33,7 @@ const HomePage = ({ navigation }) => {
   //guides is a query snapshot, use foreach and .data() for data.
   const [guides, setGuides] = useState();
   const [upcoming, setUpcoming] = useState();
-  
+
   useEffect(() => {
     let isMounted = true
     // Gets list of tours
@@ -46,12 +46,12 @@ const HomePage = ({ navigation }) => {
         tours.forEach((element) => {checkTourPromises.push(checkIfTourEmpty(element.ref))})
         Promise.all(checkTourPromises).then(values => {
           tours = tours.filter((tour, index) => values[index].empty == false)
-          setTours(tours);
+          isMounted && setTours(tours);
         })
-      });
+      })
       // gets list of guides
       getGuides().then(guides => {
-        setGuides(guides);
+        isMounted && setGuides(guides);
       });
       // for upcoming tour
       if (userAuth) {
@@ -72,10 +72,10 @@ const HomePage = ({ navigation }) => {
               Promise.all(guideArray).then((guides) => {
                   Promise.all(tourArray).then((tours) => {
                     for (let i = 0; i < bookings.length; i++) {
-                      let time = booking.time.toDate()
+                      let time = bookings[i].time.toDate()
                       if ((moment(new Date()).isAfter(time) && moment(upcoming).isBefore(time))) {
                         upcomingTime = time
-                        setUpcoming({
+                        isMounted && setUpcoming({
                           time: bookings[i].time.toDate(),
                           guide: guides[i]._data.name,
                           tour: tours[i].title,

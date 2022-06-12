@@ -449,7 +449,6 @@ const TourBooking2 = ({navigation, route}) => {
               }}
               onPress={() => {
                 if (selectedTime != -1) {
-                  console.warn(selectedTime)
                   let tourSetting
                   let timeIndex
                   for (let i = 0; i < dayTourSettings.length; i++) {

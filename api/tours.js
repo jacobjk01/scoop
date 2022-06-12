@@ -134,7 +134,6 @@ export const viewAllTours = async (start = '', limit=99) => {
  */
 export const checkIfTourEmpty = async (tourRef) => {
   const tourSettingsQuerySnapshots = await tourRef.collection('tourSettings').get()
-  console.warn(querySnapshotFormatter(tourSettingsQuerySnapshots))
   return {
     empty: tourSettingsQuerySnapshots.empty,
     tourSetting: querySnapshotFormatter(tourSettingsQuerySnapshots)
@@ -178,7 +177,9 @@ export const addTour = async (
   maxPeople,
   meetingPt,
   timeAvailable,
-  transportation
+  transportation,
+  title,
+  description
 ) => {
   //TODO - remove duplicates from timeAvailable
   const tour = tours.doc(tourId).collection("tourSettings").doc()
@@ -195,7 +196,8 @@ export const addTour = async (
     meetingPt,
     timeAvailable,
     transportation,
-    flags: isPublished ? ["published"] : []
+    flags: isPublished ? ["published"] : [],
+    title: title,
   });
   return tour;
 }
@@ -420,7 +422,7 @@ export const getBooking = async (guideId, tourId, userId) => {
  */
 export const getAllTourSettings = async (guideId) => {
   const tourSettingsSnapshot = await db.collectionGroup("tourSettings")
-    .where("guide", "==", user(guideId)).get()
+    .where("guide", "==", user(guideId)).where('isArchived', '==', false).get()
   return querySnapshotFormatter(tourSettingsSnapshot)
 }
 
