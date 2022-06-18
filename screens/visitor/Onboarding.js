@@ -7,6 +7,7 @@ import {reg14, reg16, bold16, bold18} from '../../config/typography.js'
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { capitalizeFirstLetter } from 'utils';
 import { onAuthStateChanged } from '../../api/auth.js'
+import { changeName, changeYear, changeMajor } from 'api/users'
 import { Picker } from '@react-native-picker/picker'; /* DOCUMENTATION: https://github.com/react-native-picker/picker */
 
 const SCHOOLOPTIONS = ['UCLA', 'UC Berkeley',]
@@ -23,20 +24,29 @@ export default ({navigation}) => {
         visitorDone, setVisitorDone,
         visitorBone, setVisitorBone, hasNotFinishedBareOnboarding} = useContext(UserContext);
         
-    useEffect(() => {
-        if (mode != 'visitor') {
-            setMode('visitor');
-        }
-        return () => {}
-    }, [])
-
     const [page, setPage] = useState(1);
     const [data, setData] = useState(['-','-','-','-']);
 
     /* Picker */
     const [dropdown, setDropdown] = useState(false);
     const [selectedDropdownItem, setSelectedDropdownItem] = useState('-')
+    const [ID, setID] = useState()
     const pickerRef = useRef();
+    useEffect(() => {
+        if (mode != 'visitor') {
+            setMode('visitor');
+        }
+        onAuthStateChanged((user) => {setID(user.uid)})
+        return () => {}
+    }, [])
+
+    useEffect(() => {
+        if (page == 5) {
+            if (data[0] != '-' && data[0] != null) changeName(ID, data[0])
+            if (data[2] != '-' && data[2] != null) changeYear(ID, data[2])
+            if (data[3] != '-' && data[3] != null && data[3] != "") changeMajor(ID, data[3])
+        }
+    }, [page])
 
     function open() {
         pickerRef.current.focus();
